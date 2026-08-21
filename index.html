@@ -2633,31 +2633,23 @@ $("gameModal")
  );
 
 
-function gameSlug(name){
- return String(name || "")
-  .toLowerCase()
-  .trim()
-  .replace(/[^a-z0-9]+/g,"-")
-  .replace(/^-+|-+$/g,"");
-}
-
 function openGame(game){
- const slug = gameSlug(game.name);
- const playable = new Set([
-  "roommate-sync",
-  "reaction-battle",
-  "res-trivia",
-  "secret-room",
-  "photo-hunt",
-  "the-traitor",
-  "puzzle-rush",
-  "word-rush"
- ]);
-
- if(playable.has(slug)){
-  window.location.href = `games/${slug}.html?game=${encodeURIComponent(game.id)}`;
+ // RES WARS uses ONE universal battle.html page.
+ // If this game is the current live session, enter that exact session.
+ if(
+  currentSession &&
+  currentSession.game_id === game.id
+ ){
+  window.location.href =
+   `battle.html?session=${encodeURIComponent(currentSession.id)}&game=${encodeURIComponent(game.id)}`;
   return;
  }
+
+ // Otherwise open battle.html with the selected game.
+ // battle.html can use the game query parameter to identify the selected game.
+ window.location.href =
+  `battle.html?game=${encodeURIComponent(game.id)}`;
+ return;
 
  $("modalIcon")
   .textContent =
