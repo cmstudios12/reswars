@@ -1984,40 +1984,16 @@ async function loadUser(){
     profileData;
 
 
-  const {
-    data: gmData,
-    error: gmError
-  } =
-    await sb
-      .from("game_masters")
-      .select(`
-        id,
-        user_id,
-        residence_id
-      `)
-      .eq(
-        "user_id",
-        user.id
-      )
-      .maybeSingle();
-
-
-  if(gmError){
-    throw gmError;
+  /* Any authenticated resident can host a RES WARS battle.
+     Hosting is temporary and belongs only to the session they create. */
+  if(!profileData?.residence_id){
+    throw new Error("Complete your residence setup before hosting a game.");
   }
 
-
-  if(!gmData){
-
-    throw new Error(
-      "Game Master access required."
-    );
-
-  }
-
-
-  gameMaster =
-    gmData;
+  gameMaster = {
+    user_id: user.id,
+    residence_id: profileData.residence_id
+  };
 
 
   return true;
@@ -2049,6 +2025,7 @@ async function loadSession(){
   const sessionSelect = `
     id,
     residence_id,
+    host_user_id,
     game_id,
     title,
     status,
@@ -2084,6 +2061,7 @@ async function loadSession(){
       .from("game_sessions")
       .select(sessionSelect)
       .eq("residence_id", gameMaster.residence_id)
+      .eq("host_user_id", user.id)
       .not("status", "in", '(finished,cancelled)')
       .order("scheduled_for", { ascending:false, nullsFirst:false })
       .limit(1)
@@ -2122,6 +2100,7 @@ async function loadSession(){
         .from("game_sessions")
         .insert({
           residence_id: gameMaster.residence_id,
+          host_user_id: user.id,
           game_id: gameResult.data.id,
           title: "Roommate Sync",
           status: "lobby",
@@ -2154,6 +2133,10 @@ async function loadSession(){
 
   if(data.residence_id !== gameMaster.residence_id){
     throw new Error("You cannot control a battle from another residence.");
+  }
+
+  if(data.host_user_id && data.host_user_id !== user.id){
+    throw new Error("This battle is being controlled by another host.");
   }
 
   session = data;
