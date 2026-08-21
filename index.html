@@ -2741,6 +2741,12 @@ $("gameModal")
 
 
 function openGame(game){
+ // Spin the Bottle has its own real-time multiplayer engine.
+ if((game?.name || "").trim().toLowerCase() === "spin the bottle"){
+  window.location.href = `spin.html?game=${encodeURIComponent(game.id)}`;
+  return;
+ }
+
  // RES WARS uses ONE universal battle.html page.
  // If this game is the current live session, enter that exact session.
  if(
@@ -4336,6 +4342,12 @@ function startCountdown(){
 ===================================================== */
 
 async function hostGame(game,button){
+
+ // Spin the Bottle creates/joins its own multiplayer lobby.
+ if((game?.name || "").trim().toLowerCase() === "spin the bottle"){
+  window.location.href = `spin.html?host=1&game=${encodeURIComponent(game.id)}`;
+  return;
+ }
 
  if(!user || !room || !game){
   toast("Your RES WARS profile is not ready.", "error");
