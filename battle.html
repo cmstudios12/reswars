@@ -9,6 +9,8 @@
 >
 
 <meta name="theme-color" content="#08090c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 <title>Battle Arena | RES WARS</title>
 
@@ -54,6 +56,8 @@ html{
 
 body{
   min-height:100vh;
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:env(safe-area-inset-bottom);
 
   background:
     radial-gradient(
@@ -968,6 +972,30 @@ header{
 
 }
 
+
+/* UNIVERSAL GAME MODULES */
+.game-code{display:inline-flex;align-items:center;justify-content:center;min-width:58px;height:26px;padding:0 9px;border:1px solid rgba(223,255,0,.25);border-radius:7px;background:rgba(223,255,0,.06);color:var(--lime);font-size:8px;font-weight:900;letter-spacing:.12em}
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.choice-btn{min-height:58px;padding:14px;border:1px solid var(--border2);border-radius:10px;background:var(--panel2);color:var(--text);font-weight:800;text-align:left;cursor:pointer}
+.choice-btn:hover,.choice-btn.selected{border-color:var(--lime);background:rgba(223,255,0,.07)}
+.choice-btn:disabled{cursor:not-allowed;opacity:.6}
+.text-answer{width:100%;min-height:52px;margin-top:20px;padding:14px 15px;border:1px solid var(--border2);border-radius:10px;background:var(--panel2);color:var(--text);outline:none;font:inherit}
+.text-answer:focus{border-color:var(--lime)}
+.submit-game{width:100%;min-height:48px;margin-top:10px;border:0;border-radius:9px;background:var(--lime);color:#08090c;font-weight:900;letter-spacing:.06em;cursor:pointer}
+.reaction-stage{display:flex;min-height:280px;align-items:center;justify-content:center;flex-direction:column;text-align:center;border:1px solid var(--border);border-radius:14px;background:var(--panel2);margin-top:20px;user-select:none}
+.reaction-stage.ready{cursor:pointer}
+.reaction-stage.go{background:var(--lime);color:#08090c;cursor:pointer}
+.reaction-word{font-size:42px;font-weight:900;letter-spacing:-.05em}
+.reaction-note{margin-top:10px;font-size:9px;letter-spacing:.08em;color:var(--muted)}
+.reaction-stage.go .reaction-note{color:#303500}
+.vote-list{display:grid;gap:9px;margin-top:20px}
+.vote-btn{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:54px;padding:13px 15px;border:1px solid var(--border2);border-radius:10px;background:var(--panel2);color:var(--text);cursor:pointer;text-align:left}
+.vote-btn strong{font-size:11px}.vote-btn span{font-size:8px;color:var(--muted)}
+.role-card{margin-top:22px;padding:28px 18px;border:1px solid var(--border2);border-radius:14px;background:var(--panel2);text-align:center}
+.role-card .role{margin-top:8px;color:var(--lime);font-size:28px;font-weight:900;letter-spacing:-.04em}
+.role-card .secret{margin-top:18px;padding-top:18px;border-top:1px solid var(--border);font-size:10px;color:var(--muted)}
+@media(max-width:560px){.choice-grid{grid-template-columns:1fr}.reaction-word{font-size:34px}}
+
 </style>
 </head>
 
@@ -1163,7 +1191,7 @@ header{
         <div class="center-state-inner">
 
           <div class="state-icon">
-            ⚡
+            LIVE
           </div>
 
           <h2>
@@ -1318,6 +1346,10 @@ let roundsChannel = null;
 let answersChannel = null;
 
 let scoreChannel = null;
+let traitorAssignment = null;
+let reactionSignalAt = null;
+let reactionArmed = false;
+let reactionTimeout = null;
 
 
 /* =========================================================
@@ -1428,6 +1460,25 @@ function showFatal(text){
 
 }
 
+
+
+function gameCode(){
+  const map={
+    "roommate sync":"SYNC",
+    "reaction battle":"REACT",
+    "res trivia":"TRIVIA",
+    "secret room":"SECRET",
+    "photo hunt":"PHOTO",
+    "the traitor":"TRAITOR",
+    "puzzle rush":"PUZZLE",
+    "word rush":"WORD"
+  };
+  return map[String(game?.name||"").toLowerCase()] || "BATTLE";
+}
+
+function gameNameKey(){
+  return String(game?.name||"").trim().toLowerCase();
+}
 
 function getSessionId(){
 
@@ -2074,7 +2125,12 @@ async function loadCurrentRound(){
           id,
           question,
           question_type,
-          points
+          options,
+          correct_answer,
+          points,
+          category,
+          difficulty,
+          metadata
         `)
         .eq(
           "id",
@@ -2127,6 +2183,16 @@ async function loadCurrentRound(){
   }
 
 
+  if(currentRound && gameNameKey() === "reaction battle") {
+    const {data: reactionData} = await sb.from("reaction_responses").select("reaction_ms,false_start,points,submitted_at").eq("round_id",currentRound.id).eq("user_id",user.id).maybeSingle();
+    if(reactionData) myAnswer = { answer:{ reaction_ms:reactionData.reaction_ms, false_start:reactionData.false_start }, points:reactionData.points, submitted_at:reactionData.submitted_at };
+  }
+
+  if(currentRound && gameNameKey() === "secret room") {
+    const {data: voteData} = await sb.from("secret_room_votes").select("selected_room_id,created_at").eq("round_id",currentRound.id).eq("voter_user_id",user.id).maybeSingle();
+    if(voteData) myAnswer = { answer:{ selected_room_id:voteData.selected_room_id }, submitted_at:voteData.created_at };
+  }
+
   renderArena();
 
 }
@@ -2139,429 +2205,142 @@ async function loadCurrentRound(){
 function renderArena(){
 
   stopTimer();
+  if(reactionTimeout){ clearTimeout(reactionTimeout); reactionTimeout=null; }
 
-
-  $("battleTitle")
-    .textContent =
-      session.title ||
-      game?.name ||
-      "RES WARS Battle";
-
-
-  $("battleSubtitle")
-    .textContent =
-      `${game?.icon || "🎮"} ${
-        game?.name || "RES WARS"
-      } • My Angel Residence`;
-
-
-  $("teamName")
-    .textContent =
-      room.team_name ||
-      `Room ${room.room_number}`;
-
-
-  $("roomNumber")
-    .textContent =
-      `Room ${room.room_number}`;
-
-
+  $("battleTitle").textContent = session.title || game?.name || "RES WARS Battle";
+  $("battleSubtitle").textContent = `${gameCode()}  /  ${game?.name || "RES WARS"}  /  My Angel Residence`;
+  $("teamName").textContent = room.team_name || `Room ${room.room_number}`;
+  $("roomNumber").textContent = `Room ${room.room_number}`;
   renderProgress();
 
-
-  /* -----------------------------------------------------
-     UNSUPPORTED GAME
-  ----------------------------------------------------- */
-
-  if(
-    game?.name
-      ?.toLowerCase()
-      !==
-    "roommate sync"
-  ){
-
-    $("answerStatus")
-      .textContent =
-        "GAME MODULE";
-
-
-    $("arenaContent")
-      .innerHTML =
-        `
-          <div class="center-state">
-
-            <div class="center-state-inner">
-
-              <div class="state-icon">
-                ${esc(game?.icon || "🎮")}
-              </div>
-
-              <h2>
-                ${esc(game?.name || "Game")}
-              </h2>
-
-              <p>
-                This battle exists, but its playable
-                module hasn't been added to the universal
-                Battle Arena yet.
-              </p>
-
-            </div>
-
-          </div>
-        `;
-
+  if(session.status !== "live"){
+    $("answerStatus").textContent = String(session.status || "waiting").toUpperCase();
+    $("arenaContent").innerHTML = centerState(gameCode(), "Waiting for the battle", "The Game Master has not started this battle yet. Keep this screen open. RES WARS updates automatically.");
     return;
-
   }
 
-
-  /* -----------------------------------------------------
-     BATTLE NOT LIVE
-  ----------------------------------------------------- */
-
-  if(
-    session.status !==
-    "live"
-  ){
-
-    $("answerStatus")
-      .textContent =
-        session.status
-          .toUpperCase();
-
-
-    $("arenaContent")
-      .innerHTML =
-        `
-          <div class="center-state">
-
-            <div class="center-state-inner">
-
-              <div class="state-icon">
-                ⏳
-              </div>
-
-              <h2>
-                Waiting for the battle.
-              </h2>
-
-              <p>
-                The Game Master hasn't started
-                this battle yet. Keep this screen open.
-                RES WARS will update automatically.
-              </p>
-
-            </div>
-
-          </div>
-        `;
-
+  if(!currentRound || currentRound.status === "waiting"){
+    $("answerStatus").textContent = "WAITING FOR ROUND";
+    $("arenaContent").innerHTML = centerState(gameCode(), "Get ready", `The next ${esc(game?.name || "RES WARS")} round will begin when the Game Master starts it.`);
     return;
-
   }
 
-
-  /* -----------------------------------------------------
-     WAITING FOR ROUND
-  ----------------------------------------------------- */
-
-  if(
-    !currentRound ||
-    currentRound.status ===
-    "waiting"
-  ){
-
-    $("answerStatus")
-      .textContent =
-        "WAITING FOR ROUND";
-
-
-    $("arenaContent")
-      .innerHTML =
-        `
-          <div class="center-state">
-
-            <div class="center-state-inner">
-
-              <div class="state-icon">
-                ❤️
-              </div>
-
-              <h2>
-                Get ready.
-              </h2>
-
-              <p>
-                Both roommates should keep their phones ready.
-                The next Roommate Sync question will appear
-                when the Game Master starts the round.
-              </p>
-
-            </div>
-
-          </div>
-        `;
-
+  if(currentRound.status === "finished"){
+    $("answerStatus").textContent = "ROUND COMPLETE";
+    $("arenaContent").innerHTML = centerState("COMPLETE", "Round complete", `Your room currently has <strong style="color:var(--lime)">${Number(battleRoom?.score || 0)} points</strong>. Waiting for the next round.`);
     return;
-
   }
 
-
-  /* -----------------------------------------------------
-     ROUND FINISHED
-  ----------------------------------------------------- */
-
-  if(
-    currentRound.status ===
-    "finished"
-  ){
-
-    $("answerStatus")
-      .textContent =
-        "ROUND COMPLETE";
-
-
-    $("arenaContent")
-      .innerHTML =
-        `
-          <div class="center-state">
-
-            <div class="center-state-inner">
-
-              <div class="state-icon">
-                ✓
-              </div>
-
-              <h2>
-                Round complete.
-              </h2>
-
-              <p>
-                ${
-                  myAnswer
-                    ?
-                    "Your answer was locked successfully."
-                    :
-                    "You did not submit an answer for this round."
-                }
-
-                <br><br>
-
-                Your room currently has
-                <strong
-                  style="color:var(--lime);"
-                >
-                  ${Number(
-                    battleRoom?.score ||
-                    0
-                  )} points
-                </strong>.
-
-                Waiting for the Game Master to start
-                the next round.
-              </p>
-
-            </div>
-
-          </div>
-        `;
-
+  if(currentRound.status !== "live"){
+    $("answerStatus").textContent = "ROUND STATUS";
+    $("arenaContent").innerHTML = centerState(gameCode(), "Round unavailable", "Waiting for the Game Master to continue the battle.");
     return;
-
   }
 
+  const key = gameNameKey();
+  if(key === "roommate sync") return renderRoommateSync();
+  if(key === "res trivia") return renderTrivia();
+  if(key === "puzzle rush") return renderTextGame("PUZZLE", "Enter your answer", "Submit your solution before time runs out.");
+  if(key === "word rush") return renderTextGame("WORD", "Enter words separated by commas", `Use only the challenge letters${currentQuestion?.metadata?.letters ? `: ${esc(currentQuestion.metadata.letters)}` : ""}.`);
+  if(key === "reaction battle") return renderReactionBattle();
+  if(key === "secret room") return renderSecretRoom();
+  if(key === "the traitor") return renderTraitor();
+  if(key === "photo hunt") return renderPhotoHunt();
 
-  /* -----------------------------------------------------
-     LIVE QUESTION
-  ----------------------------------------------------- */
-
-  if(
-    currentRound.status ===
-    "live" &&
-    currentQuestion
-  ){
-
-    $("answerStatus")
-      .textContent =
-        myAnswer
-          ? "ANSWER LOCKED"
-          : "ANSWER NOW";
-
-
-    const selectedId =
-      myAnswer
-        ?.answer
-        ?.selected_user_id;
-
-
-    $("arenaContent")
-      .innerHTML =
-        `
-          <div class="round-label">
-
-            ROUND
-            ${currentRound.round_number}
-            OF
-            ${session.total_rounds}
-
-          </div>
-
-
-          <h2 class="question">
-            ${esc(
-              currentQuestion.question
-            )}
-          </h2>
-
-
-          <div class="instructions">
-
-            Choose the roommate who best matches
-            the question.
-
-            <br>
-
-            Your roommate answers separately.
-
-          </div>
-
-
-          <div class="timer-wrap">
-
-            <div
-              id="timerRing"
-              class="timer-ring"
-            >
-
-              <strong id="timerSeconds">
-                --
-              </strong>
-
-            </div>
-
-            <small>
-              SECONDS LEFT
-            </small>
-
-          </div>
-
-
-          <div class="answer-grid">
-
-            ${members.map(
-              member => {
-
-                const name =
-                  member.profile?.full_name ||
-                  "Player";
-
-
-                const selected =
-                  selectedId ===
-                  member.user_id;
-
-
-                return `
-                  <button
-                    class="answer-btn ${
-                      selected
-                        ? "selected"
-                        : ""
-                    }"
-                    data-player="${esc(
-                      member.user_id
-                    )}"
-                    ${
-                      myAnswer
-                        ? "disabled"
-                        : ""
-                    }
-                  >
-
-                    <div class="answer-avatar">
-                      ${esc(
-                        initials(name)
-                      )}
-                    </div>
-
-                    <div>
-
-                      <strong>
-                        ${esc(name)}
-                      </strong>
-
-                      <span>
-                        ${
-                          member.user_id ===
-                          user.id
-                            ?
-                            "ME"
-                            :
-                            "MY ROOMMATE"
-                        }
-                      </span>
-
-                    </div>
-
-                  </button>
-                `;
-
-              }
-            ).join("")}
-
-          </div>
-
-
-          ${
-            myAnswer
-              ?
-              `
-                <div class="answer-locked">
-
-                  ✓ ANSWER LOCKED
-
-                  <br>
-
-                  Waiting for the round to end.
-
-                </div>
-              `
-              :
-              ""
-          }
-        `;
-
-
-    document
-      .querySelectorAll(
-        "[data-player]"
-      )
-      .forEach(
-        button => {
-
-          button.addEventListener(
-            "click",
-            () => {
-
-              submitAnswer(
-                button.dataset.player,
-                button
-              );
-
-            }
-          );
-
-        }
-      );
-
-
-    startTimer();
-
-  }
-
+  $("answerStatus").textContent = "GAME MODULE";
+  $("arenaContent").innerHTML = centerState("BATTLE", esc(game?.name || "Game"), "This game is not configured yet.");
 }
 
+function centerState(code,title,text){
+  return `<div class="center-state"><div class="center-state-inner"><div class="game-code">${esc(code)}</div><h2>${title}</h2><p>${text}</p></div></div>`;
+}
+
+function roundHeader(){
+  return `<div class="round-label">ROUND ${currentRound.round_number} OF ${session.total_rounds}</div>`;
+}
+
+function timerMarkup(){
+  return `<div class="timer-wrap"><div id="timerRing" class="timer-ring"><strong id="timerSeconds">--</strong></div><small>SECONDS LEFT</small></div>`;
+}
+
+function lockedMarkup(){
+  return myAnswer ? `<div class="answer-locked">ANSWER LOCKED<br>Waiting for the round to end.</div>` : "";
+}
+
+function renderRoommateSync(){
+  if(!currentQuestion){
+    $("answerStatus").textContent="WAITING FOR QUESTION";
+    $("arenaContent").innerHTML=centerState("SYNC","Question loading","The Game Master is preparing this round.");
+    return;
+  }
+  $("answerStatus").textContent = myAnswer ? "ANSWER LOCKED" : "ANSWER NOW";
+  const selectedId = myAnswer?.answer?.selected_user_id;
+  $("arenaContent").innerHTML = `${roundHeader()}<h2 class="question">${esc(currentQuestion.question)}</h2><div class="instructions">Choose the roommate who best matches the question. Your roommate answers separately.</div>${timerMarkup()}<div class="answer-grid">${members.map(member=>{const name=member.profile?.full_name||"Player"; const selected=selectedId===member.user_id; return `<button class="answer-btn ${selected?"selected":""}" data-player="${esc(member.user_id)}" ${myAnswer?"disabled":""}><div class="answer-avatar">${esc(initials(name))}</div><div><strong>${esc(name)}</strong><span>${member.user_id===user.id?"ME":"MY ROOMMATE"}</span></div></button>`}).join("")}</div>${lockedMarkup()}`;
+  document.querySelectorAll("[data-player]").forEach(button=>button.addEventListener("click",()=>submitAnswer(button.dataset.player,button)));
+  startTimer();
+}
+
+function renderTrivia(){
+  if(!currentQuestion){
+    $("answerStatus").textContent="WAITING FOR QUESTION";
+    $("arenaContent").innerHTML=centerState("TRIVIA","Question loading","The next trivia question is being prepared."); return;
+  }
+  $("answerStatus").textContent=myAnswer?"ANSWER LOCKED":"ANSWER NOW";
+  const options=Array.isArray(currentQuestion.options)?currentQuestion.options:[];
+  const selected=myAnswer?.answer?.value;
+  $("arenaContent").innerHTML=`${roundHeader()}<div class="game-code">TRIVIA</div><h2 class="question">${esc(currentQuestion.question)}</h2><div class="instructions">${esc(currentQuestion.category||"RES WARS TRIVIA")} / ${Number(currentQuestion.points||0)} POINTS</div>${timerMarkup()}<div class="choice-grid">${options.map((opt,i)=>`<button class="choice-btn ${String(selected)===String(opt)?"selected":""}" data-choice="${esc(String(opt))}" ${myAnswer?"disabled":""}><strong>${String.fromCharCode(65+i)}.</strong> ${esc(opt)}</button>`).join("")}</div>${lockedMarkup()}`;
+  document.querySelectorAll("[data-choice]").forEach(btn=>btn.addEventListener("click",()=>submitGenericAnswer({value:btn.dataset.choice},btn)));
+  startTimer();
+}
+
+function renderTextGame(code,placeholder,instructions){
+  if(!currentQuestion){ $("answerStatus").textContent="WAITING FOR CHALLENGE"; $("arenaContent").innerHTML=centerState(code,"Challenge loading","The Game Master is preparing this round."); return; }
+  $("answerStatus").textContent=myAnswer?"ANSWER LOCKED":"ANSWER NOW";
+  const prior=myAnswer?.answer?.value || myAnswer?.answer?.words?.join(", ") || "";
+  $("arenaContent").innerHTML=`${roundHeader()}<div class="game-code">${code}</div><h2 class="question">${esc(currentQuestion.question)}</h2><div class="instructions">${instructions}</div>${timerMarkup()}<input id="genericTextAnswer" class="text-answer" type="text" autocomplete="off" autocapitalize="off" placeholder="${esc(placeholder)}" value="${esc(prior)}" ${myAnswer?"disabled":""}><button id="genericSubmit" class="submit-game" ${myAnswer?"disabled":""}>LOCK ANSWER</button>${lockedMarkup()}`;
+  $("genericSubmit")?.addEventListener("click",()=>{const raw=$("genericTextAnswer").value.trim(); if(!raw){toast("Enter an answer first.","error");return;} const answer=code==="WORD"?{words:raw.split(",").map(x=>x.trim().toLowerCase()).filter(Boolean)}:{value:raw}; submitGenericAnswer(answer,$("genericSubmit"));});
+  startTimer();
+}
+
+function renderReactionBattle(){
+  $("answerStatus").textContent="REACTION ROUND";
+  if(myAnswer){ $("arenaContent").innerHTML=`${roundHeader()}${centerState("REACT","Response recorded", myAnswer.answer?.false_start ? "False start recorded. Wait for the next round." : `Reaction recorded: <strong style="color:var(--lime)">${Number(myAnswer.answer?.reaction_ms||0)} ms</strong>.`)}`; return; }
+  $("arenaContent").innerHTML=`${roundHeader()}<div class="game-code">REACT</div><h2 class="question">Reaction Battle</h2><div class="instructions">Do not tap before the signal. Tap the arena as soon as it changes to TAP.</div><div id="reactionStage" class="reaction-stage ready"><div id="reactionWord" class="reaction-word">WAIT</div><div id="reactionNote" class="reaction-note">KEEP YOUR FINGER READY</div></div>`;
+  const stage=$("reactionStage");
+  const base=currentRound.starts_at?new Date(currentRound.starts_at).getTime():Date.now();
+  const payloadSignal=currentRound.payload?.signal_at ? new Date(currentRound.payload.signal_at).getTime() : null;
+  reactionSignalAt=payloadSignal || (base+3000);
+  const arm=()=>{reactionArmed=true; stage.classList.add("go"); $("reactionWord").textContent="TAP"; $("reactionNote").textContent="TAP NOW";};
+  if(Date.now()>=reactionSignalAt) arm(); else reactionTimeout=setTimeout(arm,Math.max(0,reactionSignalAt-Date.now()));
+  stage.addEventListener("click",()=>{ if(myAnswer)return; if(!reactionArmed){ submitReaction(true,0); return; } submitReaction(false,Math.max(1,Date.now()-reactionSignalAt)); });
+}
+
+function renderSecretRoom(){
+  $("answerStatus").textContent=myAnswer?"VOTE LOCKED":"VOTE NOW";
+  const prompt=currentQuestion?.question || currentRound.title || "Choose the room that best matches this category.";
+  $("arenaContent").innerHTML=`${roundHeader()}<div class="game-code">SECRET</div><h2 class="question">${esc(prompt)}</h2><div class="instructions">One vote per player. Votes are locked when submitted.</div>${timerMarkup()}<div class="vote-list">${sessionRooms.map(item=>`<button class="vote-btn" data-room-vote="${esc(item.room_id)}" ${myAnswer?"disabled":""}><strong>${esc(item.room?.team_name || `Room ${item.room?.room_number || "--"}`)}</strong><span>ROOM ${esc(item.room?.room_number||"--")}</span></button>`).join("")}</div>${lockedMarkup()}`;
+  document.querySelectorAll("[data-room-vote]").forEach(btn=>btn.addEventListener("click",()=>submitSecretVote(btn.dataset.roomVote,btn)));
+  startTimer();
+}
+
+async function renderTraitor(){
+  $("answerStatus").textContent="PRIVATE ROLE";
+  if(!traitorAssignment){
+    const {data,error}=await sb.from("traitor_assignments").select("role,secret_word").eq("session_id",session.id).eq("user_id",user.id).maybeSingle();
+    if(!error) traitorAssignment=data;
+  }
+  if(!traitorAssignment){ $("arenaContent").innerHTML=centerState("TRAITOR","Role pending","The Game Master has not assigned the private roles yet. Keep this screen open."); return; }
+  const role=String(traitorAssignment.role||"player").toUpperCase();
+  const secret=traitorAssignment.secret_word ? esc(traitorAssignment.secret_word) : "HIDDEN";
+  $("arenaContent").innerHTML=`${roundHeader()}<div class="game-code">TRAITOR</div><div class="role-card"><div class="round-label">YOUR PRIVATE ROLE</div><div class="role">${esc(role)}</div><div class="secret">${role==="TRAITOR"?"Blend in. Do not reveal your role.":`SECRET WORD: <strong style="color:var(--text)">${secret}</strong>`}</div></div>`;
+}
+
+function renderPhotoHunt(){
+  $("answerStatus").textContent="PHOTO CHALLENGE";
+  const prompt=currentQuestion?.question || currentRound.title || currentRound.instructions || "Complete the photo challenge.";
+  $("arenaContent").innerHTML=`${roundHeader()}<div class="game-code">PHOTO</div><h2 class="question">${esc(prompt)}</h2><div class="instructions">Photo Hunt submissions require the RES WARS photo storage channel. The challenge is live, but uploads remain locked until the Game Master storage module is enabled.</div>${timerMarkup()}`;
+  startTimer();
+}
 
 /* =========================================================
    TIMER
@@ -2912,7 +2691,7 @@ async function refreshSession(){
             <div class="center-state-inner">
 
               <div class="state-icon">
-                🏆
+                RANK
               </div>
 
               <h2>
@@ -3010,6 +2789,54 @@ async function refreshSession(){
 
 }
 
+
+/* =========================================================
+   UNIVERSAL SUBMISSIONS
+========================================================= */
+
+async function refreshMyGenericAnswer(){
+  if(!currentRound) return;
+  const {data}=await sb.from("round_answers").select("id,answer,submitted_at,correct,points").eq("round_id",currentRound.id).eq("user_id",user.id).maybeSingle();
+  myAnswer=data||null;
+}
+
+async function submitGenericAnswer(answer,button){
+  if(!currentRound||myAnswer)return;
+  if(button)button.disabled=true;
+  $("answerStatus").textContent="SUBMITTING";
+  try{
+    const started=currentRound.starts_at?new Date(currentRound.starts_at).getTime():Date.now();
+    const responseMs=Math.max(0,Date.now()-started);
+    const {error}=await sb.rpc("submit_game_answer",{p_round_id:currentRound.id,p_answer:answer,p_response_ms:responseMs});
+    if(error)throw error;
+    await refreshMyGenericAnswer();
+    toast("Answer locked.","success");
+    renderArena();
+  }catch(error){console.error(error); if(button)button.disabled=false; $("answerStatus").textContent="ANSWER NOW"; toast(error.message||"Unable to submit answer.","error");}
+}
+
+async function submitReaction(falseStart,reactionMs){
+  if(!currentRound||myAnswer)return;
+  $("answerStatus").textContent="RECORDING";
+  try{
+    const {error}=await sb.rpc("submit_reaction",{p_round_id:currentRound.id,p_reaction_ms:falseStart?null:reactionMs,p_false_start:falseStart});
+    if(error)throw error;
+    myAnswer={answer:{false_start:falseStart,reaction_ms:reactionMs}};
+    toast(falseStart?"False start recorded.":`Reaction: ${reactionMs} ms`,falseStart?"error":"success");
+    renderArena();
+  }catch(error){console.error(error);toast(error.message||"Unable to record reaction.","error");}
+}
+
+async function submitSecretVote(roomId,button){
+  if(!currentRound||myAnswer)return;
+  if(button)button.disabled=true;
+  try{
+    const {error}=await sb.rpc("submit_secret_room_vote",{p_round_id:currentRound.id,p_selected_room_id:roomId});
+    if(error)throw error;
+    myAnswer={answer:{selected_room_id:roomId}};
+    toast("Vote locked.","success"); renderArena();
+  }catch(error){console.error(error);if(button)button.disabled=false;toast(error.message||"Unable to submit vote.","error");}
+}
 
 /* =========================================================
    REALTIME
@@ -3355,7 +3182,7 @@ async function init(){
 
     $("battleSubtitle")
       .textContent =
-        `${game.icon || "🎮"} ${game.name} • My Angel Residence`;
+        `${gameCode()} ${game.name} • My Angel Residence`;
 
 
     renderProgress();
@@ -3390,6 +3217,10 @@ async function init(){
 
 }
 
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(console.error));
+}
 
 init();
 
