@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#08090c">
+
 <title>RES WARS | My Angel Residence</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,225 +13,1244 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+
 :root{
- --bg:#08090c;--panel:#0e1015;--panel2:#13161c;--panel3:#181b22;
- --border:#242832;--border2:#303540;--text:#f5f7fb;
- --muted:#8e95a3;--muted2:#5f6672;--lime:#dfff00;
- --lime2:#ecff55;--success:#63e69d;--danger:#ff6565
+ --bg:#08090c;
+ --panel:#0e1015;
+ --panel2:#13161c;
+ --panel3:#181b22;
+ --border:#242832;
+ --border2:#303540;
+ --text:#f5f7fb;
+ --muted:#8e95a3;
+ --muted2:#5f6672;
+ --lime:#dfff00;
+ --lime2:#ecff55;
+ --success:#63e69d;
+ --danger:#ff6565;
+ --warning:#ffc95c;
 }
+
 html{background:var(--bg)}
+
 body{
- min-height:100vh;background:var(--bg);color:var(--text);
- font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased
+ min-height:100vh;
+ background:var(--bg);
+ color:var(--text);
+ font-family:Inter,sans-serif;
+ -webkit-font-smoothing:antialiased;
 }
-button{font:inherit;cursor:pointer}
+
+button,input,select{font:inherit}
+button{cursor:pointer}
 .hidden{display:none!important}
 
-/* HEADER */
+/* =====================================================
+   HEADER
+===================================================== */
+
 header{
- height:72px;display:flex;align-items:center;justify-content:space-between;
- padding:0 32px;border-bottom:1px solid var(--border);
- background:rgba(8,9,12,.97);position:sticky;top:0;z-index:100
+ height:72px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 32px;
+ border-bottom:1px solid var(--border);
+ background:rgba(8,9,12,.97);
+ position:sticky;
+ top:0;
+ z-index:100;
 }
-.brand{display:flex;align-items:center;gap:12px}
+
+.brand{
+ display:flex;
+ align-items:center;
+ gap:12px;
+}
+
 .logo{
- width:42px;height:42px;display:grid;place-items:center;border-radius:9px;
- background:var(--lime);color:#08090c;font-size:13px;font-weight:900
+ width:42px;
+ height:42px;
+ display:grid;
+ place-items:center;
+ border-radius:9px;
+ background:var(--lime);
+ color:#08090c;
+ font-size:13px;
+ font-weight:900;
 }
-.brand strong{display:block;font-size:13px;font-weight:900;letter-spacing:.06em}
-.brand small{display:block;margin-top:3px;color:var(--muted);font-size:7px;font-weight:800;letter-spacing:.16em}
-.header-right{display:flex;align-items:center;gap:12px}
-.live-pill{
- display:flex;align-items:center;gap:7px;padding:8px 11px;
- border:1px solid var(--border);border-radius:30px;color:var(--muted);
- font-size:8px;font-weight:800;letter-spacing:.08em
+
+.brand strong{
+ display:block;
+ font-size:13px;
+ font-weight:900;
+ letter-spacing:.06em;
 }
-.dot{width:6px;height:6px;border-radius:50%;background:var(--success)}
+
+.brand small{
+ display:block;
+ margin-top:3px;
+ color:var(--muted);
+ font-size:7px;
+ font-weight:800;
+ letter-spacing:.16em;
+}
+
+.header-right{
+ display:flex;
+ align-items:center;
+ gap:12px;
+}
+
+.online-pill{
+ display:flex;
+ align-items:center;
+ gap:7px;
+ padding:8px 11px;
+ border:1px solid var(--border);
+ border-radius:30px;
+ color:var(--muted);
+ font-size:8px;
+ font-weight:800;
+ letter-spacing:.08em;
+}
+
+.online-dot{
+ width:6px;
+ height:6px;
+ border-radius:50%;
+ background:var(--success);
+ box-shadow:0 0 12px rgba(99,230,157,.5);
+}
+
 .profile-btn{
- width:38px;height:38px;border:1px solid var(--border2);border-radius:50%;
- background:var(--panel2);color:var(--text);font-size:10px;font-weight:900
+ width:38px;
+ height:38px;
+ border:1px solid var(--border2);
+ border-radius:50%;
+ background:var(--panel2);
+ color:var(--text);
+ font-size:10px;
+ font-weight:900;
 }
 
-/* LAYOUT */
-.shell{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 72px)}
+/* =====================================================
+   LAYOUT
+===================================================== */
+
+.shell{
+ display:grid;
+ grid-template-columns:220px 1fr;
+ min-height:calc(100vh - 72px);
+}
+
 aside{
- border-right:1px solid var(--border);padding:25px 16px;
- background:#0a0c10;position:relative
+ border-right:1px solid var(--border);
+ padding:25px 16px;
+ background:#0a0c10;
+ position:relative;
 }
-.nav-label{padding:0 10px;margin:6px 0 12px;color:var(--muted2);font-size:7px;font-weight:900;letter-spacing:.16em}
-.nav{display:flex;flex-direction:column;gap:5px}
+
+.nav-label{
+ padding:0 10px;
+ margin:6px 0 12px;
+ color:var(--muted2);
+ font-size:7px;
+ font-weight:900;
+ letter-spacing:.16em;
+}
+
+.nav{
+ display:flex;
+ flex-direction:column;
+ gap:5px;
+}
+
 .nav button{
- width:100%;display:flex;align-items:center;gap:12px;padding:12px;
- border:0;border-radius:8px;background:transparent;color:var(--muted);
- text-align:left;font-size:10px;font-weight:700
+ width:100%;
+ display:flex;
+ align-items:center;
+ gap:12px;
+ padding:12px;
+ border:0;
+ border-radius:8px;
+ background:transparent;
+ color:var(--muted);
+ text-align:left;
+ font-size:10px;
+ font-weight:700;
 }
-.nav button:hover,.nav button.active{background:var(--panel2);color:var(--text)}
-.nav button.active{box-shadow:inset 2px 0 var(--lime)}
-.nav-icon{width:20px;color:var(--lime);font-weight:900;text-align:center}
+
+.nav button:hover,
+.nav button.active{
+ background:var(--panel2);
+ color:var(--text);
+}
+
+.nav button.active{
+ box-shadow:inset 2px 0 var(--lime);
+}
+
+.nav-icon{
+ width:20px;
+ color:var(--lime);
+ font-weight:900;
+ text-align:center;
+}
+
 .side-team{
- position:absolute;bottom:22px;left:16px;right:16px;padding:15px;
- border:1px solid var(--border);border-radius:10px;background:var(--panel)
+ position:absolute;
+ bottom:22px;
+ left:16px;
+ right:16px;
+ padding:15px;
+ border:1px solid var(--border);
+ border-radius:10px;
+ background:var(--panel);
 }
-.side-team small{color:var(--muted2);font-size:7px;font-weight:900;letter-spacing:.13em}
-.side-team strong{display:block;margin-top:6px;font-size:11px}
-.side-team span{display:block;margin-top:4px;color:var(--muted);font-size:8px}
 
-main{min-width:0;padding:34px}
-.content{max-width:1280px;margin:auto}
-.view{display:none}.view.active{display:block}
-
-/* COMMON */
-.eyebrow{color:var(--lime);font-size:8px;font-weight:900;letter-spacing:.18em;text-transform:uppercase}
-.page-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:27px}
-.page-head h1{margin-top:8px;font-size:32px;letter-spacing:-.045em}
-.page-head p{margin-top:8px;color:var(--muted);font-size:10px;line-height:1.6}
-.card{border:1px solid var(--border);border-radius:13px;background:var(--panel)}
-.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.section-title h2{font-size:13px;letter-spacing:-.02em}
-.section-title span{color:var(--muted);font-size:8px}
-
-/* DASHBOARD */
-.hero-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(270px,.8fr);gap:16px}
-.hero{
- position:relative;min-height:310px;padding:33px;overflow:hidden;
- background:linear-gradient(135deg,#11141a,#0c0e12);border:1px solid var(--border);border-radius:15px
+.side-team small{
+ color:var(--muted2);
+ font-size:7px;
+ font-weight:900;
+ letter-spacing:.13em;
 }
-.hero:after{
- content:"RW";position:absolute;right:-20px;bottom:-50px;color:rgba(223,255,0,.025);
- font-size:220px;font-weight:900;letter-spacing:-.12em
-}
-.hero-content{position:relative;z-index:2;max-width:620px}
-.hero h1{margin-top:16px;font-size:48px;line-height:.98;letter-spacing:-.06em}
-.hero h1 span{color:var(--lime)}
-.hero p{max-width:520px;margin-top:18px;color:var(--muted);font-size:11px;line-height:1.75}
-.team-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
-.badge{padding:8px 10px;border:1px solid var(--border2);border-radius:7px;background:rgba(255,255,255,.02);font-size:8px;font-weight:800}
-.badge b{color:var(--lime)}
-.team-card{padding:25px}
-.team-card-top{display:flex;justify-content:space-between;gap:10px}
-.team-card h2{margin-top:8px;font-size:22px;letter-spacing:-.04em}
-.room-tag{color:var(--muted);font-size:9px;margin-top:5px}
-.rank-box{text-align:right}
-.rank-box small{color:var(--muted2);font-size:7px}
-.rank-box strong{display:block;margin-top:4px;color:var(--lime);font-size:22px}
-.members{margin-top:24px;border-top:1px solid var(--border)}
-.member{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--border)}
-.member-left{display:flex;align-items:center;gap:10px}
-.avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:var(--panel3);font-size:9px;font-weight:900}
-.member strong{display:block;font-size:9px}
-.member small{display:block;margin-top:3px;color:var(--muted);font-size:7px}
-.online{color:var(--success);font-size:7px;font-weight:900}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:17px}
-.stat{padding:15px;border:1px solid var(--border);border-radius:9px;background:var(--panel2)}
-.stat small{color:var(--muted2);font-size:7px;font-weight:900;letter-spacing:.1em}
-.stat strong{display:block;margin-top:6px;font-size:19px}
 
-/* GAMES */
-.dashboard-lower{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,.7fr);gap:16px;margin-top:28px}
-.game-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.side-team strong{
+ display:block;
+ margin-top:6px;
+ font-size:11px;
+}
+
+.side-team span{
+ display:block;
+ margin-top:4px;
+ color:var(--muted);
+ font-size:8px;
+}
+
+main{
+ min-width:0;
+ padding:34px;
+}
+
+.content{
+ max-width:1280px;
+ margin:auto;
+}
+
+.view{display:none}
+.view.active{display:block}
+
+/* =====================================================
+   COMMON
+===================================================== */
+
+.eyebrow{
+ color:var(--lime);
+ font-size:8px;
+ font-weight:900;
+ letter-spacing:.18em;
+ text-transform:uppercase;
+}
+
+.page-head{
+ display:flex;
+ align-items:end;
+ justify-content:space-between;
+ gap:20px;
+ margin-bottom:27px;
+}
+
+.page-head h1{
+ margin-top:8px;
+ font-size:32px;
+ letter-spacing:-.045em;
+}
+
+.page-head p{
+ margin-top:8px;
+ color:var(--muted);
+ font-size:10px;
+ line-height:1.6;
+}
+
+.card{
+ border:1px solid var(--border);
+ border-radius:13px;
+ background:var(--panel);
+}
+
+.section-title{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin-bottom:14px;
+}
+
+.section-title h2{
+ font-size:13px;
+ letter-spacing:-.02em;
+}
+
+.section-title span{
+ color:var(--muted);
+ font-size:8px;
+}
+
+/* =====================================================
+   TONIGHT'S BATTLE
+===================================================== */
+
+.battle-stage{
+ position:relative;
+ overflow:hidden;
+ min-height:360px;
+ border:1px solid var(--border);
+ border-radius:16px;
+ background:
+ radial-gradient(circle at 90% 15%,rgba(223,255,0,.09),transparent 30%),
+ linear-gradient(135deg,#11141a,#0b0d11);
+}
+
+.battle-stage::after{
+ content:"RW";
+ position:absolute;
+ right:-30px;
+ bottom:-70px;
+ color:rgba(223,255,0,.025);
+ font-size:260px;
+ line-height:1;
+ font-weight:900;
+ letter-spacing:-.12em;
+ pointer-events:none;
+}
+
+.battle-inner{
+ position:relative;
+ z-index:2;
+ padding:34px;
+}
+
+.battle-header{
+ display:flex;
+ justify-content:space-between;
+ align-items:flex-start;
+ gap:20px;
+}
+
+.battle-live-label{
+ display:inline-flex;
+ align-items:center;
+ gap:7px;
+ padding:7px 10px;
+ border:1px solid rgba(223,255,0,.18);
+ border-radius:30px;
+ color:var(--lime);
+ background:rgba(223,255,0,.04);
+ font-size:7px;
+ font-weight:900;
+ letter-spacing:.13em;
+}
+
+.battle-live-label.live{
+ color:#ff8181;
+ border-color:rgba(255,101,101,.25);
+ background:rgba(255,101,101,.06);
+}
+
+.live-pulse{
+ width:6px;
+ height:6px;
+ border-radius:50%;
+ background:currentColor;
+}
+
+.battle-icon{
+ width:70px;
+ height:70px;
+ margin-top:28px;
+ display:grid;
+ place-items:center;
+ border:1px solid var(--border2);
+ border-radius:15px;
+ background:rgba(255,255,255,.025);
+ font-size:34px;
+}
+
+.battle-stage h1{
+ margin-top:20px;
+ font-size:48px;
+ line-height:1;
+ letter-spacing:-.06em;
+}
+
+.battle-game-name{
+ margin-top:10px;
+ color:var(--muted);
+ font-size:11px;
+ line-height:1.6;
+}
+
+.battle-bottom{
+ display:flex;
+ align-items:flex-end;
+ justify-content:space-between;
+ gap:25px;
+ margin-top:30px;
+}
+
+.countdown-label{
+ color:var(--muted2);
+ font-size:7px;
+ font-weight:900;
+ letter-spacing:.14em;
+}
+
+.countdown{
+ display:flex;
+ gap:7px;
+ margin-top:8px;
+}
+
+.time-box{
+ min-width:61px;
+ padding:11px 9px;
+ text-align:center;
+ border:1px solid var(--border);
+ border-radius:8px;
+ background:rgba(255,255,255,.025);
+}
+
+.time-box strong{
+ display:block;
+ font-size:20px;
+ letter-spacing:-.04em;
+}
+
+.time-box span{
+ display:block;
+ margin-top:3px;
+ color:var(--muted2);
+ font-size:6px;
+ font-weight:900;
+ letter-spacing:.1em;
+}
+
+.battle-action{
+ min-width:230px;
+}
+
+.join-meta{
+ display:flex;
+ justify-content:space-between;
+ gap:15px;
+ margin-bottom:9px;
+ color:var(--muted);
+ font-size:8px;
+}
+
+.join-meta strong{
+ color:var(--text);
+}
+
+.join-btn{
+ width:100%;
+ min-height:49px;
+ border:0;
+ border-radius:8px;
+ background:var(--lime);
+ color:#08090c;
+ font-size:9px;
+ font-weight:900;
+ letter-spacing:.1em;
+}
+
+.join-btn:hover{
+ background:var(--lime2);
+}
+
+.join-btn:disabled{
+ cursor:not-allowed;
+ opacity:.55;
+}
+
+.join-btn.joined{
+ background:var(--success);
+ color:#07140d;
+}
+
+.join-btn.live{
+ background:#ff6565;
+ color:white;
+}
+
+.no-battle{
+ min-height:330px;
+ display:grid;
+ place-items:center;
+ padding:35px;
+ text-align:center;
+}
+
+.no-battle-icon{
+ width:66px;
+ height:66px;
+ margin:auto;
+ display:grid;
+ place-items:center;
+ border:1px solid var(--border2);
+ border-radius:50%;
+ color:var(--muted);
+ font-size:24px;
+}
+
+.no-battle h2{
+ margin-top:19px;
+ font-size:27px;
+ letter-spacing:-.04em;
+}
+
+.no-battle p{
+ max-width:450px;
+ margin:10px auto 0;
+ color:var(--muted);
+ font-size:10px;
+ line-height:1.7;
+}
+
+/* =====================================================
+   TEAM + STATS
+===================================================== */
+
+.home-grid{
+ display:grid;
+ grid-template-columns:minmax(0,1.4fr) minmax(290px,.6fr);
+ gap:16px;
+ margin-top:17px;
+}
+
+.team-card{
+ padding:24px;
+}
+
+.team-top{
+ display:flex;
+ justify-content:space-between;
+ gap:15px;
+}
+
+.team-card h2{
+ margin-top:8px;
+ font-size:23px;
+ letter-spacing:-.04em;
+}
+
+.room-tag{
+ margin-top:5px;
+ color:var(--muted);
+ font-size:9px;
+}
+
+.rank-box{
+ text-align:right;
+}
+
+.rank-box small{
+ color:var(--muted2);
+ font-size:7px;
+ font-weight:900;
+}
+
+.rank-box strong{
+ display:block;
+ margin-top:5px;
+ color:var(--lime);
+ font-size:23px;
+}
+
+.members{
+ margin-top:22px;
+ border-top:1px solid var(--border);
+}
+
+.member{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
+ padding:13px 0;
+ border-bottom:1px solid var(--border);
+}
+
+.member-left{
+ display:flex;
+ align-items:center;
+ gap:10px;
+}
+
+.avatar{
+ width:34px;
+ height:34px;
+ display:grid;
+ place-items:center;
+ border-radius:50%;
+ background:var(--panel3);
+ font-size:9px;
+ font-weight:900;
+}
+
+.member strong{
+ display:block;
+ font-size:9px;
+}
+
+.member small{
+ display:block;
+ margin-top:3px;
+ color:var(--muted);
+ font-size:7px;
+}
+
+.ready{
+ color:var(--success);
+ font-size:7px;
+ font-weight:900;
+}
+
+.waiting{
+ color:var(--muted2);
+ font-size:7px;
+ font-weight:900;
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+ margin-top:17px;
+}
+
+.stat{
+ padding:15px;
+ border:1px solid var(--border);
+ border-radius:9px;
+ background:var(--panel2);
+}
+
+.stat small{
+ color:var(--muted2);
+ font-size:7px;
+ font-weight:900;
+ letter-spacing:.1em;
+}
+
+.stat strong{
+ display:block;
+ margin-top:6px;
+ font-size:19px;
+}
+
+/* =====================================================
+   BATTLE INFO
+===================================================== */
+
+.battle-info-card{
+ padding:24px;
+}
+
+.info-row{
+ padding:14px 0;
+ border-bottom:1px solid var(--border);
+}
+
+.info-row:last-child{
+ border-bottom:0;
+}
+
+.info-row small{
+ display:block;
+ color:var(--muted2);
+ font-size:7px;
+ font-weight:900;
+ letter-spacing:.1em;
+}
+
+.info-row strong{
+ display:block;
+ margin-top:6px;
+ font-size:10px;
+}
+
+.status-text{
+ color:var(--lime);
+}
+
+/* =====================================================
+   LOWER GRID
+===================================================== */
+
+.dashboard-lower{
+ display:grid;
+ grid-template-columns:minmax(0,1.5fr) minmax(260px,.7fr);
+ gap:16px;
+ margin-top:28px;
+}
+
+/* =====================================================
+   GAMES
+===================================================== */
+
+.game-grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:10px;
+}
+
+.full-game-grid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:12px;
+}
+
 .game{
- padding:18px;border:1px solid var(--border);border-radius:11px;
- background:var(--panel);transition:.18s ease;cursor:pointer
+ padding:18px;
+ border:1px solid var(--border);
+ border-radius:11px;
+ background:var(--panel);
+ transition:.18s ease;
+ cursor:pointer;
 }
-.game:hover{transform:translateY(-2px);border-color:#3b414b;background:var(--panel2)}
-.game-top{display:flex;justify-content:space-between;align-items:center}
-.game-icon{font-size:20px}
-.game-status{color:var(--success);font-size:7px;font-weight:900;letter-spacing:.08em}
-.game h3{margin-top:16px;font-size:11px}
-.game p{margin-top:6px;color:var(--muted);font-size:8px;line-height:1.6}
-.game-action{display:block;margin-top:14px;color:var(--lime);font-size:7px;font-weight:900;letter-spacing:.1em}
 
-/* LEADERBOARD */
-.leader-card{padding:20px}
-.leader-row{display:grid;grid-template-columns:32px 1fr auto;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
-.leader-row:last-child{border-bottom:0}
-.position{font-size:10px;font-weight:900;color:var(--muted)}
-.position.top{color:var(--lime)}
-.leader-name strong{display:block;font-size:9px}
-.leader-name span{display:block;margin-top:3px;color:var(--muted2);font-size:7px}
-.xp{font-size:8px;font-weight:900}
+.game:hover{
+ transform:translateY(-2px);
+ border-color:#3b414b;
+ background:var(--panel2);
+}
 
-/* FULL PAGES */
-.full-card{padding:24px}
-.full-game-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.full-game{min-height:190px}
-.board-table{width:100%;border-collapse:collapse}
-.board-table th{text-align:left;padding:12px;color:var(--muted2);font-size:7px;letter-spacing:.1em;border-bottom:1px solid var(--border)}
-.board-table td{padding:15px 12px;font-size:9px;border-bottom:1px solid var(--border)}
-.board-table tr:last-child td{border-bottom:0}
-.me-row{background:rgba(223,255,0,.025)}
-.achievement-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.achievement{padding:20px}
-.achievement-icon{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--border2);border-radius:9px;color:var(--lime);font-weight:900}
-.achievement h3{margin-top:15px;font-size:11px}
-.achievement p{margin-top:7px;color:var(--muted);font-size:8px;line-height:1.6}
-.reward{margin-top:13px;color:var(--lime);font-size:8px;font-weight:900}
-.empty{padding:35px;text-align:center;color:var(--muted);font-size:10px}
+.game-top{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
 
-/* PROFILE MENU */
+.game-icon{
+ font-size:20px;
+}
+
+.game-status{
+ color:var(--success);
+ font-size:7px;
+ font-weight:900;
+ letter-spacing:.08em;
+}
+
+.game h3{
+ margin-top:16px;
+ font-size:11px;
+}
+
+.game p{
+ margin-top:6px;
+ color:var(--muted);
+ font-size:8px;
+ line-height:1.6;
+}
+
+.game-action{
+ display:block;
+ margin-top:14px;
+ color:var(--lime);
+ font-size:7px;
+ font-weight:900;
+ letter-spacing:.1em;
+}
+
+.full-game{
+ min-height:190px;
+}
+
+/* =====================================================
+   LEADERBOARD
+===================================================== */
+
+.leader-card{
+ padding:20px;
+}
+
+.leader-row{
+ display:grid;
+ grid-template-columns:32px 1fr auto;
+ align-items:center;
+ padding:12px 0;
+ border-bottom:1px solid var(--border);
+}
+
+.leader-row:last-child{
+ border-bottom:0;
+}
+
+.position{
+ font-size:10px;
+ font-weight:900;
+ color:var(--muted);
+}
+
+.position.top{
+ color:var(--lime);
+}
+
+.leader-name strong{
+ display:block;
+ font-size:9px;
+}
+
+.leader-name span{
+ display:block;
+ margin-top:3px;
+ color:var(--muted2);
+ font-size:7px;
+}
+
+.xp{
+ font-size:8px;
+ font-weight:900;
+}
+
+/* =====================================================
+   FULL LEADERBOARD
+===================================================== */
+
+.full-card{
+ padding:24px;
+}
+
+.board-table{
+ width:100%;
+ border-collapse:collapse;
+}
+
+.board-table th{
+ text-align:left;
+ padding:12px;
+ color:var(--muted2);
+ font-size:7px;
+ letter-spacing:.1em;
+ border-bottom:1px solid var(--border);
+}
+
+.board-table td{
+ padding:15px 12px;
+ font-size:9px;
+ border-bottom:1px solid var(--border);
+}
+
+.board-table tr:last-child td{
+ border-bottom:0;
+}
+
+.me-row{
+ background:rgba(223,255,0,.025);
+}
+
+/* =====================================================
+   ACHIEVEMENTS
+===================================================== */
+
+.achievement-grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:12px;
+}
+
+.achievement{
+ padding:20px;
+}
+
+.achievement-icon{
+ width:38px;
+ height:38px;
+ display:grid;
+ place-items:center;
+ border:1px solid var(--border2);
+ border-radius:9px;
+ color:var(--lime);
+ font-weight:900;
+}
+
+.achievement h3{
+ margin-top:15px;
+ font-size:11px;
+}
+
+.achievement p{
+ margin-top:7px;
+ color:var(--muted);
+ font-size:8px;
+ line-height:1.6;
+}
+
+.reward{
+ margin-top:13px;
+ color:var(--lime);
+ font-size:8px;
+ font-weight:900;
+}
+
+.empty{
+ padding:35px;
+ text-align:center;
+ color:var(--muted);
+ font-size:10px;
+}
+
+/* =====================================================
+   PROFILE MENU
+===================================================== */
+
 .menu{
- position:fixed;right:25px;top:65px;width:220px;padding:8px;
- border:1px solid var(--border);border-radius:10px;background:#101218;
- box-shadow:0 18px 60px rgba(0,0,0,.4);z-index:500
+ position:fixed;
+ right:25px;
+ top:65px;
+ width:220px;
+ padding:8px;
+ border:1px solid var(--border);
+ border-radius:10px;
+ background:#101218;
+ box-shadow:0 18px 60px rgba(0,0,0,.4);
+ z-index:500;
 }
-.menu-head{padding:12px;border-bottom:1px solid var(--border);margin-bottom:5px}
-.menu-head strong{font-size:10px}
-.menu-head span{display:block;margin-top:4px;color:var(--muted);font-size:7px;word-break:break-all}
-.menu button{width:100%;padding:11px;border:0;border-radius:7px;background:transparent;color:var(--muted);text-align:left;font-size:9px;font-weight:700}
-.menu button:hover{background:var(--panel2);color:var(--text)}
-.menu .logout{color:#ff8888}
 
-/* GAME MODAL */
-.modal{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.75)}
-.modal-card{width:min(100%,440px);padding:27px;border:1px solid var(--border2);border-radius:14px;background:#101218}
-.modal-icon{font-size:31px}
-.modal-card h2{margin-top:16px;font-size:24px;letter-spacing:-.04em}
-.modal-card p{margin-top:10px;color:var(--muted);font-size:10px;line-height:1.7}
-.modal-note{margin-top:20px;padding:13px;border:1px solid var(--border);border-radius:8px;background:var(--panel2);color:#c8ccd3;font-size:8px;line-height:1.6}
-.btn{width:100%;margin-top:20px;padding:14px;border:0;border-radius:8px;background:var(--lime);color:#08090c;font-size:9px;font-weight:900;letter-spacing:.08em}
+.menu-head{
+ padding:12px;
+ border-bottom:1px solid var(--border);
+ margin-bottom:5px;
+}
 
-/* LOADER */
-.loader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#08090c}
-.loader-box{text-align:center}
-.loader-logo{width:55px;height:55px;margin:auto;display:grid;place-items:center;border-radius:11px;background:var(--lime);color:#08090c;font-weight:900}
-.spinner{width:24px;height:24px;margin:20px auto;border:2px solid #303540;border-top-color:var(--lime);border-radius:50%;animation:spin .65s linear infinite}
-.loader p{color:var(--muted);font-size:8px;font-weight:900;letter-spacing:.12em}
-@keyframes spin{to{transform:rotate(360deg)}}
+.menu-head strong{
+ font-size:10px;
+}
 
-/* MOBILE NAV */
-.mobile-nav{display:none}
+.menu-head span{
+ display:block;
+ margin-top:4px;
+ color:var(--muted);
+ font-size:7px;
+ word-break:break-all;
+}
+
+.menu button{
+ width:100%;
+ padding:11px;
+ border:0;
+ border-radius:7px;
+ background:transparent;
+ color:var(--muted);
+ text-align:left;
+ font-size:9px;
+ font-weight:700;
+}
+
+.menu button:hover{
+ background:var(--panel2);
+ color:var(--text);
+}
+
+.menu .logout{
+ color:#ff8888;
+}
+
+/* =====================================================
+   GAME MODAL
+===================================================== */
+
+.modal{
+ position:fixed;
+ inset:0;
+ z-index:1000;
+ display:grid;
+ place-items:center;
+ padding:20px;
+ background:rgba(0,0,0,.78);
+}
+
+.modal-card{
+ width:min(100%,440px);
+ padding:27px;
+ border:1px solid var(--border2);
+ border-radius:14px;
+ background:#101218;
+}
+
+.modal-icon{
+ font-size:31px;
+}
+
+.modal-card h2{
+ margin-top:16px;
+ font-size:24px;
+ letter-spacing:-.04em;
+}
+
+.modal-card p{
+ margin-top:10px;
+ color:var(--muted);
+ font-size:10px;
+ line-height:1.7;
+}
+
+.modal-note{
+ margin-top:20px;
+ padding:13px;
+ border:1px solid var(--border);
+ border-radius:8px;
+ background:var(--panel2);
+ color:#c8ccd3;
+ font-size:8px;
+ line-height:1.6;
+}
+
+.btn{
+ width:100%;
+ margin-top:20px;
+ padding:14px;
+ border:0;
+ border-radius:8px;
+ background:var(--lime);
+ color:#08090c;
+ font-size:9px;
+ font-weight:900;
+ letter-spacing:.08em;
+}
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
+ position:fixed;
+ z-index:2000;
+ right:20px;
+ bottom:20px;
+ width:min(360px,calc(100% - 40px));
+ padding:14px 16px;
+ border:1px solid var(--border2);
+ border-radius:10px;
+ background:#13161c;
+ box-shadow:0 18px 60px rgba(0,0,0,.45);
+ font-size:9px;
+ line-height:1.6;
+}
+
+.toast.success{
+ border-color:rgba(99,230,157,.25);
+ color:#9df0bd;
+}
+
+.toast.error{
+ border-color:rgba(255,101,101,.25);
+ color:#ff9d9d;
+}
+
+/* =====================================================
+   LOADER
+===================================================== */
+
+.loader{
+ position:fixed;
+ inset:0;
+ z-index:9999;
+ display:grid;
+ place-items:center;
+ background:#08090c;
+}
+
+.loader-box{
+ text-align:center;
+}
+
+.loader-logo{
+ width:55px;
+ height:55px;
+ margin:auto;
+ display:grid;
+ place-items:center;
+ border-radius:11px;
+ background:var(--lime);
+ color:#08090c;
+ font-weight:900;
+}
+
+.spinner{
+ width:24px;
+ height:24px;
+ margin:20px auto;
+ border:2px solid #303540;
+ border-top-color:var(--lime);
+ border-radius:50%;
+ animation:spin .65s linear infinite;
+}
+
+.loader p{
+ color:var(--muted);
+ font-size:8px;
+ font-weight:900;
+ letter-spacing:.12em;
+}
+
+@keyframes spin{
+ to{transform:rotate(360deg)}
+}
+
+/* =====================================================
+   MOBILE NAV
+===================================================== */
+
+.mobile-nav{
+ display:none;
+}
 
 @media(max-width:1000px){
- .full-game-grid{grid-template-columns:repeat(2,1fr)}
- .achievement-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:780px){
- header{height:65px;padding:0 16px}
- .live-pill{display:none}
- .shell{display:block;min-height:calc(100vh - 65px)}
- aside{display:none}
- main{padding:24px 15px 92px}
- .hero-grid,.dashboard-lower{grid-template-columns:1fr}
- .hero{min-height:auto;padding:25px}
- .hero h1{font-size:38px}
- .page-head{align-items:flex-start;flex-direction:column}
- .mobile-nav{
-  position:fixed;z-index:200;left:0;right:0;bottom:0;
-  display:grid;grid-template-columns:repeat(4,1fr);
-  padding:7px 5px max(7px,env(safe-area-inset-bottom));
-  border-top:1px solid var(--border);background:#0a0c10
+ .full-game-grid{
+  grid-template-columns:repeat(2,1fr);
  }
- .mobile-nav button{padding:7px 3px;border:0;background:transparent;color:var(--muted);font-size:7px;font-weight:800}
- .mobile-nav button b{display:block;margin-bottom:4px;color:inherit;font-size:14px}
- .mobile-nav button.active{color:var(--lime)}
+
+ .achievement-grid{
+  grid-template-columns:repeat(2,1fr);
+ }
 }
+
+@media(max-width:780px){
+
+ header{
+  height:65px;
+  padding:0 16px;
+ }
+
+ .online-pill{
+  display:none;
+ }
+
+ .shell{
+  display:block;
+  min-height:calc(100vh - 65px);
+ }
+
+ aside{
+  display:none;
+ }
+
+ main{
+  padding:24px 15px 92px;
+ }
+
+ .page-head{
+  align-items:flex-start;
+  flex-direction:column;
+ }
+
+ .home-grid,
+ .dashboard-lower{
+  grid-template-columns:1fr;
+ }
+
+ .battle-inner{
+  padding:25px 20px;
+ }
+
+ .battle-stage h1{
+  font-size:38px;
+ }
+
+ .battle-bottom{
+  align-items:stretch;
+  flex-direction:column;
+ }
+
+ .battle-action{
+  min-width:0;
+ }
+
+ .mobile-nav{
+  position:fixed;
+  z-index:200;
+  left:0;
+  right:0;
+  bottom:0;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  padding:7px 5px max(7px,env(safe-area-inset-bottom));
+  border-top:1px solid var(--border);
+  background:#0a0c10;
+ }
+
+ .mobile-nav button{
+  padding:7px 3px;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  font-size:7px;
+  font-weight:800;
+ }
+
+ .mobile-nav button b{
+  display:block;
+  margin-bottom:4px;
+  color:inherit;
+  font-size:14px;
+ }
+
+ .mobile-nav button.active{
+  color:var(--lime);
+ }
+}
+
 @media(max-width:520px){
- .game-grid,.full-game-grid,.achievement-grid{grid-template-columns:1fr}
- .stats{grid-template-columns:repeat(3,1fr)}
- .brand small{display:none}
- .hero h1{font-size:34px}
- .board-wrap{overflow-x:auto}
- .board-table{min-width:520px}
+
+ .game-grid,
+ .full-game-grid,
+ .achievement-grid{
+  grid-template-columns:1fr;
+ }
+
+ .stats{
+  grid-template-columns:repeat(3,1fr);
+ }
+
+ .brand small{
+  display:none;
+ }
+
+ .battle-stage h1{
+  font-size:32px;
+ }
+
+ .battle-icon{
+  width:58px;
+  height:58px;
+  font-size:27px;
+ }
+
+ .countdown{
+  width:100%;
+ }
+
+ .time-box{
+  flex:1;
+  min-width:0;
+ }
+
+ .time-box strong{
+  font-size:17px;
+ }
+
+ .board-wrap{
+  overflow-x:auto;
+ }
+
+ .board-table{
+  min-width:520px;
+ }
 }
 </style>
 </head>
@@ -238,550 +1258,3137 @@ main{min-width:0;padding:34px}
 <body>
 
 <header>
+
  <div class="brand">
   <div class="logo">RW</div>
-  <div><strong>RES WARS</strong><small>MY ANGEL RESIDENCE</small></div>
+
+  <div>
+   <strong>RES WARS</strong>
+   <small>MY ANGEL RESIDENCE</small>
+  </div>
  </div>
 
  <div class="header-right">
-  <div class="live-pill"><span class="dot"></span> RES WARS ONLINE</div>
-  <button id="profileButton" class="profile-btn">--</button>
+
+  <div class="online-pill">
+   <span class="online-dot"></span>
+   RES WARS ONLINE
+  </div>
+
+  <button
+   id="profileButton"
+   class="profile-btn"
+  >
+   --
+  </button>
+
  </div>
+
 </header>
+
 
 <div class="shell">
 
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
 <aside>
- <div class="nav-label">PLATFORM</div>
+
+ <div class="nav-label">
+  PLATFORM
+ </div>
+
  <nav class="nav">
-  <button class="nav-btn active" data-view="home"><span class="nav-icon">⌂</span>Home</button>
-  <button class="nav-btn" data-view="games"><span class="nav-icon">▦</span>Games</button>
-  <button class="nav-btn" data-view="leaderboard"><span class="nav-icon">↗</span>Leaderboard</button>
-  <button class="nav-btn" data-view="achievements"><span class="nav-icon">★</span>Achievements</button>
+
+  <button
+   class="nav-btn active"
+   data-view="home"
+  >
+   <span class="nav-icon">⌂</span>
+   Home
+  </button>
+
+  <button
+   class="nav-btn"
+   data-view="games"
+  >
+   <span class="nav-icon">▦</span>
+   Games
+  </button>
+
+  <button
+   class="nav-btn"
+   data-view="leaderboard"
+  >
+   <span class="nav-icon">↗</span>
+   Leaderboard
+  </button>
+
+  <button
+   class="nav-btn"
+   data-view="achievements"
+  >
+   <span class="nav-icon">★</span>
+   Achievements
+  </button>
+
  </nav>
 
+
  <div class="side-team">
-  <small>REPRESENTING</small>
-  <strong id="sideTeam">Loading...</strong>
-  <span id="sideRoom">My Angel Residence</span>
+
+  <small>
+   REPRESENTING
+  </small>
+
+  <strong id="sideTeam">
+   Loading...
+  </strong>
+
+  <span id="sideRoom">
+   My Angel Residence
+  </span>
+
  </div>
+
 </aside>
 
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
 <main>
+
 <div class="content">
 
-<!-- HOME -->
-<section id="homeView" class="view active">
+
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<section
+ id="homeView"
+ class="view active"
+>
 
  <div class="page-head">
+
   <div>
-   <div class="eyebrow">Season 01</div>
-   <h1 id="welcome">Welcome back.</h1>
-   <p>Your room. Your partner. Your reputation.</p>
+
+   <div class="eyebrow">
+    Season 01
+   </div>
+
+   <h1 id="welcome">
+    Welcome back.
+   </h1>
+
+   <p>
+    Your room. Your partner. Your reputation.
+   </p>
+
   </div>
+
  </div>
 
- <div class="hero-grid">
 
-  <div class="hero">
-   <div class="hero-content">
-    <div class="eyebrow">My Angel Residence</div>
-    <h1>THE RESIDENCE<br><span>IS YOUR ARENA.</span></h1>
+ <!-- ===================================================
+      CURRENT BATTLE
+ =================================================== -->
+
+ <div
+  id="battleStage"
+  class="battle-stage"
+ >
+
+  <div class="no-battle">
+
+   <div>
+
+    <div class="no-battle-icon">
+     ⚡
+    </div>
+
+    <h2>
+     No active battle.
+    </h2>
+
     <p>
-     Your room has entered RES WARS. Compete in challenges,
-     earn XP with your roommate and climb the residence leaderboard.
+     There is currently no scheduled RES WARS battle.
+     When the Game Master announces the next game night,
+     it will appear here automatically.
     </p>
 
-    <div class="team-badges">
-     <div class="badge">TEAM <b id="heroTeam">—</b></div>
-     <div class="badge">ROOM <b id="heroRoom">—</b></div>
-     <div class="badge">RANK <b id="heroRank">—</b></div>
-    </div>
-   </div>
-  </div>
-
-  <div class="card team-card">
-   <div class="team-card-top">
-    <div>
-     <div class="eyebrow">Your Room</div>
-     <h2 id="teamName">—</h2>
-     <div id="roomNumber" class="room-tag">Room —</div>
-    </div>
-    <div class="rank-box">
-     <small>RES RANK</small>
-     <strong id="rankNumber">—</strong>
-    </div>
    </div>
 
-   <div id="teamMembers" class="members"></div>
-
-   <div class="stats">
-    <div class="stat"><small>TEAM XP</small><strong id="teamXP">0</strong></div>
-    <div class="stat"><small>WINS</small><strong id="teamWins">0</strong></div>
-    <div class="stat"><small>PLAYERS</small><strong id="playerCount">0/2</strong></div>
-   </div>
   </div>
 
  </div>
+
+
+ <!-- ===================================================
+      TEAM
+ =================================================== -->
+
+ <div class="home-grid">
+
+  <div class="card team-card">
+
+   <div class="team-top">
+
+    <div>
+
+     <div class="eyebrow">
+      Your Room
+     </div>
+
+     <h2 id="teamName">
+      —
+     </h2>
+
+     <div
+      id="roomNumber"
+      class="room-tag"
+     >
+      Room —
+     </div>
+
+    </div>
+
+
+    <div class="rank-box">
+
+     <small>
+      RES RANK
+     </small>
+
+     <strong id="rankNumber">
+      —
+     </strong>
+
+    </div>
+
+   </div>
+
+
+   <div
+    id="teamMembers"
+    class="members"
+   ></div>
+
+
+   <div class="stats">
+
+    <div class="stat">
+
+     <small>
+      TEAM XP
+     </small>
+
+     <strong id="teamXP">
+      0
+     </strong>
+
+    </div>
+
+
+    <div class="stat">
+
+     <small>
+      WINS
+     </small>
+
+     <strong id="teamWins">
+      0
+     </strong>
+
+    </div>
+
+
+    <div class="stat">
+
+     <small>
+      PLAYERS
+     </small>
+
+     <strong id="playerCount">
+      0/2
+     </strong>
+
+    </div>
+
+   </div>
+
+  </div>
+
+
+  <div class="card battle-info-card">
+
+   <div class="eyebrow">
+    Battle Status
+   </div>
+
+
+   <div class="info-row">
+
+    <small>
+     CURRENT GAME
+    </small>
+
+    <strong id="infoGame">
+     No battle
+    </strong>
+
+   </div>
+
+
+   <div class="info-row">
+
+    <small>
+     STATUS
+    </small>
+
+    <strong
+     id="infoStatus"
+     class="status-text"
+    >
+     WAITING
+    </strong>
+
+   </div>
+
+
+   <div class="info-row">
+
+    <small>
+     ROOMS JOINED
+    </small>
+
+    <strong id="infoRooms">
+     0
+    </strong>
+
+   </div>
+
+
+   <div class="info-row">
+
+    <small>
+     YOUR ROOM
+    </small>
+
+    <strong id="infoJoined">
+     NOT JOINED
+    </strong>
+
+   </div>
+
+
+   <div class="info-row">
+
+    <small>
+     ROUND
+    </small>
+
+    <strong id="infoRound">
+     —
+    </strong>
+
+   </div>
+
+  </div>
+
+ </div>
+
+
+ <!-- ===================================================
+      LOWER
+ =================================================== -->
 
  <div class="dashboard-lower">
 
-  <section>
-   <div class="section-title">
-    <h2>Game Library</h2>
-    <span id="gameCount">Loading...</span>
-   </div>
-   <div id="homeGames" class="game-grid"></div>
-  </section>
 
   <section>
+
    <div class="section-title">
-    <h2>Residence Leaders</h2>
-    <span>LIVE RANKING</span>
+
+    <h2>
+     Game Library
+    </h2>
+
+    <span id="gameCount">
+     Loading...
+    </span>
+
    </div>
-   <div id="homeLeaderboard" class="card leader-card"></div>
+
+   <div
+    id="homeGames"
+    class="game-grid"
+   ></div>
+
   </section>
 
+
+  <section>
+
+   <div class="section-title">
+
+    <h2>
+     Residence Leaders
+    </h2>
+
+    <span>
+     LIVE RANKING
+    </span>
+
+   </div>
+
+   <div
+    id="homeLeaderboard"
+    class="card leader-card"
+   ></div>
+
+  </section>
+
+
  </div>
+
 </section>
 
-<!-- GAMES -->
-<section id="gamesView" class="view">
+
+<!-- =====================================================
+     GAMES
+===================================================== -->
+
+<section
+ id="gamesView"
+ class="view"
+>
+
  <div class="page-head">
+
   <div>
-   <div class="eyebrow">Game Library</div>
-   <h1>Choose your battle.</h1>
-   <p>All active RES WARS games available to My Angel Residence.</p>
+
+   <div class="eyebrow">
+    Game Library
+   </div>
+
+   <h1>
+    Choose your battle.
+   </h1>
+
+   <p>
+    Games available throughout the RES WARS season.
+   </p>
+
   </div>
+
  </div>
- <div id="allGames" class="full-game-grid"></div>
+
+
+ <div
+  id="allGames"
+  class="full-game-grid"
+ ></div>
+
 </section>
 
-<!-- LEADERBOARD -->
-<section id="leaderboardView" class="view">
+
+<!-- =====================================================
+     LEADERBOARD
+===================================================== -->
+
+<section
+ id="leaderboardView"
+ class="view"
+>
+
  <div class="page-head">
+
   <div>
-   <div class="eyebrow">Residence Ranking</div>
-   <h1>Leaderboard.</h1>
-   <p>Every point counts. Rankings are based on total room XP.</p>
+
+   <div class="eyebrow">
+    Residence Ranking
+   </div>
+
+   <h1>
+    Leaderboard.
+   </h1>
+
+   <p>
+    Every point counts. Rankings are based on total room XP.
+   </p>
+
   </div>
+
  </div>
+
 
  <div class="card full-card board-wrap">
+
   <table class="board-table">
+
    <thead>
-    <tr><th>RANK</th><th>ROOM TEAM</th><th>ROOM</th><th>WINS</th><th>XP</th></tr>
+
+    <tr>
+     <th>RANK</th>
+     <th>ROOM TEAM</th>
+     <th>ROOM</th>
+     <th>WINS</th>
+     <th>XP</th>
+    </tr>
+
    </thead>
+
    <tbody id="leaderboardBody"></tbody>
+
   </table>
+
  </div>
+
 </section>
 
-<!-- ACHIEVEMENTS -->
-<section id="achievementsView" class="view">
+
+<!-- =====================================================
+     ACHIEVEMENTS
+===================================================== -->
+
+<section
+ id="achievementsView"
+ class="view"
+>
+
  <div class="page-head">
+
   <div>
-   <div class="eyebrow">Progress</div>
-   <h1>Achievements.</h1>
-   <p>Milestones waiting to be claimed throughout the season.</p>
+
+   <div class="eyebrow">
+    Progress
+   </div>
+
+   <h1>
+    Achievements.
+   </h1>
+
+   <p>
+    Milestones waiting to be claimed throughout the season.
+   </p>
+
   </div>
+
  </div>
- <div id="achievementGrid" class="achievement-grid"></div>
+
+
+ <div
+  id="achievementGrid"
+  class="achievement-grid"
+ ></div>
+
 </section>
 
-</div>
-</main>
+
 </div>
 
-<!-- MOBILE -->
+</main>
+
+</div>
+
+
+<!-- =====================================================
+     MOBILE NAV
+===================================================== -->
+
 <nav class="mobile-nav">
- <button class="mobile-btn active" data-view="home"><b>⌂</b>HOME</button>
- <button class="mobile-btn" data-view="games"><b>▦</b>GAMES</button>
- <button class="mobile-btn" data-view="leaderboard"><b>↗</b>RANK</button>
- <button class="mobile-btn" data-view="achievements"><b>★</b>AWARDS</button>
+
+ <button
+  class="mobile-btn active"
+  data-view="home"
+ >
+  <b>⌂</b>
+  HOME
+ </button>
+
+ <button
+  class="mobile-btn"
+  data-view="games"
+ >
+  <b>▦</b>
+  GAMES
+ </button>
+
+ <button
+  class="mobile-btn"
+  data-view="leaderboard"
+ >
+  <b>↗</b>
+  RANK
+ </button>
+
+ <button
+  class="mobile-btn"
+  data-view="achievements"
+ >
+  <b>★</b>
+  AWARDS
+ </button>
+
 </nav>
 
-<!-- PROFILE -->
-<div id="profileMenu" class="menu hidden">
+
+<!-- =====================================================
+     PROFILE MENU
+===================================================== -->
+
+<div
+ id="profileMenu"
+ class="menu hidden"
+>
+
  <div class="menu-head">
-  <strong id="menuName">Player</strong>
-  <span id="menuEmail">—</span>
+
+  <strong id="menuName">
+   Player
+  </strong>
+
+  <span id="menuEmail">
+   —
+  </span>
+
  </div>
- <button id="roomSetupBtn">View room setup</button>
- <button id="logoutBtn" class="logout">Sign out</button>
+
+ <button id="roomSetupBtn">
+  Room setup
+ </button>
+
+ <button
+  id="gameMasterBtn"
+  class="hidden"
+ >
+  Game Master
+ </button>
+
+ <button
+  id="logoutBtn"
+  class="logout"
+ >
+  Sign out
+ </button>
+
 </div>
 
-<!-- GAME MODAL -->
-<div id="gameModal" class="modal hidden">
+
+<!-- =====================================================
+     GAME MODAL
+===================================================== -->
+
+<div
+ id="gameModal"
+ class="modal hidden"
+>
+
  <div class="modal-card">
-  <div id="modalIcon" class="modal-icon">⚡</div>
-  <h2 id="modalTitle">Game</h2>
-  <p id="modalDescription"></p>
-  <div class="modal-note">
-   The game is in the RES WARS library. Its multiplayer engine will be connected in the next game-system phase.
+
+  <div
+   id="modalIcon"
+   class="modal-icon"
+  >
+   🎮
   </div>
-  <button id="closeModal" class="btn">BACK TO LOBBY</button>
+
+  <h2 id="modalTitle">
+   Game
+  </h2>
+
+  <p id="modalDescription"></p>
+
+  <div class="modal-note">
+   This game belongs to the RES WARS game library.
+   When selected for a Game Night, the active battle
+   will appear on the Home screen.
+  </div>
+
+  <button
+   id="closeModal"
+   class="btn"
+  >
+   BACK TO LOBBY
+  </button>
+
  </div>
+
 </div>
 
-<!-- LOADER -->
-<div id="loader" class="loader">
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+ id="toast"
+ class="toast hidden"
+></div>
+
+
+<!-- =====================================================
+     LOADER
+===================================================== -->
+
+<div
+ id="loader"
+ class="loader"
+>
+
  <div class="loader-box">
-  <div class="loader-logo">RW</div>
+
+  <div class="loader-logo">
+   RW
+  </div>
+
   <div class="spinner"></div>
-  <p id="loaderText">ENTERING RES WARS...</p>
+
+  <p id="loaderText">
+   ENTERING RES WARS...
+  </p>
+
  </div>
+
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = "https://tkfnypzohdercxljswfe.supabase.co";
-const SUPABASE_KEY = "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra";
 
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+ "https://tkfnypzohdercxljswfe.supabase.co";
+
+const SUPABASE_KEY =
+ "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra";
+
+const sb =
+ supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+ );
+
+
+/* =====================================================
+   STATE
+===================================================== */
 
 let user = null;
 let profile = null;
 let room = null;
+
+let members = [];
 let games = [];
 let leaderboard = [];
-let members = [];
-let roomChannel = null;
 
-const $ = id => document.getElementById(id);
+let currentSession = null;
+let sessionRooms = [];
+let roomJoinedBattle = false;
+
+let countdownTimer = null;
+
+let roomChannel = null;
+let battleChannel = null;
+let battleRoomsChannel = null;
+let leaderboardChannel = null;
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+const $ =
+ id =>
+  document.getElementById(id);
+
 
 function esc(value){
+
  return String(value ?? "")
   .replaceAll("&","&amp;")
   .replaceAll("<","&lt;")
   .replaceAll(">","&gt;")
   .replaceAll('"',"&quot;")
   .replaceAll("'","&#039;");
+
 }
+
 
 function initials(name){
- const words=String(name||"RW").trim().split(/\s+/).filter(Boolean);
- return words.slice(0,2).map(x=>x[0]).join("").toUpperCase() || "RW";
+
+ const words =
+  String(name || "RW")
+   .trim()
+   .split(/\s+/)
+   .filter(Boolean);
+
+ return (
+  words
+   .slice(0,2)
+   .map(word => word[0])
+   .join("")
+   .toUpperCase()
+  ||
+  "RW"
+ );
+
 }
 
-function hideLoader(){ $("loader").classList.add("hidden"); }
+
+function hideLoader(){
+
+ $("loader")
+  .classList
+  .add("hidden");
+
+}
+
 
 function showFatal(text){
- $("loaderText").textContent=text;
- const spinner=document.querySelector(".spinner");
- if(spinner) spinner.style.display="none";
+
+ $("loaderText")
+  .textContent =
+   text;
+
+ const spinner =
+  document.querySelector(".spinner");
+
+ if(spinner){
+  spinner.style.display =
+   "none";
+ }
+
 }
+
+
+function toast(
+ text,
+ type = "success"
+){
+
+ const el =
+  $("toast");
+
+ el.textContent =
+  text;
+
+ el.className =
+  `toast ${type}`;
+
+ clearTimeout(
+  toast.timer
+ );
+
+ toast.timer =
+  setTimeout(
+   () => {
+
+    el.classList.add(
+     "hidden"
+    );
+
+   },
+   4000
+  );
+
+}
+
+
+function formatDate(value){
+
+ if(!value){
+  return "To be announced";
+ }
+
+ return new Intl.DateTimeFormat(
+  "en-ZA",
+  {
+   dateStyle:"medium",
+   timeStyle:"short"
+  }
+ ).format(
+  new Date(value)
+ );
+
+}
+
+
+function getGame(gameId){
+
+ return games.find(
+  game =>
+   game.id === gameId
+ );
+
+}
+
 
 function currentRank(){
- const index=leaderboard.findIndex(r=>r.id===room?.id);
- return index>=0 ? index+1 : null;
+
+ const index =
+  leaderboard.findIndex(
+   item =>
+    item.id === room?.id
+  );
+
+ return index >= 0
+  ? index + 1
+  : null;
+
 }
 
-/* NAVIGATION */
-function switchView(name){
- document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
- $(name+"View").classList.add("active");
 
- document.querySelectorAll("[data-view]").forEach(btn=>{
-  btn.classList.toggle("active",btn.dataset.view===name);
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function switchView(name){
+
+ document
+  .querySelectorAll(".view")
+  .forEach(
+   view =>
+    view.classList.remove(
+     "active"
+    )
+  );
+
+
+ const target =
+  $(name + "View");
+
+ if(target){
+
+  target.classList.add(
+   "active"
+  );
+
+ }
+
+
+ document
+  .querySelectorAll(
+   "[data-view]"
+  )
+  .forEach(
+   button => {
+
+    button.classList.toggle(
+     "active",
+     button.dataset.view === name
+    );
+
+   }
+  );
+
+
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
  });
 
- window.scrollTo({top:0,behavior:"smooth"});
 }
 
-document.querySelectorAll("[data-view]").forEach(btn=>{
- btn.addEventListener("click",()=>switchView(btn.dataset.view));
-});
 
-/* PROFILE MENU */
-$("profileButton").addEventListener("click",e=>{
- e.stopPropagation();
- $("profileMenu").classList.toggle("hidden");
-});
+document
+ .querySelectorAll(
+  "[data-view]"
+ )
+ .forEach(
+  button => {
 
-document.addEventListener("click",e=>{
- if(!$("profileMenu").contains(e.target) && e.target!==$("profileButton")){
-  $("profileMenu").classList.add("hidden");
- }
-});
+   button.addEventListener(
+    "click",
+    () => {
 
-$("logoutBtn").addEventListener("click",async()=>{
- await sb.auth.signOut();
- window.location.replace("auth.html");
-});
+     switchView(
+      button.dataset.view
+     );
 
-$("roomSetupBtn").addEventListener("click",()=>{
- window.location.href="onboarding.html";
-});
+    }
+   );
 
-/* GAME MODAL */
-$("closeModal").addEventListener("click",()=>$("gameModal").classList.add("hidden"));
-$("gameModal").addEventListener("click",e=>{
- if(e.target===$("gameModal")) $("gameModal").classList.add("hidden");
-});
+  }
+ );
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+$("profileButton")
+ .addEventListener(
+  "click",
+  event => {
+
+   event.stopPropagation();
+
+   $("profileMenu")
+    .classList
+    .toggle("hidden");
+
+  }
+ );
+
+
+document
+ .addEventListener(
+  "click",
+  event => {
+
+   if(
+    !$("profileMenu")
+     .contains(event.target)
+    &&
+    event.target !==
+     $("profileButton")
+   ){
+
+    $("profileMenu")
+     .classList
+     .add("hidden");
+
+   }
+
+  }
+ );
+
+
+$("logoutBtn")
+ .addEventListener(
+  "click",
+  async () => {
+
+   await sb.auth.signOut();
+
+   window.location.replace(
+    "auth.html"
+   );
+
+  }
+ );
+
+
+$("roomSetupBtn")
+ .addEventListener(
+  "click",
+  () => {
+
+   window.location.href =
+    "onboarding.html";
+
+  }
+ );
+
+
+$("gameMasterBtn")
+ .addEventListener(
+  "click",
+  () => {
+
+   window.location.href =
+    "gamemaster.html";
+
+  }
+ );
+
+
+/* =====================================================
+   GAME MODAL
+===================================================== */
+
+$("closeModal")
+ .addEventListener(
+  "click",
+  () => {
+
+   $("gameModal")
+    .classList
+    .add("hidden");
+
+  }
+ );
+
+
+$("gameModal")
+ .addEventListener(
+  "click",
+  event => {
+
+   if(
+    event.target ===
+    $("gameModal")
+   ){
+
+    $("gameModal")
+     .classList
+     .add("hidden");
+
+   }
+
+  }
+ );
+
 
 function openGame(game){
- $("modalIcon").textContent=game.icon || "🎮";
- $("modalTitle").textContent=game.name;
- $("modalDescription").textContent=game.description || "RES WARS challenge.";
- $("gameModal").classList.remove("hidden");
+
+ $("modalIcon")
+  .textContent =
+   game.icon || "🎮";
+
+ $("modalTitle")
+  .textContent =
+   game.name;
+
+ $("modalDescription")
+  .textContent =
+   game.description ||
+   "RES WARS challenge.";
+
+ $("gameModal")
+  .classList
+  .remove("hidden");
+
 }
 
-/* LOAD MEMBERS */
-async function loadMembers(){
- const {data:links,error}=await sb
-  .from("room_members")
-  .select("user_id,joined_at")
-  .eq("room_id",room.id)
-  .order("joined_at",{ascending:true});
 
- if(error) throw error;
+/* =====================================================
+   LOAD GAMES
+===================================================== */
 
- if(!links.length){ members=[]; return; }
+async function loadGames(){
 
- const ids=links.map(x=>x.user_id);
+ const {
+  data,
+  error
+ } =
+  await sb
+   .from("games")
+   .select(`
+    id,
+    name,
+    description,
+    icon,
+    active,
+    created_at
+   `)
+   .eq("active",true)
+   .order(
+    "created_at",
+    {ascending:true}
+   );
 
- const {data:profiles,error:pError}=await sb
-  .from("profiles")
-  .select("id,full_name,xp")
-  .in("id",ids);
 
- if(pError) throw pError;
+ if(error){
+  throw error;
+ }
 
- members=links.map(link=>({
-  ...link,
-  profile:profiles.find(p=>p.id===link.user_id)
- }));
+
+ games =
+  data || [];
+
+
+ renderGames();
+
 }
 
-/* GAMES */
-function gameHTML(game,full=false){
+
+/* =====================================================
+   RENDER GAMES
+===================================================== */
+
+function gameHTML(
+ game,
+ full = false
+){
+
  return `
-  <article class="game ${full?"full-game":""}" data-game="${esc(game.id)}">
+  <article
+   class="game ${full ? "full-game" : ""}"
+   data-game="${esc(game.id)}"
+  >
+
    <div class="game-top">
-    <div class="game-icon">${esc(game.icon || "🎮")}</div>
-    <div class="game-status">AVAILABLE</div>
+
+    <div class="game-icon">
+     ${esc(game.icon || "🎮")}
+    </div>
+
+    <div class="game-status">
+     AVAILABLE
+    </div>
+
    </div>
-   <h3>${esc(game.name)}</h3>
-   <p>${esc(game.description || "RES WARS challenge.")}</p>
-   <span class="game-action">VIEW GAME →</span>
+
+   <h3>
+    ${esc(game.name)}
+   </h3>
+
+   <p>
+    ${esc(
+     game.description ||
+     "RES WARS challenge."
+    )}
+   </p>
+
+   <span class="game-action">
+    VIEW GAME →
+   </span>
+
   </article>
  `;
+
 }
+
 
 function renderGames(){
- $("gameCount").textContent=`${games.length} ACTIVE GAMES`;
 
- $("homeGames").innerHTML=games.slice(0,4).map(g=>gameHTML(g)).join("");
- $("allGames").innerHTML=games.map(g=>gameHTML(g,true)).join("");
+ $("gameCount")
+  .textContent =
+   `${games.length} ACTIVE GAMES`;
 
- document.querySelectorAll("[data-game]").forEach(card=>{
-  card.addEventListener("click",()=>{
-   const game=games.find(g=>g.id===card.dataset.game);
-   if(game) openGame(game);
-  });
- });
+
+ $("homeGames")
+  .innerHTML =
+   games
+    .slice(0,4)
+    .map(
+     game =>
+      gameHTML(game)
+    )
+    .join("");
+
+
+ $("allGames")
+  .innerHTML =
+   games
+    .map(
+     game =>
+      gameHTML(
+       game,
+       true
+      )
+    )
+    .join("");
+
+
+ document
+  .querySelectorAll(
+   "[data-game]"
+  )
+  .forEach(
+   card => {
+
+    card.addEventListener(
+     "click",
+     () => {
+
+      const game =
+       games.find(
+        item =>
+         item.id ===
+         card.dataset.game
+       );
+
+      if(game){
+       openGame(game);
+      }
+
+     }
+    );
+
+   }
+  );
+
 }
 
-/* TEAM */
-function renderTeam(){
- const rank=currentRank();
 
- $("teamName").textContent=room.team_name || `Room ${room.room_number}`;
- $("heroTeam").textContent=room.team_name || "ROOM TEAM";
- $("heroRoom").textContent=room.room_number;
- $("roomNumber").textContent=`Room ${room.room_number}`;
- $("sideTeam").textContent=room.team_name || `Room ${room.room_number}`;
- $("sideRoom").textContent=`Room ${room.room_number}`;
- $("teamXP").textContent=Number(room.total_xp||0).toLocaleString();
- $("teamWins").textContent=Number(room.wins||0).toLocaleString();
- $("playerCount").textContent=`${members.length}/2`;
- $("rankNumber").textContent=rank ? `#${rank}` : "—";
- $("heroRank").textContent=rank ? `#${rank}` : "—";
+/* =====================================================
+   ROOM MEMBERS
+===================================================== */
 
- $("teamMembers").innerHTML=members.map((m,i)=>{
-  const name=m.profile?.full_name || "RES WARS Player";
-  return `
-   <div class="member">
-    <div class="member-left">
-     <div class="avatar">${esc(initials(name))}</div>
-     <div>
-      <strong>${esc(name)}</strong>
-      <small>${i===0?"Room creator":"Roommate"}</small>
-     </div>
-    </div>
-    <span class="online">READY</span>
-   </div>
-  `;
- }).join("");
+async function loadMembers(){
 
- if(members.length<2){
-  $("teamMembers").insertAdjacentHTML("beforeend",`
-   <div class="member">
-    <div class="member-left">
-     <div class="avatar">?</div>
-     <div>
-      <strong>Waiting for roommate</strong>
-      <small>Partner slot</small>
-     </div>
-    </div>
-    <span style="color:var(--muted2);font-size:7px;font-weight:900">WAITING</span>
-   </div>
-  `);
+ const {
+  data:links,
+  error
+ } =
+  await sb
+   .from("room_members")
+   .select(`
+    user_id,
+    joined_at
+   `)
+   .eq(
+    "room_id",
+    room.id
+   )
+   .order(
+    "joined_at",
+    {ascending:true}
+   );
+
+
+ if(error){
+  throw error;
  }
-}
 
-/* LEADERBOARD */
-function renderLeaderboard(){
- const top=leaderboard.slice(0,5);
 
- $("homeLeaderboard").innerHTML=top.length ? top.map((r,i)=>`
-  <div class="leader-row">
-   <div class="position ${i<3?"top":""}">#${i+1}</div>
-   <div class="leader-name">
-    <strong>${esc(r.team_name || `Room ${r.room_number}`)}</strong>
-    <span>Room ${esc(r.room_number)}</span>
-   </div>
-   <div class="xp">${Number(r.total_xp||0).toLocaleString()} XP</div>
-  </div>
- `).join("") : `<div class="empty">No ranked rooms yet.</div>`;
+ if(!links?.length){
 
- $("leaderboardBody").innerHTML=leaderboard.map((r,i)=>`
-  <tr class="${r.id===room.id?"me-row":""}">
-   <td><strong style="${i<3?"color:var(--lime)":""}">#${i+1}</strong></td>
-   <td><strong>${esc(r.team_name || `Room ${r.room_number}`)}</strong>${r.id===room.id?' <span style="color:var(--lime);font-size:7px">YOU</span>':""}</td>
-   <td>${esc(r.room_number)}</td>
-   <td>${Number(r.wins||0)}</td>
-   <td><strong>${Number(r.total_xp||0).toLocaleString()} XP</strong></td>
-  </tr>
- `).join("");
+  members = [];
+
+  renderTeam();
+
+  return;
+
+ }
+
+
+ const ids =
+  links.map(
+   link =>
+    link.user_id
+  );
+
+
+ const {
+  data:profiles,
+  error:profileError
+ } =
+  await sb
+   .from("profiles")
+   .select(`
+    id,
+    full_name,
+    xp
+   `)
+   .in(
+    "id",
+    ids
+   );
+
+
+ if(profileError){
+  throw profileError;
+ }
+
+
+ members =
+  links.map(
+   link => ({
+    ...link,
+
+    profile:
+     profiles.find(
+      item =>
+       item.id ===
+       link.user_id
+     )
+   })
+  );
+
 
  renderTeam();
+
 }
 
-/* ACHIEVEMENTS */
-async function loadAchievements(){
- const [{data:all,error:aError},{data:earned,error:eError}]=await Promise.all([
-  sb.from("achievements").select("id,title,description,xp_reward").order("xp_reward",{ascending:true}),
-  sb.from("player_achievements").select("achievement_id").eq("user_id",user.id)
- ]);
 
- if(aError) throw aError;
- if(eError) throw eError;
+/* =====================================================
+   TEAM
+===================================================== */
 
- const earnedIds=new Set((earned||[]).map(x=>x.achievement_id));
+function renderTeam(){
 
- $("achievementGrid").innerHTML=(all||[]).map(a=>{
-  const unlocked=earnedIds.has(a.id);
-  return `
-   <div class="card achievement">
-    <div class="achievement-icon">${unlocked?"✓":"★"}</div>
-    <h3>${esc(a.title)}</h3>
-    <p>${esc(a.description)}</p>
-    <div class="reward">${unlocked?"UNLOCKED • ":""}+${Number(a.xp_reward||0)} XP</div>
-   </div>
-  `;
- }).join("");
+ if(!room){
+  return;
+ }
+
+
+ const rank =
+  currentRank();
+
+
+ const team =
+  room.team_name ||
+  `Room ${room.room_number}`;
+
+
+ $("teamName")
+  .textContent =
+   team;
+
+
+ $("roomNumber")
+  .textContent =
+   `Room ${room.room_number}`;
+
+
+ $("sideTeam")
+  .textContent =
+   team;
+
+
+ $("sideRoom")
+  .textContent =
+   `Room ${room.room_number}`;
+
+
+ $("teamXP")
+  .textContent =
+   Number(
+    room.total_xp || 0
+   ).toLocaleString();
+
+
+ $("teamWins")
+  .textContent =
+   Number(
+    room.wins || 0
+   ).toLocaleString();
+
+
+ $("playerCount")
+  .textContent =
+   `${members.length}/2`;
+
+
+ $("rankNumber")
+  .textContent =
+   rank
+    ? `#${rank}`
+    : "—";
+
+
+ $("teamMembers")
+  .innerHTML =
+   members
+    .map(
+     (member,index) => {
+
+      const name =
+       member.profile?.full_name ||
+       "RES WARS Player";
+
+
+      return `
+       <div class="member">
+
+        <div class="member-left">
+
+         <div class="avatar">
+          ${esc(initials(name))}
+         </div>
+
+         <div>
+
+          <strong>
+           ${esc(name)}
+          </strong>
+
+          <small>
+           ${
+            index === 0
+             ? "Room creator"
+             : "Roommate"
+           }
+          </small>
+
+         </div>
+
+        </div>
+
+        <span class="ready">
+         READY
+        </span>
+
+       </div>
+      `;
+
+     }
+    )
+    .join("");
+
+
+ if(members.length < 2){
+
+  $("teamMembers")
+   .insertAdjacentHTML(
+    "beforeend",
+    `
+     <div class="member">
+
+      <div class="member-left">
+
+       <div class="avatar">
+        ?
+       </div>
+
+       <div>
+
+        <strong>
+         Waiting for roommate
+        </strong>
+
+        <small>
+         Partner slot
+        </small>
+
+       </div>
+
+      </div>
+
+      <span class="waiting">
+       WAITING
+      </span>
+
+     </div>
+    `
+   );
+
+ }
+
 }
 
-/* REALTIME */
-function subscribe(){
- roomChannel=sb.channel(`reswars-index-${room.id}`)
-  .on("postgres_changes",{
-   event:"*",schema:"public",table:"room_members",filter:`room_id=eq.${room.id}`
-  },async()=>{
-   try{
-    await loadMembers();
-    renderTeam();
-   }catch(e){console.error(e)}
-  })
-  .on("postgres_changes",{
-   event:"UPDATE",schema:"public",table:"rooms",filter:`id=eq.${room.id}`
-  },async payload=>{
-   room={...room,...payload.new};
-   await loadLeaderboard();
-  })
-  .subscribe();
-}
+
+/* =====================================================
+   LEADERBOARD
+===================================================== */
 
 async function loadLeaderboard(){
- const {data,error}=await sb
-  .from("rooms")
-  .select("id,room_number,team_name,total_xp,wins")
-  .order("total_xp",{ascending:false})
-  .order("wins",{ascending:false});
 
- if(error) throw error;
- leaderboard=data||[];
+ const {
+  data,
+  error
+ } =
+  await sb
+   .from("rooms")
+   .select(`
+    id,
+    room_number,
+    team_name,
+    total_xp,
+    wins,
+    residence_id
+   `)
+   .eq(
+    "residence_id",
+    room.residence_id
+   )
+   .order(
+    "total_xp",
+    {ascending:false}
+   )
+   .order(
+    "wins",
+    {ascending:false}
+   );
+
+
+ if(error){
+  throw error;
+ }
+
+
+ leaderboard =
+  data || [];
+
+
+ /*
+  Refresh our own room data from leaderboard
+  so XP/wins stay current.
+ */
+
+ const freshRoom =
+  leaderboard.find(
+   item =>
+    item.id === room.id
+  );
+
+
+ if(freshRoom){
+
+  room = {
+   ...room,
+   ...freshRoom
+  };
+
+ }
+
+
  renderLeaderboard();
+ renderTeam();
+
 }
 
-/* START */
-async function init(){
- try{
-  const {data:{session},error:sError}=await sb.auth.getSession();
-  if(sError) throw sError;
 
-  if(!session?.user){
-   window.location.replace("auth.html");
-   return;
-  }
+function renderLeaderboard(){
 
-  user=session.user;
+ const top =
+  leaderboard.slice(0,5);
 
-  const {data:p,error:pError}=await sb
-   .from("profiles")
-   .select("id,full_name,student_number,room_id,residence_id,xp")
-   .eq("id",user.id)
-   .single();
 
-  if(pError) throw pError;
-  profile=p;
+ $("homeLeaderboard")
+  .innerHTML =
+   top.length
+    ?
+    top.map(
+     (item,index) => `
+      <div class="leader-row">
 
-  if(!profile.room_id){
-   window.location.replace("onboarding.html");
-   return;
-  }
+       <div
+        class="position ${index < 3 ? "top" : ""}"
+       >
+        #${index + 1}
+       </div>
 
-  const {data:r,error:rError}=await sb
-   .from("rooms")
-   .select("id,room_number,team_name,partner_code,total_xp,wins,residence_id")
-   .eq("id",profile.room_id)
-   .single();
+       <div class="leader-name">
 
-  if(rError) throw rError;
-  room=r;
+        <strong>
+         ${esc(
+          item.team_name ||
+          `Room ${item.room_number}`
+         )}
+        </strong>
 
-  $("profileButton").textContent=initials(profile.full_name);
-  $("menuName").textContent=profile.full_name || "RES WARS Player";
-  $("menuEmail").textContent=user.email || "";
-  $("welcome").textContent=`Welcome back, ${(profile.full_name||"Player").split(" ")[0]}.`;
+        <span>
+         Room ${esc(item.room_number)}
+        </span>
 
-  const [gameResult]=await Promise.all([
-   sb.from("games").select("id,name,description,icon,active").eq("active",true).order("created_at",{ascending:true}),
-   loadMembers(),
-   loadLeaderboard(),
-   loadAchievements()
+       </div>
+
+       <div class="xp">
+        ${Number(
+         item.total_xp || 0
+        ).toLocaleString()} XP
+       </div>
+
+      </div>
+     `
+    ).join("")
+    :
+    `<div class="empty">
+      No ranked rooms yet.
+     </div>`;
+
+
+ $("leaderboardBody")
+  .innerHTML =
+   leaderboard
+    .map(
+     (item,index) => `
+      <tr
+       class="${item.id === room.id ? "me-row" : ""}"
+      >
+
+       <td>
+        <strong
+         style="${index < 3 ? "color:var(--lime)" : ""}"
+        >
+         #${index + 1}
+        </strong>
+       </td>
+
+       <td>
+
+        <strong>
+         ${esc(
+          item.team_name ||
+          `Room ${item.room_number}`
+         )}
+        </strong>
+
+        ${
+         item.id === room.id
+          ?
+          `<span
+            style="color:var(--lime);font-size:7px"
+           >
+            YOU
+           </span>`
+          :
+          ""
+        }
+
+       </td>
+
+       <td>
+        ${esc(item.room_number)}
+       </td>
+
+       <td>
+        ${Number(item.wins || 0)}
+       </td>
+
+       <td>
+        <strong>
+         ${Number(
+          item.total_xp || 0
+         ).toLocaleString()} XP
+        </strong>
+       </td>
+
+      </tr>
+     `
+    )
+    .join("");
+
+}
+
+
+/* =====================================================
+   ACHIEVEMENTS
+===================================================== */
+
+async function loadAchievements(){
+
+ const [
+  achievementResult,
+  earnedResult
+ ] =
+  await Promise.all([
+
+   sb
+    .from("achievements")
+    .select(`
+     id,
+     title,
+     description,
+     xp_reward
+    `)
+    .order(
+     "xp_reward",
+     {ascending:true}
+    ),
+
+   sb
+    .from("player_achievements")
+    .select("achievement_id")
+    .eq(
+     "user_id",
+     user.id
+    )
+
   ]);
 
-  if(gameResult.error) throw gameResult.error;
-  games=gameResult.data||[];
 
-  renderGames();
-  renderTeam();
-  renderLeaderboard();
-  subscribe();
+ if(achievementResult.error){
+  throw achievementResult.error;
+ }
+
+
+ if(earnedResult.error){
+  throw earnedResult.error;
+ }
+
+
+ const earnedIds =
+  new Set(
+   (earnedResult.data || [])
+    .map(
+     item =>
+      item.achievement_id
+    )
+  );
+
+
+ $("achievementGrid")
+  .innerHTML =
+   (achievementResult.data || [])
+    .map(
+     achievement => {
+
+      const unlocked =
+       earnedIds.has(
+        achievement.id
+       );
+
+
+      return `
+       <div class="card achievement">
+
+        <div class="achievement-icon">
+         ${unlocked ? "✓" : "★"}
+        </div>
+
+        <h3>
+         ${esc(achievement.title)}
+        </h3>
+
+        <p>
+         ${esc(achievement.description)}
+        </p>
+
+        <div class="reward">
+         ${
+          unlocked
+           ? "UNLOCKED • "
+           : ""
+         }
+         +${Number(
+          achievement.xp_reward || 0
+         )} XP
+        </div>
+
+       </div>
+      `;
+
+     }
+    )
+    .join("");
+
+}
+
+
+/* =====================================================
+   GAME MASTER ACCESS
+===================================================== */
+
+async function checkGameMaster(){
+
+ const {
+  data,
+  error
+ } =
+  await sb
+   .from("game_masters")
+   .select("id")
+   .eq(
+    "user_id",
+    user.id
+   )
+   .maybeSingle();
+
+
+ if(error){
+  console.error(
+   "Game Master check:",
+   error
+  );
+
+  return;
+ }
+
+
+ if(data){
+
+  $("gameMasterBtn")
+   .classList
+   .remove("hidden");
+
+ }
+
+}
+
+
+/* =====================================================
+   CURRENT BATTLE
+===================================================== */
+
+async function loadCurrentBattle(){
+
+ const {
+  data,
+  error
+ } =
+  await sb
+   .from("game_sessions")
+   .select(`
+    id,
+    residence_id,
+    game_id,
+    title,
+    status,
+    scheduled_for,
+    started_at,
+    ended_at,
+    current_round,
+    total_rounds,
+    created_at
+   `)
+   .eq(
+    "residence_id",
+    room.residence_id
+   )
+   .in(
+    "status",
+    [
+     "scheduled",
+     "lobby",
+     "live"
+    ]
+   )
+   .order(
+    "created_at",
+    {ascending:false}
+   )
+   .limit(1)
+   .maybeSingle();
+
+
+ if(error){
+  throw error;
+ }
+
+
+ const previousId =
+  currentSession?.id;
+
+
+ currentSession =
+  data || null;
+
+
+ if(!currentSession){
+
+  sessionRooms = [];
+  roomJoinedBattle = false;
+
+  stopCountdown();
+
+  renderBattle();
+
+  return;
+
+ }
+
+
+ await loadSessionRooms();
+
+
+ /*
+  If the active battle changed, reconnect
+  the session_rooms realtime subscription.
+ */
+
+ if(
+  previousId !==
+  currentSession.id
+ ){
+
+  subscribeBattleRooms();
+
+ }
+
+
+ renderBattle();
+
+}
+
+
+/* =====================================================
+   SESSION ROOMS
+===================================================== */
+
+async function loadSessionRooms(){
+
+ if(!currentSession){
+
+  sessionRooms = [];
+  roomJoinedBattle = false;
+
+  return;
+
+ }
+
+
+ const {
+  data,
+  error
+ } =
+  await sb
+   .from("session_rooms")
+   .select(`
+    id,
+    session_id,
+    room_id,
+    score,
+    xp_earned,
+    position,
+    status,
+    joined_at
+   `)
+   .eq(
+    "session_id",
+    currentSession.id
+   )
+   .order(
+    "joined_at",
+    {ascending:true}
+   );
+
+
+ if(error){
+  throw error;
+ }
+
+
+ sessionRooms =
+  data || [];
+
+
+ roomJoinedBattle =
+  sessionRooms.some(
+   item =>
+    item.room_id ===
+    room.id
+  );
+
+}
+
+
+/* =====================================================
+   RENDER CURRENT BATTLE
+===================================================== */
+
+function renderBattle(){
+
+ if(!currentSession){
+
+  $("battleStage")
+   .innerHTML =
+    `
+     <div class="no-battle">
+
+      <div>
+
+       <div class="no-battle-icon">
+        ⚡
+       </div>
+
+       <h2>
+        No active battle.
+       </h2>
+
+       <p>
+        There is currently no scheduled RES WARS battle.
+        When the Game Master announces the next game night,
+        it will appear here automatically.
+       </p>
+
+      </div>
+
+     </div>
+    `;
+
+
+  $("infoGame")
+   .textContent =
+    "No battle";
+
+
+  $("infoStatus")
+   .textContent =
+    "WAITING";
+
+
+  $("infoRooms")
+   .textContent =
+    "0";
+
+
+  $("infoJoined")
+   .textContent =
+    "NOT JOINED";
+
+
+  $("infoRound")
+   .textContent =
+    "—";
+
+
+  return;
+
+ }
+
+
+ const game =
+  getGame(
+   currentSession.game_id
+  );
+
+
+ const title =
+  currentSession.title ||
+  game?.name ||
+  "RES WARS Battle";
+
+
+ const status =
+  currentSession.status;
+
+
+ let actionHTML = "";
+
+
+ if(status === "scheduled"){
+
+  if(roomJoinedBattle){
+
+   actionHTML = `
+    <button
+     class="join-btn joined"
+     disabled
+    >
+     ✓ YOUR ROOM IS REGISTERED
+    </button>
+   `;
+
+  }else{
+
+   actionHTML = `
+    <button
+     id="joinBattleBtn"
+     class="join-btn"
+    >
+     JOIN BATTLE
+    </button>
+   `;
+
+  }
+
+ }
+
+
+ if(status === "lobby"){
+
+  if(roomJoinedBattle){
+
+   actionHTML = `
+    <button
+     class="join-btn joined"
+     disabled
+    >
+     ✓ ROOM READY — WAITING FOR START
+    </button>
+   `;
+
+  }else{
+
+   actionHTML = `
+    <button
+     id="joinBattleBtn"
+     class="join-btn"
+    >
+     JOIN BATTLE
+    </button>
+   `;
+
+  }
+
+ }
+
+
+ if(status === "live"){
+
+  if(roomJoinedBattle){
+
+   actionHTML = `
+    <button
+     id="enterBattleBtn"
+     class="join-btn live"
+    >
+     ENTER LIVE BATTLE
+    </button>
+   `;
+
+  }else{
+
+   actionHTML = `
+    <button
+     class="join-btn"
+     disabled
+    >
+     BATTLE ALREADY STARTED
+    </button>
+   `;
+
+  }
+
+ }
+
+
+ $("battleStage")
+  .innerHTML =
+   `
+    <div class="battle-inner">
+
+     <div class="battle-header">
+
+      <div
+       class="battle-live-label ${status === "live" ? "live" : ""}"
+      >
+
+       <span class="live-pulse"></span>
+
+       ${
+        status === "live"
+         ? "BATTLE LIVE"
+         :
+        status === "lobby"
+         ? "LOBBY OPEN"
+         :
+         "UPCOMING BATTLE"
+       }
+
+      </div>
+
+     </div>
+
+
+     <div class="battle-icon">
+      ${esc(game?.icon || "🎮")}
+     </div>
+
+
+     <h1>
+      ${esc(title)}
+     </h1>
+
+
+     <div class="battle-game-name">
+
+      ${esc(game?.name || "RES WARS")}
+
+      •
+
+      ${
+       status === "live"
+        ?
+        "Battle in progress"
+        :
+        esc(
+         formatDate(
+          currentSession.scheduled_for
+         )
+        )
+      }
+
+     </div>
+
+
+     <div class="battle-bottom">
+
+
+      <div>
+
+       ${
+        status === "live"
+         ?
+         `
+          <div class="countdown-label">
+           CURRENT ROUND
+          </div>
+
+          <div
+           style="
+            margin-top:8px;
+            font-size:30px;
+            font-weight:900;
+            letter-spacing:-.04em;
+           "
+          >
+           ${currentSession.current_round}
+           /
+           ${currentSession.total_rounds}
+          </div>
+         `
+         :
+         `
+          <div class="countdown-label">
+           BATTLE STARTS IN
+          </div>
+
+          <div class="countdown">
+
+           <div class="time-box">
+            <strong id="cdDays">00</strong>
+            <span>DAYS</span>
+           </div>
+
+           <div class="time-box">
+            <strong id="cdHours">00</strong>
+            <span>HRS</span>
+           </div>
+
+           <div class="time-box">
+            <strong id="cdMinutes">00</strong>
+            <span>MIN</span>
+           </div>
+
+           <div class="time-box">
+            <strong id="cdSeconds">00</strong>
+            <span>SEC</span>
+           </div>
+
+          </div>
+         `
+       }
+
+      </div>
+
+
+      <div class="battle-action">
+
+       <div class="join-meta">
+
+        <span>
+         <strong>${sessionRooms.length}</strong>
+         room${sessionRooms.length === 1 ? "" : "s"} joined
+        </span>
+
+        <span>
+         ${
+          roomJoinedBattle
+           ? "YOUR ROOM: READY"
+           : "YOUR ROOM: NOT JOINED"
+         }
+        </span>
+
+       </div>
+
+       ${actionHTML}
+
+      </div>
+
+     </div>
+
+    </div>
+   `;
+
+
+ $("infoGame")
+  .textContent =
+   game?.name ||
+   title;
+
+
+ $("infoStatus")
+  .textContent =
+   status.toUpperCase();
+
+
+ $("infoRooms")
+  .textContent =
+   sessionRooms.length;
+
+
+ $("infoJoined")
+  .textContent =
+   roomJoinedBattle
+    ? "JOINED"
+    : "NOT JOINED";
+
+
+ $("infoRound")
+  .textContent =
+   `${currentSession.current_round}/${currentSession.total_rounds}`;
+
+
+ const joinButton =
+  $("joinBattleBtn");
+
+
+ if(joinButton){
+
+  joinButton.addEventListener(
+   "click",
+   joinBattle
+  );
+
+ }
+
+
+ const enterButton =
+  $("enterBattleBtn");
+
+
+ if(enterButton){
+
+  enterButton.addEventListener(
+   "click",
+   enterBattle
+  );
+
+ }
+
+
+ if(
+  status !== "live"
+ ){
+
+  startCountdown();
+
+ }else{
+
+  stopCountdown();
+
+ }
+
+}
+
+
+/* =====================================================
+   COUNTDOWN
+===================================================== */
+
+function stopCountdown(){
+
+ if(countdownTimer){
+
+  clearInterval(
+   countdownTimer
+  );
+
+  countdownTimer = null;
+
+ }
+
+}
+
+
+function startCountdown(){
+
+ stopCountdown();
+
+
+ if(
+  !currentSession?.scheduled_for
+ ){
+
+  return;
+
+ }
+
+
+ function update(){
+
+  const target =
+   new Date(
+    currentSession.scheduled_for
+   ).getTime();
+
+
+  let difference =
+   target - Date.now();
+
+
+  if(difference < 0){
+   difference = 0;
+  }
+
+
+  const days =
+   Math.floor(
+    difference /
+    86400000
+   );
+
+
+  const hours =
+   Math.floor(
+    (
+     difference %
+     86400000
+    )
+    /
+    3600000
+   );
+
+
+  const minutes =
+   Math.floor(
+    (
+     difference %
+     3600000
+    )
+    /
+    60000
+   );
+
+
+  const seconds =
+   Math.floor(
+    (
+     difference %
+     60000
+    )
+    /
+    1000
+   );
+
+
+  if($("cdDays")){
+
+   $("cdDays")
+    .textContent =
+     String(days)
+      .padStart(2,"0");
+
+  }
+
+
+  if($("cdHours")){
+
+   $("cdHours")
+    .textContent =
+     String(hours)
+      .padStart(2,"0");
+
+  }
+
+
+  if($("cdMinutes")){
+
+   $("cdMinutes")
+    .textContent =
+     String(minutes)
+      .padStart(2,"0");
+
+  }
+
+
+  if($("cdSeconds")){
+
+   $("cdSeconds")
+    .textContent =
+     String(seconds)
+      .padStart(2,"0");
+
+  }
+
+ }
+
+
+ update();
+
+
+ countdownTimer =
+  setInterval(
+   update,
+   1000
+  );
+
+}
+
+
+/* =====================================================
+   JOIN BATTLE
+===================================================== */
+
+async function joinBattle(){
+
+ if(!currentSession){
+  return;
+ }
+
+
+ const button =
+  $("joinBattleBtn");
+
+
+ try{
+
+  if(button){
+
+   button.disabled =
+    true;
+
+   button.textContent =
+    "JOINING...";
+
+  }
+
+
+  const {
+   error
+  } =
+   await sb.rpc(
+    "join_game_session",
+    {
+     p_session_id:
+      currentSession.id
+    }
+   );
+
+
+  if(error){
+   throw error;
+  }
+
+
+  await loadSessionRooms();
+
+
+  renderBattle();
+
+
+  toast(
+   "Your room has joined the battle.",
+   "success"
+  );
+
+
+ }catch(error){
+
+  console.error(
+   "Join battle:",
+   error
+  );
+
+
+  if(button){
+
+   button.disabled =
+    false;
+
+   button.textContent =
+    "JOIN BATTLE";
+
+  }
+
+
+  toast(
+   error.message ||
+   "Unable to join the battle.",
+   "error"
+  );
+
+ }
+
+}
+
+
+/* =====================================================
+   ENTER BATTLE
+===================================================== */
+
+function enterBattle(){
+
+ if(
+  !currentSession ||
+  !roomJoinedBattle
+ ){
+  return;
+ }
+
+
+ /*
+  Phase 3 will replace this with the real
+  universal game runner.
+
+  We already pass the session ID so the
+  game page knows exactly which live battle
+  the student entered.
+ */
+
+ window.location.href =
+  `battle.html?session=${encodeURIComponent(
+   currentSession.id
+  )}`;
+
+}
+
+
+/* =====================================================
+   REALTIME — ROOM
+===================================================== */
+
+function subscribeRoom(){
+
+ if(roomChannel){
+
+  sb.removeChannel(
+   roomChannel
+  );
+
+ }
+
+
+ roomChannel =
+  sb
+   .channel(
+    `reswars-room-${room.id}`
+   )
+
+   .on(
+    "postgres_changes",
+    {
+     event:"*",
+     schema:"public",
+     table:"room_members",
+     filter:
+      `room_id=eq.${room.id}`
+    },
+    async () => {
+
+     try{
+
+      await loadMembers();
+
+     }catch(error){
+
+      console.error(
+       error
+      );
+
+     }
+
+    }
+   )
+
+   .on(
+    "postgres_changes",
+    {
+     event:"UPDATE",
+     schema:"public",
+     table:"rooms",
+     filter:
+      `id=eq.${room.id}`
+    },
+    async payload => {
+
+     room = {
+      ...room,
+      ...payload.new
+     };
+
+
+     renderTeam();
+
+
+     try{
+
+      await loadLeaderboard();
+
+     }catch(error){
+
+      console.error(
+       error
+      );
+
+     }
+
+    }
+   )
+
+   .subscribe();
+
+}
+
+
+/* =====================================================
+   REALTIME — GAME SESSIONS
+===================================================== */
+
+function subscribeBattles(){
+
+ if(battleChannel){
+
+  sb.removeChannel(
+   battleChannel
+  );
+
+ }
+
+
+ battleChannel =
+  sb
+   .channel(
+    `reswars-battles-${room.residence_id}`
+   )
+
+   .on(
+    "postgres_changes",
+    {
+     event:"*",
+     schema:"public",
+     table:"game_sessions",
+     filter:
+      `residence_id=eq.${room.residence_id}`
+    },
+    async () => {
+
+     try{
+
+      await loadCurrentBattle();
+
+     }catch(error){
+
+      console.error(
+       "Battle realtime:",
+       error
+      );
+
+     }
+
+    }
+   )
+
+   .subscribe();
+
+}
+
+
+/* =====================================================
+   REALTIME — SESSION ROOMS
+===================================================== */
+
+function subscribeBattleRooms(){
+
+ if(battleRoomsChannel){
+
+  sb.removeChannel(
+   battleRoomsChannel
+  );
+
+  battleRoomsChannel = null;
+
+ }
+
+
+ if(!currentSession){
+  return;
+ }
+
+
+ battleRoomsChannel =
+  sb
+   .channel(
+    `reswars-session-rooms-${currentSession.id}`
+   )
+
+   .on(
+    "postgres_changes",
+    {
+     event:"*",
+     schema:"public",
+     table:"session_rooms",
+     filter:
+      `session_id=eq.${currentSession.id}`
+    },
+    async () => {
+
+     try{
+
+      await loadSessionRooms();
+
+      renderBattle();
+
+     }catch(error){
+
+      console.error(
+       "Session room realtime:",
+       error
+      );
+
+     }
+
+    }
+   )
+
+   .subscribe();
+
+}
+
+
+/* =====================================================
+   REALTIME — LEADERBOARD
+===================================================== */
+
+function subscribeLeaderboard(){
+
+ if(leaderboardChannel){
+
+  sb.removeChannel(
+   leaderboardChannel
+  );
+
+ }
+
+
+ leaderboardChannel =
+  sb
+   .channel(
+    `reswars-leaderboard-${room.residence_id}`
+   )
+
+   .on(
+    "postgres_changes",
+    {
+     event:"UPDATE",
+     schema:"public",
+     table:"rooms",
+     filter:
+      `residence_id=eq.${room.residence_id}`
+    },
+    async () => {
+
+     try{
+
+      await loadLeaderboard();
+
+     }catch(error){
+
+      console.error(
+       error
+      );
+
+     }
+
+    }
+   )
+
+   .subscribe();
+
+}
+
+
+/* =====================================================
+   INITIALISE
+===================================================== */
+
+async function init(){
+
+ try{
+
+  /* -----------------------------------------------
+     AUTH
+  ----------------------------------------------- */
+
+  const {
+   data:{
+    session
+   },
+   error:sessionError
+  } =
+   await sb.auth
+    .getSession();
+
+
+  if(sessionError){
+   throw sessionError;
+  }
+
+
+  if(!session?.user){
+
+   window.location.replace(
+    "auth.html"
+   );
+
+   return;
+
+  }
+
+
+  user =
+   session.user;
+
+
+  /* -----------------------------------------------
+     PROFILE
+  ----------------------------------------------- */
+
+  const {
+   data:profileData,
+   error:profileError
+  } =
+   await sb
+    .from("profiles")
+    .select(`
+     id,
+     full_name,
+     student_number,
+     room_id,
+     residence_id,
+     xp
+    `)
+    .eq(
+     "id",
+     user.id
+    )
+    .single();
+
+
+  if(profileError){
+   throw profileError;
+  }
+
+
+  profile =
+   profileData;
+
+
+  /* -----------------------------------------------
+     ONBOARDING CHECK
+  ----------------------------------------------- */
+
+  if(!profile.room_id){
+
+   window.location.replace(
+    "onboarding.html"
+   );
+
+   return;
+
+  }
+
+
+  /* -----------------------------------------------
+     ROOM
+  ----------------------------------------------- */
+
+  const {
+   data:roomData,
+   error:roomError
+  } =
+   await sb
+    .from("rooms")
+    .select(`
+     id,
+     residence_id,
+     room_number,
+     team_name,
+     partner_code,
+     total_xp,
+     wins
+    `)
+    .eq(
+     "id",
+     profile.room_id
+    )
+    .single();
+
+
+  if(roomError){
+   throw roomError;
+  }
+
+
+  room =
+   roomData;
+
+
+  /* -----------------------------------------------
+     UI PROFILE
+  ----------------------------------------------- */
+
+  $("profileButton")
+   .textContent =
+    initials(
+     profile.full_name
+    );
+
+
+  $("menuName")
+   .textContent =
+    profile.full_name ||
+    "RES WARS Player";
+
+
+  $("menuEmail")
+   .textContent =
+    user.email || "";
+
+
+  const firstName =
+   (
+    profile.full_name ||
+    "Player"
+   )
+   .trim()
+   .split(/\s+/)[0];
+
+
+  $("welcome")
+   .textContent =
+    `Welcome back, ${firstName}.`;
+
+
+  /* -----------------------------------------------
+     LOAD CORE DATA
+  ----------------------------------------------- */
+
+  await loadGames();
+
+
+  await Promise.all([
+
+   loadMembers(),
+
+   loadLeaderboard(),
+
+   loadAchievements(),
+
+   checkGameMaster()
+
+  ]);
+
+
+  /*
+   Games must be loaded first because
+   battle rendering needs the game name/icon.
+  */
+
+  await loadCurrentBattle();
+
+
+  /* -----------------------------------------------
+     REALTIME
+  ----------------------------------------------- */
+
+  subscribeRoom();
+
+  subscribeBattles();
+
+  subscribeLeaderboard();
+
+
+  /*
+   loadCurrentBattle() already establishes the
+   session_rooms subscription when a battle exists.
+  */
+
+
+  /* -----------------------------------------------
+     DONE
+  ----------------------------------------------- */
 
   hideLoader();
 
+
  }catch(error){
-  console.error("RES WARS init:",error);
-  showFatal(error?.message || "RES WARS could not load.");
+
+  console.error(
+   "RES WARS init:",
+   error
+  );
+
+
+  showFatal(
+   error?.message ||
+   "RES WARS could not load."
+  );
+
  }
+
 }
 
+
 init();
+
 </script>
+
 </body>
 </html>
