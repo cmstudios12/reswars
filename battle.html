@@ -9,6 +9,12 @@
 >
 
 <meta name="theme-color" content="#08090c">
+<link rel="manifest" href="/manifest.json">
+<meta name="application-name" content="RES WARS">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="RES WARS">
+<link rel="apple-touch-icon" href="/icon-192.png">
 
 <title>Battle Arena | RES WARS</title>
 
@@ -1003,7 +1009,7 @@ header{
 
       <span class="live-dot"></span>
 
-      BATTLE LIVE
+      <span id="battleStatusLabel">BATTLE</span>
 
     </div>
 
@@ -1443,6 +1449,17 @@ function getSessionId(){
 
 }
 
+function getGameId(){
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  return params.get("game");
+
+}
+
 
 /* =========================================================
    ROOM MEMBERS
@@ -1539,51 +1556,141 @@ async function loadMembers(){
 
 async function loadSession(){
 
-  const sessionId =
+  const requestedSessionId =
     getSessionId();
 
+  const requestedGameId =
+    getGameId();
 
-  if(!sessionId){
 
-    throw new Error(
-      "Battle session is missing."
+  /*
+    Preferred flow:
+    battle.html?session=<uuid>
+
+    The session is the source of truth. The game is loaded from
+    game_sessions.game_id, so players and hosts always enter the
+    exact battle that was created from index.html.
+  */
+
+  if(requestedSessionId){
+
+    const {
+      data,
+      error
+    } =
+      await sb
+        .from("game_sessions")
+        .select(`
+          id,
+          residence_id,
+          host_user_id,
+          game_id,
+          title,
+          status,
+          scheduled_for,
+          started_at,
+          ended_at,
+          current_round,
+          total_rounds,
+          created_at
+        `)
+        .eq("id",requestedSessionId)
+        .maybeSingle();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    if(!data){
+      throw new Error(
+        "This battle session no longer exists."
+      );
+    }
+
+
+    session = data;
+
+  }else{
+
+    /*
+      Compatibility flow:
+      battle.html?game=<uuid>
+
+      If a player opens a game card without a session parameter,
+      find the newest open battle for that game and residence.
+    */
+
+    if(!requestedGameId){
+      throw new Error(
+        "No battle session was supplied."
+      );
+    }
+
+
+    const {
+      data,
+      error
+    } =
+      await sb
+        .from("game_sessions")
+        .select(`
+          id,
+          residence_id,
+          host_user_id,
+          game_id,
+          title,
+          status,
+          scheduled_for,
+          started_at,
+          ended_at,
+          current_round,
+          total_rounds,
+          created_at
+        `)
+        .eq("residence_id",room.residence_id)
+        .eq("game_id",requestedGameId)
+        .in("status",["scheduled","lobby","live"])
+        .order("created_at",{ascending:false})
+        .limit(1)
+        .maybeSingle();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    if(!data){
+      throw new Error(
+        "There is no open battle for this game yet. Return to RES WARS and join when the lobby opens."
+      );
+    }
+
+
+    session = data;
+
+    const cleanUrl =
+      `battle.html?session=${encodeURIComponent(session.id)}&game=${encodeURIComponent(session.game_id)}`;
+
+    history.replaceState(
+      {},
+      "",
+      cleanUrl
     );
 
   }
 
 
-  const {
-    data,
-    error
-  } =
-    await sb
-      .from("game_sessions")
-      .select(`
-        id,
-        residence_id,
-        game_id,
-        title,
-        status,
-        scheduled_for,
-        started_at,
-        ended_at,
-        current_round,
-        total_rounds
-      `)
-      .eq(
-        "id",
-        sessionId
-      )
-      .single();
-
-
-  if(error){
-    throw error;
+  if(
+    session.residence_id !==
+    room.residence_id
+  ){
+    throw new Error(
+      "This battle belongs to another residence."
+    );
   }
-
-
-  session =
-    data;
 
 
   const {
@@ -1596,7 +1703,8 @@ async function loadSession(){
         id,
         name,
         description,
-        icon
+        icon,
+        active
       `)
       .eq(
         "id",
@@ -1614,7 +1722,6 @@ async function loadSession(){
     gameData;
 
 }
-
 
 /* =========================================================
    VERIFY ROOM JOINED
@@ -1637,14 +1744,8 @@ async function verifyBattleRoom(){
         position,
         status
       `)
-      .eq(
-        "session_id",
-        session.id
-      )
-      .eq(
-        "room_id",
-        room.id
-      )
+      .eq("session_id",session.id)
+      .eq("room_id",room.id)
       .maybeSingle();
 
 
@@ -1653,32 +1754,99 @@ async function verifyBattleRoom(){
   }
 
 
-  if(!data){
+  if(data){
 
-    throw new Error(
-      "Your room did not join this battle."
-    );
+    if(data.status === "disqualified"){
+      throw new Error(
+        "Your room has been disqualified from this battle."
+      );
+    }
+
+    battleRoom = data;
+    return;
 
   }
 
 
-  if(
-    data.status ===
-    "disqualified"
-  ){
+  /*
+    New universal lobby flow:
+    a resident may open the exact session immediately after it is
+    created. If their room is not linked yet, try to join it here.
+  */
 
-    throw new Error(
-      "Your room has been disqualified from this battle."
-    );
+  const {
+    data: joined,
+    error: joinError
+  } =
+    await sb
+      .from("session_rooms")
+      .insert({
+        session_id:session.id,
+        room_id:room.id,
+        score:0,
+        xp_earned:0,
+        status:"joined"
+      })
+      .select(`
+        id,
+        session_id,
+        room_id,
+        score,
+        xp_earned,
+        position,
+        status
+      `)
+      .single();
 
+
+  if(joinError){
+
+    /*
+      A concurrent realtime/join request may have inserted the room
+      first. Re-read before treating it as a real failure.
+    */
+
+    const retry =
+      await sb
+        .from("session_rooms")
+        .select(`
+          id,
+          session_id,
+          room_id,
+          score,
+          xp_earned,
+          position,
+          status
+        `)
+        .eq("session_id",session.id)
+        .eq("room_id",room.id)
+        .maybeSingle();
+
+
+    if(retry.error){
+      throw retry.error;
+    }
+
+
+    if(!retry.data){
+      throw new Error(
+        joinError.message ||
+        "Your room could not join this battle."
+      );
+    }
+
+
+    battleRoom =
+      retry.data;
+
+    return;
   }
 
 
   battleRoom =
-    data;
+    joined;
 
 }
-
 
 /* =========================================================
    BATTLE SCORES
@@ -2161,6 +2329,24 @@ function renderArena(){
 
   stopTimer();
 
+  const statusLabel = $("battleStatusLabel");
+  if(statusLabel){
+    statusLabel.textContent =
+      session.status === "live"
+        ? "BATTLE LIVE"
+        : session.status === "lobby"
+        ? "LOBBY OPEN"
+        : session.status === "finished"
+        ? "BATTLE FINISHED"
+        : String(session.status || "BATTLE").toUpperCase();
+  }
+
+  $("liveBadge").classList.toggle(
+    "hidden",
+    session.status === "finished" ||
+    session.status === "cancelled"
+  );
+
 
   $("battleTitle")
     .textContent =
@@ -2188,53 +2374,6 @@ function renderArena(){
 
 
   renderProgress();
-
-
-  /* -----------------------------------------------------
-     UNSUPPORTED GAME
-  ----------------------------------------------------- */
-
-  if(
-    game?.name
-      ?.toLowerCase()
-      !==
-    "roommate sync"
-  ){
-
-    $("answerStatus")
-      .textContent =
-        "GAME MODULE";
-
-
-    $("arenaContent")
-      .innerHTML =
-        `
-          <div class="center-state">
-
-            <div class="center-state-inner">
-
-              <div class="state-icon">
-                ${esc(game?.icon || "🎮")}
-              </div>
-
-              <h2>
-                ${esc(game?.name || "Game")}
-              </h2>
-
-              <p>
-                This battle exists, but its playable
-                module hasn't been added to the universal
-                Battle Arena yet.
-              </p>
-
-            </div>
-
-          </div>
-        `;
-
-    return;
-
-  }
 
 
   /* -----------------------------------------------------
@@ -2268,9 +2407,9 @@ function renderArena(){
               </h2>
 
               <p>
-                The Game Master hasn't started
-                this battle yet. Keep this screen open.
-                RES WARS will update automatically.
+                The host hasn't started this battle yet.
+                Keep this screen open — RES WARS will update
+                automatically when the host starts the game.
               </p>
 
             </div>
@@ -2314,9 +2453,9 @@ function renderArena(){
               </h2>
 
               <p>
-                Both roommates should keep their phones ready.
-                The next Roommate Sync question will appear
-                when the Game Master starts the round.
+                Keep your phone ready.
+                The next challenge will appear automatically
+                when the host starts the round.
               </p>
 
             </div>
@@ -2379,7 +2518,7 @@ function renderArena(){
                   )} points
                 </strong>.
 
-                Waiting for the Game Master to start
+                Waiting for the host to start
                 the next round.
               </p>
 
@@ -2399,8 +2538,7 @@ function renderArena(){
 
   if(
     currentRound.status ===
-    "live" &&
-    currentQuestion
+    "live"
   ){
 
     $("answerStatus")
@@ -2410,179 +2548,182 @@ function renderArena(){
           : "ANSWER NOW";
 
 
-    const selectedId =
-      myAnswer
-        ?.answer
-        ?.selected_user_id;
+    const isRoommateSync =
+      game?.name
+        ?.toLowerCase() ===
+      "roommate sync";
+
+
+    if(isRoommateSync && currentQuestion){
+
+      const selectedId =
+        myAnswer
+          ?.answer
+          ?.selected_user_id;
+
+
+      $("arenaContent")
+        .innerHTML =
+          `
+            <div class="round-label">
+              ROUND ${currentRound.round_number}
+              OF ${session.total_rounds}
+            </div>
+
+            <h2 class="question">
+              ${esc(currentQuestion.question)}
+            </h2>
+
+            <div class="instructions">
+              Choose the roommate who best matches the question.
+              <br>
+              Your roommate answers separately.
+            </div>
+
+            <div class="timer-wrap">
+              <div id="timerRing" class="timer-ring">
+                <strong id="timerSeconds">--</strong>
+              </div>
+              <small>SECONDS LEFT</small>
+            </div>
+
+            <div class="answer-grid">
+              ${members.map(member => {
+
+                const name =
+                  member.profile?.full_name ||
+                  "Player";
+
+                const selected =
+                  selectedId ===
+                  member.user_id;
+
+                return `
+                  <button
+                    class="answer-btn ${selected ? "selected" : ""}"
+                    data-player="${esc(member.user_id)}"
+                    ${myAnswer ? "disabled" : ""}
+                  >
+                    <div class="answer-avatar">
+                      ${esc(initials(name))}
+                    </div>
+
+                    <div>
+                      <strong>${esc(name)}</strong>
+                      <span>
+                        ${
+                          member.user_id === user.id
+                            ? "ME"
+                            : "MY ROOMMATE"
+                        }
+                      </span>
+                    </div>
+                  </button>
+                `;
+              }).join("")}
+            </div>
+
+            ${
+              myAnswer
+                ? `
+                  <div class="answer-locked">
+                    ✓ ANSWER LOCKED
+                    <br>
+                    Waiting for the round to end.
+                  </div>
+                `
+                : ""
+            }
+          `;
+
+
+      document
+        .querySelectorAll("[data-player]")
+        .forEach(button => {
+
+          button.addEventListener(
+            "click",
+            () => {
+              submitAnswer(
+                button.dataset.player,
+                button
+              );
+            }
+          );
+
+        });
+
+
+      startTimer();
+      return;
+    }
+
+
+    /*
+      Generic universal-game display.
+      This lets every hosted game enter battle.html instead of being
+      rejected as an unsupported module. If the round payload contains
+      prompt/question/instructions, display it cleanly while dedicated
+      mechanics can be added game-by-game later.
+    */
+
+    const payload =
+      currentRound.payload &&
+      typeof currentRound.payload === "object"
+        ? currentRound.payload
+        : {};
+
+    const genericQuestion =
+      currentQuestion?.question ||
+      payload.question ||
+      payload.prompt ||
+      currentRound.title ||
+      game?.name ||
+      "RES WARS Challenge";
+
+    const genericInstructions =
+      currentRound.instructions ||
+      payload.instructions ||
+      game?.description ||
+      "Follow the host's instructions for this round.";
 
 
     $("arenaContent")
       .innerHTML =
         `
           <div class="round-label">
-
-            ROUND
-            ${currentRound.round_number}
-            OF
-            ${session.total_rounds}
-
+            ROUND ${currentRound.round_number}
+            OF ${session.total_rounds}
           </div>
-
 
           <h2 class="question">
-            ${esc(
-              currentQuestion.question
-            )}
+            ${esc(genericQuestion)}
           </h2>
 
-
           <div class="instructions">
-
-            Choose the roommate who best matches
-            the question.
-
-            <br>
-
-            Your roommate answers separately.
-
+            ${esc(genericInstructions)}
           </div>
-
 
           <div class="timer-wrap">
-
-            <div
-              id="timerRing"
-              class="timer-ring"
-            >
-
-              <strong id="timerSeconds">
-                --
-              </strong>
-
+            <div id="timerRing" class="timer-ring">
+              <strong id="timerSeconds">--</strong>
             </div>
-
-            <small>
-              SECONDS LEFT
-            </small>
-
+            <small>SECONDS LEFT</small>
           </div>
 
-
-          <div class="answer-grid">
-
-            ${members.map(
-              member => {
-
-                const name =
-                  member.profile?.full_name ||
-                  "Player";
-
-
-                const selected =
-                  selectedId ===
-                  member.user_id;
-
-
-                return `
-                  <button
-                    class="answer-btn ${
-                      selected
-                        ? "selected"
-                        : ""
-                    }"
-                    data-player="${esc(
-                      member.user_id
-                    )}"
-                    ${
-                      myAnswer
-                        ? "disabled"
-                        : ""
-                    }
-                  >
-
-                    <div class="answer-avatar">
-                      ${esc(
-                        initials(name)
-                      )}
-                    </div>
-
-                    <div>
-
-                      <strong>
-                        ${esc(name)}
-                      </strong>
-
-                      <span>
-                        ${
-                          member.user_id ===
-                          user.id
-                            ?
-                            "ME"
-                            :
-                            "MY ROOMMATE"
-                        }
-                      </span>
-
-                    </div>
-
-                  </button>
-                `;
-
-              }
-            ).join("")}
-
+          <div class="answer-locked" style="margin-top:30px;color:var(--muted);border-color:var(--border);background:var(--panel2)">
+            ${esc(game?.name || "RES WARS")} • LIVE ROUND
+            <br>
+            This arena is synced to the host in real time.
           </div>
-
-
-          ${
-            myAnswer
-              ?
-              `
-                <div class="answer-locked">
-
-                  ✓ ANSWER LOCKED
-
-                  <br>
-
-                  Waiting for the round to end.
-
-                </div>
-              `
-              :
-              ""
-          }
         `;
 
 
-    document
-      .querySelectorAll(
-        "[data-player]"
-      )
-      .forEach(
-        button => {
-
-          button.addEventListener(
-            "click",
-            () => {
-
-              submitAnswer(
-                button.dataset.player,
-                button
-              );
-
-            }
-          );
-
-        }
-      );
-
-
     startTimer();
-
+    return;
   }
 
 }
-
 
 /* =========================================================
    TIMER
@@ -3414,7 +3555,6 @@ async function init(){
 
       battleRoom = null;
       sessionRooms = [];
-      rounds = [];
       currentRound = null;
       currentQuestion = null;
       myAnswer = null;
@@ -3482,6 +3622,12 @@ async function init(){
 
 }
 
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load",() => {
+    navigator.serviceWorker.register("/sw.js").catch(() => {});
+  });
+}
 
 init();
 
