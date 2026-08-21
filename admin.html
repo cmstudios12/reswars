@@ -1,1231 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
-    <meta name="theme-color" content="#08090c">
-    <title>RES WARS | Admin</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0
-        }
-
-        :root {
-            --bg: #08090c;
-            --side: #0a0c10;
-            --panel: #0f1116;
-            --panel2: #14171d;
-            --border: #242832;
-            --border2: #343a46;
-            --text: #f5f7fb;
-            --muted: #8e95a3;
-            --muted2: #5f6672;
-            --lime: #dfff00;
-            --success: #63e69d;
-            --danger: #ff6565;
-            --warning: #ffc95c
-        }
-
-        html,
-        body {
-            min-height: 100%;
-            background: var(--bg)
-        }
-
-        body {
-            font-family: Inter, sans-serif;
-            color: var(--text);
-            -webkit-font-smoothing: antialiased
-        }
-
-        button,
-        input,
-        select,
-        textarea {
-            font: inherit
-        }
-
-        button {
-            cursor: pointer
-        }
-
-        .hidden {
-            display: none !important
-        }
-
-        .app {
-            min-height: 100vh;
-            display: grid;
-            grid-template-columns: 245px 1fr
-        }
-
-        .sidebar {
-            position: fixed;
-            inset: 0 auto 0 0;
-            width: 245px;
-            padding: 18px 14px;
-            background: var(--side);
-            border-right: 1px solid var(--border);
-            z-index: 200
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            padding: 0 8px 17px;
-            border-bottom: 1px solid var(--border)
-        }
-
-        .logo {
-            width: 40px;
-            height: 40px;
-            display: grid;
-            place-items: center;
-            border-radius: 9px;
-            background: var(--lime);
-            color: #08090c;
-            font-size: 12px;
-            font-weight: 900
-        }
-
-        .brand strong {
-            display: block;
-            font-size: 12px
-        }
-
-        .brand small {
-            display: block;
-            margin-top: 3px;
-            color: var(--muted2);
-            font-size: 7px;
-            font-weight: 900;
-            letter-spacing: .13em
-        }
-
-        .nav-label {
-            padding: 0 10px;
-            margin: 18px 0 8px;
-            color: var(--muted2);
-            font-size: 7px;
-            font-weight: 900;
-            letter-spacing: .14em
-        }
-
-        .nav {
-            display: grid;
-            gap: 4px
-        }
-
-        .nav button {
-            width: 100%;
-            padding: 11px 12px;
-            border: 0;
-            border-radius: 8px;
-            background: transparent;
-            color: var(--muted);
-            text-align: left;
-            font-size: 9px;
-            font-weight: 700
-        }
-
-        .nav button:hover,
-        .nav button.active {
-            background: var(--panel2);
-            color: var(--text)
-        }
-
-        .nav button.active {
-            box-shadow: inset 2px 0 var(--lime)
-        }
-
-        .side-foot {
-            position: absolute;
-            left: 14px;
-            right: 14px;
-            bottom: 14px;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            background: var(--panel)
-        }
-
-        .side-foot small {
-            color: var(--muted2);
-            font-size: 6px;
-            font-weight: 900
-        }
-
-        .side-foot strong {
-            display: block;
-            margin-top: 5px;
-            font-size: 9px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap
-        }
-
-        .main {
-            grid-column: 2
-        }
-
-        .header {
-            height: 70px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 25px;
-            border-bottom: 1px solid var(--border);
-            background: #08090cf7
-        }
-
-        .header h1 {
-            font-size: 14px
-        }
-
-        .header p {
-            margin-top: 3px;
-            color: var(--muted);
-            font-size: 8px
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px
-        }
-
-        .status {
-            padding: 8px 10px;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            color: var(--success);
-            font-size: 7px;
-            font-weight: 900
-        }
-
-        .header-btn,
-        .btn {
-            min-height: 39px;
-            padding: 9px 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--panel2);
-            color: var(--text);
-            font-size: 8px;
-            font-weight: 900
-        }
-
-        .btn-primary {
-            background: var(--lime);
-            border-color: var(--lime);
-            color: #08090c
-        }
-
-        .btn-danger {
-            color: #ff9d9d;
-            border-color: rgba(255, 101, 101, .28);
-            background: rgba(255, 101, 101, .05)
-        }
-
-        .content {
-            width: min(100%, 1450px);
-            margin: auto;
-            padding: 28px
-        }
-
-        .view {
-            display: none
-        }
-
-        .view.active {
-            display: block
-        }
-
-        .page-head {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 18px;
-            margin-bottom: 20px
-        }
-
-        .eyebrow {
-            color: var(--lime);
-            font-size: 7px;
-            font-weight: 900;
-            letter-spacing: .17em;
-            text-transform: uppercase
-        }
-
-        .page-head h2 {
-            margin-top: 7px;
-            font-size: 27px;
-            letter-spacing: -.045em
-        }
-
-        .page-head p {
-            margin-top: 6px;
-            color: var(--muted);
-            font-size: 9px
-        }
-
-        .actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px
-        }
-
-        .stat {
-            padding: 17px;
-            border: 1px solid var(--border);
-            border-radius: 11px;
-            background: var(--panel)
-        }
-
-        .stat small {
-            color: var(--muted2);
-            font-size: 6px;
-            font-weight: 900;
-            letter-spacing: .1em
-        }
-
-        .stat strong {
-            display: block;
-            margin-top: 11px;
-            font-size: 24px
-        }
-
-        .stat span {
-            display: block;
-            margin-top: 4px;
-            color: var(--muted);
-            font-size: 7px
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1.45fr .55fr;
-            gap: 14px;
-            margin-top: 14px
-        }
-
-        .card {
-            border: 1px solid var(--border);
-            border-radius: 11px;
-            background: var(--panel);
-            overflow: hidden
-        }
-
-        .card-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 16px;
-            border-bottom: 1px solid var(--border)
-        }
-
-        .card-head h3 {
-            font-size: 10px
-        }
-
-        .card-head span {
-            color: var(--muted);
-            font-size: 7px
-        }
-
-        .card-body {
-            padding: 16px
-        }
-
-        .empty {
-            padding: 28px 12px;
-            text-align: center;
-            color: var(--muted);
-            font-size: 9px
-        }
-
-        .activity {
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border)
-        }
-
-        .activity:last-child {
-            border-bottom: 0
-        }
-
-        .activity strong {
-            font-size: 8px
-        }
-
-        .activity p {
-            margin-top: 4px;
-            color: var(--muted);
-            font-size: 7px
-        }
-
-        .toolbar {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 12px
-        }
-
-        .search {
-            flex: 1;
-            max-width: 390px
-        }
-
-        .search input {
-            width: 100%;
-            height: 40px;
-            padding: 0 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--panel);
-            color: var(--text);
-            outline: none;
-            font-size: 8px
-        }
-
-        .table-card {
-            border: 1px solid var(--border);
-            border-radius: 11px;
-            background: var(--panel);
-            overflow: hidden
-        }
-
-        .table-wrap {
-            overflow: auto
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 850px
-        }
-
-        th {
-            padding: 11px 13px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-            color: var(--muted2);
-            font-size: 6px;
-            letter-spacing: .1em
-        }
-
-        td {
-            padding: 13px;
-            border-bottom: 1px solid var(--border);
-            font-size: 8px
-        }
-
-        tr:last-child td {
-            border-bottom: 0
-        }
-
-        .cell strong {
-            display: block
-        }
-
-        .cell span {
-            display: block;
-            margin-top: 3px;
-            color: var(--muted);
-            font-size: 7px
-        }
-
-        .pill {
-            display: inline-block;
-            padding: 5px 7px;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            color: var(--muted);
-            font-size: 6px;
-            font-weight: 900;
-            text-transform: uppercase
-        }
-
-        .pill.live {
-            color: #ff9797;
-            border-color: rgba(255, 101, 101, .3)
-        }
-
-        .pill.lobby {
-            color: var(--lime);
-            border-color: rgba(223, 255, 0, .25)
-        }
-
-        .pill.finished,
-        .pill.active {
-            color: #9ceebb;
-            border-color: rgba(99, 230, 157, .25)
-        }
-
-        .row-actions {
-            display: flex;
-            gap: 5px
-        }
-
-        .mini {
-            min-height: 31px;
-            padding: 6px 8px;
-            border: 1px solid var(--border);
-            border-radius: 7px;
-            background: var(--panel2);
-            color: var(--muted);
-            font-size: 7px;
-            font-weight: 800
-        }
-
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px
-        }
-
-        .game {
-            padding: 16px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: var(--panel)
-        }
-
-        .game-mark {
-            width: 42px;
-            height: 42px;
-            display: grid;
-            place-items: center;
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            background: var(--panel2);
-            color: var(--lime);
-            font-size: 8px;
-            font-weight: 900
-        }
-
-        .game h3 {
-            margin-top: 14px;
-            font-size: 11px
-        }
-
-        .game p {
-            min-height: 38px;
-            margin-top: 6px;
-            color: var(--muted);
-            font-size: 7px;
-            line-height: 1.55
-        }
-
-        .game-foot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 13px;
-            padding-top: 11px;
-            border-top: 1px solid var(--border)
-        }
-
-        .game-foot span {
-            color: var(--muted);
-            font-size: 7px
-        }
-
-        .setting {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            background: var(--panel);
-            margin-bottom: 9px
-        }
-
-        .setting strong {
-            font-size: 9px
-        }
-
-        .setting p {
-            margin-top: 4px;
-            color: var(--muted);
-            font-size: 7px
-        }
-
-        .switch {
-            width: 42px;
-            height: 23px;
-            padding: 2px;
-            border: 0;
-            border-radius: 20px;
-            background: #2a2e37
-        }
-
-        .switch i {
-            display: block;
-            width: 19px;
-            height: 19px;
-            border-radius: 50%;
-            background: #7d8490;
-            transition: .2s
-        }
-
-        .switch.on {
-            background: rgba(223, 255, 0, .25)
-        }
-
-        .switch.on i {
-            transform: translateX(19px);
-            background: var(--lime)
-        }
-
-        .modal {
-            position: fixed;
-            inset: 0;
-            z-index: 3000;
-            display: grid;
-            place-items: center;
-            padding: 18px;
-            background: rgba(0, 0, 0, .76)
-        }
-
-        .modal-card {
-            width: min(100%, 560px);
-            border: 1px solid var(--border2);
-            border-radius: 13px;
-            background: #101218
-        }
-
-        .modal-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 18px;
-            border-bottom: 1px solid var(--border)
-        }
-
-        .modal-head h3 {
-            font-size: 11px
-        }
-
-        .close {
-            width: 32px;
-            height: 32px;
-            border: 1px solid var(--border);
-            border-radius: 7px;
-            background: var(--panel2);
-            color: var(--muted)
-        }
-
-        .modal-body {
-            padding: 18px
-        }
-
-        .form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px
-        }
-
-        .field.full {
-            grid-column: 1/-1
-        }
-
-        .field label {
-            display: block;
-            margin-bottom: 6px;
-            color: var(--muted2);
-            font-size: 6px;
-            font-weight: 900
-        }
-
-        .field input,
-        .field select,
-        .field textarea {
-            width: 100%;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--panel2);
-            color: var(--text);
-            font-size: 8px
-        }
-
-        .field input,
-        .field select {
-            height: 42px;
-            padding: 0 10px
-        }
-
-        .field textarea {
-            min-height: 95px;
-            padding: 10px
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-            padding: 14px 18px;
-            border-top: 1px solid var(--border)
-        }
-
-        .toast {
-            position: fixed;
-            right: 18px;
-            bottom: 18px;
-            z-index: 5000;
-            width: min(360px, calc(100% - 36px));
-            padding: 14px;
-            border: 1px solid var(--border2);
-            border-radius: 9px;
-            background: #12151b;
-            font-size: 8px
-        }
-
-        .toast.success {
-            color: #a5efc0
-        }
-
-        .toast.error {
-            color: #ff9d9d
-        }
-
-        .loader {
-            position: fixed;
-            inset: 0;
-            z-index: 10000;
-            display: grid;
-            place-items: center;
-            background: #08090c
-        }
-
-        .loader-box {
-            text-align: center
-        }
-
-        .loader-logo {
-            width: 56px;
-            height: 56px;
-            display: grid;
-            place-items: center;
-            margin: auto;
-            border-radius: 11px;
-            background: var(--lime);
-            color: #08090c;
-            font-weight: 900
-        }
-
-        .spinner {
-            width: 24px;
-            height: 24px;
-            margin: 20px auto;
-            border: 2px solid #303540;
-            border-top-color: var(--lime);
-            border-radius: 50%;
-            animation: spin .65s linear infinite
-        }
-
-        .loader p {
-            color: var(--muted);
-            font-size: 7px;
-            font-weight: 900
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg)
-            }
-        }
-
-        .mobile-menu {
-            display: none
-        }
-
-        @media(max-width:1100px) {
-            .stats {
-                grid-template-columns: repeat(3, 1fr)
-            }
-
-            .game-grid {
-                grid-template-columns: repeat(2, 1fr)
-            }
-        }
-
-        @media(max-width:850px) {
-            .app {
-                display: block
-            }
-
-            .sidebar {
-                transform: translateX(-100%);
-                transition: .2s
-            }
-
-            .sidebar.open {
-                transform: translateX(0)
-            }
-
-            .main {
-                grid-column: auto
-            }
-
-            .mobile-menu {
-                display: block
-            }
-
-            .content {
-                padding: 20px 14px 75px
-            }
-
-            .header {
-                padding: 0 14px
-            }
-
-            .grid {
-                grid-template-columns: 1fr
-            }
-
-            .page-head {
-                align-items: flex-start;
-                flex-direction: column
-            }
-
-            .game-grid {
-                grid-template-columns: 1fr
-            }
-        }
-
-        @media(max-width:520px) {
-            .stats {
-                grid-template-columns: 1fr
-            }
-
-            .status {
-                display: none
-            }
-
-            .form {
-                grid-template-columns: 1fr
-            }
-
-            .field.full {
-                grid-column: auto
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08090c">
+<title>RES WARS | Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#08090c;--side:#0a0c10;--panel:#0f1116;--panel2:#14171d;--border:#242832;--border2:#343a46;--text:#f5f7fb;--muted:#8e95a3;--muted2:#5f6672;--lime:#dfff00;--success:#63e69d;--danger:#ff6565;--warning:#ffc95c}
+html,body{min-height:100%;background:var(--bg)}body{font-family:Inter,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.app{min-height:100vh;display:grid;grid-template-columns:245px 1fr}.sidebar{position:fixed;inset:0 auto 0 0;width:245px;padding:18px 14px;background:var(--side);border-right:1px solid var(--border);z-index:200}
+.brand{display:flex;align-items:center;gap:11px;padding:0 8px 17px;border-bottom:1px solid var(--border)}.logo{width:40px;height:40px;display:grid;place-items:center;border-radius:9px;background:var(--lime);color:#08090c;font-size:12px;font-weight:900}.brand strong{display:block;font-size:12px}.brand small{display:block;margin-top:3px;color:var(--muted2);font-size:7px;font-weight:900;letter-spacing:.13em}
+.nav-label{padding:0 10px;margin:18px 0 8px;color:var(--muted2);font-size:7px;font-weight:900;letter-spacing:.14em}.nav{display:grid;gap:4px}.nav button{width:100%;padding:11px 12px;border:0;border-radius:8px;background:transparent;color:var(--muted);text-align:left;font-size:9px;font-weight:700}.nav button:hover,.nav button.active{background:var(--panel2);color:var(--text)}.nav button.active{box-shadow:inset 2px 0 var(--lime)}
+.side-foot{position:absolute;left:14px;right:14px;bottom:14px;padding:12px;border:1px solid var(--border);border-radius:9px;background:var(--panel)}.side-foot small{color:var(--muted2);font-size:6px;font-weight:900}.side-foot strong{display:block;margin-top:5px;font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.main{grid-column:2}.header{height:70px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 25px;border-bottom:1px solid var(--border);background:#08090cf7}.header h1{font-size:14px}.header p{margin-top:3px;color:var(--muted);font-size:8px}.header-actions{display:flex;align-items:center;gap:8px}.status{padding:8px 10px;border:1px solid var(--border);border-radius:20px;color:var(--success);font-size:7px;font-weight:900}.header-btn,.btn{min-height:39px;padding:9px 12px;border:1px solid var(--border);border-radius:8px;background:var(--panel2);color:var(--text);font-size:8px;font-weight:900}.btn-primary{background:var(--lime);border-color:var(--lime);color:#08090c}.btn-danger{color:#ff9d9d;border-color:rgba(255,101,101,.28);background:rgba(255,101,101,.05)}
+.content{width:min(100%,1450px);margin:auto;padding:28px}.view{display:none}.view.active{display:block}.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:20px}.eyebrow{color:var(--lime);font-size:7px;font-weight:900;letter-spacing:.17em;text-transform:uppercase}.page-head h2{margin-top:7px;font-size:27px;letter-spacing:-.045em}.page-head p{margin-top:6px;color:var(--muted);font-size:9px}.actions{display:flex;gap:8px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.stat{padding:17px;border:1px solid var(--border);border-radius:11px;background:var(--panel)}.stat small{color:var(--muted2);font-size:6px;font-weight:900;letter-spacing:.1em}.stat strong{display:block;margin-top:11px;font-size:24px}.stat span{display:block;margin-top:4px;color:var(--muted);font-size:7px}
+.grid{display:grid;grid-template-columns:1.45fr .55fr;gap:14px;margin-top:14px}.card{border:1px solid var(--border);border-radius:11px;background:var(--panel);overflow:hidden}.card-head{display:flex;justify-content:space-between;align-items:center;padding:15px 16px;border-bottom:1px solid var(--border)}.card-head h3{font-size:10px}.card-head span{color:var(--muted);font-size:7px}.card-body{padding:16px}.empty{padding:28px 12px;text-align:center;color:var(--muted);font-size:9px}
+.activity{padding:10px 0;border-bottom:1px solid var(--border)}.activity:last-child{border-bottom:0}.activity strong{font-size:8px}.activity p{margin-top:4px;color:var(--muted);font-size:7px}
+.toolbar{display:flex;justify-content:space-between;gap:10px;margin-bottom:12px}.search{flex:1;max-width:390px}.search input{width:100%;height:40px;padding:0 12px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--text);outline:none;font-size:8px}
+.table-card{border:1px solid var(--border);border-radius:11px;background:var(--panel);overflow:hidden}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:850px}th{padding:11px 13px;text-align:left;border-bottom:1px solid var(--border);color:var(--muted2);font-size:6px;letter-spacing:.1em}td{padding:13px;border-bottom:1px solid var(--border);font-size:8px}tr:last-child td{border-bottom:0}.cell strong{display:block}.cell span{display:block;margin-top:3px;color:var(--muted);font-size:7px}.pill{display:inline-block;padding:5px 7px;border:1px solid var(--border);border-radius:20px;color:var(--muted);font-size:6px;font-weight:900;text-transform:uppercase}.pill.live{color:#ff9797;border-color:rgba(255,101,101,.3)}.pill.lobby{color:var(--lime);border-color:rgba(223,255,0,.25)}.pill.finished,.pill.active{color:#9ceebb;border-color:rgba(99,230,157,.25)}
+.row-actions{display:flex;gap:5px}.mini{min-height:31px;padding:6px 8px;border:1px solid var(--border);border-radius:7px;background:var(--panel2);color:var(--muted);font-size:7px;font-weight:800}
+.game-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.game{padding:16px;border:1px solid var(--border);border-radius:10px;background:var(--panel)}.game-mark{width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--border);border-radius:9px;background:var(--panel2);color:var(--lime);font-size:8px;font-weight:900}.game h3{margin-top:14px;font-size:11px}.game p{min-height:38px;margin-top:6px;color:var(--muted);font-size:7px;line-height:1.55}.game-foot{display:flex;justify-content:space-between;align-items:center;margin-top:13px;padding-top:11px;border-top:1px solid var(--border)}.game-foot span{color:var(--muted);font-size:7px}
+.setting{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:15px;border:1px solid var(--border);border-radius:9px;background:var(--panel);margin-bottom:9px}.setting strong{font-size:9px}.setting p{margin-top:4px;color:var(--muted);font-size:7px}.switch{width:42px;height:23px;padding:2px;border:0;border-radius:20px;background:#2a2e37}.switch i{display:block;width:19px;height:19px;border-radius:50%;background:#7d8490;transition:.2s}.switch.on{background:rgba(223,255,0,.25)}.switch.on i{transform:translateX(19px);background:var(--lime)}
+.modal{position:fixed;inset:0;z-index:3000;display:grid;place-items:center;padding:18px;background:rgba(0,0,0,.76)}.modal-card{width:min(100%,560px);border:1px solid var(--border2);border-radius:13px;background:#101218}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--border)}.modal-head h3{font-size:11px}.close{width:32px;height:32px;border:1px solid var(--border);border-radius:7px;background:var(--panel2);color:var(--muted)}.modal-body{padding:18px}.form{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field.full{grid-column:1/-1}.field label{display:block;margin-bottom:6px;color:var(--muted2);font-size:6px;font-weight:900}.field input,.field select,.field textarea{width:100%;border:1px solid var(--border);border-radius:8px;background:var(--panel2);color:var(--text);font-size:8px}.field input,.field select{height:42px;padding:0 10px}.field textarea{min-height:95px;padding:10px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;padding:14px 18px;border-top:1px solid var(--border)}
+.toast{position:fixed;right:18px;bottom:18px;z-index:5000;width:min(360px,calc(100% - 36px));padding:14px;border:1px solid var(--border2);border-radius:9px;background:#12151b;font-size:8px}.toast.success{color:#a5efc0}.toast.error{color:#ff9d9d}
+.loader{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;background:#08090c}.loader-box{text-align:center}.loader-logo{width:56px;height:56px;display:grid;place-items:center;margin:auto;border-radius:11px;background:var(--lime);color:#08090c;font-weight:900}.spinner{width:24px;height:24px;margin:20px auto;border:2px solid #303540;border-top-color:var(--lime);border-radius:50%;animation:spin .65s linear infinite}.loader p{color:var(--muted);font-size:7px;font-weight:900}@keyframes spin{to{transform:rotate(360deg)}}
+.mobile-menu{display:none}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}.game-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:850px){.app{display:block}.sidebar{transform:translateX(-100%);transition:.2s}.sidebar.open{transform:translateX(0)}.main{grid-column:auto}.mobile-menu{display:block}.content{padding:20px 14px 75px}.header{padding:0 14px}.grid{grid-template-columns:1fr}.page-head{align-items:flex-start;flex-direction:column}.game-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.stats{grid-template-columns:1fr}.status{display:none}.form{grid-template-columns:1fr}.field.full{grid-column:auto}}
+</style>
 </head>
-
 <body>
-    <div class="app">
-        <aside class="sidebar" id="sidebar">
-            <div class="brand">
-                <div class="logo">RW</div>
-                <div><strong>RES WARS</strong><small>ADMIN CONTROL</small></div>
-            </div>
-            <div class="nav-label">CONTROL CENTER</div>
-            <nav class="nav">
-                <button class="active" data-view="dashboard">Dashboard</button><button data-view="battles">Live
-                    Battles</button><button data-view="games">Games</button><button
-                    data-view="questions">Questions</button><button data-view="residents">Residents</button><button
-                    data-view="rooms">Rooms</button><button data-view="leaderboard">Leaderboard</button><button
-                    data-view="history">Battle History</button>
-            </nav>
-            <div class="nav-label">PLATFORM</div>
-            <nav class="nav"><button data-view="settings">System Settings</button></nav>
-            <div class="side-foot"><small>SIGNED IN AS ADMIN</small><strong id="adminName">Loading...</strong></div>
-        </aside>
-        <section class="main">
-            <header class="header">
-                <div><button class="mobile-menu header-btn" id="mobileMenu">MENU</button>
-                    <h1 id="headerTitle">Dashboard</h1>
-                    <p>RES WARS platform administration</p>
-                </div>
-                <div class="header-actions">
-                    <div class="status">SYSTEM ONLINE</div><button class="header-btn"
-                        onclick="location.href='index.html'">OPEN RES WARS</button><button class="header-btn"
-                        id="logoutBtn">SIGN OUT</button>
-                </div>
-            </header>
-            <main class="content">
-                <section id="dashboardView" class="view active">
-                    <div class="page-head">
-                        <div>
-                            <div class="eyebrow">Platform Overview</div>
-                            <h2>RES WARS Control Center</h2>
-                            <p>Monitor residents, rooms, games and battles from one place.</p>
-                        </div><button class="btn" onclick="refreshAll()">REFRESH DATA</button>
-                    </div>
-                    <div class="stats">
-                        <div class="stat"><small>RESIDENTS</small><strong id="statResidents">0</strong><span>registered
-                                players</span></div>
-                        <div class="stat"><small>ROOMS</small><strong id="statRooms">0</strong><span>room teams</span>
-                        </div>
-                        <div class="stat"><small>GAMES</small><strong id="statGames">0</strong><span>active
-                                modules</span></div>
-                        <div class="stat"><small>LIVE BATTLES</small><strong id="statLive">0</strong><span>running
-                                now</span></div>
-                        <div class="stat"><small>COMPLETED</small><strong id="statFinished">0</strong><span>battle
-                                sessions</span></div>
-                    </div>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-head">
-                                <div>
-                                    <h3>Current Battles</h3><span>Open lobbies and live sessions</span>
-                                </div><button class="btn" onclick="switchView('battles')">VIEW ALL</button>
-                            </div>
-                            <div class="card-body" id="dashboardBattles"></div>
-                        </div>
-                        <div class="card">
-                            <div class="card-head">
-                                <div>
-                                    <h3>Admin Activity</h3><span>This session</span>
-                                </div>
-                            </div>
-                            <div class="card-body" id="activityLog">
-                                <div class="empty">No admin actions yet.</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+ <div class="brand"><div class="logo">RW</div><div><strong>RES WARS</strong><small>ADMIN CONTROL</small></div></div>
+ <div class="nav-label">CONTROL CENTER</div>
+ <nav class="nav">
+  <button class="active" data-view="dashboard">Dashboard</button><button data-view="battles">Live Battles</button><button data-view="games">Games</button><button data-view="questions">Questions</button><button data-view="residents">Residents</button><button data-view="rooms">Rooms</button><button data-view="leaderboard">Leaderboard</button><button data-view="history">Battle History</button>
+ </nav>
+ <div class="nav-label">PLATFORM</div><nav class="nav"><button data-view="settings">System Settings</button></nav>
+ <div class="side-foot"><small>SIGNED IN AS ADMIN</small><strong id="adminName">Loading...</strong></div>
+</aside>
+<section class="main">
+<header class="header"><div><button class="mobile-menu header-btn" id="mobileMenu">MENU</button><h1 id="headerTitle">Dashboard</h1><p>RES WARS platform administration</p></div><div class="header-actions"><div class="status">SYSTEM ONLINE</div><button class="header-btn" onclick="location.href='index.html'">OPEN RES WARS</button><button class="header-btn" id="logoutBtn">SIGN OUT</button></div></header>
+<main class="content">
+<section id="dashboardView" class="view active"><div class="page-head"><div><div class="eyebrow">Platform Overview</div><h2>RES WARS Control Center</h2><p>Monitor residents, rooms, games and battles from one place.</p></div><button class="btn" onclick="refreshAll()">REFRESH DATA</button></div>
+<div class="stats"><div class="stat"><small>RESIDENTS</small><strong id="statResidents">0</strong><span>registered players</span></div><div class="stat"><small>ROOMS</small><strong id="statRooms">0</strong><span>room teams</span></div><div class="stat"><small>GAMES</small><strong id="statGames">0</strong><span>active modules</span></div><div class="stat"><small>LIVE BATTLES</small><strong id="statLive">0</strong><span>running now</span></div><div class="stat"><small>COMPLETED</small><strong id="statFinished">0</strong><span>battle sessions</span></div></div>
+<div class="grid"><div class="card"><div class="card-head"><div><h3>Current Battles</h3><span>Open lobbies and live sessions</span></div><button class="btn" onclick="switchView('battles')">VIEW ALL</button></div><div class="card-body" id="dashboardBattles"></div></div><div class="card"><div class="card-head"><div><h3>Admin Activity</h3><span>This session</span></div></div><div class="card-body" id="activityLog"><div class="empty">No admin actions yet.</div></div></div></div></section>
 
-                <section id="battlesView" class="view">
-                    <div class="page-head">
-                        <div>
-                            <div class="eyebrow">Live Operations</div>
-                            <h2>Live Battles</h2>
-                            <p>Open Game Master control or end a broken session.</p>
-                        </div>
-                    </div>
-                    <div class="toolbar">
-                        <div class="search"><input id="battleSearch" placeholder="Search battles..."></div>
-                    </div>
-                    <div class="table-card">
-                        <div class="table-wrap">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>SESSION</th>
-                                        <th>GAME</th>
-                                        <th>STATUS</th>
-                                        <th>HOST</th>
-                                        <th>ROUND</th>
-                                        <th>ACTIONS</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="battleBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
+<section id="battlesView" class="view"><div class="page-head"><div><div class="eyebrow">Live Operations</div><h2>Live Battles</h2><p>Open Game Master control or end a broken session.</p></div></div><div class="toolbar"><div class="search"><input id="battleSearch" placeholder="Search battles..."></div></div><div class="table-card"><div class="table-wrap"><table><thead><tr><th>SESSION</th><th>GAME</th><th>STATUS</th><th>HOST</th><th>ROUND</th><th>ACTIONS</th></tr></thead><tbody id="battleBody"></tbody></table></div></div></section>
 
-                <section id="gamesView" class="view">
-                    <div class="page-head">
-                        <div>
-                            <div class="eyebrow">Game Library</div>
-                            <h2>Games</h2>
-                            <p>Create, edit, enable and disable games.</p>
-                        </div><button class="btn btn-primary" onclick="openGameModal()">ADD GAME</button>
-                    </div>
-                    <div id="gameGrid" class="game-grid"></div>
-                </section>
+<section id="gamesView" class="view"><div class="page-head"><div><div class="eyebrow">Game Library</div><h2>Games</h2><p>Create, edit, enable and disable games.</p></div><button class="btn btn-primary" onclick="openGameModal()">ADD GAME</button></div><div id="gameGrid" class="game-grid"></div></section>
 
-                <section id="questionsView" class="view">
-                    <div class="page-head">
-                        <div>
-                            <div class="eyebrow">Content</div>
-                            <h2>Questions</h2>
-                            <p>Manage the RES WARS question bank.</p>
-                        </div><button class="btn btn-primary" onclick="openQuestionModal()">ADD QUESTION</button>
-                    </div>
-                    <div class="toolbar">
-                        <div class="search"><input id="questionSearch" placeholder="Search questions..."></div><select
-                            id="questionGameFilter" class="btn">
-                            <option value="">ALL GAMES</option>
-                        </select>
-                    </div>
-                    <div class="table-card">
-                        <div class="table-wrap">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>QUESTION</th>
-                                        <th>GAME</th>
-                                        <th>TYPE</th>
-                                        <th>POINTS</th>
-                                        <th>STATUS</th>
-                                        <th>ACTIONS</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="questionBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
+<section id="questionsView" class="view"><div class="page-head"><div><div class="eyebrow">Content</div><h2>Questions</h2><p>Manage the RES WARS question bank.</p></div><div class="actions"><button class="btn" onclick="seedRoommateSync()">LOAD STARTER BANK</button><button class="btn btn-primary" onclick="openQuestionModal()">ADD QUESTION</button></div></div><div class="toolbar"><div class="search"><input id="questionSearch" placeholder="Search questions..."></div><select id="questionGameFilter" class="btn"><option value="">ALL GAMES</option></select>
+<select id="questionCategoryFilter" class="btn">
+  <option value="">ALL CATEGORIES</option>
+  <option value="fun">FUN</option>
+  <option value="habits">HABITS</option>
+  <option value="personality">PERSONALITY</option>
+  <option value="campus">CAMPUS LIFE</option>
+  <option value="friendship">FRIENDSHIP</option>
+</select></div><div class="table-card"><div class="table-wrap"><table><thead><tr><th>QUESTION</th><th>GAME</th><th>CATEGORY</th><th>TYPE</th><th>POINTS</th><th>STATUS</th><th>ACTIONS</th></tr></thead><tbody id="questionBody"></tbody></table></div></div></section>
 
-                <section id="residentsView" class="view">
-                    <div class="page-head">
-                        <div>
-                            <div class="eyebrow">Community</div>
-                            <h2>Residents</h2>
-                            <p>View player profiles, room assignments and XP.</p>
-                        </div>
-                    </div>
-                    <div class="toolbar">
-                        <div class="search"><input id="residentSearch" placeholder="Search residents..."></div>
-                    </div>
-                    <div class="table-card">
-                        <div class="table-wrap">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>RESIDENT</th>
-                                        <th>STUDENT NO.</th>
-                                        <th>ROOM</th>
-                                        <th>XP</th>
-                                        <th>JOINED</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="residentBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
+<section id="residentsView" class="view"><div class="page-head"><div><div class="eyebrow">Community</div><h2>Residents</h2><p>View player profiles, room assignments and XP.</p></div></div><div class="toolbar"><div class="search"><input id="residentSearch" placeholder="Search residents..."></div></div><div class="table-card"><div class="table-wrap"><table><thead><tr><th>RESIDENT</th><th>STUDENT NO.</th><th>ROOM</th><th>XP</th><th>JOINED</th></tr></thead><tbody id="residentBody"></tbody></table></div></div></section>
 
-                <section id="roomsView" class="view">
-                    <div class="page-head">
-                        <div>
-                            <div class="eyebrow">Teams</div>
-                            <h2>Rooms</h2>
-                            <p>Monitor room teams, members, wins and total XP.</p>
-                        </div>
-                    </div>
-                    <div class="toolbar">
-                        <div class="search"><input id="roomSearch" placeholder="Search rooms..."></div>
-                    </div>
-                    <div class="table-card">
-                        <div class="table-wrap">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>TEAM</th>
-                                        <th>ROOM</th>
-                                        <th>MEMBERS</th>
-                                        <th>WINS</th>
-                                        <th>XP</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="roomBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
+<section id="roomsView" class="view"><div class="page-head"><div><div class="eyebrow">Teams</div><h2>Rooms</h2><p>Monitor room teams, members, wins and total XP.</p></div></div><div class="toolbar"><div class="search"><input id="roomSearch" placeholder="Search rooms..."></div></div><div class="table-card"><div class="table-wrap"><table><thead><tr><th>TEAM</th><th>ROOM</th><th>MEMBERS</th><th>WINS</th><th>XP</th></tr></thead><tbody id="roomBody"></tbody></table></div></div></section>
 
-                <section id="leaderboardView" class="view">
-                    <div class="page-head">
-                        <div>
-                            <div class="eyebrow">Competition</div>
-                            <h2>Leaderboard</h2>
-                            <p>Current room rankings.</p>
-                        </div>
-                    </div>
-                    <div class="table-card">
-                        <div class="table-wrap">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>RANK</th>
-                                        <th>TEAM</th>
-                                        <th>ROOM</th>
-                                        <th>WINS</th>
-                                        <th>XP</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="leaderboardBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
+<section id="leaderboardView" class="view"><div class="page-head"><div><div class="eyebrow">Competition</div><h2>Leaderboard</h2><p>Current room rankings.</p></div></div><div class="table-card"><div class="table-wrap"><table><thead><tr><th>RANK</th><th>TEAM</th><th>ROOM</th><th>WINS</th><th>XP</th></tr></thead><tbody id="leaderboardBody"></tbody></table></div></div></section>
 
-                <section id="historyView" class="view">
-                    <div class="page-head">
-                        <div>
-                            <div class="eyebrow">Records</div>
-                            <h2>Battle History</h2>
-                            <p>Completed and cancelled battle sessions.</p>
-                        </div>
-                    </div>
-                    <div class="table-card">
-                        <div class="table-wrap">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>BATTLE</th>
-                                        <th>GAME</th>
-                                        <th>STATUS</th>
-                                        <th>ROUNDS</th>
-                                        <th>STARTED</th>
-                                        <th>ENDED</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="historyBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
+<section id="historyView" class="view"><div class="page-head"><div><div class="eyebrow">Records</div><h2>Battle History</h2><p>Completed and cancelled battle sessions.</p></div></div><div class="table-card"><div class="table-wrap"><table><thead><tr><th>BATTLE</th><th>GAME</th><th>STATUS</th><th>ROUNDS</th><th>STARTED</th><th>ENDED</th></tr></thead><tbody id="historyBody"></tbody></table></div></div></section>
 
-                <section id="settingsView" class="view">
-                    <div class="page-head">
-                        <div>
-                            <div class="eyebrow">Platform</div>
-                            <h2>System Settings</h2>
-                            <p>Configure default battle behaviour.</p>
-                        </div><button class="btn btn-primary" onclick="saveSettings()">SAVE SETTINGS</button>
-                    </div>
-                    <div class="setting">
-                        <div><strong>Default rounds</strong>
-                            <p>Rounds created for a new battle.</p>
-                        </div><input id="settingRounds" class="btn" type="number" min="1" max="100" value="20">
-                    </div>
-                    <div class="setting">
-                        <div><strong>Default timer</strong>
-                            <p>Round time in seconds.</p>
-                        </div><input id="settingTimer" class="btn" type="number" min="5" max="300" value="30">
-                    </div>
-                    <div class="setting">
-                        <div><strong>Maintenance mode</strong>
-                            <p>Temporarily reserve RES WARS for administration.</p>
-                        </div><button id="maintenanceSwitch" class="switch"
-                            onclick="toggleSwitch(this)"><i></i></button>
-                    </div>
-                    <div class="setting">
-                        <div><strong>Resident hosting</strong>
-                            <p>Allow authenticated residents to host battles.</p>
-                        </div><button id="hostingSwitch" class="switch on" onclick="toggleSwitch(this)"><i></i></button>
-                    </div>
-                </section>
-            </main>
-        </section>
-    </div>
+<section id="settingsView" class="view"><div class="page-head"><div><div class="eyebrow">Platform</div><h2>System Settings</h2><p>Configure default battle behaviour.</p></div><button class="btn btn-primary" onclick="saveSettings()">SAVE SETTINGS</button></div><div class="setting"><div><strong>Default rounds</strong><p>Rounds created for a new battle.</p></div><input id="settingRounds" class="btn" type="number" min="1" max="100" value="20"></div><div class="setting"><div><strong>Default timer</strong><p>Round time in seconds.</p></div><input id="settingTimer" class="btn" type="number" min="5" max="300" value="30"></div><div class="setting"><div><strong>Maintenance mode</strong><p>Temporarily reserve RES WARS for administration.</p></div><button id="maintenanceSwitch" class="switch" onclick="toggleSwitch(this)"><i></i></button></div><div class="setting"><div><strong>Resident hosting</strong><p>Allow authenticated residents to host battles.</p></div><button id="hostingSwitch" class="switch on" onclick="toggleSwitch(this)"><i></i></button></div></section>
+</main></section></div>
 
-    <div id="gameModal" class="modal hidden">
-        <div class="modal-card">
-            <div class="modal-head">
-                <h3 id="gameModalTitle">Add Game</h3><button class="close" onclick="closeModal('gameModal')">×</button>
-            </div>
-            <div class="modal-body"><input id="gameId" type="hidden">
-                <div class="form">
-                    <div class="field full"><label>GAME NAME</label><input id="gameNameInput"></div>
-                    <div class="field full"><label>DESCRIPTION</label><textarea id="gameDescriptionInput"></textarea>
-                    </div>
-                    <div class="field"><label>ICON / MARK</label><input id="gameIconInput" placeholder="RS"></div>
-                    <div class="field"><label>STATUS</label><select id="gameActiveInput">
-                            <option value="true">ACTIVE</option>
-                            <option value="false">DISABLED</option>
-                        </select></div>
-                </div>
-            </div>
-            <div class="modal-actions"><button class="btn" onclick="closeModal('gameModal')">CANCEL</button><button
-                    class="btn btn-primary" onclick="saveGame()">SAVE GAME</button></div>
-        </div>
-    </div>
-    <div id="questionModal" class="modal hidden">
-        <div class="modal-card">
-            <div class="modal-head">
-                <h3 id="questionModalTitle">Add Question</h3><button class="close"
-                    onclick="closeModal('questionModal')">×</button>
-            </div>
-            <div class="modal-body"><input id="questionId" type="hidden">
-                <div class="form">
-                    <div class="field full"><label>QUESTION</label><textarea id="questionInput"></textarea></div>
-                    <div class="field"><label>GAME</label><select id="questionGameInput"></select></div>
-                    <div class="field"><label>TYPE</label><select id="questionTypeInput">
-                            <option value="roommate_choice">ROOMMATE CHOICE</option>
-                            <option value="multiple_choice">MULTIPLE CHOICE</option>
-                            <option value="text">TEXT</option>
-                            <option value="reaction">REACTION</option>
-                        </select></div>
-                    <div class="field"><label>POINTS</label><input id="questionPointsInput" type="number" value="10">
-                    </div>
-                    <div class="field"><label>STATUS</label><select id="questionActiveInput">
-                            <option value="true">ACTIVE</option>
-                            <option value="false">DISABLED</option>
-                        </select></div>
-                </div>
-            </div>
-            <div class="modal-actions"><button class="btn" onclick="closeModal('questionModal')">CANCEL</button><button
-                    class="btn btn-primary" onclick="saveQuestion()">SAVE QUESTION</button></div>
-        </div>
-    </div>
+<div id="gameModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h3 id="gameModalTitle">Add Game</h3><button class="close" onclick="closeModal('gameModal')">×</button></div><div class="modal-body"><input id="gameId" type="hidden"><div class="form"><div class="field full"><label>GAME NAME</label><input id="gameNameInput"></div><div class="field full"><label>DESCRIPTION</label><textarea id="gameDescriptionInput"></textarea></div><div class="field"><label>ICON / MARK</label><input id="gameIconInput" placeholder="RS"></div><div class="field"><label>STATUS</label><select id="gameActiveInput"><option value="true">ACTIVE</option><option value="false">DISABLED</option></select></div></div></div><div class="modal-actions"><button class="btn" onclick="closeModal('gameModal')">CANCEL</button><button class="btn btn-primary" onclick="saveGame()">SAVE GAME</button></div></div></div>
+<div id="questionModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h3 id="questionModalTitle">Add Question</h3><button class="close" onclick="closeModal('questionModal')">×</button></div><div class="modal-body"><input id="questionId" type="hidden"><div class="form"><div class="field full"><label>QUESTION</label><textarea id="questionInput"></textarea></div><div class="field"><label>GAME</label><select id="questionGameInput"></select></div><div class="field"><label>TYPE</label><select id="questionTypeInput"><option value="roommate_choice">ROOMMATE CHOICE</option><option value="multiple_choice">MULTIPLE CHOICE</option><option value="text">TEXT</option><option value="reaction">REACTION</option></select></div><div class="field"><label>CATEGORY</label><select id="questionCategoryInput"><option value="fun">FUN</option><option value="habits">HABITS</option><option value="personality">PERSONALITY</option><option value="campus">CAMPUS LIFE</option><option value="friendship">FRIENDSHIP</option></select></div><div class="field"><label>DIFFICULTY</label><select id="questionDifficultyInput"><option value="easy">EASY</option><option value="medium">MEDIUM</option><option value="hard">HARD</option></select></div><div class="field"><label>POINTS</label><input id="questionPointsInput" type="number" value="10"></div><div class="field"><label>STATUS</label><select id="questionActiveInput"><option value="true">ACTIVE</option><option value="false">DISABLED</option></select></div></div></div><div class="modal-actions"><button class="btn" onclick="closeModal('questionModal')">CANCEL</button><button class="btn btn-primary" onclick="saveQuestion()">SAVE QUESTION</button></div></div></div>
 
-    <div id="toast" class="toast hidden"></div>
-    <div id="loader" class="loader">
-        <div class="loader-box">
-            <div class="loader-logo">RW</div>
-            <div class="spinner"></div>
-            <p id="loaderText">VERIFYING ADMIN ACCESS...</p>
-        </div>
-    </div>
+<div id="toast" class="toast hidden"></div><div id="loader" class="loader"><div class="loader-box"><div class="loader-logo">RW</div><div class="spinner"></div><p id="loaderText">VERIFYING ADMIN ACCESS...</p></div></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const sb = supabase.createClient("https://tkfnypzohdercxljswfe.supabase.co", "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra");
-        let user = null, profile = null, games = [], questions = [], profiles = [], rooms = [], roomMembers = [], sessions = [], settings = {}; const activities = [], $ = id => document.getElementById(id);
-        const esc = v => String(v ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
-        const fmt = v => { if (!v) return "—"; try { return new Intl.DateTimeFormat("en-ZA", { dateStyle: "medium", timeStyle: "short" }).format(new Date(v)) } catch { return "—" } };
-        function toast(m, t = "success") { const e = $("toast"); e.textContent = m; e.className = `toast ${t}`; clearTimeout(toast.t); toast.t = setTimeout(() => e.classList.add("hidden"), 3500) }
-        function activity(a, b) { activities.unshift({ a, b, t: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }); $("activityLog").innerHTML = activities.slice(0, 8).map(x => `<div class="activity"><strong>${esc(x.a)}</strong><p>${esc(x.b)} • ${x.t}</p></div>`).join("") }
-        function closeModal(id) { $(id).classList.add("hidden") } function toggleSwitch(e) { e.classList.toggle("on") } function pill(s) { return `<span class="pill ${esc(s)}">${esc(s || "unknown")}</span>` } const game = id => games.find(x => x.id === id), room = id => rooms.find(x => x.id === id), person = id => profiles.find(x => x.id === id);
-        function switchView(n) { document.querySelectorAll(".view").forEach(v => v.classList.remove("active")); $(n + "View")?.classList.add("active"); document.querySelectorAll("[data-view]").forEach(b => b.classList.toggle("active", b.dataset.view === n)); $("headerTitle").textContent = ({ dashboard: "Dashboard", battles: "Live Battles", games: "Games", questions: "Questions", residents: "Residents", rooms: "Rooms", leaderboard: "Leaderboard", history: "Battle History", settings: "System Settings" })[n] || "Admin"; $("sidebar").classList.remove("open"); scrollTo({ top: 0, behavior: "smooth" }) }
-        document.querySelectorAll("[data-view]").forEach(b => b.onclick = () => switchView(b.dataset.view)); $("mobileMenu").onclick = () => $("sidebar").classList.toggle("open"); $("logoutBtn").onclick = async () => { await sb.auth.signOut(); location.replace("auth.html") };
-        async function guard() { const { data: { session }, error } = await sb.auth.getSession(); if (error) throw error; if (!session?.user) { location.replace("auth.html"); return false } user = session.user; const a = await sb.rpc("is_reswars_admin"); if (a.error) throw a.error; if (!a.data) throw new Error("RES WARS administrator access required."); const p = await sb.from("profiles").select("*").eq("id", user.id).maybeSingle(); if (p.error) throw p.error; profile = p.data || {}; $("adminName").textContent = profile.full_name || user.email; return true }
-        async function safe(t) { const r = await sb.from(t).select("*"); if (r.error) { console.warn(t, r.error.message); return [] } return r.data || [] }
-        async function loadCore() { [games, profiles, rooms, roomMembers, sessions, questions] = await Promise.all([safe("games"), safe("profiles"), safe("rooms"), safe("room_members"), safe("game_sessions"), safe("game_questions")]); renderAll() }
-        function renderAll() { renderDashboard(); renderBattles(); renderGames(); renderQuestions(); renderResidents(); renderRooms(); renderLeaderboard(); renderHistory(); populateGames() }
-        function renderDashboard() { $("statResidents").textContent = profiles.length; $("statRooms").textContent = rooms.length; $("statGames").textContent = games.filter(g => g.active !== false).length; $("statLive").textContent = sessions.filter(s => s.status === "live").length; $("statFinished").textContent = sessions.filter(s => s.status === "finished").length; const a = sessions.filter(s => ["lobby", "live", "scheduled"].includes(s.status)); $("dashboardBattles").innerHTML = a.length ? a.slice(0, 6).map(s => `<div class="activity"><strong>${esc(s.title || game(s.game_id)?.name || "Battle")}</strong><p>${esc((s.status || "").toUpperCase())} • Round ${Number(s.current_round || 0)}/${Number(s.total_rounds || 0)} • <a href="gamemaster.html?session=${encodeURIComponent(s.id)}" style="color:var(--lime)">OPEN CONTROL</a></p></div>`).join("") : '<div class="empty">No active battles.</div>' }
-        function renderBattles() { const t = $("battleSearch").value.toLowerCase(); const a = sessions.filter(s => ["lobby", "live", "scheduled"].includes(s.status) && `${s.title || ""} ${s.status || ""}`.toLowerCase().includes(t)); $("battleBody").innerHTML = a.length ? a.map(s => `<tr><td><div class="cell"><strong>${esc(s.title || "Battle")}</strong><span>${s.id.slice(0, 8)}</span></div></td><td>${esc(game(s.game_id)?.name || "—")}</td><td>${pill(s.status)}</td><td>${esc(person(s.host_user_id || s.created_by)?.full_name || "Unassigned")}</td><td>${Number(s.current_round || 0)} / ${Number(s.total_rounds || 0)}</td><td><div class="row-actions"><button class="mini" onclick="location.href='gamemaster.html?session=${s.id}'">CONTROL</button><button class="mini" onclick="endSession('${s.id}')">END</button></div></td></tr>`).join("") : '<tr><td colspan="6"><div class="empty">No active battles.</div></td></tr>' }
-        $("battleSearch").oninput = renderBattles;
-        async function endSession(id) { if (!confirm("End this battle?")) return; const r = await sb.from("game_sessions").update({ status: "finished", ended_at: new Date().toISOString() }).eq("id", id); if (r.error) return toast(r.error.message, "error"); activity("Battle ended", id.slice(0, 8)); await loadCore(); toast("Battle ended.") }
-        function renderGames() { $("gameGrid").innerHTML = games.length ? games.map(g => `<article class="game"><div class="game-mark">${esc((g.icon || g.name || "G").toString().slice(0, 3).toUpperCase())}</div><h3>${esc(g.name)}</h3><p>${esc(g.description || "No description supplied.")}</p><div class="game-foot"><span>${questions.filter(q => q.game_id === g.id).length} QUESTIONS</span><div class="row-actions"><button class="mini" onclick="openGameModal('${g.id}')">EDIT</button><button class="mini" onclick="deleteGame('${g.id}')">DELETE</button></div></div></article>`).join("") : '<div class="empty">No games found.</div>' }
-        function openGameModal(id = "") { const g = game(id); $("gameId").value = g?.id || ""; $("gameModalTitle").textContent = g ? "Edit Game" : "Add Game"; $("gameNameInput").value = g?.name || ""; $("gameDescriptionInput").value = g?.description || ""; $("gameIconInput").value = g?.icon || ""; $("gameActiveInput").value = String(g?.active !== false); $("gameModal").classList.remove("hidden") }
-        async function saveGame() { const id = $("gameId").value, p = { name: $("gameNameInput").value.trim(), description: $("gameDescriptionInput").value.trim() || null, icon: $("gameIconInput").value.trim() || null, active: $("gameActiveInput").value === "true" }; if (!p.name) return toast("Game name is required.", "error"); const r = id ? await sb.from("games").update(p).eq("id", id) : await sb.from("games").insert(p); if (r.error) return toast(r.error.message, "error"); closeModal("gameModal"); activity(id ? "Game updated" : "Game created", p.name); await loadCore(); toast("Game saved.") }
-        async function deleteGame(id) { if (!confirm("Delete this game?")) return; const r = await sb.from("games").delete().eq("id", id); if (r.error) return toast(r.error.message, "error"); await loadCore(); toast("Game deleted.") }
-        function populateGames() { const o = games.map(g => `<option value="${g.id}">${esc(g.name)}</option>`).join(""); const f = $("questionGameFilter").value; $("questionGameInput").innerHTML = '<option value="">UNASSIGNED</option>' + o; $("questionGameFilter").innerHTML = '<option value="">ALL GAMES</option>' + o; $("questionGameFilter").value = f }
-        function renderQuestions() { const t = $("questionSearch").value.toLowerCase(), f = $("questionGameFilter").value, a = questions.filter(q => (!f || q.game_id === f) && `${q.question || ""} ${q.question_type || ""}`.toLowerCase().includes(t)); $("questionBody").innerHTML = a.length ? a.map(q => `<tr><td><div class="cell"><strong>${esc(q.question || "Untitled")}</strong><span>${(q.id || "").slice(0, 8)}</span></div></td><td>${esc(game(q.game_id)?.name || "Unassigned")}</td><td>${esc((q.question_type || "general").replaceAll("_", " ").toUpperCase())}</td><td>${Number(q.points || 0)}</td><td>${pill(q.active === false ? "disabled" : "active")}</td><td><div class="row-actions"><button class="mini" onclick="openQuestionModal('${q.id}')">EDIT</button><button class="mini" onclick="deleteQuestion('${q.id}')">DELETE</button></div></td></tr>`).join("") : '<tr><td colspan="6"><div class="empty">No questions found.</div></td></tr>' }
-        $("questionSearch").oninput = renderQuestions; $("questionGameFilter").onchange = renderQuestions;
-        function openQuestionModal(id = "") { const q = questions.find(x => x.id === id); $("questionId").value = q?.id || ""; $("questionModalTitle").textContent = q ? "Edit Question" : "Add Question"; $("questionInput").value = q?.question || ""; $("questionGameInput").value = q?.game_id || ""; $("questionTypeInput").value = q?.question_type || "roommate_choice"; $("questionPointsInput").value = q?.points ?? 10; $("questionActiveInput").value = String(q?.active !== false); $("questionModal").classList.remove("hidden") }
-        async function saveQuestion() { const id = $("questionId").value, p = { question: $("questionInput").value.trim(), game_id: $("questionGameInput").value || null, question_type: $("questionTypeInput").value, points: Number($("questionPointsInput").value || 0), active: $("questionActiveInput").value === "true" }; if (!p.question) return toast("Question is required.", "error"); const r = id ? await sb.from("game_questions").update(p).eq("id", id) : await sb.from("game_questions").insert(p); if (r.error) return toast(r.error.message, "error"); closeModal("questionModal"); await loadCore(); toast("Question saved.") }
-        async function deleteQuestion(id) { if (!confirm("Delete this question?")) return; const r = await sb.from("game_questions").delete().eq("id", id); if (r.error) return toast(r.error.message, "error"); await loadCore(); toast("Question deleted.") }
-        function renderResidents() { const t = $("residentSearch").value.toLowerCase(), a = profiles.filter(p => `${p.full_name || ""} ${p.student_number || ""}`.toLowerCase().includes(t)); $("residentBody").innerHTML = a.length ? a.map(p => { const r = room(p.room_id); return `<tr><td><div class="cell"><strong>${esc(p.full_name || "Unnamed")}</strong><span>${p.id.slice(0, 8)}</span></div></td><td>${esc(p.student_number || "—")}</td><td>${esc(r ? (r.team_name || `Room ${r.room_number}`) : "Not assigned")}</td><td>${Number(p.xp || 0)}</td><td>${fmt(p.created_at)}</td></tr>` }).join("") : '<tr><td colspan="5"><div class="empty">No residents.</div></td></tr>' }
-        $("residentSearch").oninput = renderResidents;
-        function renderRooms() { const t = $("roomSearch").value.toLowerCase(), a = rooms.filter(r => `${r.team_name || ""} ${r.room_number || ""}`.toLowerCase().includes(t)); $("roomBody").innerHTML = a.length ? a.map(r => `<tr><td>${esc(r.team_name || `Room ${r.room_number}`)}</td><td>${esc(r.room_number || "—")}</td><td>${roomMembers.filter(m => m.room_id === r.id).length} / 2</td><td>${Number(r.wins || 0)}</td><td>${Number(r.total_xp || 0)}</td></tr>`).join("") : '<tr><td colspan="5"><div class="empty">No rooms.</div></td></tr>' }
-        $("roomSearch").oninput = renderRooms;
-        function renderLeaderboard() { const a = [...rooms].sort((a, b) => Number(b.total_xp || 0) - Number(a.total_xp || 0)); $("leaderboardBody").innerHTML = a.length ? a.map((r, i) => `<tr><td>#${i + 1}</td><td>${esc(r.team_name || `Room ${r.room_number}`)}</td><td>${esc(r.room_number || "—")}</td><td>${Number(r.wins || 0)}</td><td>${Number(r.total_xp || 0)}</td></tr>`).join("") : '<tr><td colspan="5"><div class="empty">No ranking data.</div></td></tr>' }
-        function renderHistory() { const a = sessions.filter(s => ["finished", "cancelled"].includes(s.status)).sort((a, b) => new Date(b.ended_at || 0) - new Date(a.ended_at || 0)); $("historyBody").innerHTML = a.length ? a.map(s => `<tr><td>${esc(s.title || "Battle")}</td><td>${esc(game(s.game_id)?.name || "—")}</td><td>${pill(s.status)}</td><td>${Number(s.current_round || 0)} / ${Number(s.total_rounds || 0)}</td><td>${fmt(s.started_at || s.scheduled_for)}</td><td>${fmt(s.ended_at)}</td></tr>`).join("") : '<tr><td colspan="6"><div class="empty">No history yet.</div></td></tr>' }
-        async function loadSettings() { const r = await sb.from("platform_settings").select("*").eq("id", "global").maybeSingle(); if (r.error) return console.warn(r.error.message); settings = r.data?.settings || {}; $("settingRounds").value = settings.default_rounds ?? 20; $("settingTimer").value = settings.default_timer ?? 30; $("maintenanceSwitch").classList.toggle("on", !!settings.maintenance_mode); $("hostingSwitch").classList.toggle("on", settings.allow_resident_hosting !== false) }
-        async function saveSettings() { const s = { default_rounds: Number($("settingRounds").value || 20), default_timer: Number($("settingTimer").value || 30), maintenance_mode: $("maintenanceSwitch").classList.contains("on"), allow_resident_hosting: $("hostingSwitch").classList.contains("on") }; const r = await sb.from("platform_settings").upsert({ id: "global", settings: s, updated_by: user.id, updated_at: new Date().toISOString() }); if (r.error) return toast(r.error.message, "error"); settings = s; activity("Settings updated", "Global platform settings"); toast("Settings saved.") }
-        async function refreshAll() { await Promise.all([loadCore(), loadSettings()]); toast("Admin data refreshed.") }
-        function realtime() { ["game_sessions", "session_rooms", "games", "game_questions", "profiles", "rooms"].forEach(t => sb.channel("admin-" + t).on("postgres_changes", { event: "*", schema: "public", table: t }, loadCore).subscribe()) }
-        async function init() { try { if (!await guard()) return; $("loaderText").textContent = "LOADING ADMIN CONTROL..."; await Promise.all([loadCore(), loadSettings()]); realtime(); $("loader").classList.add("hidden") } catch (e) { console.error(e); $("loaderText").textContent = e.message || "Unable to open admin portal."; document.querySelector(".spinner").style.display = "none" } }
-        init();
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb=supabase.createClient("https://tkfnypzohdercxljswfe.supabase.co","sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra");
+let user=null,profile=null,games=[],questions=[],profiles=[],rooms=[],roomMembers=[],sessions=[],settings={};const activities=[],$=id=>document.getElementById(id);
+const esc=v=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+const fmt=v=>{if(!v)return"—";try{return new Intl.DateTimeFormat("en-ZA",{dateStyle:"medium",timeStyle:"short"}).format(new Date(v))}catch{return"—"}};
+function toast(m,t="success"){const e=$("toast");e.textContent=m;e.className=`toast ${t}`;clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.add("hidden"),3500)}
+function activity(a,b){activities.unshift({a,b,t:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})});$("activityLog").innerHTML=activities.slice(0,8).map(x=>`<div class="activity"><strong>${esc(x.a)}</strong><p>${esc(x.b)} • ${x.t}</p></div>`).join("")}
+function closeModal(id){$(id).classList.add("hidden")}function toggleSwitch(e){e.classList.toggle("on")}function pill(s){return`<span class="pill ${esc(s)}">${esc(s||"unknown")}</span>`}const game=id=>games.find(x=>x.id===id),room=id=>rooms.find(x=>x.id===id),person=id=>profiles.find(x=>x.id===id);
+function switchView(n){document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));$(n+"View")?.classList.add("active");document.querySelectorAll("[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===n));$("headerTitle").textContent=({dashboard:"Dashboard",battles:"Live Battles",games:"Games",questions:"Questions",residents:"Residents",rooms:"Rooms",leaderboard:"Leaderboard",history:"Battle History",settings:"System Settings"})[n]||"Admin";$("sidebar").classList.remove("open");scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>switchView(b.dataset.view));$("mobileMenu").onclick=()=>$("sidebar").classList.toggle("open");$("logoutBtn").onclick=async()=>{await sb.auth.signOut();location.replace("auth.html")};
+async function guard(){const {data:{session},error}=await sb.auth.getSession();if(error)throw error;if(!session?.user){location.replace("auth.html");return false}user=session.user;const a=await sb.rpc("is_reswars_admin");if(a.error)throw a.error;if(!a.data)throw new Error("RES WARS administrator access required.");const p=await sb.from("profiles").select("*").eq("id",user.id).maybeSingle();if(p.error)throw p.error;profile=p.data||{};$("adminName").textContent=profile.full_name||user.email;return true}
+async function safe(t){const r=await sb.from(t).select("*");if(r.error){console.warn(t,r.error.message);return[]}return r.data||[]}
+async function loadCore(){[games,profiles,rooms,roomMembers,sessions,questions]=await Promise.all([safe("games"),safe("profiles"),safe("rooms"),safe("room_members"),safe("game_sessions"),safe("game_questions")]);renderAll()}
+function renderAll(){renderDashboard();renderBattles();renderGames();renderQuestions();renderResidents();renderRooms();renderLeaderboard();renderHistory();populateGames()}
+function renderDashboard(){$("statResidents").textContent=profiles.length;$("statRooms").textContent=rooms.length;$("statGames").textContent=games.filter(g=>g.active!==false).length;$("statLive").textContent=sessions.filter(s=>s.status==="live").length;$("statFinished").textContent=sessions.filter(s=>s.status==="finished").length;const a=sessions.filter(s=>["lobby","live","scheduled"].includes(s.status));$("dashboardBattles").innerHTML=a.length?a.slice(0,6).map(s=>`<div class="activity"><strong>${esc(s.title||game(s.game_id)?.name||"Battle")}</strong><p>${esc((s.status||"").toUpperCase())} • Round ${Number(s.current_round||0)}/${Number(s.total_rounds||0)} • <a href="gamemaster.html?session=${encodeURIComponent(s.id)}" style="color:var(--lime)">OPEN CONTROL</a></p></div>`).join(""):'<div class="empty">No active battles.</div>'}
+function renderBattles(){const t=$("battleSearch").value.toLowerCase();const a=sessions.filter(s=>["lobby","live","scheduled"].includes(s.status)&&`${s.title||""} ${s.status||""}`.toLowerCase().includes(t));$("battleBody").innerHTML=a.length?a.map(s=>`<tr><td><div class="cell"><strong>${esc(s.title||"Battle")}</strong><span>${s.id.slice(0,8)}</span></div></td><td>${esc(game(s.game_id)?.name||"—")}</td><td>${pill(s.status)}</td><td>${esc(person(s.host_user_id||s.created_by)?.full_name||"Unassigned")}</td><td>${Number(s.current_round||0)} / ${Number(s.total_rounds||0)}</td><td><div class="row-actions"><button class="mini" onclick="location.href='gamemaster.html?session=${s.id}'">CONTROL</button><button class="mini" onclick="endSession('${s.id}')">END</button></div></td></tr>`).join(""):'<tr><td colspan="6"><div class="empty">No active battles.</div></td></tr>'}
+$("battleSearch").oninput=renderBattles;
+async function endSession(id){if(!confirm("End this battle?"))return;const r=await sb.from("game_sessions").update({status:"finished",ended_at:new Date().toISOString()}).eq("id",id);if(r.error)return toast(r.error.message,"error");activity("Battle ended",id.slice(0,8));await loadCore();toast("Battle ended.")}
+function renderGames(){$("gameGrid").innerHTML=games.length?games.map(g=>`<article class="game"><div class="game-mark">${esc((g.icon||g.name||"G").toString().slice(0,3).toUpperCase())}</div><h3>${esc(g.name)}</h3><p>${esc(g.description||"No description supplied.")}</p><div class="game-foot"><span>${questions.filter(q=>q.game_id===g.id).length} QUESTIONS</span><div class="row-actions"><button class="mini" onclick="openGameModal('${g.id}')">EDIT</button><button class="mini" onclick="deleteGame('${g.id}')">DELETE</button></div></div></article>`).join(""):'<div class="empty">No games found.</div>'}
+function openGameModal(id=""){const g=game(id);$("gameId").value=g?.id||"";$("gameModalTitle").textContent=g?"Edit Game":"Add Game";$("gameNameInput").value=g?.name||"";$("gameDescriptionInput").value=g?.description||"";$("gameIconInput").value=g?.icon||"";$("gameActiveInput").value=String(g?.active!==false);$("gameModal").classList.remove("hidden")}
+async function saveGame(){const id=$("gameId").value,p={name:$("gameNameInput").value.trim(),description:$("gameDescriptionInput").value.trim()||null,icon:$("gameIconInput").value.trim()||null,active:$("gameActiveInput").value==="true"};if(!p.name)return toast("Game name is required.","error");const r=id?await sb.from("games").update(p).eq("id",id):await sb.from("games").insert(p);if(r.error)return toast(r.error.message,"error");closeModal("gameModal");activity(id?"Game updated":"Game created",p.name);await loadCore();toast("Game saved.")}
+async function deleteGame(id){if(!confirm("Delete this game?"))return;const r=await sb.from("games").delete().eq("id",id);if(r.error)return toast(r.error.message,"error");await loadCore();toast("Game deleted.")}
+function populateGames(){const o=games.map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join("");const f=$("questionGameFilter").value;$("questionGameInput").innerHTML='<option value="">UNASSIGNED</option>'+o;$("questionGameFilter").innerHTML='<option value="">ALL GAMES</option>'+o;$("questionGameFilter").value=f}
+function renderQuestions(){
+ const t=$("questionSearch").value.toLowerCase(),f=$("questionGameFilter").value,c=$("questionCategoryFilter").value;
+ const a=questions.filter(q=>(!f||q.game_id===f)&&(!c||q.category===c)&&`${q.question||""} ${q.question_type||""} ${q.category||""}`.toLowerCase().includes(t));
+ $("questionBody").innerHTML=a.length?a.map(q=>`<tr><td><div class="cell"><strong>${esc(q.question||"Untitled")}</strong><span>${(q.id||"").slice(0,8)}</span></div></td><td>${esc(game(q.game_id)?.name||"Unassigned")}</td><td>${esc((q.category||"general").toUpperCase())}</td><td>${esc((q.question_type||"general").replaceAll("_"," ").toUpperCase())}</td><td>${Number(q.points||0)}</td><td>${pill(q.active===false?"disabled":"active")}</td><td><div class="row-actions"><button class="mini" onclick="openQuestionModal('${q.id}')">EDIT</button><button class="mini" onclick="deleteQuestion('${q.id}')">DELETE</button></div></td></tr>`).join(""):'<tr><td colspan="7"><div class="empty">No questions found.</div></td></tr>';
+}
+$("questionSearch").oninput=renderQuestions;$("questionGameFilter").onchange=renderQuestions;$("questionCategoryFilter").onchange=renderQuestions;
+function openQuestionModal(id=""){
+ const q=questions.find(x=>x.id===id);
+ $("questionId").value=q?.id||"";
+ $("questionModalTitle").textContent=q?"Edit Question":"Add Question";
+ $("questionInput").value=q?.question||"";
+ $("questionGameInput").value=q?.game_id||"";
+ $("questionTypeInput").value=q?.question_type||"roommate_choice";
+ $("questionCategoryInput").value=q?.category||"fun";
+ $("questionDifficultyInput").value=q?.difficulty||"easy";
+ $("questionPointsInput").value=q?.points??10;
+ $("questionActiveInput").value=String(q?.active!==false);
+ $("questionModal").classList.remove("hidden")
+}
+async function saveQuestion(){
+ const id=$("questionId").value,p={
+  question:$("questionInput").value.trim(),
+  game_id:$("questionGameInput").value||null,
+  question_type:$("questionTypeInput").value,
+  category:$("questionCategoryInput").value,
+  difficulty:$("questionDifficultyInput").value,
+  points:Number($("questionPointsInput").value||0),
+  active:$("questionActiveInput").value==="true"
+ };
+ if(!p.question)return toast("Question is required.","error");
+ const r=id?await sb.from("game_questions").update(p).eq("id",id):await sb.from("game_questions").insert(p);
+ if(r.error)return toast(r.error.message,"error");
+ closeModal("questionModal");activity(id?"Question updated":"Question added",p.question.slice(0,45));await loadCore();toast("Question saved.")
+}
+async function seedRoommateSync(){
+ if(!confirm("Load the starter Roommate Sync question bank? Existing matching questions will not be duplicated."))return;
+ const r=await sb.rpc("seed_roommate_sync_questions");
+ if(r.error)return toast(r.error.message,"error");
+ activity("Starter bank loaded","Roommate Sync question bank refreshed");
+ await loadCore();
+ toast(`Starter bank ready. ${r.data ?? ""}`);
+}
+async function deleteQuestion(id){if(!confirm("Delete this question?"))return;const r=await sb.from("game_questions").delete().eq("id",id);if(r.error)return toast(r.error.message,"error");await loadCore();toast("Question deleted.")}
+function renderResidents(){const t=$("residentSearch").value.toLowerCase(),a=profiles.filter(p=>`${p.full_name||""} ${p.student_number||""}`.toLowerCase().includes(t));$("residentBody").innerHTML=a.length?a.map(p=>{const r=room(p.room_id);return`<tr><td><div class="cell"><strong>${esc(p.full_name||"Unnamed")}</strong><span>${p.id.slice(0,8)}</span></div></td><td>${esc(p.student_number||"—")}</td><td>${esc(r?(r.team_name||`Room ${r.room_number}`):"Not assigned")}</td><td>${Number(p.xp||0)}</td><td>${fmt(p.created_at)}</td></tr>`}).join(""):'<tr><td colspan="5"><div class="empty">No residents.</div></td></tr>'}
+$("residentSearch").oninput=renderResidents;
+function renderRooms(){const t=$("roomSearch").value.toLowerCase(),a=rooms.filter(r=>`${r.team_name||""} ${r.room_number||""}`.toLowerCase().includes(t));$("roomBody").innerHTML=a.length?a.map(r=>`<tr><td>${esc(r.team_name||`Room ${r.room_number}`)}</td><td>${esc(r.room_number||"—")}</td><td>${roomMembers.filter(m=>m.room_id===r.id).length} / 2</td><td>${Number(r.wins||0)}</td><td>${Number(r.total_xp||0)}</td></tr>`).join(""):'<tr><td colspan="5"><div class="empty">No rooms.</div></td></tr>'}
+$("roomSearch").oninput=renderRooms;
+function renderLeaderboard(){const a=[...rooms].sort((a,b)=>Number(b.total_xp||0)-Number(a.total_xp||0));$("leaderboardBody").innerHTML=a.length?a.map((r,i)=>`<tr><td>#${i+1}</td><td>${esc(r.team_name||`Room ${r.room_number}`)}</td><td>${esc(r.room_number||"—")}</td><td>${Number(r.wins||0)}</td><td>${Number(r.total_xp||0)}</td></tr>`).join(""):'<tr><td colspan="5"><div class="empty">No ranking data.</div></td></tr>'}
+function renderHistory(){const a=sessions.filter(s=>["finished","cancelled"].includes(s.status)).sort((a,b)=>new Date(b.ended_at||0)-new Date(a.ended_at||0));$("historyBody").innerHTML=a.length?a.map(s=>`<tr><td>${esc(s.title||"Battle")}</td><td>${esc(game(s.game_id)?.name||"—")}</td><td>${pill(s.status)}</td><td>${Number(s.current_round||0)} / ${Number(s.total_rounds||0)}</td><td>${fmt(s.started_at||s.scheduled_for)}</td><td>${fmt(s.ended_at)}</td></tr>`).join(""):'<tr><td colspan="6"><div class="empty">No history yet.</div></td></tr>'}
+async function loadSettings(){const r=await sb.from("platform_settings").select("*").eq("id","global").maybeSingle();if(r.error)return console.warn(r.error.message);settings=r.data?.settings||{};$("settingRounds").value=settings.default_rounds??20;$("settingTimer").value=settings.default_timer??30;$("maintenanceSwitch").classList.toggle("on",!!settings.maintenance_mode);$("hostingSwitch").classList.toggle("on",settings.allow_resident_hosting!==false)}
+async function saveSettings(){const s={default_rounds:Number($("settingRounds").value||20),default_timer:Number($("settingTimer").value||30),maintenance_mode:$("maintenanceSwitch").classList.contains("on"),allow_resident_hosting:$("hostingSwitch").classList.contains("on")};const r=await sb.from("platform_settings").upsert({id:"global",settings:s,updated_by:user.id,updated_at:new Date().toISOString()});if(r.error)return toast(r.error.message,"error");settings=s;activity("Settings updated","Global platform settings");toast("Settings saved.")}
+async function refreshAll(){await Promise.all([loadCore(),loadSettings()]);toast("Admin data refreshed.")}
+function realtime(){["game_sessions","session_rooms","games","game_questions","profiles","rooms"].forEach(t=>sb.channel("admin-"+t).on("postgres_changes",{event:"*",schema:"public",table:t},loadCore).subscribe())}
+async function init(){try{if(!await guard())return;$("loaderText").textContent="LOADING ADMIN CONTROL...";await Promise.all([loadCore(),loadSettings()]);realtime();$("loader").classList.add("hidden")}catch(e){console.error(e);$("loaderText").textContent=e.message||"Unable to open admin portal.";document.querySelector(".spinner").style.display="none"}}
+init();
+</script>
 </body>
-
 </html>
