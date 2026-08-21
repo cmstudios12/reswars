@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#08090c">
+  <title>RES WARS | Spin the Bottle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --bg: #08090c;
+      --panel: #0f1116;
+      --panel2: #15181f;
+      --border: #292e38;
+      --text: #f5f7fb;
+      --muted: #8e95a3;
+      --lime: #dfff00;
+      --success: #63e69d;
+      --danger: #ff6565
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, sans-serif
+    }
+
+    button,
+    input {
+      font: inherit
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    header {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: #08090cf5;
+      z-index: 20
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--lime);
+      color: #08090c;
+      font-size: 11px;
+      font-weight: 900
+    }
+
+    .brand strong {
+      font-size: 11px
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 6px;
+      letter-spacing: .14em;
+      font-weight: 900
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 7px
+    }
+
+    .top-btn {
+      padding: 9px 11px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      font-size: 7px;
+      font-weight: 900
+    }
+
+    main {
+      width: min(100%, 1180px);
+      margin: auto;
+      padding: 26px 18px 70px
+    }
+
+    .hero {
+      text-align: center
+    }
+
+    .eyebrow {
+      color: var(--lime);
+      font-size: 7px;
+      font-weight: 900;
+      letter-spacing: .18em
+    }
+
+    .hero h1 {
+      margin-top: 8px;
+      font-size: clamp(30px, 6vw, 56px);
+      letter-spacing: -.06em
+    }
+
+    .hero p {
+      max-width: 580px;
+      margin: 10px auto 0;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.7
+    }
+
+    .panel {
+      margin-top: 22px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel)
+    }
+
+    .lobby-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .choice {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel2)
+    }
+
+    .choice h2 {
+      font-size: 16px
+    }
+
+    .choice p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 8px;
+      line-height: 1.6
+    }
+
+    .btn {
+      width: 100%;
+      min-height: 45px;
+      margin-top: 15px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--lime);
+      color: #08090c;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .08em
+    }
+
+    .btn.secondary {
+      border: 1px solid var(--border);
+      background: #1a1e25;
+      color: var(--text)
+    }
+
+    .code-input {
+      width: 100%;
+      height: 45px;
+      margin-top: 15px;
+      padding: 0 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #0c0e12;
+      color: var(--text);
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: .18em;
+      outline: none
+    }
+
+    .session-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: center
+    }
+
+    .session-code small,
+    .round small {
+      display: block;
+      color: var(--muted);
+      font-size: 6px;
+      font-weight: 900;
+      letter-spacing: .13em
+    }
+
+    .session-code strong {
+      display: block;
+      margin-top: 5px;
+      color: var(--lime);
+      font-size: 22px;
+      letter-spacing: .12em
+    }
+
+    .round {
+      text-align: right
+    }
+
+    .round strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 18px
+    }
+
+    .arena {
+      position: relative;
+      min-height: 590px;
+      margin-top: 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: radial-gradient(circle at 50% 50%, rgba(223, 255, 0, .06), transparent 34%), #0c0e12;
+      overflow: hidden
+    }
+
+    .player-ring {
+      position: absolute;
+      inset: 0
+    }
+
+    .player {
+      position: absolute;
+      width: 82px;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      transition: .25s
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      margin: auto;
+      display: grid;
+      place-items: center;
+      border: 2px solid #303641;
+      border-radius: 50%;
+      background: #171a21;
+      font-size: 10px;
+      font-weight: 900
+    }
+
+    .player.selected .avatar {
+      border-color: var(--lime);
+      box-shadow: 0 0 0 5px rgba(223, 255, 0, .08), 0 0 35px rgba(223, 255, 0, .2)
+    }
+
+    .player.host .avatar:after {
+      content: "H";
+      position: absolute;
+      margin: -5px 0 0 2px;
+      width: 15px;
+      height: 15px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--lime);
+      color: #08090c;
+      font-size: 6px;
+      font-weight: 900
+    }
+
+    .player span {
+      display: block;
+      margin-top: 6px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 7px;
+      font-weight: 800
+    }
+
+    .bottle-wrap {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 220px;
+      height: 220px;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center
+    }
+
+    .bottle {
+      width: 44px;
+      height: 185px;
+      position: relative;
+      transform-origin: 50% 50%;
+      filter: drop-shadow(0 12px 20px rgba(0, 0, 0, .45));
+      transition: transform 5.4s cubic-bezier(.12, .72, .14, 1)
+    }
+
+    .bottle-neck {
+      position: absolute;
+      left: 14px;
+      top: 0;
+      width: 16px;
+      height: 50px;
+      border: 2px solid #a9b0ba;
+      border-bottom: 0;
+      border-radius: 6px 6px 0 0;
+      background: linear-gradient(90deg, #272d35, #65707a, #252b32)
+    }
+
+    .bottle-body {
+      position: absolute;
+      left: 2px;
+      top: 42px;
+      width: 40px;
+      height: 135px;
+      border: 2px solid #a9b0ba;
+      border-radius: 14px 14px 18px 18px;
+      background: linear-gradient(90deg, #1c2229, #53616c 48%, #20262d);
+      overflow: hidden
+    }
+
+    .bottle-label {
+      position: absolute;
+      left: 5px;
+      right: 5px;
+      top: 42px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      background: var(--lime);
+      color: #08090c;
+      font-size: 7px;
+      font-weight: 900;
+      transform: rotate(-90deg);
+      border-radius: 3px
+    }
+
+    .bottle-cap {
+      position: absolute;
+      left: 12px;
+      top: -5px;
+      width: 20px;
+      height: 10px;
+      border-radius: 3px;
+      background: var(--lime)
+    }
+
+    .center-status {
+      position: absolute;
+      left: 50%;
+      top: calc(50% + 130px);
+      transform: translateX(-50%);
+      width: min(90%, 360px);
+      text-align: center;
+      color: var(--muted);
+      font-size: 8px;
+      line-height: 1.6
+    }
+
+    .host-controls {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 15px
+    }
+
+    .host-controls .btn {
+      width: auto;
+      min-width: 150px;
+      margin: 0;
+      padding: 0 18px
+    }
+
+    .players-line {
+      margin-top: 14px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 7px
+    }
+
+    .challenge {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0, 0, 0, .82);
+      backdrop-filter: blur(8px)
+    }
+
+    .challenge-card {
+      width: min(100%, 540px);
+      padding: 26px;
+      border: 1px solid #343a46;
+      border-radius: 16px;
+      background: #101218;
+      text-align: center
+    }
+
+    .challenge-type {
+      display: inline-block;
+      padding: 7px 10px;
+      border: 1px solid rgba(223, 255, 0, .24);
+      border-radius: 20px;
+      color: var(--lime);
+      font-size: 7px;
+      font-weight: 900;
+      letter-spacing: .14em
+    }
+
+    .challenge-card h2 {
+      margin-top: 18px;
+      font-size: 28px;
+      letter-spacing: -.045em
+    }
+
+    .challenge-card p {
+      margin-top: 14px;
+      color: #d8dbe0;
+      font-size: 13px;
+      line-height: 1.7
+    }
+
+    .challenge-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 20px
+    }
+
+    .challenge-actions .btn {
+      margin: 0
+    }
+
+    .selected-name {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 8px
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 200;
+      width: min(360px, calc(100% - 36px));
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #14171d;
+      font-size: 8px
+    }
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: grid;
+      place-items: center;
+      background: var(--bg)
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid #303540;
+      border-top-color: var(--lime);
+      border-radius: 50%;
+      animation: sp .7s linear infinite
+    }
+
+    @keyframes sp {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .loader p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 8px
+    }
+
+    @media(max-width:700px) {
+      header {
+        padding: 0 12px
+      }
+
+      .top-actions .back-label {
+        display: none
+      }
+
+      main {
+        padding: 18px 10px 50px
+      }
+
+      .lobby-actions {
+        grid-template-columns: 1fr
+      }
+
+      .arena {
+        min-height: 520px
+      }
+
+      .player {
+        width: 68px
+      }
+
+      .avatar {
+        width: 42px;
+        height: 42px
+      }
+
+      .bottle-wrap {
+        width: 180px;
+        height: 180px
+      }
+
+      .bottle {
+        height: 155px;
+        transform: scale(.9)
+      }
+
+      .center-status {
+        top: calc(50% + 105px)
+      }
+
+      .host-controls {
+        flex-direction: column;
+        align-items: center
+      }
+
+      .host-controls .btn {
+        width: min(100%, 300px)
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">RW</div>
+      <div><strong>SPIN THE BOTTLE</strong><small>RES WARS LIVE GAME</small></div>
+    </div>
+    <div class="top-actions"><button class="top-btn" onclick="leaveGame()">LEAVE</button><button class="top-btn"
+        onclick="location.href='index.html'"><span class="back-label">BACK TO </span>RES WARS</button></div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="eyebrow">LIVE MULTIPLAYER</div>
+      <h1>Spin the Bottle</h1>
+      <p>Host a lobby or enter a six-character game code. Every player sees the same server-selected spin in real time.
+      </p>
+    </section>
+
+    <section id="entryPanel" class="panel">
+      <div class="lobby-actions">
+        <div class="choice">
+          <h2>Host a game</h2>
+          <p>Create a lobby and share the code. Any logged-in resident can host.</p><button id="hostBtn" class="btn"
+            onclick="hostGame()">HOST GAME</button>
+        </div>
+        <div class="choice">
+          <h2>Join a game</h2>
+          <p>Enter the code shown on the host's screen.</p><input id="joinCode" class="code-input" maxlength="6"
+            placeholder="ABC123"><button class="btn secondary" onclick="joinGame()">JOIN GAME</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="gamePanel" class="panel hidden">
+      <div class="session-head">
+        <div class="session-code"><small>GAME CODE</small><strong id="gameCode">------</strong></div>
+        <div class="round"><small>ROUND</small><strong id="roundNo">0</strong></div>
+      </div>
+      <div class="arena">
+        <div id="playerRing" class="player-ring"></div>
+        <div class="bottle-wrap">
+          <div id="bottle" class="bottle">
+            <div class="bottle-cap"></div>
+            <div class="bottle-neck"></div>
+            <div class="bottle-body">
+              <div class="bottle-label">RES WARS</div>
+            </div>
+          </div>
+        </div>
+        <div id="centerStatus" class="center-status">Waiting for players...</div>
+      </div>
+      <div id="hostControls" class="host-controls hidden"><button id="startBtn" class="btn secondary"
+          onclick="startGame()">START GAME</button><button id="spinBtn" class="btn" onclick="spinBottle()">SPIN
+          BOTTLE</button></div>
+      <div id="playersLine" class="players-line"></div>
+    </section>
+  </main>
+
+  <div id="challengeModal" class="challenge hidden">
+    <div class="challenge-card">
+      <div id="challengeType" class="challenge-type">CHALLENGE</div>
+      <h2 id="selectedPlayer">Player selected</h2>
+      <div id="selectedMeta" class="selected-name"></div>
+      <p id="challengePrompt">Get ready.</p>
+      <div id="challengeActions" class="challenge-actions hidden"><button class="btn secondary"
+          onclick="resolveRound('skipped')">SKIP</button><button class="btn"
+          onclick="resolveRound('completed')">COMPLETE</button></div>
+    </div>
+  </div>
+  <div id="toast" class="toast hidden"></div>
+  <div id="loader" class="loader">
+    <div>
+      <div class="spinner"></div>
+      <p id="loaderText">OPENING RES WARS...</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const sb = supabase.createClient("https://tkfnypzohdercxljswfe.supabase.co", "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra");
+    const $ = id => document.getElementById(id);
+    let user = null, profile = null, session = null, players = [], currentSpin = null, challenge = null, channel = null, currentRotation = 0, spinTimer = null;
+    const params = new URLSearchParams(location.search), gameId = params.get("game"), sessionId = params.get("session"), autoHost = params.get("host") === "1";
+    function toast(m) { $("toast").textContent = m; $("toast").classList.remove("hidden"); clearTimeout(toast.t); toast.t = setTimeout(() => $("toast").classList.add("hidden"), 3200) }
+    function initials(n) { return (n || "P").trim().split(/\s+/).slice(0, 2).map(x => x[0]).join("").toUpperCase() }
+    async function init() {
+      try {
+        const { data: { session: s } } = await sb.auth.getSession();
+        if (!s?.user) { location.replace("auth.html"); return }
+        user = s.user;
+        const p = await sb.from("profiles").select("*").eq("id", user.id).maybeSingle(); profile = p.data || {};
+        if (sessionId) { await loadSession(sessionId) }
+        else if (autoHost) { await hostGame() }
+        $("loader").classList.add("hidden");
+      } catch (e) { console.error(e); $("loaderText").textContent = e.message || "Could not open game." }
+    }
+    async function hostGame() {
+      $("hostBtn").disabled = true;
+      const { data, error } = await sb.rpc("host_spin_session", { p_game_id: gameId || null });
+      if (error) { $("hostBtn").disabled = false; return toast(error.message) }
+      session = Array.isArray(data) ? data[0] : data;
+      history.replaceState(null, "", `spin.html?session=${encodeURIComponent(session.id)}&game=${encodeURIComponent(session.game_id || gameId || "")}`);
+      await enterSession();
+    }
+    async function joinGame() {
+      const code = $("joinCode").value.trim().toUpperCase(); if (code.length < 4) return toast("Enter the game code.");
+      const { data, error } = await sb.rpc("join_spin_session", { p_code: code }); if (error) return toast(error.message);
+      session = Array.isArray(data) ? data[0] : data;
+      history.replaceState(null, "", `spin.html?session=${encodeURIComponent(session.id)}&game=${encodeURIComponent(session.game_id || "")}`);
+      await enterSession();
+    }
+    async function loadSession(id) {
+      const { data, error } = await sb.from("spin_sessions").select("*").eq("id", id).maybeSingle();
+      if (error || !data) throw new Error(error?.message || "Spin game not found.");
+      session = data;
+      const me = await sb.from("spin_players").select("id").eq("session_id", id).eq("user_id", user.id).eq("active", true).maybeSingle();
+      if (!me.data) {
+        const j = await sb.rpc("join_spin_session", { p_code: session.code });
+        if (j.error) throw j.error;
+      }
+      await enterSession();
+    }
+    async function enterSession() {
+      $("entryPanel").classList.add("hidden"); $("gamePanel").classList.remove("hidden");
+      await refreshAll(); subscribe();
+    }
+    async function refreshAll() {
+      if (!session) return;
+      const [s, p] = await Promise.all([
+        sb.from("spin_sessions").select("*").eq("id", session.id).single(),
+        sb.from("spin_players").select("*").eq("session_id", session.id).eq("active", true).order("joined_at")
+      ]);
+      if (s.error) throw s.error; session = s.data; players = p.data || [];
+      $("gameCode").textContent = session.code; $("roundNo").textContent = session.round_no || 0;
+      renderPlayers(); renderControls();
+      if (session.current_spin_id && (!currentSpin || currentSpin.id !== session.current_spin_id)) await loadSpin(session.current_spin_id);
+    }
+    function renderPlayers() {
+      const ring = $("playerRing"), cx = 50, cy = 50, rx = 42, ry = 39, n = Math.max(players.length, 1);
+      ring.innerHTML = players.map((p, i) => {
+        const a = (i / n) * Math.PI * 2 - Math.PI / 2, x = cx + Math.cos(a) * rx, y = cy + Math.sin(a) * ry;
+        const sel = currentSpin?.selected_player_id === p.id ? " selected" : "", host = p.user_id === session.host_user_id ? " host" : "";
+        return `<div class="player${sel}${host}" style="left:${x}%;top:${y}%"><div class="avatar">${initials(p.display_name)}</div><span>${escapeHtml(p.display_name)}</span></div>`
+      }).join("");
+      $("playersLine").textContent = `${players.length} player${players.length === 1 ? "" : "s"} connected`;
+    }
+    function renderControls() {
+      const host = session.host_user_id === user.id;
+      $("hostControls").classList.toggle("hidden", !host);
+      $("startBtn").classList.toggle("hidden", session.status !== "lobby");
+      $("spinBtn").disabled = players.length < 2 || session.status === "finished";
+      $("centerStatus").textContent = session.status === "lobby" ? (host ? "Share the code, then start when everyone is in." : "Waiting for the host to start.") : (session.status === "finished" ? "Game ended." : "Ready for the next spin.");
+    }
+    function subscribe() {
+      if (channel) sb.removeChannel(channel);
+      channel = sb.channel(`spin-${session.id}`)
+        .on("postgres_changes", { event: "*", schema: "public", table: "spin_sessions", filter: `id=eq.${session.id}` }, () => refreshAll())
+        .on("postgres_changes", { event: "*", schema: "public", table: "spin_players", filter: `session_id=eq.${session.id}` }, () => refreshAll())
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "spin_spins", filter: `session_id=eq.${session.id}` }, p => loadSpin(p.new.id))
+        .on("postgres_changes", { event: "UPDATE", schema: "public", table: "spin_spins", filter: `session_id=eq.${session.id}` }, p => { if (currentSpin?.id === p.new.id) { currentSpin = p.new; if (["completed", "skipped"].includes(p.new.status)) $("challengeModal").classList.add("hidden") } })
+        .subscribe();
+    }
+    async function startGame() {
+      const { error } = await sb.rpc("start_spin_session", { p_session_id: session.id }); if (error) return toast(error.message); await refreshAll();
+    }
+    async function spinBottle() {
+      if (currentSpin && !["completed", "skipped"].includes(currentSpin.status)) return toast("Complete or skip the current challenge first.");
+      $("spinBtn").disabled = true;
+      const { data, error } = await sb.rpc("spin_bottle", { p_session_id: session.id }); if (error) { $("spinBtn").disabled = false; return toast(error.message) }
+      await loadSpin((Array.isArray(data) ? data[0] : data).id);
+    }
+    async function loadSpin(id) {
+      const { data, error } = await sb.from("spin_spins").select("*").eq("id", id).single(); if (error) return;
+      currentSpin = data;
+      const selected = players.find(p => p.id === data.selected_player_id);
+      if (data.challenge_id) { const c = await sb.from("spin_challenges").select("*").eq("id", data.challenge_id).maybeSingle(); challenge = c.data || null } else challenge = null;
+      renderPlayers();
+      const idx = Math.max(0, players.findIndex(p => p.id === data.selected_player_id)), n = Math.max(players.length, 1);
+      // bottle points upward at 0deg; player positions begin at top and go clockwise
+      const target = (idx / n) * 360;
+      const extra = Number(data.rotation_degrees || 1800);
+      const turns = Math.ceil((currentRotation + extra - target) / 360) * 360 + target;
+      currentRotation = turns;
+      $("centerStatus").textContent = "Bottle spinning...";
+      $("bottle").style.transform = `rotate(${turns}deg)`;
+      clearTimeout(spinTimer);
+      spinTimer = setTimeout(() => showChallenge(selected), 5450);
+    }
+    function showChallenge(selected) {
+      $("selectedPlayer").textContent = selected?.display_name || "Selected player";
+      $("selectedMeta").textContent = `Round ${currentSpin?.round_no || session.round_no}`;
+      $("challengeType").textContent = (challenge?.type || "challenge").replace("_", " ").toUpperCase();
+      $("challengePrompt").textContent = challenge?.prompt || "The host may choose a challenge for this round.";
+      $("challengeActions").classList.toggle("hidden", session.host_user_id !== user.id);
+      $("challengeModal").classList.remove("hidden");
+      $("centerStatus").textContent = `${selected?.display_name || "Player"} was selected.`;
+      renderPlayers(); if (navigator.vibrate) navigator.vibrate([80, 50, 120]);
+    }
+    async function resolveRound(status) {
+      if (!currentSpin) return;
+      const { error } = await sb.rpc("resolve_spin", { p_spin_id: currentSpin.id, p_status: status }); if (error) return toast(error.message);
+      currentSpin.status = status; $("challengeModal").classList.add("hidden"); $("spinBtn").disabled = false; $("centerStatus").textContent = "Ready for the next spin.";
+    }
+    async function leaveGame() {
+      if (session) await sb.rpc("leave_spin_session", { p_session_id: session.id });
+      location.href = "index.html";
+    }
+    function escapeHtml(v) { return String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c])) }
+    window.addEventListener("beforeunload", () => { if (channel) sb.removeChannel(channel) });
+    init();
+  </script>
+</body>
+
+</html>
