@@ -3251,6 +3251,12 @@ function renderController(){
   const startButton = $("simpleStartBtn");
   const endButton = $("simpleEndBtn");
 
+  // The database session is the source of truth. Never leave START GAME
+  // available once the session has moved to live/finished/cancelled.
+  const isLobbyState = !["live", "finished", "cancelled"].includes(session.status);
+  startButton.classList.toggle("hidden", !isLobbyState);
+  endButton.classList.toggle("hidden", session.status !== "live");
+
   startButton.disabled = true;
   endButton.disabled = true;
 
@@ -3446,6 +3452,18 @@ function renderController(){
 
 async function startGameSimple(){
 
+  // Prevent a double start even if the button is clicked twice or another
+  // realtime refresh is still in flight.
+  if(simpleEngineBusy){
+    return;
+  }
+
+  if(session?.status === "live"){
+    renderController();
+    toast("This game is already live.", "success");
+    return;
+  }
+
   if(game.name.toLowerCase() !== "roommate sync"){
     toast(
       `${game.name} is not activated yet. Test Roommate Sync first.`,
@@ -3462,61 +3480,77 @@ async function startGameSimple(){
     return;
   }
 
-  const button =
-    $("simpleStartBtn");
+  const button = $("simpleStartBtn");
 
-  setBusy(
-    button,
-    true,
-    "STARTING GAME..."
-  );
+  setBusy(button, true, "STARTING GAME...");
 
   try{
 
     if(!rounds.length){
-
-      const {
-        error: prepareError
-      } =
-        await sb.rpc(
-          "prepare_roommate_sync",
-          {
-            p_session_id:
-              session.id
-          }
-        );
+      const { error: prepareError } = await sb.rpc(
+        "prepare_roommate_sync",
+        { p_session_id: session.id }
+      );
 
       if(prepareError){
         throw prepareError;
       }
 
       await loadRounds();
-
     }
 
-    const {
-      error
-    } =
-      await sb
-        .from("game_sessions")
-        .update({
-          status:"live",
-          started_at:
-            new Date().toISOString(),
-          current_round:0
-        })
-        .eq(
-          "id",
-          session.id
-        )
-        .eq(
-          "residence_id",
-          gameMaster.residence_id
-        );
+    // IMPORTANT: return the updated row and immediately replace the local
+    // session object. We do not wait for Realtime to tell this page that its
+    // own update succeeded.
+    const { data: updatedSession, error } = await sb
+      .from("game_sessions")
+      .update({
+        status: "live",
+        started_at: session.started_at || new Date().toISOString(),
+        current_round: 0
+      })
+      .eq("id", session.id)
+      .eq("residence_id", gameMaster.residence_id)
+      .neq("status", "finished")
+      .neq("status", "cancelled")
+      .select(`
+        id,
+        residence_id,
+        host_user_id,
+        game_id,
+        title,
+        status,
+        scheduled_for,
+        started_at,
+        ended_at,
+        current_round,
+        total_rounds
+      `)
+      .maybeSingle();
 
     if(error){
       throw error;
     }
+
+    if(!updatedSession){
+      // Another device/host may already have changed the session. Reload the
+      // authoritative row instead of allowing a second start.
+      await refreshSessionOnly();
+      if(session.status !== "live"){
+        throw new Error("The game could not be moved to LIVE state.");
+      }
+    }else{
+      session = updatedSession;
+    }
+
+    // Change the screen immediately: START GAME disappears, LIVE appears,
+    // and the automatic engine can begin Round 1 without a page refresh.
+    await loadRounds();
+    await loadRooms();
+    await calculateExpectedAnswers();
+    await loadAnswerCount();
+    renderController();
+    renderLeaderboard();
 
     logActivity(
       "Game started",
@@ -3528,32 +3562,32 @@ async function startGameSimple(){
       "success"
     );
 
-    await refreshAll();
-
-    setTimeout(
-      runSimpleEngine,
-      300
-    );
+    // Run directly rather than relying only on the one-second heartbeat.
+    setTimeout(() => runSimpleEngine(), 150);
 
   }catch(error){
 
-    console.error(
-      "Start simple game:",
-      error
-    );
+    console.error("Start simple game:", error);
+
+    // Recover the real database state before deciding which controls to show.
+    try{
+      await refreshSessionOnly();
+      await loadRounds();
+      renderController();
+    }catch(refreshError){
+      console.error("Start recovery refresh:", refreshError);
+    }
 
     toast(
-      error.message ||
-      "Unable to start the game.",
+      error.message || "Unable to start the game.",
       "error"
     );
 
   }finally{
 
-    setBusy(
-      button,
-      false
-    );
+    setBusy(button, false);
+    // renderController owns the final enabled/hidden state of the buttons.
+    renderController();
 
   }
 
@@ -4664,6 +4698,7 @@ async function refreshSessionOnly(){
       .select(`
         id,
         residence_id,
+        host_user_id,
         game_id,
         title,
         status,
