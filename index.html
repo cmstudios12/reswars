@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#08090c">
 
+<!-- PWA / HOME SCREEN -->
+<link rel="manifest" href="/manifest.json">
+<meta name="application-name" content="RES WARS">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RES WARS">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+
 <title>RES WARS | My Angel Residence</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1252,6 +1260,188 @@ main{
   min-width:520px;
  }
 }
+
+
+/* =====================================================
+   INSTALL / ADD TO HOME SCREEN
+===================================================== */
+
+.install-overlay{
+ position:fixed;
+ inset:0;
+ z-index:12000;
+ display:grid;
+ place-items:center;
+ padding:20px;
+ background:rgba(0,0,0,.82);
+ backdrop-filter:blur(8px);
+ -webkit-backdrop-filter:blur(8px);
+}
+
+.install-card{
+ position:relative;
+ width:min(100%,420px);
+ padding:33px 25px 23px;
+ text-align:center;
+ border:1px solid var(--border2);
+ border-radius:18px;
+ background:#101217;
+ box-shadow:0 35px 110px rgba(0,0,0,.72);
+}
+
+.install-close{
+ position:absolute;
+ top:13px;
+ right:14px;
+ width:32px;
+ height:32px;
+ display:grid;
+ place-items:center;
+ border:1px solid var(--border);
+ border-radius:50%;
+ background:#171a20;
+ color:var(--muted);
+ font-size:18px;
+ line-height:1;
+}
+
+.install-close:hover{
+ color:var(--text);
+ border-color:var(--border2);
+}
+
+.install-app-icon{
+ width:72px;
+ height:72px;
+ display:grid;
+ place-items:center;
+ margin:0 auto 20px;
+ border-radius:18px;
+ background:var(--lime);
+ color:#08090c;
+ font-size:20px;
+ font-weight:900;
+ letter-spacing:-.04em;
+ box-shadow:0 14px 42px rgba(223,255,0,.14);
+}
+
+.install-eyebrow{
+ color:var(--lime);
+ font-size:8px;
+ font-weight:900;
+ letter-spacing:.18em;
+}
+
+.install-card h2{
+ max-width:330px;
+ margin:11px auto 0;
+ font-size:26px;
+ line-height:1.12;
+ letter-spacing:-.045em;
+}
+
+.install-card p{
+ max-width:340px;
+ margin:13px auto 0;
+ color:var(--muted);
+ font-size:10px;
+ line-height:1.75;
+}
+
+.install-benefits{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:8px;
+ margin-top:21px;
+}
+
+.install-benefit{
+ padding:11px 7px;
+ border:1px solid var(--border);
+ border-radius:9px;
+ background:var(--panel2);
+}
+
+.install-benefit b{
+ display:block;
+ color:var(--lime);
+ font-size:14px;
+}
+
+.install-benefit span{
+ display:block;
+ margin-top:5px;
+ color:var(--muted);
+ font-size:7px;
+ font-weight:800;
+ line-height:1.35;
+}
+
+.install-primary{
+ width:100%;
+ min-height:48px;
+ margin-top:22px;
+ padding:13px 16px;
+ border:0;
+ border-radius:9px;
+ background:var(--lime);
+ color:#08090c;
+ font-size:9px;
+ font-weight:900;
+ letter-spacing:.08em;
+}
+
+.install-primary:hover{
+ background:var(--lime2);
+}
+
+.install-primary:disabled{
+ opacity:.55;
+ cursor:not-allowed;
+}
+
+.install-later{
+ width:100%;
+ margin-top:8px;
+ padding:10px;
+ border:0;
+ background:transparent;
+ color:var(--muted2);
+ font-size:8px;
+ font-weight:800;
+}
+
+.install-ios-help{
+ margin-top:16px;
+ padding:13px;
+ border:1px solid var(--border);
+ border-radius:9px;
+ background:var(--panel2);
+ color:#cdd1d8;
+ font-size:9px;
+ line-height:1.7;
+ text-align:left;
+}
+
+.install-ios-help strong{
+ color:var(--text);
+}
+
+@media(max-width:520px){
+ .install-card{
+  padding:31px 19px 19px;
+  border-radius:16px;
+ }
+
+ .install-card h2{
+  font-size:23px;
+ }
+
+ .install-benefits{
+  grid-template-columns:1fr 1fr 1fr;
+ }
+}
+
 </style>
 </head>
 
@@ -1915,6 +2105,90 @@ main{
    class="btn"
   >
    BACK TO LOBBY
+  </button>
+
+ </div>
+
+</div>
+
+
+<!-- =====================================================
+     INSTALL / ADD TO HOME SCREEN
+===================================================== -->
+
+<div
+ id="installModal"
+ class="install-overlay hidden"
+ role="dialog"
+ aria-modal="true"
+ aria-labelledby="installTitle"
+>
+
+ <div class="install-card">
+
+  <button
+   id="installCloseBtn"
+   class="install-close"
+   type="button"
+   aria-label="Close install prompt"
+  >
+   ×
+  </button>
+
+  <div class="install-app-icon">
+   RW
+  </div>
+
+  <div class="install-eyebrow">
+   RES WARS APP
+  </div>
+
+  <h2 id="installTitle">
+   Add RES WARS to your home screen
+  </h2>
+
+  <p id="installDescription">
+   Launch straight into the arena from your home screen and make RES WARS feel like a real app.
+  </p>
+
+  <div class="install-benefits">
+
+   <div class="install-benefit">
+    <b>↗</b>
+    <span>QUICK LAUNCH</span>
+   </div>
+
+   <div class="install-benefit">
+    <b>□</b>
+    <span>APP MODE</span>
+   </div>
+
+   <div class="install-benefit">
+    <b>⚡</b>
+    <span>BATTLE READY</span>
+   </div>
+
+  </div>
+
+  <div
+   id="installIOSHelp"
+   class="install-ios-help hidden"
+  ></div>
+
+  <button
+   id="installAppBtn"
+   class="install-primary"
+   type="button"
+  >
+   ADD TO HOME SCREEN
+  </button>
+
+  <button
+   id="installLaterBtn"
+   class="install-later"
+   type="button"
+  >
+   MAYBE LATER
   </button>
 
  </div>
@@ -4155,6 +4429,314 @@ function subscribeLeaderboard(){
 
 
 /* =====================================================
+   PWA / ADD TO HOME SCREEN
+===================================================== */
+
+let deferredInstallPrompt = null;
+
+const INSTALL_DISMISS_KEY =
+ "reswars-install-dismissed-at";
+
+const INSTALL_REASK_MS =
+ 7 * 24 * 60 * 60 * 1000;
+
+
+function isStandalone(){
+
+ return (
+  window.matchMedia(
+   "(display-mode: standalone)"
+  ).matches
+  ||
+  window.navigator.standalone === true
+ );
+
+}
+
+
+function isIOS(){
+
+ return /iphone|ipad|ipod/i.test(
+  navigator.userAgent
+ );
+
+}
+
+
+function shouldOfferInstall(){
+
+ if(isStandalone()){
+  return false;
+ }
+
+ const dismissedAt =
+  Number(
+   localStorage.getItem(
+    INSTALL_DISMISS_KEY
+   ) || 0
+  );
+
+ if(
+  dismissedAt &&
+  Date.now() - dismissedAt < INSTALL_REASK_MS
+ ){
+  return false;
+ }
+
+ return true;
+
+}
+
+
+function showInstallModal(){
+
+ if(!shouldOfferInstall()){
+  return;
+ }
+
+ const modal = $("installModal");
+ const description = $("installDescription");
+ const iosHelp = $("installIOSHelp");
+ const button = $("installAppBtn");
+
+ if(!modal || !button){
+  return;
+ }
+
+ iosHelp?.classList.add("hidden");
+
+ button.disabled = false;
+ button.textContent = "ADD TO HOME SCREEN";
+
+ if(isIOS()){
+
+  description.textContent =
+   "Install RES WARS on your iPhone so it opens from your home screen like an app.";
+
+ }else{
+
+  description.textContent =
+   "Launch straight into the arena from your home screen and make RES WARS feel like a real app.";
+
+ }
+
+ modal.classList.remove("hidden");
+
+}
+
+
+function closeInstallModal({remindLater = true} = {}){
+
+ $("installModal")
+  ?.classList
+  .add("hidden");
+
+ if(remindLater){
+
+  localStorage.setItem(
+   INSTALL_DISMISS_KEY,
+   String(Date.now())
+  );
+
+ }
+
+}
+
+
+window.addEventListener(
+ "beforeinstallprompt",
+ event => {
+
+  event.preventDefault();
+
+  deferredInstallPrompt = event;
+
+ }
+);
+
+
+window.addEventListener(
+ "appinstalled",
+ () => {
+
+  deferredInstallPrompt = null;
+
+  localStorage.removeItem(
+   INSTALL_DISMISS_KEY
+  );
+
+  closeInstallModal({
+   remindLater:false
+  });
+
+  toast(
+   "RES WARS added to your home screen.",
+   "success"
+  );
+
+ }
+);
+
+
+$("installCloseBtn")
+ ?.addEventListener(
+  "click",
+  () => closeInstallModal()
+ );
+
+
+$("installLaterBtn")
+ ?.addEventListener(
+  "click",
+  () => closeInstallModal()
+ );
+
+
+$("installAppBtn")
+ ?.addEventListener(
+  "click",
+  async () => {
+
+   const button = $("installAppBtn");
+   const description = $("installDescription");
+   const iosHelp = $("installIOSHelp");
+
+   /* Android / Chrome / Edge */
+   if(deferredInstallPrompt){
+
+    button.disabled = true;
+    button.textContent = "OPENING INSTALLER...";
+
+    try{
+
+     await deferredInstallPrompt.prompt();
+
+     const choice =
+      await deferredInstallPrompt.userChoice;
+
+     deferredInstallPrompt = null;
+
+     if(choice.outcome === "accepted"){
+
+      closeInstallModal({
+       remindLater:false
+      });
+
+     }else{
+
+      button.disabled = false;
+      button.textContent = "ADD TO HOME SCREEN";
+
+      localStorage.setItem(
+       INSTALL_DISMISS_KEY,
+       String(Date.now())
+      );
+
+     }
+
+    }catch(error){
+
+     console.error(
+      "PWA install prompt:",
+      error
+     );
+
+     button.disabled = false;
+     button.textContent = "ADD TO HOME SCREEN";
+
+    }
+
+    return;
+   }
+
+   /* iPhone / iPad Safari */
+   if(isIOS()){
+
+    description.textContent =
+     "Safari requires you to add RES WARS manually.";
+
+    iosHelp.innerHTML =
+     "1. Tap the <strong>Share</strong> button in Safari.<br>" +
+     "2. Scroll and choose <strong>Add to Home Screen</strong>.<br>" +
+     "3. Tap <strong>Add</strong>.";
+
+    iosHelp.classList.remove("hidden");
+
+    button.textContent = "GOT IT";
+
+    button.onclick = () => {
+     closeInstallModal();
+    };
+
+    return;
+   }
+
+   /* Other browsers / desktop fallback */
+   description.textContent =
+    "Use your browser menu and choose Install App or Add to Home Screen. If you do not see it yet, reload RES WARS once and try again.";
+
+   iosHelp.innerHTML =
+    "Tip: Chrome usually shows <strong>Install app</strong> in the browser menu once the site meets install requirements.";
+
+   iosHelp.classList.remove("hidden");
+
+   button.textContent = "GOT IT";
+
+   button.onclick = () => {
+    closeInstallModal();
+   };
+
+  }
+ );
+
+
+if("serviceWorker" in navigator){
+
+ window.addEventListener(
+  "load",
+  () => {
+
+   navigator.serviceWorker
+    .register("/sw.js")
+    .catch(
+     error => {
+      console.error(
+       "RES WARS service worker:",
+       error
+      );
+     }
+    );
+
+  }
+ );
+
+}
+
+
+function scheduleInstallOffer(){
+
+ if(!shouldOfferInstall()){
+  return;
+ }
+
+ setTimeout(
+  () => {
+
+   if(
+    document.visibilityState === "visible" &&
+    shouldOfferInstall()
+   ){
+    showInstallModal();
+   }
+
+  },
+  1400
+ );
+
+}
+
+
+/* =====================================================
    INITIALISE
 ===================================================== */
 
@@ -4366,6 +4948,10 @@ async function init(){
   ----------------------------------------------- */
 
   hideLoader();
+
+  /* Show the install offer only after the player is authenticated
+     and the RES WARS lobby has loaded successfully. */
+  scheduleInstallOffer();
 
 
  }catch(error){
