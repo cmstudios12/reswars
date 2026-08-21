@@ -2100,7 +2100,7 @@ async function loadSession(){
       /* No open battle: create a Roommate Sync lobby automatically. */
       const gameResult = await sb
         .from("games")
-        .select("id,name,description,icon,question_count")
+        .select("id,name,description,icon")
         .ilike("name", "Roommate Sync")
         .limit(1)
         .maybeSingle();
@@ -2115,7 +2115,7 @@ async function loadSession(){
 
       const totalRounds = Math.max(
         1,
-        Number(gameResult.data.question_count || 20)
+        20
       );
 
       const created = await sb
