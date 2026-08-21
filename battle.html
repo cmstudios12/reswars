@@ -996,6 +996,32 @@ header{
 .role-card .secret{margin-top:18px;padding-top:18px;border-top:1px solid var(--border);font-size:10px;color:var(--muted)}
 @media(max-width:560px){.choice-grid{grid-template-columns:1fr}.reaction-word{font-size:34px}}
 
+
+/* RES WARS PLAYER POLISH */
+html,body{min-height:100%;min-height:100dvh}
+body{padding-top:0;padding-bottom:max(16px,env(safe-area-inset-bottom))}
+header{
+  padding-left:max(28px,env(safe-area-inset-left));
+  padding-right:max(28px,env(safe-area-inset-right));
+  padding-top:env(safe-area-inset-top);
+  height:calc(70px + env(safe-area-inset-top));
+}
+@media(max-width:700px){
+  header{
+    height:calc(62px + env(safe-area-inset-top));
+    padding-left:max(14px,env(safe-area-inset-left));
+    padding-right:max(14px,env(safe-area-inset-right));
+  }
+  .page{
+    padding-left:max(14px,env(safe-area-inset-left));
+    padding-right:max(14px,env(safe-area-inset-right));
+    padding-bottom:max(24px,env(safe-area-inset-bottom));
+  }
+  .brand small{font-size:6px}
+  .live-badge{padding:7px 9px;font-size:7px}
+  .exit-btn{min-height:36px}
+}
+
 </style>
 </head>
 
@@ -1647,7 +1673,9 @@ async function loadSession(){
     });
 
     if(!openSessions.length){
-      throw new Error(`${selectedGame.name} has no open battle right now. The Game Master must open the lobby first.`);
+      showFatal(`${selectedGame.name} is waiting for the Game Master to start.`);
+      setTimeout(() => window.location.reload(), 2000);
+      return;
     }
 
     session = openSessions[0];
@@ -2246,6 +2274,24 @@ function renderArena(){
   $("teamName").textContent = room.team_name || `Room ${room.room_number}`;
   $("roomNumber").textContent = `Room ${room.room_number}`;
   renderProgress();
+
+  /* The Game Master now controls only START GAME / END GAME.
+     Players simply remain here; realtime moves them through rounds. */
+  if(session.status === "waiting"){
+    $("liveBadge").classList.add("hidden");
+    $("answerStatus").textContent = "WAITING";
+    $("arena").innerHTML = `
+      <div style="min-height:330px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 18px">
+        <div style="width:58px;height:58px;display:grid;place-items:center;border-radius:13px;background:var(--lime);color:#08090c;font-size:16px;font-weight:900;margin-bottom:22px">RW</div>
+        <div style="font-size:8px;font-weight:900;letter-spacing:.18em;color:var(--lime);margin-bottom:10px">GAME LOBBY</div>
+        <h2 style="font-size:28px;font-weight:900;letter-spacing:-.04em">${esc(game?.name || "RES WARS")}</h2>
+        <p style="max-width:420px;margin-top:10px;color:var(--muted);font-size:10px;line-height:1.7">Your room is ready. Waiting for the Game Master to start the game.</p>
+      </div>`;
+    return;
+  }
+
+  $("liveBadge").classList.remove("hidden");
+
 
   if(session.status !== "live"){
     $("answerStatus").textContent = String(session.status || "waiting").toUpperCase();
