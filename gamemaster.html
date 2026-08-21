@@ -511,6 +511,162 @@ header{
 }
 
 
+
+/* =========================================================
+   SIMPLE GAME MASTER
+========================================================= */
+let autoEngineBusy=false;
+
+function renderController(){
+  stopTimer();
+  $("heroSession").textContent=session.title||game.name;
+  $("gameName").textContent=game.name;
+  $("questionsReady").textContent=rounds.length;
+  $("currentRoundStat").textContent=`${Number(session.current_round||0)} / ${Number(session.total_rounds||0)}`;
+  renderHeaderStatus();
+
+  const startBtn=$("startBattleBtn"), endBtn=$("endBattleBtn");
+  startBtn.disabled=true; endBtn.disabled=true;
+
+  if(session.status==="finished"){
+    $("controllerTitle").textContent="Game Complete";
+    $("controllerText").textContent="Final results are ready.";
+    $("questionArea").innerHTML=`<div class="round">FINAL RESULTS</div><h3>${rooms[0]?esc(rooms[0].room?.team_name||`Room ${rooms[0].room?.room_number||"?"}`)+" wins.":"Game complete."}</h3><p>Return to the lobby when you are ready for another game.</p>`;
+    return;
+  }
+
+  if(session.status==="cancelled"){
+    $("controllerTitle").textContent="Game Cancelled";
+    $("controllerText").textContent="This game is no longer active.";
+    $("questionArea").innerHTML=`<div class="round">CANCELLED</div><h3>This game was cancelled.</h3>`;
+    return;
+  }
+
+  if(session.status!=="live"){
+    $("controllerTitle").textContent=`${game.name} Ready`;
+    $("controllerText").textContent=`${rooms.length} room${rooms.length===1?"":"s"} joined. Press START GAME when everyone is ready.`;
+    $("questionArea").innerHTML=`<div class="round">WAITING FOR PLAYERS</div><h3>${esc(game.name)}</h3><p>RES WARS will prepare, release and score the rounds automatically.</p>`;
+    startBtn.disabled=rooms.length===0;
+    return;
+  }
+
+  endBtn.disabled=false;
+
+  if(!currentRound||Number(session.current_round||0)===0){
+    $("controllerTitle").textContent="Game Starting";
+    $("controllerText").textContent="RES WARS is preparing the first round.";
+    $("questionArea").innerHTML=`<div class="round">LIVE</div><h3>Players are entering the arena.</h3><p>The first round starts automatically.</p>`;
+    return;
+  }
+
+  if(currentRound.status==="live"){
+    $("controllerTitle").textContent=`Round ${currentRound.round_number} Live`;
+    $("controllerText").textContent="Players are answering. This round will be scored automatically.";
+    $("questionArea").innerHTML=`<div class="round">ROUND ${currentRound.round_number} OF ${session.total_rounds}</div><h3>${esc(currentQuestion?.question||"Question in progress")}</h3><div class="timer-section"><div id="timerRing" class="timer-ring"><strong id="timerSeconds">--</strong></div><div class="timer-info"><small>TIME LEFT</small><strong>${Number(currentRound.duration_seconds||0)} seconds</strong></div></div>`;
+    renderAnswerProgress(); startTimer(); return;
+  }
+
+  const last=Number(currentRound.round_number)>=Number(session.total_rounds||0);
+  $("controllerTitle").textContent=last?"Finishing Game":`Round ${currentRound.round_number} Complete`;
+  $("controllerText").textContent=last?"Calculating final results.":"The next round will start automatically.";
+  $("questionArea").innerHTML=`<div class="round">${last?"FINAL ROUND COMPLETE":"ROUND COMPLETE"}</div><h3>${last?"Calculating final results...":"Next round loading..."}</h3>`;
+}
+
+async function startGameSimple(){
+  if(!rooms.length){toast("At least one room must join first.","error");return;}
+  setBusy($("startBattleBtn"),true,"STARTING GAME...");
+  try{
+    if(game.name.toLowerCase()==="roommate sync"&&!rounds.length){
+      const {error}=await sb.rpc("prepare_roommate_sync",{p_session_id:session.id});
+      if(error)throw error;
+      await loadRounds();
+    }
+    const {error}=await sb.from("game_sessions").update({status:"live",started_at:new Date().toISOString(),current_round:0}).eq("id",session.id).eq("residence_id",gameMaster.residence_id);
+    if(error)throw error;
+    logActivity("Game started",`${game.name} is live`);
+    toast("Game started. RES WARS is taking over.","success");
+    await refreshAll();
+    setTimeout(autoAdvanceGame,300);
+  }catch(error){console.error(error);toast(error.message||"Unable to start the game.","error");}
+  finally{setBusy($("startBattleBtn"),false);}
+}
+
+function confirmEndBattleSimple(){
+  openModal("End Game","End this RES WARS game for every player?",endBattleSimple,true);
+}
+
+async function endBattleSimple(){
+  setBusy($("endBattleBtn"),true,"ENDING GAME...");
+  try{
+    if(game.name.toLowerCase()==="roommate sync"&&currentRound&&!currentRound.scored){
+      const {error}=await sb.rpc("score_roommate_sync_round",{p_round_id:currentRound.id});
+      if(error)throw error;
+    }
+    const {error}=await sb.from("game_sessions").update({status:"finished",ended_at:new Date().toISOString()}).eq("id",session.id).eq("residence_id",gameMaster.residence_id);
+    if(error)throw error;
+    logActivity("Game ended","Final scores locked");
+    toast("Game finished.","success");
+    await refreshAll();
+  }catch(error){console.error(error);toast(error.message||"Unable to end the game.","error");}
+  finally{setBusy($("endBattleBtn"),false);}
+}
+
+async function autoAdvanceGame(){
+  if(autoEngineBusy||!session||session.status!=="live")return;
+  if(game.name.toLowerCase()!=="roommate sync")return;
+  autoEngineBusy=true;
+  try{
+    await refreshSessionOnly(); await loadRounds();
+    if(session.status!=="live")return;
+
+    if(Number(session.current_round||0)===0){
+      if(!rounds.length){
+        const {error}=await sb.rpc("prepare_roommate_sync",{p_session_id:session.id});
+        if(error)throw error; await loadRounds();
+      }
+      const {error}=await sb.rpc("start_game_round",{p_session_id:session.id,p_round_number:1});
+      if(error)throw error;
+      logActivity("Round 1 started","Released automatically");
+      await refreshAll(); return;
+    }
+
+    if(!currentRound)return;
+
+    if(currentRound.status==="live"){
+      const end=currentRound.ends_at?new Date(currentRound.ends_at).getTime():0;
+      if(end&&Date.now()>=end&&!currentRound.scored){
+        const {error}=await sb.rpc("score_roommate_sync_round",{p_round_id:currentRound.id});
+        if(error)throw error;
+        logActivity(`Round ${currentRound.round_number} scored`,"Scored automatically");
+        await refreshAll(); setTimeout(autoAdvanceGame,1800);
+      }
+      return;
+    }
+
+    if(currentRound.status==="finished"&&!currentRound.scored){
+      const {error}=await sb.rpc("score_roommate_sync_round",{p_round_id:currentRound.id});
+      if(error)throw error;
+      await refreshAll(); setTimeout(autoAdvanceGame,1800); return;
+    }
+
+    if(currentRound.status==="finished"&&currentRound.scored){
+      const n=Number(currentRound.round_number), total=Number(session.total_rounds||rounds.length);
+      if(n>=total){
+        const {error}=await sb.from("game_sessions").update({status:"finished",ended_at:new Date().toISOString()}).eq("id",session.id).eq("residence_id",gameMaster.residence_id);
+        if(error)throw error;
+        logActivity("Game complete","All rounds completed automatically");
+        await refreshAll(); return;
+      }
+      const {error}=await sb.rpc("start_game_round",{p_session_id:session.id,p_round_number:n+1});
+      if(error)throw error;
+      logActivity(`Round ${n+1} started`,"Released automatically");
+      await refreshAll();
+    }
+  }catch(error){console.error("Automatic engine:",error);toast(error.message||"Automatic game control encountered a problem.","error");}
+  finally{autoEngineBusy=false;}
+}
+
+
 /* =========================================================
    TIMER
 ========================================================= */
@@ -1120,7 +1276,7 @@ header{
 
     <div>
       <strong>RES WARS</strong>
-      <small>GAME MASTER CONTROL</small>
+      <small>GAME MASTER</small>
     </div>
 
   </div>
@@ -1222,7 +1378,7 @@ header{
             </h2>
 
             <p>
-              Current battle configuration
+              Current game
             </p>
 
           </div>
@@ -1288,7 +1444,7 @@ header{
             <div class="info-box">
 
               <small>
-                QUESTIONS READY
+                ROUNDS
               </small>
 
               <strong id="questionsReady">
@@ -1311,7 +1467,7 @@ header{
             <div class="controller-top">
 
               <small>
-                LIVE GAME ENGINE
+                GAME CONTROL
               </small>
 
               <h2 id="controllerTitle">
@@ -1371,53 +1527,8 @@ header{
 
 
             <div class="controls">
-
-
-              <button
-                id="prepareBtn"
-                class="btn btn-primary btn-full"
-                onclick="confirmPrepare()"
-              >
-                PREPARE ROOMMATE SYNC
-              </button>
-
-
-              <button
-                id="startBattleBtn"
-                class="btn btn-success"
-                onclick="startBattle()"
-              >
-                START BATTLE
-              </button>
-
-
-              <button
-                id="startRoundBtn"
-                class="btn btn-primary"
-                onclick="startNextRound()"
-              >
-                START ROUND
-              </button>
-
-
-              <button
-                id="scoreRoundBtn"
-                class="btn btn-warning"
-                onclick="scoreCurrentRound()"
-              >
-                SCORE ROUND
-              </button>
-
-
-              <button
-                id="endBattleBtn"
-                class="btn btn-danger"
-                onclick="confirmEndBattle()"
-              >
-                END BATTLE
-              </button>
-
-
+              <button id="startBattleBtn" class="btn btn-primary btn-full" onclick="startGameSimple()">START GAME</button>
+              <button id="endBattleBtn" class="btn btn-danger btn-full" onclick="confirmEndBattleSimple()">END GAME</button>
             </div>
 
 
@@ -2662,7 +2773,7 @@ function renderHeaderStatus(){
    MAIN CONTROLLER
 ========================================================= */
 
-function renderController(){
+function renderControllerLegacy(){
 
   stopTimer();
 
@@ -4176,6 +4287,12 @@ async function init(){
 
 
     subscribeRealtime();
+
+    setInterval(() => {
+      if(document.visibilityState === "visible" && session?.status === "live"){
+        autoAdvanceGame();
+      }
+    }, 1000);
 
 
     /*
