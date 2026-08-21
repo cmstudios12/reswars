@@ -779,6 +779,106 @@ main{
  min-height:190px;
 }
 
+
+/* =====================================================
+   PLAYER HOSTING
+===================================================== */
+
+.game-host-actions{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+ margin-top:14px;
+}
+
+.game-host-btn,
+.game-enter-btn{
+ min-height:38px;
+ padding:9px 10px;
+ border-radius:8px;
+ font-size:7px;
+ font-weight:900;
+ letter-spacing:.08em;
+}
+
+.game-host-btn{
+ border:1px solid rgba(223,255,0,.28);
+ background:rgba(223,255,0,.06);
+ color:var(--lime);
+}
+
+.game-host-btn:hover{
+ background:rgba(223,255,0,.12);
+}
+
+.game-enter-btn{
+ border:0;
+ background:var(--lime);
+ color:#08090c;
+}
+
+.game-enter-btn:hover{
+ background:var(--lime2);
+}
+
+.game-host-btn:disabled,
+.game-enter-btn:disabled{
+ opacity:.5;
+ cursor:not-allowed;
+}
+
+.host-banner{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
+ margin-bottom:17px;
+ padding:15px 17px;
+ border:1px solid rgba(223,255,0,.18);
+ border-radius:11px;
+ background:rgba(223,255,0,.035);
+}
+
+.host-banner strong{
+ display:block;
+ font-size:10px;
+}
+
+.host-banner span{
+ display:block;
+ margin-top:4px;
+ color:var(--muted);
+ font-size:8px;
+ line-height:1.5;
+}
+
+.host-banner button{
+ flex:0 0 auto;
+ min-height:38px;
+ padding:9px 14px;
+ border:0;
+ border-radius:8px;
+ background:var(--lime);
+ color:#08090c;
+ font-size:7px;
+ font-weight:900;
+ letter-spacing:.08em;
+}
+
+@media(max-width:520px){
+ .game-host-actions{
+  grid-template-columns:1fr;
+ }
+ .host-banner{
+  align-items:stretch;
+  flex-direction:column;
+ }
+ .host-banner button{
+  width:100%;
+ }
+}
+
+
 /* =====================================================
    LEADERBOARD
 ===================================================== */
@@ -2589,8 +2689,15 @@ $("gameMasterBtn")
   "click",
   () => {
 
-   window.location.href =
-    "gamemaster.html";
+   if(currentSession){
+    window.location.href =
+     `gamemaster.html?session=${encodeURIComponent(currentSession.id)}`;
+    return;
+   }
+
+   switchView("games");
+   $("profileMenu").classList.add("hidden");
+   toast("Choose a game and press HOST GAME.", "success");
 
   }
  );
@@ -2721,20 +2828,101 @@ function gameHTML(
  full = false
 ){
 
+ const isCurrentGame =
+  currentSession &&
+  currentSession.game_id === game.id;
+
+ const sessionOpen =
+  currentSession &&
+  ["scheduled","lobby","live"].includes(currentSession.status);
+
+ let statusText = "AVAILABLE";
+
+ if(isCurrentGame){
+  statusText =
+   currentSession.status === "live"
+    ? "LIVE NOW"
+    : currentSession.status === "lobby"
+    ? "LOBBY OPEN"
+    : "UPCOMING";
+ }
+
+ let actions = "";
+
+ if(sessionOpen){
+
+  if(isCurrentGame){
+   actions = `
+    <div class="game-host-actions">
+     <button
+      class="game-enter-btn"
+      type="button"
+      data-enter-session="${esc(currentSession.id)}"
+     >
+      ${
+       currentSession.status === "live"
+        ? "ENTER BATTLE"
+        : "VIEW LOBBY"
+      }
+     </button>
+
+     <button
+      class="game-host-btn"
+      type="button"
+      data-host-control="${esc(currentSession.id)}"
+     >
+      OPEN HOST CONTROL
+     </button>
+    </div>
+   `;
+  }else{
+   actions = `
+    <div class="game-host-actions">
+     <button class="game-host-btn" type="button" disabled>
+      BATTLE ALREADY OPEN
+     </button>
+    </div>
+   `;
+  }
+
+ }else{
+
+  actions = `
+   <div class="game-host-actions">
+    <button
+     class="game-enter-btn"
+     type="button"
+     data-open-game="${esc(game.id)}"
+    >
+     VIEW GAME
+    </button>
+
+    <button
+     class="game-host-btn"
+     type="button"
+     data-host-game="${esc(game.id)}"
+    >
+     HOST GAME
+    </button>
+   </div>
+  `;
+
+ }
+
  return `
   <article
    class="game ${full ? "full-game" : ""}"
-   data-game="${esc(game.id)}"
+   data-game-card="${esc(game.id)}"
   >
 
    <div class="game-top">
 
     <div class="game-icon">
-     ${esc(game.icon || "🎮")}
+     ${esc(game.icon || "GAME")}
     </div>
 
     <div class="game-status">
-     AVAILABLE
+     ${statusText}
     </div>
 
    </div>
@@ -2750,15 +2938,12 @@ function gameHTML(
     )}
    </p>
 
-   <span class="game-action">
-    PLAY GAME →
-   </span>
+   ${actions}
 
   </article>
  `;
 
 }
-
 
 function renderGames(){
 
@@ -2771,56 +2956,132 @@ function renderGames(){
   .innerHTML =
    games
     .slice(0,4)
-    .map(
-     game =>
-      gameHTML(game)
-    )
+    .map(game => gameHTML(game))
     .join("");
 
 
  $("allGames")
   .innerHTML =
    games
-    .map(
-     game =>
-      gameHTML(
-       game,
-       true
-      )
-    )
+    .map(game => gameHTML(game,true))
     .join("");
 
 
  document
-  .querySelectorAll(
-   "[data-game]"
-  )
-  .forEach(
-   card => {
+  .querySelectorAll("[data-open-game]")
+  .forEach(button => {
 
-    card.addEventListener(
-     "click",
-     () => {
+   button.addEventListener("click", event => {
 
-      const game =
-       games.find(
-        item =>
-         item.id ===
-         card.dataset.game
-       );
+    event.stopPropagation();
 
-      if(game){
-       openGame(game);
-      }
+    const game =
+     games.find(
+      item =>
+       item.id ===
+       button.dataset.openGame
+     );
 
-     }
-    );
+    if(game){
+     openGame(game);
+    }
 
-   }
-  );
+   });
+
+  });
+
+
+ document
+  .querySelectorAll("[data-host-game]")
+  .forEach(button => {
+
+   button.addEventListener("click", event => {
+
+    event.stopPropagation();
+
+    const game =
+     games.find(
+      item =>
+       item.id ===
+       button.dataset.hostGame
+     );
+
+    if(game){
+     hostGame(game,button);
+    }
+
+   });
+
+  });
+
+
+ document
+  .querySelectorAll("[data-host-control]")
+  .forEach(button => {
+
+   button.addEventListener("click", event => {
+
+    event.stopPropagation();
+
+    window.location.href =
+     `gamemaster.html?session=${encodeURIComponent(button.dataset.hostControl)}`;
+
+   });
+
+  });
+
+
+ document
+  .querySelectorAll("[data-enter-session]")
+  .forEach(button => {
+
+   button.addEventListener("click", event => {
+
+    event.stopPropagation();
+
+    const game =
+     games.find(
+      item =>
+       item.id ===
+       currentSession?.game_id
+     );
+
+    if(currentSession?.status === "live"){
+     window.location.href =
+      `battle.html?session=${encodeURIComponent(currentSession.id)}&game=${encodeURIComponent(game?.id || "")}`;
+    }else{
+     switchView("home");
+     window.scrollTo({top:0,behavior:"smooth"});
+    }
+
+   });
+
+  });
+
+
+ const resumeHostBtn =
+  $("resumeHostBtn");
+
+ if(resumeHostBtn){
+
+  if(currentSession){
+
+   resumeHostBtn.classList.remove("hidden");
+   resumeHostBtn.onclick = () => {
+    window.location.href =
+     `gamemaster.html?session=${encodeURIComponent(currentSession.id)}`;
+   };
+
+  }else{
+
+   resumeHostBtn.classList.add("hidden");
+   resumeHostBtn.onclick = null;
+
+  }
+
+ }
 
 }
-
 
 /* =====================================================
    ROOM MEMBERS
@@ -3365,40 +3626,17 @@ async function loadAchievements(){
 
 async function checkGameMaster(){
 
- const {
-  data,
-  error
- } =
-  await sb
-   .from("game_masters")
-   .select("id")
-   .eq(
-    "user_id",
-    user.id
-   )
-   .maybeSingle();
+ /*
+  RES WARS universal hosting:
+  every authenticated resident with a completed room profile
+  may open Game Master Control.
+ */
 
-
- if(error){
-  console.error(
-   "Game Master check:",
-   error
-  );
-
-  return;
- }
-
-
- if(data){
-
-  $("gameMasterBtn")
-   .classList
-   .remove("hidden");
-
- }
+ $("gameMasterBtn")
+  .classList
+  .remove("hidden");
 
 }
-
 
 /* =====================================================
    CURRENT BATTLE
@@ -3466,6 +3704,7 @@ async function loadCurrentBattle(){
   stopCountdown();
 
   renderBattle();
+  renderGames();
 
   return;
 
@@ -4087,6 +4326,153 @@ function startCountdown(){
    update,
    1000
   );
+
+}
+
+
+
+/* =====================================================
+   HOST GAME — UNIVERSAL RESIDENT HOSTING
+===================================================== */
+
+async function hostGame(game,button){
+
+ if(!user || !room || !game){
+  toast("Your RES WARS profile is not ready.", "error");
+  return;
+ }
+
+ if(currentSession){
+
+  window.location.href =
+   `gamemaster.html?session=${encodeURIComponent(currentSession.id)}`;
+
+  return;
+ }
+
+
+ const originalText =
+  button?.textContent || "HOST GAME";
+
+
+ try{
+
+  if(button){
+   button.disabled = true;
+   button.textContent = "OPENING LOBBY...";
+  }
+
+
+  /*
+   Preferred secure path:
+   SQL function host_game_session() validates the authenticated
+   resident and creates the lobby server-side.
+  */
+
+  let session = null;
+
+  const rpcResult =
+   await sb.rpc(
+    "host_game_session",
+    {
+     p_game_id:game.id
+    }
+   );
+
+
+  if(!rpcResult.error){
+
+   session =
+    Array.isArray(rpcResult.data)
+     ? rpcResult.data[0]
+     : rpcResult.data;
+
+  }else{
+
+   /*
+    Compatibility fallback for installations where the RPC
+    has not been added yet. This requires an INSERT RLS policy
+    on game_sessions for authenticated residents.
+   */
+
+   const directResult =
+    await sb
+     .from("game_sessions")
+     .insert({
+      residence_id:room.residence_id,
+      game_id:game.id,
+      title:game.name,
+      status:"lobby",
+      current_round:0,
+      total_rounds:20
+     })
+     .select(`
+      id,
+      residence_id,
+      game_id,
+      title,
+      status,
+      scheduled_for,
+      started_at,
+      ended_at,
+      current_round,
+      total_rounds,
+      created_at
+     `)
+     .single();
+
+
+   if(directResult.error){
+    throw rpcResult.error || directResult.error;
+   }
+
+
+   session =
+    directResult.data;
+
+  }
+
+
+  if(!session?.id){
+   throw new Error("The battle lobby was created without a session ID.");
+  }
+
+
+  currentSession =
+   session;
+
+
+  toast(
+   `${game.name} lobby opened. You are the host.`,
+   "success"
+  );
+
+
+  window.location.href =
+   `gamemaster.html?session=${encodeURIComponent(session.id)}`;
+
+
+ }catch(error){
+
+  console.error(
+   "Host game:",
+   error
+  );
+
+
+  toast(
+   error?.message ||
+   "Could not open the battle lobby.",
+   "error"
+  );
+
+
+  if(button){
+   button.disabled = false;
+   button.textContent = originalText;
+  }
+
+ }
 
 }
 
