@@ -2031,92 +2031,152 @@ async function loadUser(){
 
 async function loadSession(){
 
-  const sessionId =
-    getSessionId();
+  /*
+    SIMPLE GAME MASTER FLOW
+    -----------------------
+    The Game Master can open gamemaster.html directly.
 
+    1. If ?session= exists, open that session.
+    2. Otherwise reuse the newest unfinished session for this residence.
+    3. If none exists, automatically create a Roommate Sync lobby.
 
-  if(!sessionId){
+    This removes the old requirement to manually supply a battle/session ID.
+  */
 
-    throw new Error(
-      "No battle session was supplied."
-    );
+  let sessionId = getSessionId();
+  let data = null;
 
-  }
+  const sessionSelect = `
+    id,
+    residence_id,
+    game_id,
+    title,
+    status,
+    scheduled_for,
+    started_at,
+    ended_at,
+    current_round,
+    total_rounds
+  `;
 
+  if(sessionId){
 
-  const {
-    data,
-    error
-  } =
-    await sb
+    const result = await sb
       .from("game_sessions")
-      .select(`
-        id,
-        residence_id,
-        game_id,
-        title,
-        status,
-        scheduled_for,
-        started_at,
-        ended_at,
-        current_round,
-        total_rounds
-      `)
-      .eq(
-        "id",
-        sessionId
-      )
-      .single();
+      .select(sessionSelect)
+      .eq("id", sessionId)
+      .maybeSingle();
 
+    if(result.error){
+      throw result.error;
+    }
 
-  if(error){
-    throw error;
+    data = result.data;
+
+    if(!data){
+      throw new Error("That battle session no longer exists.");
+    }
+
+  }else{
+
+    /* First try to reopen the residence's latest unfinished battle. */
+    const existing = await sb
+      .from("game_sessions")
+      .select(sessionSelect)
+      .eq("residence_id", gameMaster.residence_id)
+      .not("status", "in", '(finished,cancelled)')
+      .order("scheduled_for", { ascending:false, nullsFirst:false })
+      .limit(1)
+      .maybeSingle();
+
+    if(existing.error){
+      throw existing.error;
+    }
+
+    data = existing.data;
+
+    if(!data){
+
+      /* No open battle: create a Roommate Sync lobby automatically. */
+      const gameResult = await sb
+        .from("games")
+        .select("id,name,description,icon,question_count")
+        .ilike("name", "Roommate Sync")
+        .limit(1)
+        .maybeSingle();
+
+      if(gameResult.error){
+        throw gameResult.error;
+      }
+
+      if(!gameResult.data){
+        throw new Error("Roommate Sync could not be found in the games table.");
+      }
+
+      const totalRounds = Math.max(
+        1,
+        Number(gameResult.data.question_count || 20)
+      );
+
+      const created = await sb
+        .from("game_sessions")
+        .insert({
+          residence_id: gameMaster.residence_id,
+          game_id: gameResult.data.id,
+          title: "Roommate Sync",
+          status: "waiting",
+          scheduled_for: new Date().toISOString(),
+          current_round: 0,
+          total_rounds: totalRounds
+        })
+        .select(sessionSelect)
+        .single();
+
+      if(created.error){
+        throw created.error;
+      }
+
+      data = created.data;
+
+      logActivity(
+        "Lobby created",
+        "Roommate Sync is ready for rooms to join"
+      );
+    }
+
+    sessionId = data.id;
+
+    /* Keep a clean working URL without forcing the user to build it manually. */
+    const url = new URL(window.location.href);
+    url.searchParams.set("session", sessionId);
+    history.replaceState({}, "", url);
   }
 
-
-  if(
-    data.residence_id !==
-    gameMaster.residence_id
-  ){
-
-    throw new Error(
-      "You cannot control a battle from another residence."
-    );
-
+  if(data.residence_id !== gameMaster.residence_id){
+    throw new Error("You cannot control a battle from another residence.");
   }
 
-
-  session =
-    data;
-
+  session = data;
 
   const {
     data: gameData,
     error: gameError
-  } =
-    await sb
-      .from("games")
-      .select(`
-        id,
-        name,
-        description,
-        icon
-      `)
-      .eq(
-        "id",
-        session.game_id
-      )
-      .single();
-
+  } = await sb
+    .from("games")
+    .select(`
+      id,
+      name,
+      description,
+      icon
+    `)
+    .eq("id", session.game_id)
+    .single();
 
   if(gameError){
     throw gameError;
   }
 
-
-  game =
-    gameData;
-
+  game = gameData;
 }
 
 
