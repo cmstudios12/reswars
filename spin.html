@@ -564,7 +564,56 @@
         width: min(100%, 300px)
       }
     }
-  </style>
+  
+    .live-strip{
+      margin-top:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      color:var(--success);
+      font-size:7px;
+      font-weight:900;
+      letter-spacing:.12em
+    }
+    .live-dot{
+      width:7px;height:7px;border-radius:50%;
+      background:var(--success);
+      box-shadow:0 0 0 0 rgba(99,230,157,.5);
+      animation:livePulse 1.6s infinite
+    }
+    @keyframes livePulse{
+      0%{box-shadow:0 0 0 0 rgba(99,230,157,.45)}
+      70%{box-shadow:0 0 0 9px rgba(99,230,157,0)}
+      100%{box-shadow:0 0 0 0 rgba(99,230,157,0)}
+    }
+    .session-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      padding:7px 10px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      color:var(--muted);
+      font-size:7px;
+      font-weight:900;
+      letter-spacing:.12em
+    }
+    .session-badge.live{color:var(--success);border-color:rgba(99,230,157,.25);background:rgba(99,230,157,.05)}
+    .session-badge.lobby{color:var(--lime);border-color:rgba(223,255,0,.22);background:rgba(223,255,0,.04)}
+    .copy-code{
+      margin-top:8px;
+      border:0;
+      background:transparent;
+      color:var(--muted);
+      font-size:7px;
+      font-weight:800
+    }
+    .copy-code:hover{color:var(--text)}
+    .player.you .avatar{outline:2px solid rgba(120,168,255,.7);outline-offset:3px}
+    .arena.live{box-shadow:inset 0 0 60px rgba(99,230,157,.025)}
+
+</style>
 </head>
 
 <body>
@@ -601,8 +650,8 @@
 
     <section id="gamePanel" class="panel hidden">
       <div class="session-head">
-        <div class="session-code"><small>GAME CODE</small><strong id="gameCode">------</strong></div>
-        <div class="round"><small>ROUND</small><strong id="roundNo">0</strong></div>
+        <div class="session-code"><small>GAME CODE</small><strong id="gameCode">------</strong><button class="copy-code" onclick="copyCode()">COPY CODE</button></div>
+        <div class="round"><small>STATUS</small><div id="sessionBadge" class="session-badge lobby">LOBBY</div><small style="margin-top:8px">ROUND</small><strong id="roundNo">0</strong></div>
       </div>
       <div class="arena">
         <div id="playerRing" class="player-ring"></div>
@@ -621,6 +670,7 @@
           onclick="startGame()">START GAME</button><button id="spinBtn" class="btn" onclick="spinBottle()">SPIN
           BOTTLE</button></div>
       <div id="playersLine" class="players-line"></div>
+      <div id="liveStrip" class="live-strip hidden"><span class="live-dot"></span>LIVE SESSION — REALTIME CONNECTED</div>
     </section>
   </main>
 
@@ -647,10 +697,15 @@
   <script>
     const sb = supabase.createClient("https://tkfnypzohdercxljswfe.supabase.co", "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra");
     const $ = id => document.getElementById(id);
-    let user = null, profile = null, session = null, players = [], currentSpin = null, challenge = null, channel = null, currentRotation = 0, spinTimer = null;
+    let user = null, profile = null, session = null, players = [], currentSpin = null, challenge = null, channel = null, currentRotation = 0, spinTimer = null, refreshTimer = null, realtimeState = "CLOSED";
     const params = new URLSearchParams(location.search), gameId = params.get("game"), sessionId = params.get("session"), autoHost = params.get("host") === "1";
     function toast(m) { $("toast").textContent = m; $("toast").classList.remove("hidden"); clearTimeout(toast.t); toast.t = setTimeout(() => $("toast").classList.add("hidden"), 3200) }
     function initials(n) { return (n || "P").trim().split(/\s+/).slice(0, 2).map(x => x[0]).join("").toUpperCase() }
+    async function copyCode(){
+      if(!session?.code)return;
+      try{await navigator.clipboard.writeText(session.code);toast("Game code copied.");}
+      catch{toast(`Game code: ${session.code}`)}
+    }
     async function init() {
       try {
         const { data: { session: s } } = await sb.auth.getSession();
@@ -698,8 +753,15 @@
         sb.from("spin_sessions").select("*").eq("id", session.id).single(),
         sb.from("spin_players").select("*").eq("session_id", session.id).eq("active", true).order("joined_at")
       ]);
-      if (s.error) throw s.error; session = s.data; players = p.data || [];
+      if (s.error) throw s.error;
+      if (p.error) throw p.error;
+      session = s.data; players = p.data || [];
       $("gameCode").textContent = session.code; $("roundNo").textContent = session.round_no || 0;
+      const badge=$("sessionBadge");
+      badge.textContent=(session.status||"lobby").toUpperCase();
+      badge.className=`session-badge ${session.status||"lobby"}`;
+      $("liveStrip").classList.toggle("hidden",session.status!=="live");
+      document.querySelector(".arena").classList.toggle("live",session.status==="live");
       renderPlayers(); renderControls();
       if (session.current_spin_id && (!currentSpin || currentSpin.id !== session.current_spin_id)) await loadSpin(session.current_spin_id);
     }
@@ -707,8 +769,8 @@
       const ring = $("playerRing"), cx = 50, cy = 50, rx = 42, ry = 39, n = Math.max(players.length, 1);
       ring.innerHTML = players.map((p, i) => {
         const a = (i / n) * Math.PI * 2 - Math.PI / 2, x = cx + Math.cos(a) * rx, y = cy + Math.sin(a) * ry;
-        const sel = currentSpin?.selected_player_id === p.id ? " selected" : "", host = p.user_id === session.host_user_id ? " host" : "";
-        return `<div class="player${sel}${host}" style="left:${x}%;top:${y}%"><div class="avatar">${initials(p.display_name)}</div><span>${escapeHtml(p.display_name)}</span></div>`
+        const sel = currentSpin?.selected_player_id === p.id ? " selected" : "", host = p.user_id === session.host_user_id ? " host" : "", you = p.user_id === user.id ? " you" : "";
+        return `<div class="player${sel}${host}${you}" style="left:${x}%;top:${y}%"><div class="avatar">${initials(p.display_name)}</div><span>${escapeHtml(p.display_name)}${p.user_id===user.id?" (YOU)":""}</span></div>`
       }).join("");
       $("playersLine").textContent = `${players.length} player${players.length === 1 ? "" : "s"} connected`;
     }
@@ -716,8 +778,19 @@
       const host = session.host_user_id === user.id;
       $("hostControls").classList.toggle("hidden", !host);
       $("startBtn").classList.toggle("hidden", session.status !== "lobby");
-      $("spinBtn").disabled = players.length < 2 || session.status === "finished";
-      $("centerStatus").textContent = session.status === "lobby" ? (host ? "Share the code, then start when everyone is in." : "Waiting for the host to start.") : (session.status === "finished" ? "Game ended." : "Ready for the next spin.");
+      $("spinBtn").classList.toggle("hidden", session.status !== "live");
+      $("spinBtn").disabled = players.length < 2 || session.status !== "live";
+      if(session.status==="lobby"){
+        $("centerStatus").textContent = host
+          ? (players.length<2 ? "Share the game code and wait for at least one more player." : "Players are connected. Press START GAME when ready.")
+          : "You joined the lobby. Waiting for the host to start.";
+      }else if(session.status==="live"){
+        $("centerStatus").textContent = currentSpin && !["completed","skipped"].includes(currentSpin.status)
+          ? "A round is in progress."
+          : "Game is live. Waiting for the host to spin.";
+      }else{
+        $("centerStatus").textContent = "This game has ended.";
+      }
     }
     function subscribe() {
       if (channel) sb.removeChannel(channel);
@@ -725,11 +798,30 @@
         .on("postgres_changes", { event: "*", schema: "public", table: "spin_sessions", filter: `id=eq.${session.id}` }, () => refreshAll())
         .on("postgres_changes", { event: "*", schema: "public", table: "spin_players", filter: `session_id=eq.${session.id}` }, () => refreshAll())
         .on("postgres_changes", { event: "INSERT", schema: "public", table: "spin_spins", filter: `session_id=eq.${session.id}` }, p => loadSpin(p.new.id))
-        .on("postgres_changes", { event: "UPDATE", schema: "public", table: "spin_spins", filter: `session_id=eq.${session.id}` }, p => { if (currentSpin?.id === p.new.id) { currentSpin = p.new; if (["completed", "skipped"].includes(p.new.status)) $("challengeModal").classList.add("hidden") } })
-        .subscribe();
+        .on("postgres_changes", { event: "UPDATE", schema: "public", table: "spin_spins", filter: `session_id=eq.${session.id}` }, p => {
+          if(currentSpin?.id===p.new.id){
+            currentSpin=p.new;
+            if(["completed","skipped"].includes(p.new.status)){
+              $("challengeModal").classList.add("hidden");
+              $("centerStatus").textContent="Game is live. Waiting for the host to spin.";
+            }
+          }
+        })
+        .subscribe(status=>{
+          realtimeState=status;
+          if(status==="SUBSCRIBED"){
+            toast("Realtime connected.");
+            clearInterval(refreshTimer);
+            refreshTimer=setInterval(()=>refreshAll().catch(console.warn),8000);
+          }
+        });
     }
     async function startGame() {
-      const { error } = await sb.rpc("start_spin_session", { p_session_id: session.id }); if (error) return toast(error.message); await refreshAll();
+      $("startBtn").disabled=true;
+      const { error } = await sb.rpc("start_spin_session", { p_session_id: session.id });
+      if (error){$("startBtn").disabled=false;return toast(error.message)}
+      await refreshAll();
+      toast("Game is LIVE.");
     }
     async function spinBottle() {
       if (currentSpin && !["completed", "skipped"].includes(currentSpin.status)) return toast("Complete or skip the current challenge first.");
@@ -749,7 +841,7 @@
       const extra = Number(data.rotation_degrees || 1800);
       const turns = Math.ceil((currentRotation + extra - target) / 360) * 360 + target;
       currentRotation = turns;
-      $("centerStatus").textContent = "Bottle spinning...";
+      $("centerStatus").textContent = "LIVE SPIN — bottle is choosing a player...";
       $("bottle").style.transform = `rotate(${turns}deg)`;
       clearTimeout(spinTimer);
       spinTimer = setTimeout(() => showChallenge(selected), 5450);
@@ -767,14 +859,14 @@
     async function resolveRound(status) {
       if (!currentSpin) return;
       const { error } = await sb.rpc("resolve_spin", { p_spin_id: currentSpin.id, p_status: status }); if (error) return toast(error.message);
-      currentSpin.status = status; $("challengeModal").classList.add("hidden"); $("spinBtn").disabled = false; $("centerStatus").textContent = "Ready for the next spin.";
+      currentSpin.status = status; $("challengeModal").classList.add("hidden"); $("spinBtn").disabled = false; $("centerStatus").textContent = "Game is live. Waiting for the host to spin.";
     }
     async function leaveGame() {
       if (session) await sb.rpc("leave_spin_session", { p_session_id: session.id });
       location.href = "index.html";
     }
     function escapeHtml(v) { return String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c])) }
-    window.addEventListener("beforeunload", () => { if (channel) sb.removeChannel(channel) });
+    window.addEventListener("beforeunload", () => { if (channel) sb.removeChannel(channel); clearInterval(refreshTimer); });
     init();
   </script>
 </body>
