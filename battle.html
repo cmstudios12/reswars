@@ -1481,17 +1481,13 @@ function gameNameKey(){
 }
 
 function getSessionId(){
+  const params = new URLSearchParams(window.location.search);
+  return params.get("session");
+}
 
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-
-  return params.get(
-    "session"
-  );
-
+function getGameId(){
+  const params = new URLSearchParams(window.location.search);
+  return params.get("game");
 }
 
 
@@ -1590,23 +1586,83 @@ async function loadMembers(){
 
 async function loadSession(){
 
-  const sessionId =
-    getSessionId();
+  let sessionId = getSessionId();
+  const selectedGameId = getGameId();
 
-
+  /*
+    Players can enter battle.html in two ways:
+    1. battle.html?session=...  -> exact active session
+    2. battle.html?game=...     -> resolve the newest open session for
+                                  this game and this residence
+  */
   if(!sessionId){
 
-    throw new Error(
-      "Battle session is missing."
-    );
+    if(!selectedGameId){
+      throw new Error("No game was selected.");
+    }
 
+    const { data: selectedGame, error: selectedGameError } =
+      await sb
+        .from("games")
+        .select(`id,name,description,icon,active`)
+        .eq("id", selectedGameId)
+        .single();
+
+    if(selectedGameError){
+      throw selectedGameError;
+    }
+
+    game = selectedGame;
+
+    const { data: candidates, error: candidateError } =
+      await sb
+        .from("game_sessions")
+        .select(`
+          id,
+          residence_id,
+          game_id,
+          title,
+          status,
+          scheduled_for,
+          started_at,
+          ended_at,
+          current_round,
+          total_rounds
+        `)
+        .eq("residence_id", room.residence_id)
+        .eq("game_id", selectedGameId)
+        .in("status", ["waiting","live"]);
+
+    if(candidateError){
+      throw candidateError;
+    }
+
+    const priority = { live: 0, waiting: 1 };
+    const openSessions = (candidates || []).sort((a,b) => {
+      const pa = priority[a.status] ?? 9;
+      const pb = priority[b.status] ?? 9;
+      if(pa !== pb) return pa - pb;
+      return new Date(b.started_at || b.scheduled_for || 0) -
+             new Date(a.started_at || a.scheduled_for || 0);
+    });
+
+    if(!openSessions.length){
+      throw new Error(`${selectedGame.name} has no open battle right now. The Game Master must open the lobby first.`);
+    }
+
+    session = openSessions[0];
+    sessionId = session.id;
+
+    /* Keep the URL canonical so refreshes return to this exact battle. */
+    const url = new URL(window.location.href);
+    url.searchParams.set("session", session.id);
+    url.searchParams.set("game", selectedGameId);
+    window.history.replaceState({}, "", url);
+
+    return;
   }
 
-
-  const {
-    data,
-    error
-  } =
+  const { data, error } =
     await sb
       .from("game_sessions")
       .select(`
@@ -1621,49 +1677,27 @@ async function loadSession(){
         current_round,
         total_rounds
       `)
-      .eq(
-        "id",
-        sessionId
-      )
+      .eq("id", sessionId)
       .single();
-
 
   if(error){
     throw error;
   }
 
+  session = data;
 
-  session =
-    data;
-
-
-  const {
-    data: gameData,
-    error: gameError
-  } =
+  const { data: gameData, error: gameError } =
     await sb
       .from("games")
-      .select(`
-        id,
-        name,
-        description,
-        icon
-      `)
-      .eq(
-        "id",
-        session.game_id
-      )
+      .select(`id,name,description,icon`)
+      .eq("id", session.game_id)
       .single();
-
 
   if(gameError){
     throw gameError;
   }
 
-
-  game =
-    gameData;
-
+  game = gameData;
 }
 
 
