@@ -1,0 +1,2634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <title>My Room | RES WARS</title>
+
+  <meta name="theme-color" content="#08090c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root{
+      --bg:#08090c;
+      --panel:#101217;
+      --panel2:#14171d;
+      --panel3:#181c23;
+
+      --border:#242831;
+      --border2:#303640;
+
+      --text:#f5f7fa;
+      --muted:#838b99;
+      --muted2:#59616e;
+
+      --accent:#dfff00;
+      --accent-dark:#b7d100;
+
+      --danger:#ff4f5e;
+      --success:#4ade80;
+      --warning:#ffbd2e;
+
+      --radius:16px;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{
+      background:var(--bg);
+    }
+
+    body{
+      min-height:100vh;
+      background:
+        radial-gradient(
+          circle at 50% -20%,
+          rgba(223,255,0,.08),
+          transparent 35%
+        ),
+        var(--bg);
+
+      color:var(--text);
+
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      -webkit-font-smoothing:antialiased;
+
+      padding-bottom:95px;
+    }
+
+    button,
+    a{
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    button{
+      font:inherit;
+    }
+
+    /* =====================================
+       LOADER
+    ====================================== */
+
+    #pageLoader{
+      position:fixed;
+      inset:0;
+
+      z-index:99999;
+
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+
+      background:#08090c;
+    }
+
+    .loader-logo{
+      width:70px;
+      height:70px;
+
+      display:grid;
+      place-items:center;
+
+      border-radius:18px;
+
+      background:var(--accent);
+      color:#070809;
+
+      font-weight:1000;
+      font-size:20px;
+
+      box-shadow:
+        0 0 45px rgba(223,255,0,.12);
+    }
+
+    .loader-line{
+      width:120px;
+      height:3px;
+
+      margin-top:25px;
+
+      overflow:hidden;
+
+      border-radius:99px;
+
+      background:#1c2026;
+    }
+
+    .loader-line::after{
+      content:"";
+
+      display:block;
+
+      width:45%;
+      height:100%;
+
+      background:var(--accent);
+
+      animation:loading 1s infinite ease-in-out;
+    }
+
+    @keyframes loading{
+      0%{
+        transform:translateX(-120%);
+      }
+
+      100%{
+        transform:translateX(260%);
+      }
+    }
+
+    /* =====================================
+       HEADER
+    ====================================== */
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:100;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      height:70px;
+
+      padding:
+        env(safe-area-inset-top)
+        18px
+        0;
+
+      border-bottom:1px solid rgba(255,255,255,.055);
+
+      background:rgba(8,9,12,.94);
+
+      backdrop-filter:blur(18px);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:11px;
+    }
+
+    .brand-icon{
+      width:35px;
+      height:35px;
+
+      display:grid;
+      place-items:center;
+
+      border-radius:9px;
+
+      background:var(--accent);
+      color:#08090c;
+
+      font-size:10px;
+      font-weight:1000;
+    }
+
+    .brand-copy strong{
+      display:block;
+
+      font-size:13px;
+      font-weight:950;
+
+      letter-spacing:-.03em;
+    }
+
+    .brand-copy span{
+      display:block;
+
+      margin-top:2px;
+
+      color:var(--muted);
+
+      font-size:7px;
+      font-weight:800;
+
+      letter-spacing:.15em;
+    }
+
+    .header-avatar{
+      width:36px;
+      height:36px;
+
+      display:grid;
+      place-items:center;
+
+      overflow:hidden;
+
+      border:1px solid var(--border2);
+      border-radius:50%;
+
+      background:var(--panel2);
+
+      color:var(--accent);
+
+      font-size:10px;
+      font-weight:950;
+    }
+
+    .header-avatar img{
+      width:100%;
+      height:100%;
+
+      object-fit:cover;
+    }
+
+    /* =====================================
+       PAGE
+    ====================================== */
+
+    .container{
+      width:min(100%,1100px);
+
+      margin:auto;
+
+      padding:25px 17px 45px;
+    }
+
+    .eyebrow{
+      color:var(--accent);
+
+      font-size:8px;
+      font-weight:950;
+
+      letter-spacing:.18em;
+    }
+
+    .page-title{
+      margin-top:7px;
+
+      font-size:30px;
+      font-weight:1000;
+
+      line-height:1;
+
+      letter-spacing:-.055em;
+    }
+
+    .page-subtitle{
+      margin-top:9px;
+
+      color:var(--muted);
+
+      font-size:10px;
+      line-height:1.6;
+    }
+
+    /* =====================================
+       TEAM HERO
+    ====================================== */
+
+    .team-hero{
+      position:relative;
+
+      margin-top:24px;
+
+      overflow:hidden;
+
+      border:1px solid var(--border);
+      border-radius:20px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(223,255,0,.06),
+          transparent 45%
+        ),
+        var(--panel);
+
+      padding:25px;
+    }
+
+    .team-hero::after{
+      content:"";
+
+      position:absolute;
+      top:-90px;
+      right:-80px;
+
+      width:210px;
+      height:210px;
+
+      border-radius:50%;
+
+      background:rgba(223,255,0,.05);
+
+      filter:blur(5px);
+
+      pointer-events:none;
+    }
+
+    .team-top{
+      position:relative;
+      z-index:2;
+
+      display:flex;
+      align-items:center;
+      gap:17px;
+    }
+
+    .team-logo{
+      flex:0 0 auto;
+
+      width:73px;
+      height:73px;
+
+      display:grid;
+      place-items:center;
+
+      overflow:hidden;
+
+      border:1px solid #343a45;
+      border-radius:18px;
+
+      background:#171a20;
+
+      color:var(--accent);
+
+      font-size:21px;
+      font-weight:1000;
+    }
+
+    .team-logo img{
+      width:100%;
+      height:100%;
+
+      object-fit:cover;
+    }
+
+    .room-label{
+      color:var(--muted);
+
+      font-size:8px;
+      font-weight:850;
+
+      letter-spacing:.13em;
+    }
+
+    .team-name{
+      margin-top:5px;
+
+      font-size:25px;
+      font-weight:1000;
+
+      letter-spacing:-.05em;
+    }
+
+    .res-name{
+      margin-top:5px;
+
+      color:var(--muted);
+
+      font-size:9px;
+    }
+
+    .rank-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+
+      margin-top:10px;
+
+      padding:7px 9px;
+
+      border:1px solid rgba(223,255,0,.16);
+      border-radius:7px;
+
+      background:rgba(223,255,0,.055);
+
+      color:var(--accent);
+
+      font-size:7px;
+      font-weight:950;
+
+      letter-spacing:.08em;
+    }
+
+    /* =====================================
+       STATS
+    ====================================== */
+
+    .stats-grid{
+      position:relative;
+      z-index:2;
+
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+
+      gap:9px;
+
+      margin-top:24px;
+    }
+
+    .stat{
+      padding:14px 10px;
+
+      text-align:center;
+
+      border:1px solid var(--border);
+      border-radius:11px;
+
+      background:rgba(255,255,255,.018);
+    }
+
+    .stat-value{
+      font-size:20px;
+      font-weight:1000;
+
+      letter-spacing:-.04em;
+    }
+
+    .stat-value.accent{
+      color:var(--accent);
+    }
+
+    .stat-label{
+      margin-top:5px;
+
+      color:var(--muted);
+
+      font-size:7px;
+      font-weight:850;
+
+      letter-spacing:.1em;
+    }
+
+    /* =====================================
+       SECTION
+    ====================================== */
+
+    .section{
+      margin-top:31px;
+    }
+
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+
+      margin-bottom:13px;
+    }
+
+    .section-title{
+      font-size:14px;
+      font-weight:950;
+
+      letter-spacing:-.025em;
+    }
+
+    .section-label{
+      color:var(--muted);
+
+      font-size:7px;
+      font-weight:800;
+
+      letter-spacing:.1em;
+    }
+
+    /* =====================================
+       ROOMMATES
+    ====================================== */
+
+    .members-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+
+      gap:10px;
+    }
+
+    .member-card{
+      min-height:155px;
+
+      padding:17px;
+
+      border:1px solid var(--border);
+      border-radius:15px;
+
+      background:var(--panel);
+    }
+
+    .member-top{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .member-avatar{
+      width:48px;
+      height:48px;
+
+      flex:0 0 auto;
+
+      display:grid;
+      place-items:center;
+
+      overflow:hidden;
+
+      border:1px solid var(--border2);
+      border-radius:50%;
+
+      background:var(--panel3);
+
+      color:var(--accent);
+
+      font-size:12px;
+      font-weight:1000;
+    }
+
+    .member-avatar img{
+      width:100%;
+      height:100%;
+
+      object-fit:cover;
+    }
+
+    .member-name{
+      font-size:11px;
+      font-weight:900;
+
+      line-height:1.25;
+    }
+
+    .member-role{
+      margin-top:4px;
+
+      color:var(--muted);
+
+      font-size:7px;
+      font-weight:800;
+
+      letter-spacing:.08em;
+    }
+
+    .you-badge{
+      display:inline-block;
+
+      margin-left:5px;
+
+      padding:3px 5px;
+
+      border-radius:4px;
+
+      background:var(--accent);
+
+      color:#08090c;
+
+      font-size:5px;
+      font-weight:1000;
+
+      vertical-align:middle;
+    }
+
+    .member-xp{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+
+      margin-top:18px;
+      padding-top:12px;
+
+      border-top:1px solid var(--border);
+    }
+
+    .member-xp span{
+      color:var(--muted);
+
+      font-size:7px;
+      font-weight:800;
+    }
+
+    .member-xp strong{
+      color:var(--accent);
+
+      font-size:10px;
+      font-weight:950;
+    }
+
+    /* =====================================
+       XP PROGRESS
+    ====================================== */
+
+    .progress-card{
+      padding:19px;
+
+      border:1px solid var(--border);
+      border-radius:15px;
+
+      background:var(--panel);
+    }
+
+    .progress-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .level{
+      font-size:11px;
+      font-weight:950;
+    }
+
+    .progress-number{
+      color:var(--accent);
+
+      font-size:9px;
+      font-weight:900;
+    }
+
+    .progress-track{
+      height:7px;
+
+      margin-top:13px;
+
+      overflow:hidden;
+
+      border-radius:99px;
+
+      background:#20242b;
+    }
+
+    .progress-bar{
+      width:0%;
+      height:100%;
+
+      border-radius:99px;
+
+      background:var(--accent);
+
+      transition:width .7s ease;
+    }
+
+    .progress-info{
+      display:flex;
+      justify-content:space-between;
+
+      margin-top:9px;
+
+      color:var(--muted);
+
+      font-size:7px;
+    }
+
+    /* =====================================
+       ACHIEVEMENTS
+    ====================================== */
+
+    .achievements-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+
+      gap:9px;
+    }
+
+    .achievement{
+      padding:15px;
+
+      border:1px solid var(--border);
+      border-radius:13px;
+
+      background:var(--panel);
+    }
+
+    .achievement.locked{
+      opacity:.4;
+    }
+
+    .achievement-icon{
+      width:35px;
+      height:35px;
+
+      display:grid;
+      place-items:center;
+
+      border-radius:9px;
+
+      background:rgba(223,255,0,.07);
+
+      font-size:16px;
+    }
+
+    .achievement-title{
+      margin-top:11px;
+
+      font-size:9px;
+      font-weight:950;
+    }
+
+    .achievement-desc{
+      margin-top:5px;
+
+      color:var(--muted);
+
+      font-size:7px;
+      line-height:1.5;
+    }
+
+    .achievement-xp{
+      margin-top:9px;
+
+      color:var(--accent);
+
+      font-size:7px;
+      font-weight:900;
+    }
+
+    /* =====================================
+       ACTIONS
+    ====================================== */
+
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+
+      gap:9px;
+    }
+
+    .action-btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+
+      min-height:45px;
+
+      padding:10px;
+
+      border:1px solid var(--border);
+      border-radius:10px;
+
+      background:var(--panel);
+
+      color:#fff;
+
+      text-decoration:none;
+
+      font-size:8px;
+      font-weight:900;
+
+      cursor:pointer;
+    }
+
+    .action-btn.primary{
+      border-color:var(--accent);
+
+      background:var(--accent);
+
+      color:#08090c;
+    }
+
+    /* =====================================
+       EMPTY
+    ====================================== */
+
+    .empty{
+      padding:30px 20px;
+
+      text-align:center;
+
+      border:1px dashed var(--border2);
+      border-radius:14px;
+
+      color:var(--muted);
+
+      font-size:9px;
+      line-height:1.6;
+    }
+
+    /* =====================================
+       BOTTOM NAV
+    ====================================== */
+
+    .bottom-nav{
+      position:fixed;
+      left:50%;
+      bottom:0;
+      z-index:500;
+
+      width:min(100%,600px);
+
+      transform:translateX(-50%);
+
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+
+      padding:
+        8px
+        8px
+        calc(8px + env(safe-area-inset-bottom));
+
+      border-top:1px solid var(--border);
+
+      background:rgba(10,11,14,.97);
+
+      backdrop-filter:blur(18px);
+    }
+
+    .nav-item{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+
+      gap:4px;
+
+      min-height:50px;
+
+      border:0;
+
+      background:transparent;
+
+      color:#626a77;
+
+      text-decoration:none;
+
+      font-size:6px;
+      font-weight:850;
+
+      letter-spacing:.04em;
+    }
+
+    .nav-icon{
+      font-size:16px;
+      line-height:1;
+    }
+
+    .nav-item.active{
+      color:var(--accent);
+    }
+
+    /* =====================================
+       TOAST
+    ====================================== */
+
+    #toast{
+      position:fixed;
+      left:50%;
+      bottom:92px;
+      z-index:9999;
+
+      width:calc(100% - 34px);
+      max-width:390px;
+
+      transform:
+        translate(-50%,30px);
+
+      padding:13px 15px;
+
+      border:1px solid var(--border2);
+      border-radius:10px;
+
+      background:#171a20;
+
+      color:#fff;
+
+      font-size:8px;
+      font-weight:800;
+
+      opacity:0;
+      pointer-events:none;
+
+      transition:.25s ease;
+    }
+
+    #toast.show{
+      opacity:1;
+
+      transform:
+        translate(-50%,0);
+    }
+
+    #toast.success{
+      border-color:rgba(74,222,128,.25);
+    }
+
+    #toast.error{
+      border-color:rgba(255,79,94,.3);
+    }
+
+    /* =====================================
+       RESPONSIVE
+    ====================================== */
+
+    @media(max-width:560px){
+
+      .container{
+        padding-left:14px;
+        padding-right:14px;
+      }
+
+      .team-hero{
+        padding:20px 17px;
+      }
+
+      .team-logo{
+        width:64px;
+        height:64px;
+      }
+
+      .team-name{
+        font-size:22px;
+      }
+
+      .members-grid{
+        grid-template-columns:1fr;
+      }
+
+    }
+
+    @media(min-width:800px){
+
+      .page-title{
+        font-size:38px;
+      }
+
+      .team-hero{
+        padding:30px;
+      }
+
+      .members-grid{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .achievements-grid{
+        grid-template-columns:repeat(4,1fr);
+      }
+
+      .bottom-nav{
+        bottom:18px;
+
+        border:1px solid var(--border);
+        border-radius:15px;
+      }
+
+      body{
+        padding-bottom:110px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ===================================
+       LOADER
+  ==================================== -->
+
+  <div id="pageLoader">
+
+    <div class="loader-logo">
+      RW
+    </div>
+
+    <div class="loader-line"></div>
+
+  </div>
+
+
+  <!-- ===================================
+       HEADER
+  ==================================== -->
+
+  <header class="topbar">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        RW
+      </div>
+
+      <div class="brand-copy">
+
+        <strong>
+          RES WARS
+        </strong>
+
+        <span>
+          MY ANGEL RESIDENCE
+        </span>
+
+      </div>
+
+    </div>
+
+    <div
+      class="header-avatar"
+      id="headerAvatar"
+    >
+      --
+    </div>
+
+  </header>
+
+
+  <!-- ===================================
+       PAGE
+  ==================================== -->
+
+  <main class="container">
+
+    <div class="eyebrow">
+      YOUR TEAM
+    </div>
+
+    <h1 class="page-title">
+      My Room
+    </h1>
+
+    <p class="page-subtitle">
+      Your room is your team. Win together. Lose together.
+      Climb the residence rankings together.
+    </p>
+
+
+    <!-- TEAM HERO -->
+
+    <section class="team-hero">
+
+      <div class="team-top">
+
+        <div
+          class="team-logo"
+          id="teamLogo"
+        >
+          RW
+        </div>
+
+        <div>
+
+          <div
+            class="room-label"
+            id="roomLabel"
+          >
+            ROOM --
+          </div>
+
+          <div
+            class="team-name"
+            id="teamName"
+          >
+            Loading...
+          </div>
+
+          <div
+            class="res-name"
+            id="residenceName"
+          >
+            My Angel Residence
+          </div>
+
+          <div
+            class="rank-badge"
+            id="rankBadge"
+          >
+            RANK #--
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="stats-grid">
+
+        <div class="stat">
+
+          <div
+            class="stat-value accent"
+            id="totalXP"
+          >
+            0
+          </div>
+
+          <div class="stat-label">
+            TEAM XP
+          </div>
+
+        </div>
+
+
+        <div class="stat">
+
+          <div
+            class="stat-value"
+            id="totalWins"
+          >
+            0
+          </div>
+
+          <div class="stat-label">
+            WINS
+          </div>
+
+        </div>
+
+
+        <div class="stat">
+
+          <div
+            class="stat-value"
+            id="memberCount"
+          >
+            0/2
+          </div>
+
+          <div class="stat-label">
+            PLAYERS
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ROOMMATES -->
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <div>
+
+          <div class="section-label">
+            YOUR DUO
+          </div>
+
+          <div class="section-title">
+            Roommates
+          </div>
+
+        </div>
+
+        <div
+          class="section-label"
+          id="memberStatus"
+        >
+          0 / 2
+        </div>
+
+      </div>
+
+      <div
+        class="members-grid"
+        id="membersGrid"
+      ></div>
+
+    </section>
+
+
+    <!-- XP -->
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <div>
+
+          <div class="section-label">
+            TEAM PROGRESS
+          </div>
+
+          <div class="section-title">
+            XP Level
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="progress-card">
+
+        <div class="progress-head">
+
+          <div
+            class="level"
+            id="levelName"
+          >
+            Level 1
+          </div>
+
+          <div
+            class="progress-number"
+            id="levelXP"
+          >
+            0 XP
+          </div>
+
+        </div>
+
+        <div class="progress-track">
+
+          <div
+            class="progress-bar"
+            id="progressBar"
+          ></div>
+
+        </div>
+
+        <div class="progress-info">
+
+          <span id="currentLevelXP">
+            0 XP
+          </span>
+
+          <span id="nextLevelXP">
+            500 XP
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ACHIEVEMENTS -->
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <div>
+
+          <div class="section-label">
+            TROPHY CABINET
+          </div>
+
+          <div class="section-title">
+            Achievements
+          </div>
+
+        </div>
+
+      </div>
+
+      <div
+        class="achievements-grid"
+        id="achievementsGrid"
+      ></div>
+
+    </section>
+
+
+    <!-- ACTIONS -->
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <div>
+
+          <div class="section-label">
+            BATTLE CONTROL
+          </div>
+
+          <div class="section-title">
+            Room Actions
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="actions">
+
+        <a
+          href="battle.html"
+          class="action-btn primary"
+        >
+          ⚔ ENTER BATTLE
+        </a>
+
+        <a
+          href="index.html"
+          class="action-btn"
+        >
+          ◈ VIEW LOBBY
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ===================================
+       NAVIGATION
+  ==================================== -->
+
+  <nav class="bottom-nav">
+
+    <a
+      href="index.html"
+      class="nav-item"
+    >
+
+      <span class="nav-icon">
+        ⌂
+      </span>
+
+      HOME
+
+    </a>
+
+
+    <a
+      href="battle.html"
+      class="nav-item"
+    >
+
+      <span class="nav-icon">
+        ⚔
+      </span>
+
+      BATTLE
+
+    </a>
+
+
+    <a
+      href="room.html"
+      class="nav-item active"
+    >
+
+      <span class="nav-icon">
+        ◈
+      </span>
+
+      ROOM
+
+    </a>
+
+
+    <a
+      href="leaderboard.html"
+      class="nav-item"
+    >
+
+      <span class="nav-icon">
+        ▲
+      </span>
+
+      RANKS
+
+    </a>
+
+
+    <a
+      href="profile.html"
+      class="nav-item"
+    >
+
+      <span class="nav-icon">
+        ●
+      </span>
+
+      PROFILE
+
+    </a>
+
+  </nav>
+
+
+  <div id="toast"></div>
+
+
+  <script>
+
+    /* ==========================================
+       SUPABASE
+    ========================================== */
+
+    const SUPABASE_URL =
+      "https://tkfnypzohdercxljswfe.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra";
+
+
+    const {
+      createClient
+    } = supabase;
+
+
+    const db =
+      createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    /* ==========================================
+       STATE
+    ========================================== */
+
+    let currentUser = null;
+
+    let currentProfile = null;
+
+    let currentRoom = null;
+
+    let currentMembers = [];
+
+    let realtimeChannel = null;
+
+
+    /* ==========================================
+       HELPERS
+    ========================================== */
+
+    function escapeHTML(value){
+
+      return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+    }
+
+
+    function initials(name){
+
+      if(!name){
+        return "RW";
+      }
+
+      return name
+        .trim()
+        .split(/\s+/)
+        .slice(0,2)
+        .map(word => word[0])
+        .join("")
+        .toUpperCase();
+
+    }
+
+
+    function showToast(
+      message,
+      type = ""
+    ){
+
+      const toast =
+        document.getElementById("toast");
+
+      toast.textContent =
+        message;
+
+      toast.className =
+        type;
+
+      requestAnimationFrame(() => {
+
+        toast.classList.add("show");
+
+      });
+
+
+      setTimeout(() => {
+
+        toast.classList.remove("show");
+
+      },3000);
+
+    }
+
+
+    function hideLoader(){
+
+      const loader =
+        document.getElementById(
+          "pageLoader"
+        );
+
+      loader.style.opacity = "0";
+
+      loader.style.transition =
+        "opacity .3s ease";
+
+
+      setTimeout(() => {
+
+        loader.style.display =
+          "none";
+
+      },300);
+
+    }
+
+
+    /* ==========================================
+       AUTH
+    ========================================== */
+
+    async function checkAuth(){
+
+      const {
+        data:{
+          session
+        },
+        error
+      } =
+        await db.auth.getSession();
+
+
+      if(
+        error ||
+        !session
+      ){
+
+        location.replace(
+          "auth.html"
+        );
+
+        return false;
+
+      }
+
+
+      currentUser =
+        session.user;
+
+
+      return true;
+
+    }
+
+
+    /* ==========================================
+       PROFILE
+    ========================================== */
+
+    async function loadProfile(){
+
+      const {
+        data,
+        error
+      } =
+        await db
+          .from("profiles")
+          .select("*")
+          .eq(
+            "id",
+            currentUser.id
+          )
+          .single();
+
+
+      if(error){
+
+        console.error(error);
+
+        showToast(
+          "Could not load your profile.",
+          "error"
+        );
+
+        return false;
+
+      }
+
+
+      currentProfile =
+        data;
+
+
+      renderHeader();
+
+
+      if(
+        !currentProfile.room_id
+      ){
+
+        location.replace(
+          "onboarding.html"
+        );
+
+        return false;
+
+      }
+
+
+      return true;
+
+    }
+
+
+    function renderHeader(){
+
+      const avatar =
+        document.getElementById(
+          "headerAvatar"
+        );
+
+
+      if(
+        currentProfile.avatar_url
+      ){
+
+        avatar.innerHTML =
+          `
+            <img
+              src="${escapeHTML(
+                currentProfile.avatar_url
+              )}"
+              alt=""
+            >
+          `;
+
+      }else{
+
+        avatar.textContent =
+          initials(
+            currentProfile.full_name
+          );
+
+      }
+
+    }
+
+
+    /* ==========================================
+       ROOM
+    ========================================== */
+
+    async function loadRoom(){
+
+      const {
+        data,
+        error
+      } =
+        await db
+          .from("rooms")
+          .select(
+            `
+              *,
+              residences (
+                id,
+                name
+              )
+            `
+          )
+          .eq(
+            "id",
+            currentProfile.room_id
+          )
+          .single();
+
+
+      if(error){
+
+        console.error(error);
+
+        showToast(
+          "Could not load room.",
+          "error"
+        );
+
+        return false;
+
+      }
+
+
+      currentRoom =
+        data;
+
+
+      renderRoom();
+
+
+      return true;
+
+    }
+
+
+    function renderRoom(){
+
+      const teamName =
+        currentRoom.team_name ||
+        `Room ${currentRoom.room_number}`;
+
+
+      document.getElementById(
+        "roomLabel"
+      ).textContent =
+        `ROOM ${currentRoom.room_number}`;
+
+
+      document.getElementById(
+        "teamName"
+      ).textContent =
+        teamName;
+
+
+      document.getElementById(
+        "residenceName"
+      ).textContent =
+        currentRoom.residences?.name ||
+        "My Angel Residence";
+
+
+      document.getElementById(
+        "totalXP"
+      ).textContent =
+        Number(
+          currentRoom.total_xp || 0
+        ).toLocaleString();
+
+
+      document.getElementById(
+        "totalWins"
+      ).textContent =
+        currentRoom.wins || 0;
+
+
+      const logo =
+        document.getElementById(
+          "teamLogo"
+        );
+
+
+      if(
+        currentRoom.team_logo
+      ){
+
+        logo.innerHTML =
+          `
+            <img
+              src="${escapeHTML(
+                currentRoom.team_logo
+              )}"
+              alt=""
+            >
+          `;
+
+      }else{
+
+        logo.textContent =
+          initials(teamName);
+
+      }
+
+
+      renderXP();
+
+    }
+
+
+    /* ==========================================
+       ROOM MEMBERS
+    ========================================== */
+
+    async function loadMembers(){
+
+      const {
+        data,
+        error
+      } =
+        await db
+          .from("room_members")
+          .select(
+            `
+              user_id,
+              joined_at,
+              profiles (
+                id,
+                full_name,
+                student_number,
+                avatar_url,
+                xp
+              )
+            `
+          )
+          .eq(
+            "room_id",
+            currentRoom.id
+          )
+          .order(
+            "joined_at",
+            {
+              ascending:true
+            }
+          );
+
+
+      if(error){
+
+        console.error(error);
+
+        showToast(
+          "Could not load roommates.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      currentMembers =
+        data || [];
+
+
+      renderMembers();
+
+    }
+
+
+    function renderMembers(){
+
+      const grid =
+        document.getElementById(
+          "membersGrid"
+        );
+
+
+      const count =
+        currentMembers.length;
+
+
+      document.getElementById(
+        "memberCount"
+      ).textContent =
+        `${count}/2`;
+
+
+      document.getElementById(
+        "memberStatus"
+      ).textContent =
+        `${count} / 2 PLAYERS`;
+
+
+      let html = "";
+
+
+      currentMembers.forEach(
+        member => {
+
+          const profile =
+            member.profiles;
+
+
+          if(!profile){
+            return;
+          }
+
+
+          const isYou =
+            profile.id ===
+            currentUser.id;
+
+
+          let avatarHTML;
+
+
+          if(
+            profile.avatar_url
+          ){
+
+            avatarHTML =
+              `
+                <img
+                  src="${escapeHTML(
+                    profile.avatar_url
+                  )}"
+                  alt=""
+                >
+              `;
+
+          }else{
+
+            avatarHTML =
+              initials(
+                profile.full_name
+              );
+
+          }
+
+
+          html +=
+            `
+              <article class="member-card">
+
+                <div class="member-top">
+
+                  <div class="member-avatar">
+                    ${avatarHTML}
+                  </div>
+
+                  <div>
+
+                    <div class="member-name">
+
+                      ${escapeHTML(
+                        profile.full_name ||
+                        "RES WARS Player"
+                      )}
+
+                      ${
+                        isYou
+                        ?
+                        `<span class="you-badge">
+                          YOU
+                        </span>`
+                        :
+                        ""
+                      }
+
+                    </div>
+
+                    <div class="member-role">
+
+                      ${
+                        isYou
+                        ?
+                        "ROOM PLAYER"
+                        :
+                        "ROOMMATE"
+                      }
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="member-xp">
+
+                  <span>
+                    PLAYER XP
+                  </span>
+
+                  <strong>
+                    ${Number(
+                      profile.xp || 0
+                    ).toLocaleString()}
+                    XP
+                  </strong>
+
+                </div>
+
+              </article>
+            `;
+
+        }
+      );
+
+
+      if(
+        count < 2
+      ){
+
+        html +=
+          `
+            <div class="empty">
+
+              <strong
+                style="
+                  color:#fff;
+                  display:block;
+                  margin-bottom:6px;
+                "
+              >
+                Waiting for your roommate
+              </strong>
+
+              Your room currently has
+              ${count} of 2 players.
+
+              ${
+                currentRoom.partner_code
+                ?
+                `
+                  <br><br>
+
+                  Partner Code:
+
+                  <strong
+                    style="color:#dfff00"
+                  >
+                    ${escapeHTML(
+                      currentRoom.partner_code
+                    )}
+                  </strong>
+                `
+                :
+                ""
+              }
+
+            </div>
+          `;
+
+      }
+
+
+      grid.innerHTML =
+        html;
+
+    }
+
+
+    /* ==========================================
+       TEAM RANK
+    ========================================== */
+
+    async function loadRank(){
+
+      const {
+        data,
+        error
+      } =
+        await db
+          .from("rooms")
+          .select(
+            "id,total_xp"
+          )
+          .eq(
+            "residence_id",
+            currentRoom.residence_id
+          )
+          .order(
+            "total_xp",
+            {
+              ascending:false
+            }
+          );
+
+
+      if(error){
+
+        console.error(error);
+
+        return;
+
+      }
+
+
+      const rank =
+        (data || [])
+          .findIndex(
+            room =>
+              room.id ===
+              currentRoom.id
+          ) + 1;
+
+
+      document.getElementById(
+        "rankBadge"
+      ).textContent =
+        rank > 0
+        ?
+        `RANK #${rank} IN RES`
+        :
+        "UNRANKED";
+
+    }
+
+
+    /* ==========================================
+       XP LEVEL
+    ========================================== */
+
+    function renderXP(){
+
+      const xp =
+        Number(
+          currentRoom.total_xp || 0
+        );
+
+
+      const levelSize =
+        500;
+
+
+      const level =
+        Math.floor(
+          xp / levelSize
+        ) + 1;
+
+
+      const levelStart =
+        (level - 1) *
+        levelSize;
+
+
+      const levelEnd =
+        level *
+        levelSize;
+
+
+      const current =
+        xp - levelStart;
+
+
+      const percentage =
+        Math.min(
+          100,
+          Math.max(
+            0,
+            (
+              current /
+              levelSize
+            ) * 100
+          )
+        );
+
+
+      document.getElementById(
+        "levelName"
+      ).textContent =
+        `Level ${level}`;
+
+
+      document.getElementById(
+        "levelXP"
+      ).textContent =
+        `${xp.toLocaleString()} XP`;
+
+
+      document.getElementById(
+        "currentLevelXP"
+      ).textContent =
+        `${levelStart.toLocaleString()} XP`;
+
+
+      document.getElementById(
+        "nextLevelXP"
+      ).textContent =
+        `${levelEnd.toLocaleString()} XP`;
+
+
+      setTimeout(
+        () => {
+
+          document.getElementById(
+            "progressBar"
+          ).style.width =
+            `${percentage}%`;
+
+        },
+        100
+      );
+
+    }
+
+
+    /* ==========================================
+       ACHIEVEMENTS
+    ========================================== */
+
+    async function loadAchievements(){
+
+      const {
+        data:achievements,
+        error
+      } =
+        await db
+          .from("achievements")
+          .select("*")
+          .order(
+            "xp_reward",
+            {
+              ascending:true
+            }
+          );
+
+
+      if(error){
+
+        console.error(error);
+
+        return;
+
+      }
+
+
+      const memberIds =
+        currentMembers
+          .map(
+            item =>
+              item.user_id
+          );
+
+
+      let earnedIds =
+        new Set();
+
+
+      if(
+        memberIds.length
+      ){
+
+        const {
+          data:earned
+        } =
+          await db
+            .from(
+              "player_achievements"
+            )
+            .select(
+              "achievement_id,user_id"
+            )
+            .in(
+              "user_id",
+              memberIds
+            );
+
+
+        earnedIds =
+          new Set(
+            (earned || [])
+              .map(
+                item =>
+                  item.achievement_id
+              )
+          );
+
+      }
+
+
+      renderAchievements(
+        achievements || [],
+        earnedIds
+      );
+
+    }
+
+
+    function renderAchievements(
+      achievements,
+      earnedIds
+    ){
+
+      const grid =
+        document.getElementById(
+          "achievementsGrid"
+        );
+
+
+      if(
+        !achievements.length
+      ){
+
+        grid.innerHTML =
+          `
+            <div class="empty">
+              No achievements available yet.
+            </div>
+          `;
+
+        return;
+
+      }
+
+
+      const icons = {
+        "First Blood":"⚔",
+        "On Fire":"🔥",
+        "Perfect Pair":"◆",
+        "Fast Fingers":"⚡"
+      };
+
+
+      grid.innerHTML =
+        achievements
+          .map(
+            achievement => {
+
+              const unlocked =
+                earnedIds.has(
+                  achievement.id
+                );
+
+
+              return `
+                <article
+                  class="
+                    achievement
+                    ${
+                      unlocked
+                      ?
+                      ""
+                      :
+                      "locked"
+                    }
+                  "
+                >
+
+                  <div class="achievement-icon">
+
+                    ${
+                      icons[
+                        achievement.title
+                      ] || "★"
+                    }
+
+                  </div>
+
+                  <div class="achievement-title">
+
+                    ${escapeHTML(
+                      achievement.title
+                    )}
+
+                  </div>
+
+                  <div class="achievement-desc">
+
+                    ${escapeHTML(
+                      achievement.description ||
+                      ""
+                    )}
+
+                  </div>
+
+                  <div class="achievement-xp">
+
+                    ${
+                      unlocked
+                      ?
+                      "UNLOCKED • "
+                      :
+                      "LOCKED • "
+                    }
+
+                    +${
+                      achievement.xp_reward || 0
+                    } XP
+
+                  </div>
+
+                </article>
+              `;
+
+            }
+          )
+          .join("");
+
+    }
+
+
+    /* ==========================================
+       REALTIME
+    ========================================== */
+
+    function subscribeRealtime(){
+
+      if(
+        realtimeChannel
+      ){
+
+        db.removeChannel(
+          realtimeChannel
+        );
+
+      }
+
+
+      realtimeChannel =
+        db
+          .channel(
+            `room-${currentRoom.id}`
+          )
+
+
+          .on(
+            "postgres_changes",
+            {
+              event:"*",
+              schema:"public",
+              table:"rooms",
+              filter:
+                `id=eq.${currentRoom.id}`
+            },
+            async () => {
+
+              await loadRoom();
+
+              await loadRank();
+
+            }
+          )
+
+
+          .on(
+            "postgres_changes",
+            {
+              event:"*",
+              schema:"public",
+              table:"room_members",
+              filter:
+                `room_id=eq.${currentRoom.id}`
+            },
+            async () => {
+
+              await loadMembers();
+
+              await loadAchievements();
+
+            }
+          )
+
+
+          .on(
+            "postgres_changes",
+            {
+              event:"*",
+              schema:"public",
+              table:"profiles"
+            },
+            async payload => {
+
+              const changedId =
+                payload.new?.id ||
+                payload.old?.id;
+
+
+              const belongs =
+                currentMembers.some(
+                  member =>
+                    member.user_id ===
+                    changedId
+                );
+
+
+              if(
+                belongs
+              ){
+
+                await loadMembers();
+
+              }
+
+            }
+          )
+
+
+          .on(
+            "postgres_changes",
+            {
+              event:"*",
+              schema:"public",
+              table:"player_achievements"
+            },
+            async () => {
+
+              await loadAchievements();
+
+            }
+          )
+
+
+          .subscribe();
+
+    }
+
+
+    /* ==========================================
+       SERVICE WORKER
+    ========================================== */
+
+    if(
+      "serviceWorker"
+      in navigator
+    ){
+
+      window.addEventListener(
+        "load",
+        () => {
+
+          navigator
+            .serviceWorker
+            .register("/sw.js")
+            .catch(
+              console.error
+            );
+
+        }
+      );
+
+    }
+
+
+    /* ==========================================
+       START
+    ========================================== */
+
+    async function start(){
+
+      try{
+
+        const authenticated =
+          await checkAuth();
+
+
+        if(
+          !authenticated
+        ){
+          return;
+        }
+
+
+        const profileReady =
+          await loadProfile();
+
+
+        if(
+          !profileReady
+        ){
+          return;
+        }
+
+
+        const roomReady =
+          await loadRoom();
+
+
+        if(
+          !roomReady
+        ){
+
+          hideLoader();
+
+          return;
+
+        }
+
+
+        await loadMembers();
+
+        await Promise.all([
+
+          loadRank(),
+
+          loadAchievements()
+
+        ]);
+
+
+        subscribeRealtime();
+
+
+        hideLoader();
+
+      }catch(error){
+
+        console.error(
+          "RES WARS room error:",
+          error
+        );
+
+
+        hideLoader();
+
+
+        showToast(
+          "Something went wrong loading your room.",
+          "error"
+        );
+
+      }
+
+    }
+
+
+    start();
+
+
+  </script>
+
+</body>
+</html>
