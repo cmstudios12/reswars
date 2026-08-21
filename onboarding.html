@@ -1,0 +1,2593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#08090c">
+
+<title>Setup Your Room | RES WARS</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+  rel="stylesheet"
+>
+
+<style>
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #08090c;
+  --surface: #0d0f13;
+  --surface2: #12151b;
+  --surface3: #171a21;
+  --border: #232731;
+  --border2: #303540;
+
+  --text: #f6f7f9;
+  --muted: #8d94a0;
+  --muted2: #5d6470;
+
+  --lime: #dfff00;
+  --lime2: #edff64;
+
+  --success: #69e69e;
+  --danger: #ff6565;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+
+  font-family: "Inter", sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 50% -15%,
+      rgba(223,255,0,.07),
+      transparent 30%
+    ),
+    var(--bg);
+
+  color: var(--text);
+
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+header {
+  height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 42px;
+
+  border-bottom: 1px solid var(--border);
+
+  background: rgba(8,9,12,.96);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 9px;
+
+  background: var(--lime);
+  color: #08090c;
+
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.brand strong {
+  display: block;
+
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .04em;
+}
+
+.brand small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: var(--muted);
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .15em;
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--lime);
+
+  box-shadow: 0 0 12px rgba(223,255,0,.5);
+}
+
+/* ================================
+   PAGE
+================================ */
+
+.page {
+  width: min(100%, 1120px);
+
+  margin: 0 auto;
+
+  padding: 64px 24px 80px;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 58px;
+}
+
+.progress-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  color: var(--muted2);
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.progress-number {
+  width: 28px;
+  height: 28px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--border2);
+  border-radius: 50%;
+
+  font-size: 9px;
+}
+
+.progress-item.active {
+  color: var(--text);
+}
+
+.progress-item.active .progress-number {
+  border-color: var(--lime);
+
+  background: var(--lime);
+  color: #08090c;
+}
+
+.progress-item.done .progress-number {
+  border-color: rgba(223,255,0,.35);
+  color: var(--lime);
+}
+
+.progress-line {
+  width: 70px;
+  height: 1px;
+
+  margin: 0 14px;
+
+  background: var(--border);
+}
+
+/* ================================
+   MAIN CONTENT
+================================ */
+
+.stage {
+  width: min(100%, 720px);
+
+  margin: 0 auto;
+}
+
+.stage-heading {
+  margin-bottom: 32px;
+
+  text-align: center;
+}
+
+.eyebrow {
+  margin-bottom: 12px;
+
+  color: var(--lime);
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.stage-heading h1 {
+  font-size: clamp(34px, 5vw, 54px);
+  line-height: 1;
+
+  letter-spacing: -.055em;
+}
+
+.stage-heading p {
+  max-width: 520px;
+
+  margin: 16px auto 0;
+
+  color: var(--muted);
+
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* ================================
+   CARDS
+================================ */
+
+.card {
+  padding: 30px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+  border-radius: 15px;
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 14px;
+}
+
+.choice {
+  min-height: 220px;
+
+  padding: 27px;
+
+  text-align: left;
+
+  border: 1px solid var(--border);
+  border-radius: 13px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  transition: .2s ease;
+}
+
+.choice:hover {
+  transform: translateY(-2px);
+
+  border-color: #3b414c;
+
+  background: var(--surface2);
+}
+
+.choice-icon {
+  width: 45px;
+  height: 45px;
+
+  display: grid;
+  place-items: center;
+
+  margin-bottom: 28px;
+
+  border: 1px solid var(--border2);
+  border-radius: 9px;
+
+  color: var(--lime);
+
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.choice h3 {
+  font-size: 18px;
+  letter-spacing: -.03em;
+}
+
+.choice p {
+  margin-top: 9px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.choice-action {
+  display: inline-block;
+
+  margin-top: 23px;
+
+  color: var(--lime);
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+
+/* ================================
+   FORM
+================================ */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field label {
+  color: #c5c9d0;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.field small {
+  color: var(--muted2);
+
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+input {
+  width: 100%;
+  height: 51px;
+
+  padding: 0 15px;
+
+  border: 1px solid var(--border);
+  border-radius: 9px;
+
+  outline: none;
+
+  background: var(--surface2);
+  color: var(--text);
+
+  font-size: 14px;
+}
+
+input::placeholder {
+  color: #505660;
+}
+
+input:focus {
+  border-color: var(--lime);
+
+  box-shadow: 0 0 0 3px rgba(223,255,0,.04);
+}
+
+.code-input {
+  text-align: center;
+
+  font-size: 22px;
+
+  font-weight: 900;
+  letter-spacing: .18em;
+
+  text-transform: uppercase;
+}
+
+.btn {
+  width: 100%;
+  min-height: 50px;
+
+  padding: 14px 18px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: var(--lime);
+  color: #08090c;
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.btn:hover {
+  background: var(--lime2);
+}
+
+.btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  margin-top: 10px;
+
+  background: transparent;
+  color: var(--muted);
+
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+/* ================================
+   MESSAGE
+================================ */
+
+.message {
+  display: none;
+
+  margin-bottom: 18px;
+  padding: 12px 14px;
+
+  border-radius: 8px;
+
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.message.error {
+  display: block;
+
+  border: 1px solid rgba(255,101,101,.2);
+
+  background: rgba(255,101,101,.06);
+  color: #ff9b9b;
+}
+
+.message.success {
+  display: block;
+
+  border: 1px solid rgba(105,230,158,.2);
+
+  background: rgba(105,230,158,.06);
+  color: var(--success);
+}
+
+/* ================================
+   WAITING ROOM
+================================ */
+
+.team-panel {
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+  border-radius: 15px;
+
+  background: var(--surface);
+}
+
+.team-header {
+  padding: 28px 30px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.team-label {
+  color: var(--lime);
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+
+.team-header h2 {
+  margin-top: 8px;
+
+  font-size: 28px;
+
+  letter-spacing: -.04em;
+}
+
+.room-number {
+  margin-top: 7px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+}
+
+.partner-code-box {
+  margin: 24px 30px;
+
+  padding: 23px;
+
+  text-align: center;
+
+  border: 1px dashed #3b414b;
+  border-radius: 11px;
+
+  background: var(--surface2);
+}
+
+.partner-code-box small {
+  color: var(--muted);
+
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+
+.partner-code {
+  margin-top: 9px;
+
+  color: var(--lime);
+
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: .15em;
+}
+
+.copy-btn {
+  margin-top: 12px;
+
+  padding: 7px 12px;
+
+  border: 1px solid var(--border2);
+  border-radius: 7px;
+
+  background: transparent;
+  color: var(--muted);
+
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.members {
+  padding: 0 30px 30px;
+}
+
+.member {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 15px 0;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.member:last-child {
+  border-bottom: none;
+}
+
+.member-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 39px;
+  height: 39px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--surface3);
+  color: var(--text);
+
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.member strong {
+  display: block;
+
+  font-size: 11px;
+}
+
+.member span {
+  display: block;
+
+  margin-top: 4px;
+
+  color: var(--muted);
+
+  font-size: 8px;
+}
+
+.member-state {
+  color: var(--success);
+
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+.waiting {
+  color: var(--muted2);
+}
+
+/* ================================
+   READY
+================================ */
+
+.ready-icon {
+  width: 75px;
+  height: 75px;
+
+  display: grid;
+  place-items: center;
+
+  margin: 0 auto 25px;
+
+  border-radius: 50%;
+
+  background: var(--lime);
+  color: #08090c;
+
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.ready-card {
+  text-align: center;
+}
+
+.ready-team {
+  margin: 27px 0;
+
+  padding: 20px;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  background: var(--surface2);
+}
+
+.ready-team small {
+  color: var(--muted);
+
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .15em;
+}
+
+.ready-team h3 {
+  margin-top: 8px;
+
+  font-size: 22px;
+}
+
+/* ================================
+   LOADER
+================================ */
+
+.loader {
+  position: fixed;
+  inset: 0;
+
+  z-index: 9999;
+
+  display: grid;
+  place-items: center;
+
+  background: rgba(8,9,12,.97);
+}
+
+.loader-inner {
+  text-align: center;
+}
+
+.loader-logo {
+  width: 54px;
+  height: 54px;
+
+  display: grid;
+  place-items: center;
+
+  margin: auto;
+
+  border-radius: 11px;
+
+  background: var(--lime);
+  color: #08090c;
+
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.spinner {
+  width: 25px;
+  height: 25px;
+
+  margin: 20px auto;
+
+  border: 2px solid #303540;
+  border-top-color: var(--lime);
+  border-radius: 50%;
+
+  animation: spin .65s linear infinite;
+}
+
+.loader p {
+  color: var(--muted);
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 700px) {
+
+  header {
+    height: 67px;
+
+    padding: 0 18px;
+  }
+
+  .header-status {
+    display: none;
+  }
+
+  .page {
+    padding:
+      42px
+      17px
+      max(50px, env(safe-area-inset-bottom));
+  }
+
+  .progress {
+    margin-bottom: 43px;
+  }
+
+  .progress-item span:last-child {
+    display: none;
+  }
+
+  .progress-line {
+    width: 42px;
+
+    margin: 0 8px;
+  }
+
+  .choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .choice {
+    min-height: 190px;
+  }
+
+  .card {
+    padding: 22px;
+  }
+
+  .team-header,
+  .members {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .partner-code-box {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="brand">
+
+    <div class="brand-logo">
+      RW
+    </div>
+
+    <div>
+      <strong>RES WARS</strong>
+      <small>MY ANGEL RESIDENCE</small>
+    </div>
+
+  </div>
+
+  <div class="header-status">
+    <span class="status-dot"></span>
+    PLAYER SETUP
+  </div>
+
+</header>
+
+
+<main class="page">
+
+  <!-- PROGRESS -->
+
+  <div class="progress">
+
+    <div
+      id="progress1"
+      class="progress-item active"
+    >
+      <div class="progress-number">1</div>
+      <span>Room</span>
+    </div>
+
+    <div class="progress-line"></div>
+
+    <div
+      id="progress2"
+      class="progress-item"
+    >
+      <div class="progress-number">2</div>
+      <span>Partner</span>
+    </div>
+
+    <div class="progress-line"></div>
+
+    <div
+      id="progress3"
+      class="progress-item"
+    >
+      <div class="progress-number">3</div>
+      <span>Ready</span>
+    </div>
+
+  </div>
+
+
+  <section class="stage">
+
+    <div
+      id="message"
+      class="message"
+    ></div>
+
+
+    <!-- ===================================
+         CHOOSE ACTION
+    ==================================== -->
+
+    <div id="choiceStage">
+
+      <div class="stage-heading">
+
+        <div class="eyebrow">
+          Player Setup
+        </div>
+
+        <h1 id="welcomeTitle">
+          Claim your room.
+        </h1>
+
+        <p>
+          Every room is a two-player team.
+          Create your room if you're first,
+          or join your roommate using their partner code.
+        </p>
+
+      </div>
+
+
+      <div class="choice-grid">
+
+        <button
+          id="createChoice"
+          class="choice"
+          type="button"
+        >
+
+          <div class="choice-icon">
+            +
+          </div>
+
+          <h3>
+            Create my room
+          </h3>
+
+          <p>
+            You're the first roommate here.
+            Create your room team and invite
+            your partner.
+          </p>
+
+          <span class="choice-action">
+            CREATE ROOM →
+          </span>
+
+        </button>
+
+
+        <button
+          id="joinChoice"
+          class="choice"
+          type="button"
+        >
+
+          <div class="choice-icon">
+            ↗
+          </div>
+
+          <h3>
+            Join my roommate
+          </h3>
+
+          <p>
+            Your roommate already created
+            the team. Enter their partner code
+            and join them.
+          </p>
+
+          <span class="choice-action">
+            ENTER CODE →
+          </span>
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================
+         CREATE ROOM
+    ==================================== -->
+
+    <div
+      id="createStage"
+      class="hidden"
+    >
+
+      <div class="stage-heading">
+
+        <div class="eyebrow">
+          Create Room
+        </div>
+
+        <h1>
+          Give your room an identity.
+        </h1>
+
+        <p>
+          This room and team name will represent
+          both roommates throughout RES WARS.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <form
+          id="createForm"
+          class="form"
+        >
+
+          <div class="field">
+
+            <label for="roomNumber">
+              Room number / name
+            </label>
+
+            <input
+              id="roomNumber"
+              type="text"
+              placeholder="e.g. 17"
+              maxlength="30"
+              required
+            >
+
+            <small>
+              Enter your actual room at My Angel Residence.
+            </small>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="teamName">
+              Team name
+            </label>
+
+            <input
+              id="teamName"
+              type="text"
+              placeholder="e.g. The Outlaws"
+              maxlength="40"
+              required
+            >
+
+            <small>
+              Choose carefully. This is your room's RES WARS identity.
+            </small>
+
+          </div>
+
+
+          <button
+            id="createBtn"
+            class="btn"
+            type="submit"
+          >
+            CREATE ROOM TEAM
+          </button>
+
+
+          <button
+            class="btn btn-secondary back-btn"
+            type="button"
+          >
+            BACK
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================
+         JOIN ROOM
+    ==================================== -->
+
+    <div
+      id="joinStage"
+      class="hidden"
+    >
+
+      <div class="stage-heading">
+
+        <div class="eyebrow">
+          Join Room
+        </div>
+
+        <h1>
+          Find your partner.
+        </h1>
+
+        <p>
+          Ask your roommate for the partner code
+          displayed on their RES WARS screen.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <form
+          id="joinForm"
+          class="form"
+        >
+
+          <div class="field">
+
+            <label for="partnerCode">
+              Partner code
+            </label>
+
+            <input
+              id="partnerCode"
+              class="code-input"
+              type="text"
+              placeholder="RW-0000"
+              maxlength="10"
+              autocomplete="off"
+              required
+            >
+
+          </div>
+
+
+          <button
+            id="joinBtn"
+            class="btn"
+            type="submit"
+          >
+            JOIN MY ROOMMATE
+          </button>
+
+
+          <button
+            class="btn btn-secondary back-btn"
+            type="button"
+          >
+            BACK
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================
+         WAITING ROOM
+    ==================================== -->
+
+    <div
+      id="waitingStage"
+      class="hidden"
+    >
+
+      <div class="stage-heading">
+
+        <div class="eyebrow">
+          Room Created
+        </div>
+
+        <h1>
+          Your team is forming.
+        </h1>
+
+        <p>
+          Share the partner code with your roommate.
+          This page updates automatically when they join.
+        </p>
+
+      </div>
+
+
+      <div class="team-panel">
+
+        <div class="team-header">
+
+          <div class="team-label">
+            YOUR TEAM
+          </div>
+
+          <h2 id="waitingTeamName">
+            Team
+          </h2>
+
+          <div
+            id="waitingRoomNumber"
+            class="room-number"
+          >
+            Room
+          </div>
+
+        </div>
+
+
+        <div class="partner-code-box">
+
+          <small>
+            PARTNER CODE
+          </small>
+
+          <div
+            id="displayPartnerCode"
+            class="partner-code"
+          >
+            ----
+          </div>
+
+          <button
+            id="copyCodeBtn"
+            class="copy-btn"
+            type="button"
+          >
+            COPY CODE
+          </button>
+
+        </div>
+
+
+        <div
+          id="membersList"
+          class="members"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================
+         READY
+    ==================================== -->
+
+    <div
+      id="readyStage"
+      class="hidden"
+    >
+
+      <div class="card ready-card">
+
+        <div class="ready-icon">
+          ✓
+        </div>
+
+        <div class="eyebrow">
+          Team Complete
+        </div>
+
+        <div class="stage-heading">
+
+          <h1>
+            You're battle ready.
+          </h1>
+
+          <p>
+            Two roommates. One team.
+            The residence now knows who you are.
+          </p>
+
+        </div>
+
+
+        <div class="ready-team">
+
+          <small>
+            REPRESENTING
+          </small>
+
+          <h3 id="readyTeamName">
+            Team
+          </h3>
+
+          <p
+            id="readyRoomNumber"
+            style="
+              margin-top:7px;
+              color:var(--muted);
+              font-size:10px;
+            "
+          ></p>
+
+        </div>
+
+
+        <button
+          id="enterBtn"
+          class="btn"
+          type="button"
+        >
+          ENTER RES WARS →
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- LOADER -->
+
+<div
+  id="loader"
+  class="loader"
+>
+
+  <div class="loader-inner">
+
+    <div class="loader-logo">
+      RW
+    </div>
+
+    <div class="spinner"></div>
+
+    <p id="loaderText">
+      Loading player...
+    </p>
+
+  </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* ==========================================
+   CONFIG
+========================================== */
+
+const SUPABASE_URL =
+  "https://tkfnypzohdercxljswfe.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra";
+
+const sb =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* ==========================================
+   STATE
+========================================== */
+
+let currentUser = null;
+let currentProfile = null;
+let currentRoom = null;
+let currentResidence = null;
+let realtimeChannel = null;
+
+
+/* ==========================================
+   ELEMENTS
+========================================== */
+
+const loader =
+  document.getElementById("loader");
+
+const loaderText =
+  document.getElementById("loaderText");
+
+const message =
+  document.getElementById("message");
+
+const choiceStage =
+  document.getElementById("choiceStage");
+
+const createStage =
+  document.getElementById("createStage");
+
+const joinStage =
+  document.getElementById("joinStage");
+
+const waitingStage =
+  document.getElementById("waitingStage");
+
+const readyStage =
+  document.getElementById("readyStage");
+
+const createBtn =
+  document.getElementById("createBtn");
+
+const joinBtn =
+  document.getElementById("joinBtn");
+
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+function showLoader(
+  text = "Loading..."
+) {
+
+  loaderText.textContent = text;
+
+  loader.classList.remove("hidden");
+
+}
+
+
+function hideLoader() {
+
+  loader.classList.add("hidden");
+
+}
+
+
+function showMessage(
+  text,
+  type = "error"
+) {
+
+  message.textContent = text;
+
+  message.className =
+    `message ${type}`;
+
+}
+
+
+function clearMessage() {
+
+  message.textContent = "";
+
+  message.className =
+    "message";
+
+}
+
+
+function clean(value) {
+
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+}
+
+
+function showStage(stage) {
+
+  [
+    choiceStage,
+    createStage,
+    joinStage,
+    waitingStage,
+    readyStage
+  ].forEach(item => {
+
+    item.classList.add("hidden");
+
+  });
+
+  stage.classList.remove("hidden");
+
+  clearMessage();
+
+}
+
+
+function initials(name) {
+
+  const words =
+    clean(name)
+      .split(" ")
+      .filter(Boolean);
+
+  if (!words.length) {
+    return "RW";
+  }
+
+  return words
+    .slice(0, 2)
+    .map(word => word[0])
+    .join("")
+    .toUpperCase();
+
+}
+
+
+function generatePartnerCode() {
+
+  const chars =
+    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+  let code = "MA-";
+
+  for (
+    let i = 0;
+    i < 4;
+    i++
+  ) {
+
+    code +=
+      chars[
+        Math.floor(
+          Math.random() *
+          chars.length
+        )
+      ];
+
+  }
+
+  return code;
+
+}
+
+
+function updateProgress(step) {
+
+  const items = [
+    document.getElementById("progress1"),
+    document.getElementById("progress2"),
+    document.getElementById("progress3")
+  ];
+
+  items.forEach(
+    (item, index) => {
+
+      item.classList.remove(
+        "active",
+        "done"
+      );
+
+      const position =
+        index + 1;
+
+      if (position < step) {
+
+        item.classList.add("done");
+
+      }
+
+      if (position === step) {
+
+        item.classList.add("active");
+
+      }
+
+    }
+  );
+
+}
+
+
+/* ==========================================
+   LOAD ROOM
+========================================== */
+
+async function loadRoom(roomId) {
+
+  const {
+    data,
+    error
+  } =
+    await sb
+      .from("rooms")
+      .select(`
+        id,
+        room_number,
+        team_name,
+        partner_code,
+        total_xp,
+        wins,
+        residence_id
+      `)
+      .eq("id", roomId)
+      .single();
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  currentRoom = data;
+
+  return data;
+
+}
+
+
+/* ==========================================
+   LOAD MEMBERS
+========================================== */
+
+async function loadMembers() {
+
+  if (!currentRoom) {
+    return [];
+  }
+
+
+  const {
+    data: memberships,
+    error
+  } =
+    await sb
+      .from("room_members")
+      .select(`
+        user_id,
+        joined_at
+      `)
+      .eq(
+        "room_id",
+        currentRoom.id
+      )
+      .order(
+        "joined_at",
+        {
+          ascending: true
+        }
+      );
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  const ids =
+    memberships.map(
+      item => item.user_id
+    );
+
+
+  if (!ids.length) {
+    return [];
+  }
+
+
+  const {
+    data: profiles,
+    error: profileError
+  } =
+    await sb
+      .from("profiles")
+      .select(`
+        id,
+        full_name,
+        student_number
+      `)
+      .in("id", ids);
+
+
+  if (profileError) {
+    throw profileError;
+  }
+
+
+  return memberships.map(
+    membership => {
+
+      const profile =
+        profiles.find(
+          item =>
+            item.id ===
+            membership.user_id
+        );
+
+      return {
+        ...membership,
+        profile
+      };
+
+    }
+  );
+
+}
+
+
+/* ==========================================
+   RENDER ROOM
+========================================== */
+
+async function renderCurrentRoom() {
+
+  const members =
+    await loadMembers();
+
+
+  document
+    .getElementById(
+      "waitingTeamName"
+    )
+    .textContent =
+      currentRoom.team_name ||
+      "Unnamed Team";
+
+
+  document
+    .getElementById(
+      "waitingRoomNumber"
+    )
+    .textContent =
+      `Room ${currentRoom.room_number}`;
+
+
+  document
+    .getElementById(
+      "displayPartnerCode"
+    )
+    .textContent =
+      currentRoom.partner_code;
+
+
+  const membersList =
+    document.getElementById(
+      "membersList"
+    );
+
+
+  membersList.innerHTML = "";
+
+
+  members.forEach(
+    (member, index) => {
+
+      const name =
+        member.profile?.full_name ||
+        "RES WARS Player";
+
+
+      membersList.insertAdjacentHTML(
+        "beforeend",
+        `
+          <div class="member">
+
+            <div class="member-info">
+
+              <div class="avatar">
+                ${initials(name)}
+              </div>
+
+              <div>
+                <strong>
+                  ${escapeHtml(name)}
+                </strong>
+
+                <span>
+                  ${index === 0
+                    ? "Room creator"
+                    : "Roommate"}
+                </span>
+              </div>
+
+            </div>
+
+            <div class="member-state">
+              READY
+            </div>
+
+          </div>
+        `
+      );
+
+    }
+  );
+
+
+  if (members.length < 2) {
+
+    membersList.insertAdjacentHTML(
+      "beforeend",
+      `
+        <div class="member">
+
+          <div class="member-info">
+
+            <div class="avatar">
+              ?
+            </div>
+
+            <div>
+              <strong>
+                Waiting for roommate
+              </strong>
+
+              <span>
+                Share the partner code
+              </span>
+            </div>
+
+          </div>
+
+          <div class="member-state waiting">
+            WAITING
+          </div>
+
+        </div>
+      `
+    );
+
+  }
+
+
+  /*
+    ROOM COMPLETE
+  */
+
+  if (members.length >= 2) {
+
+    updateProgress(3);
+
+    document
+      .getElementById(
+        "readyTeamName"
+      )
+      .textContent =
+        currentRoom.team_name;
+
+
+    document
+      .getElementById(
+        "readyRoomNumber"
+      )
+      .textContent =
+        `Room ${currentRoom.room_number} • My Angel Residence`;
+
+
+    showStage(
+      readyStage
+    );
+
+    return;
+
+  }
+
+
+  updateProgress(2);
+
+  showStage(
+    waitingStage
+  );
+
+}
+
+
+/* ==========================================
+   HTML SAFETY
+========================================== */
+
+function escapeHtml(value) {
+
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+/* ==========================================
+   REALTIME
+========================================== */
+
+function subscribeToRoom() {
+
+  if (!currentRoom) {
+    return;
+  }
+
+
+  if (realtimeChannel) {
+
+    sb.removeChannel(
+      realtimeChannel
+    );
+
+  }
+
+
+  realtimeChannel =
+    sb
+      .channel(
+        `room-${currentRoom.id}`
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "room_members",
+          filter:
+            `room_id=eq.${currentRoom.id}`
+        },
+        async () => {
+
+          try {
+
+            await renderCurrentRoom();
+
+          } catch (error) {
+
+            console.error(
+              "Realtime refresh:",
+              error
+            );
+
+          }
+
+        }
+      )
+      .subscribe();
+
+}
+
+
+/* ==========================================
+   CREATE ROOM
+========================================== */
+
+document
+  .getElementById("createForm")
+  .addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+      clearMessage();
+
+
+      const roomNumber =
+        clean(
+          document
+            .getElementById(
+              "roomNumber"
+            )
+            .value
+        );
+
+
+      const teamName =
+        clean(
+          document
+            .getElementById(
+              "teamName"
+            )
+            .value
+        );
+
+
+      if (!roomNumber) {
+
+        showMessage(
+          "Enter your room number."
+        );
+
+        return;
+
+      }
+
+
+      if (teamName.length < 2) {
+
+        showMessage(
+          "Enter a team name."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        createBtn.disabled = true;
+
+        showLoader(
+          "Creating your room..."
+        );
+
+
+        /*
+          Try generating unique codes.
+        */
+
+        let roomId = null;
+        let lastError = null;
+
+
+        for (
+          let attempt = 0;
+          attempt < 5;
+          attempt++
+        ) {
+
+          const partnerCode =
+            generatePartnerCode();
+
+
+          const {
+            data,
+            error
+          } =
+            await sb.rpc(
+              "create_res_wars_room",
+              {
+                p_residence_id:
+                  currentResidence.id,
+
+                p_room_number:
+                  roomNumber,
+
+                p_team_name:
+                  teamName,
+
+                p_partner_code:
+                  partnerCode
+              }
+            );
+
+
+          if (!error) {
+
+            roomId = data;
+
+            break;
+
+          }
+
+
+          lastError = error;
+
+
+          /*
+            Only retry code collisions.
+          */
+
+          if (
+            !String(
+              error.message
+            )
+            .toLowerCase()
+            .includes("partner_code")
+          ) {
+
+            break;
+
+          }
+
+        }
+
+
+        if (!roomId) {
+
+          throw (
+            lastError ||
+            new Error(
+              "Room could not be created."
+            )
+          );
+
+        }
+
+
+        await loadRoom(
+          roomId
+        );
+
+
+        subscribeToRoom();
+
+
+        hideLoader();
+
+        createBtn.disabled = false;
+
+
+        await renderCurrentRoom();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        hideLoader();
+
+        createBtn.disabled = false;
+
+
+        let text =
+          error.message ||
+          "Unable to create your room.";
+
+
+        if (
+          text
+            .toLowerCase()
+            .includes(
+              "rooms_residence_room_unique"
+            )
+        ) {
+
+          text =
+            "That room has already been registered. Ask your roommate for the partner code.";
+
+        }
+
+
+        showMessage(
+          text
+        );
+
+      }
+
+    }
+  );
+
+
+/* ==========================================
+   JOIN ROOM
+========================================== */
+
+document
+  .getElementById("joinForm")
+  .addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+      clearMessage();
+
+
+      const code =
+        clean(
+          document
+            .getElementById(
+              "partnerCode"
+            )
+            .value
+        )
+        .toUpperCase();
+
+
+      if (!code) {
+
+        showMessage(
+          "Enter your roommate's partner code."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        joinBtn.disabled = true;
+
+        showLoader(
+          "Joining your roommate..."
+        );
+
+
+        const {
+          data: roomId,
+          error
+        } =
+          await sb.rpc(
+            "join_res_wars_room",
+            {
+              p_partner_code:
+                code
+            }
+          );
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        await loadRoom(
+          roomId
+        );
+
+
+        subscribeToRoom();
+
+
+        hideLoader();
+
+        joinBtn.disabled = false;
+
+
+        await renderCurrentRoom();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        hideLoader();
+
+        joinBtn.disabled = false;
+
+
+        showMessage(
+          error.message ||
+          "Unable to join this room."
+        );
+
+      }
+
+    }
+  );
+
+
+/* ==========================================
+   COPY CODE
+========================================== */
+
+document
+  .getElementById(
+    "copyCodeBtn"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      if (!currentRoom) {
+        return;
+      }
+
+
+      try {
+
+        await navigator
+          .clipboard
+          .writeText(
+            currentRoom.partner_code
+          );
+
+
+        const button =
+          document.getElementById(
+            "copyCodeBtn"
+          );
+
+
+        button.textContent =
+          "COPIED ✓";
+
+
+        setTimeout(
+          () => {
+
+            button.textContent =
+              "COPY CODE";
+
+          },
+          1500
+        );
+
+
+      } catch {
+
+        showMessage(
+          `Partner code: ${currentRoom.partner_code}`,
+          "success"
+        );
+
+      }
+
+    }
+  );
+
+
+/* ==========================================
+   NAVIGATION
+========================================== */
+
+document
+  .getElementById(
+    "createChoice"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      updateProgress(1);
+
+      showStage(
+        createStage
+      );
+
+    }
+  );
+
+
+document
+  .getElementById(
+    "joinChoice"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      updateProgress(2);
+
+      showStage(
+        joinStage
+      );
+
+    }
+  );
+
+
+document
+  .querySelectorAll(
+    ".back-btn"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          updateProgress(1);
+
+          showStage(
+            choiceStage
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+document
+  .getElementById(
+    "enterBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      window.location.replace(
+        "index.html"
+      );
+
+    }
+  );
+
+
+/* ==========================================
+   START
+========================================== */
+
+async function initialise() {
+
+  try {
+
+    showLoader(
+      "Checking player..."
+    );
+
+
+    /*
+      SESSION
+    */
+
+    const {
+      data: {
+        session
+      },
+      error: sessionError
+    } =
+      await sb.auth.getSession();
+
+
+    if (sessionError) {
+      throw sessionError;
+    }
+
+
+    if (!session?.user) {
+
+      window.location.replace(
+        "auth.html"
+      );
+
+      return;
+
+    }
+
+
+    currentUser =
+      session.user;
+
+
+    /*
+      PROFILE
+    */
+
+    const {
+      data: profile,
+      error: profileError
+    } =
+      await sb
+        .from("profiles")
+        .select(`
+          id,
+          full_name,
+          student_number,
+          residence_id,
+          room_id
+        `)
+        .eq(
+          "id",
+          currentUser.id
+        )
+        .single();
+
+
+    if (profileError) {
+      throw profileError;
+    }
+
+
+    currentProfile =
+      profile;
+
+
+    /*
+      PERSONAL WELCOME
+    */
+
+    if (profile.full_name) {
+
+      const firstName =
+        profile.full_name
+          .split(" ")[0];
+
+
+      document
+        .getElementById(
+          "welcomeTitle"
+        )
+        .textContent =
+          `Welcome, ${firstName}.`;
+
+    }
+
+
+    /*
+      MY ANGEL RESIDENCE
+    */
+
+    const {
+      data: residence,
+      error: residenceError
+    } =
+      await sb
+        .from("residences")
+        .select("id, name")
+        .eq(
+          "name",
+          "My Angel Residence"
+        )
+        .single();
+
+
+    if (residenceError) {
+      throw residenceError;
+    }
+
+
+    currentResidence =
+      residence;
+
+
+    /*
+      PLAYER ALREADY HAS ROOM
+    */
+
+    if (profile.room_id) {
+
+      await loadRoom(
+        profile.room_id
+      );
+
+
+      subscribeToRoom();
+
+
+      hideLoader();
+
+
+      await renderCurrentRoom();
+
+      return;
+
+    }
+
+
+    /*
+      NEW PLAYER
+    */
+
+    hideLoader();
+
+    updateProgress(1);
+
+    showStage(
+      choiceStage
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Initialisation error:",
+      error
+    );
+
+
+    hideLoader();
+
+
+    showMessage(
+      error.message ||
+      "RES WARS could not load your player profile."
+    );
+
+  }
+
+}
+
+
+initialise();
+
+</script>
+
+</body>
+</html>
