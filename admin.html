@@ -80,7 +80,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 </main></section></div>
 
 <div id="gameModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h3 id="gameModalTitle">Add Game</h3><button class="close" onclick="closeModal('gameModal')">×</button></div><div class="modal-body"><input id="gameId" type="hidden"><div class="form"><div class="field full"><label>GAME NAME</label><input id="gameNameInput"></div><div class="field full"><label>DESCRIPTION</label><textarea id="gameDescriptionInput"></textarea></div><div class="field"><label>ICON / MARK</label><input id="gameIconInput" placeholder="RS"></div><div class="field"><label>STATUS</label><select id="gameActiveInput"><option value="true">ACTIVE</option><option value="false">DISABLED</option></select></div></div></div><div class="modal-actions"><button class="btn" onclick="closeModal('gameModal')">CANCEL</button><button class="btn btn-primary" onclick="saveGame()">SAVE GAME</button></div></div></div>
-<div id="questionModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h3 id="questionModalTitle">Add Question</h3><button class="close" onclick="closeModal('questionModal')">×</button></div><div class="modal-body"><input id="questionId" type="hidden"><div class="form"><div class="field full"><label>QUESTION</label><textarea id="questionInput"></textarea></div><div class="field"><label>GAME</label><select id="questionGameInput"></select></div><div class="field"><label>TYPE</label><select id="questionTypeInput"><option value="roommate_choice">ROOMMATE CHOICE</option><option value="multiple_choice">MULTIPLE CHOICE</option><option value="text">TEXT</option><option value="reaction">REACTION</option></select></div><div class="field"><label>CATEGORY</label><select id="questionCategoryInput"><option value="fun">FUN</option><option value="habits">HABITS</option><option value="personality">PERSONALITY</option><option value="campus">CAMPUS LIFE</option><option value="friendship">FRIENDSHIP</option></select></div><div class="field"><label>DIFFICULTY</label><select id="questionDifficultyInput"><option value="easy">EASY</option><option value="medium">MEDIUM</option><option value="hard">HARD</option></select></div><div class="field"><label>POINTS</label><input id="questionPointsInput" type="number" value="10"></div><div class="field"><label>STATUS</label><select id="questionActiveInput"><option value="true">ACTIVE</option><option value="false">DISABLED</option></select></div></div></div><div class="modal-actions"><button class="btn" onclick="closeModal('questionModal')">CANCEL</button><button class="btn btn-primary" onclick="saveQuestion()">SAVE QUESTION</button></div></div></div>
+<div id="questionModal" class="modal hidden"><div class="modal-card question-modal-card"><div class="modal-head"><div><h3 id="questionModalTitle">Add Question</h3><p class="modal-sub">Create the question and its playable answer setup.</p></div><button class="close" onclick="closeModal('questionModal')">×</button></div><div class="modal-body"><input id="questionId" type="hidden"><div class="form"><div class="field full"><label>QUESTION</label><textarea id="questionInput" placeholder="Type the question players will see..."></textarea></div><div class="field"><label>GAME</label><select id="questionGameInput"></select></div><div class="field"><label>TYPE</label><select id="questionTypeInput" onchange="renderQuestionAnswerFields()"><option value="roommate_choice">ROOMMATE CHOICE</option><option value="multiple_choice">MULTIPLE CHOICE</option><option value="true_false">TRUE / FALSE</option><option value="text">TEXT ANSWER</option><option value="reaction">REACTION</option></select></div><div class="field"><label>CATEGORY</label><select id="questionCategoryInput"><option value="general">GENERAL KNOWLEDGE</option><option value="south_africa">SOUTH AFRICA</option><option value="africa">AFRICA</option><option value="science">SCIENCE</option><option value="technology">TECHNOLOGY</option><option value="mathematics">MATHEMATICS</option><option value="history">HISTORY</option><option value="geography">GEOGRAPHY</option><option value="sports">SPORTS</option><option value="logic">LOGIC</option><option value="fun">FUN</option><option value="habits">HABITS</option><option value="personality">PERSONALITY</option><option value="campus">CAMPUS LIFE</option><option value="friendship">FRIENDSHIP</option></select></div><div class="field"><label>DIFFICULTY</label><select id="questionDifficultyInput"><option value="easy">EASY</option><option value="medium">MEDIUM</option><option value="hard">HARD</option></select></div><div class="field"><label>POINTS</label><input id="questionPointsInput" type="number" min="1" value="10"></div><div class="field"><label>TIME LIMIT</label><select id="questionTimeInput"><option value="10">10 SECONDS</option><option value="15">15 SECONDS</option><option value="20">20 SECONDS</option><option value="30" selected>30 SECONDS</option><option value="45">45 SECONDS</option><option value="60">60 SECONDS</option></select></div><div class="field"><label>STATUS</label><select id="questionActiveInput"><option value="true">ACTIVE</option><option value="false">DISABLED</option></select></div><div id="questionAnswerFields" class="field full answer-builder"></div></div></div><div class="modal-actions"><button class="btn" onclick="closeModal('questionModal')">CANCEL</button><button class="btn btn-primary" id="saveQuestionBtn" onclick="saveQuestion()">SAVE QUESTION</button></div></div></div>
 
 <div id="toast" class="toast hidden"></div><div id="loader" class="loader"><div class="loader-box"><div class="loader-logo">RW</div><div class="spinner"></div><p id="loaderText">VERIFYING ADMIN ACCESS...</p></div></div>
 
@@ -114,33 +114,81 @@ function renderQuestions(){
  $("questionBody").innerHTML=a.length?a.map(q=>`<tr><td><div class="cell"><strong>${esc(q.question||"Untitled")}</strong><span>${(q.id||"").slice(0,8)}</span></div></td><td>${esc(game(q.game_id)?.name||"Unassigned")}</td><td>${esc((q.category||"general").toUpperCase())}</td><td>${esc((q.question_type||"general").replaceAll("_"," ").toUpperCase())}</td><td>${Number(q.points||0)}</td><td>${pill(q.active===false?"disabled":"active")}</td><td><div class="row-actions"><button class="mini" onclick="openQuestionModal('${q.id}')">EDIT</button><button class="mini" onclick="deleteQuestion('${q.id}')">DELETE</button></div></td></tr>`).join(""):'<tr><td colspan="7"><div class="empty">No questions found.</div></td></tr>';
 }
 $("questionSearch").oninput=renderQuestions;$("questionGameFilter").onchange=renderQuestions;$("questionCategoryFilter").onchange=renderQuestions;
+function normaliseAnswerData(q){
+ const d=q?.answer_data;
+ if(d&&typeof d==="object")return d;
+ return {};
+}
+function renderQuestionAnswerFields(data=null){
+ const type=$("questionTypeInput").value;
+ const box=$("questionAnswerFields");
+ const d=data||{};
+ if(type==="multiple_choice"){
+  const opts=Array.isArray(d.options)?d.options:["","","",""];
+  box.classList.remove("hidden");
+  box.innerHTML=`<div class="answer-title">ANSWER OPTIONS</div><div class="answer-grid">${[0,1,2,3].map(i=>`<div class="field"><label>OPTION ${String.fromCharCode(65+i)}</label><input class="mc-option" data-index="${i}" value="${esc(opts[i]||"")}" placeholder="Enter option ${String.fromCharCode(65+i)}"></div>`).join("")}</div><div class="field correct-row"><label>CORRECT ANSWER</label><select id="correctOption"><option value="0">OPTION A</option><option value="1">OPTION B</option><option value="2">OPTION C</option><option value="3">OPTION D</option></select></div>`;
+  $("correctOption").value=String(Number.isInteger(Number(d.correct_index))?Number(d.correct_index):0);
+ }else if(type==="true_false"){
+  box.classList.remove("hidden");
+  box.innerHTML=`<div class="answer-title">CORRECT ANSWER</div><div class="field"><select id="trueFalseAnswer"><option value="true">TRUE</option><option value="false">FALSE</option></select></div>`;
+  $("trueFalseAnswer").value=String(d.correct_answer??true);
+ }else if(type==="text"){
+  box.classList.remove("hidden");
+  box.innerHTML=`<div class="answer-title">ACCEPTED ANSWER</div><div class="field"><label>CORRECT / ACCEPTED ANSWER</label><input id="textCorrectAnswer" value="${esc(d.correct_answer||"")}" placeholder="Type the answer players must enter"></div><p class="answer-note">Answer checking can ignore capital letters and extra spaces in the game engine.</p>`;
+ }else if(type==="roommate_choice"){
+  box.classList.remove("hidden");
+  box.innerHTML=`<div class="answer-title">ROOMMATE CHOICE</div><p class="answer-note">No fixed correct answer is required. Players choose between the two roommates and RES WARS scores the round using the Roommate Sync rules.</p>`;
+ }else{
+  box.classList.remove("hidden");
+  box.innerHTML=`<div class="answer-title">REACTION ROUND</div><p class="answer-note">No written correct answer is required for this reaction-based question.</p>`;
+ }
+}
+function collectAnswerData(){
+ const type=$("questionTypeInput").value;
+ if(type==="multiple_choice"){
+  const options=[...document.querySelectorAll(".mc-option")].map(x=>x.value.trim());
+  if(options.some(x=>!x))throw new Error("Please complete all four answer options.");
+  if(new Set(options.map(x=>x.toLowerCase())).size!==4)throw new Error("Answer options must be different.");
+  return {options,correct_index:Number($("correctOption").value)};
+ }
+ if(type==="true_false")return {options:["True","False"],correct_answer:$("trueFalseAnswer").value==="true"};
+ if(type==="text"){
+  const answer=$("textCorrectAnswer").value.trim();
+  if(!answer)throw new Error("Please enter the accepted answer.");
+  return {correct_answer:answer};
+ }
+ return {};
+}
 function openQuestionModal(id=""){
  const q=questions.find(x=>x.id===id);
  $("questionId").value=q?.id||"";
  $("questionModalTitle").textContent=q?"Edit Question":"Add Question";
  $("questionInput").value=q?.question||"";
  $("questionGameInput").value=q?.game_id||"";
- $("questionTypeInput").value=q?.question_type||"roommate_choice";
- $("questionCategoryInput").value=q?.category||"fun";
+ $("questionTypeInput").value=q?.question_type||"multiple_choice";
+ $("questionCategoryInput").value=q?.category||"general";
+ if(![...$("questionCategoryInput").options].some(o=>o.value===$("questionCategoryInput").value))$("questionCategoryInput").value="general";
  $("questionDifficultyInput").value=q?.difficulty||"easy";
  $("questionPointsInput").value=q?.points??10;
+ $("questionTimeInput").value=String(q?.time_limit_seconds??30);
  $("questionActiveInput").value=String(q?.active!==false);
- $("questionModal").classList.remove("hidden")
+ renderQuestionAnswerFields(normaliseAnswerData(q));
+ $("questionModal").classList.remove("hidden");
 }
 async function saveQuestion(){
- const id=$("questionId").value,p={
-  question:$("questionInput").value.trim(),
-  game_id:$("questionGameInput").value||null,
-  question_type:$("questionTypeInput").value,
-  category:$("questionCategoryInput").value,
-  difficulty:$("questionDifficultyInput").value,
-  points:Number($("questionPointsInput").value||0),
-  active:$("questionActiveInput").value==="true"
- };
- if(!p.question)return toast("Question is required.","error");
- const r=id?await sb.from("game_questions").update(p).eq("id",id):await sb.from("game_questions").insert(p);
- if(r.error)return toast(r.error.message,"error");
- closeModal("questionModal");activity(id?"Question updated":"Question added",p.question.slice(0,45));await loadCore();toast("Question saved.")
+ const btn=$("saveQuestionBtn");
+ try{
+  const id=$("questionId").value;
+  const answerData=collectAnswerData();
+  const p={question:$("questionInput").value.trim(),game_id:$("questionGameInput").value||null,question_type:$("questionTypeInput").value,category:$("questionCategoryInput").value,difficulty:$("questionDifficultyInput").value,points:Math.max(1,Number($("questionPointsInput").value||10)),time_limit_seconds:Number($("questionTimeInput").value||30),answer_data:answerData,active:$("questionActiveInput").value==="true"};
+  if(!p.question)throw new Error("Question is required.");
+  if(!p.game_id)throw new Error("Choose the game this question belongs to.");
+  btn.disabled=true;btn.textContent="SAVING...";
+  const r=id?await sb.from("game_questions").update(p).eq("id",id):await sb.from("game_questions").insert(p);
+  if(r.error)throw r.error;
+  closeModal("questionModal");activity(id?"Question updated":"Question added",p.question.slice(0,45));await loadCore();toast("Question saved.");
+ }catch(e){toast(e.message||"Could not save question.","error")}
+ finally{btn.disabled=false;btn.textContent="SAVE QUESTION"}
 }
 async function seedRoommateSync(){
  if(!confirm("Load the starter Roommate Sync question bank? Existing matching questions will not be duplicated."))return;
