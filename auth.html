@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#08090c">
+
+  <title>RES WARS | My Angel Residence</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #08090c;
+      --panel: #0f1116;
+      --panel-2: #151820;
+      --panel-3: #191c24;
+      --border: #242832;
+      --border-light: #303540;
+
+      --text: #f5f7fb;
+      --muted: #8e95a3;
+      --muted-2: #626977;
+
+      --accent: #dfff00;
+      --accent-hover: #ebff54;
+
+      --danger: #ff5757;
+      --success: #63e69d;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Inter", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================
+       AUTH LAYOUT
+    ========================== */
+
+    .auth-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+    }
+
+    /* =========================
+       BRAND SIDE
+    ========================== */
+
+    .brand-side {
+      position: relative;
+
+      min-height: 100vh;
+      padding: 42px 56px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      overflow: hidden;
+
+      background:
+        radial-gradient(
+          circle at 25% 48%,
+          rgba(223, 255, 0, 0.09),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 80% 80%,
+          rgba(223, 255, 0, 0.025),
+          transparent 28%
+        ),
+        #0b0d11;
+
+      border-right: 1px solid var(--border);
+    }
+
+    .brand-side::after {
+      content: "";
+
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      right: -280px;
+      bottom: -250px;
+
+      border: 1px solid rgba(223, 255, 0, 0.08);
+      border-radius: 50%;
+
+      box-shadow:
+        0 0 0 70px rgba(223, 255, 0, 0.015),
+        0 0 0 140px rgba(223, 255, 0, 0.01);
+
+      pointer-events: none;
+    }
+
+    .brand-top,
+    .mobile-brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      background: var(--accent);
+      color: #090a0c;
+
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-top strong,
+    .mobile-brand strong {
+      display: block;
+
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-top span,
+    .mobile-brand span {
+      display: block;
+
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+    }
+
+    .brand-content {
+      position: relative;
+      z-index: 1;
+
+      max-width: 700px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.19em;
+      text-transform: uppercase;
+    }
+
+    .brand-content .eyebrow {
+      margin-bottom: 22px;
+    }
+
+    .brand-content h1 {
+      max-width: 700px;
+
+      font-size: clamp(48px, 5.8vw, 90px);
+      line-height: 0.94;
+
+      letter-spacing: -0.065em;
+      font-weight: 900;
+    }
+
+    .brand-content h1 span {
+      color: var(--accent);
+    }
+
+    .brand-description {
+      max-width: 550px;
+
+      margin-top: 30px;
+
+      color: #a5abb6;
+
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .brand-stats {
+      display: flex;
+      gap: 55px;
+
+      margin-top: 55px;
+    }
+
+    .brand-stats div {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .brand-stats strong {
+      font-size: 27px;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-stats span {
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 700;
+
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-footer {
+      position: relative;
+      z-index: 1;
+
+      color: #606672;
+
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       AUTH SIDE
+    ========================== */
+
+    .auth-side {
+      min-height: 100vh;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 42px;
+    }
+
+    .mobile-brand {
+      display: none;
+    }
+
+    .auth-card {
+      width: min(100%, 430px);
+    }
+
+    .auth-heading {
+      margin-bottom: 29px;
+    }
+
+    .auth-heading .eyebrow {
+      margin-bottom: 14px;
+    }
+
+    .auth-heading h2 {
+      font-size: 37px;
+      line-height: 1.08;
+
+      letter-spacing: -0.045em;
+      font-weight: 850;
+    }
+
+    .auth-heading > p:last-child {
+      margin-top: 11px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    /* =========================
+       TABS
+    ========================== */
+
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      padding: 4px;
+      margin-bottom: 26px;
+
+      background: var(--panel);
+
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .auth-tab {
+      min-height: 42px;
+
+      padding: 10px;
+
+      border: none;
+      border-radius: 7px;
+
+      background: transparent;
+      color: var(--muted);
+
+      font-size: 11px;
+      font-weight: 800;
+
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .auth-tab.active {
+      background: var(--panel-2);
+      color: var(--text);
+    }
+
+    /* =========================
+       FORM
+    ========================== */
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 17px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field-label {
+      color: #c7cbd3;
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      min-height: 49px;
+
+      padding: 0 15px;
+
+      background: var(--panel);
+      color: var(--text);
+
+      border: 1px solid var(--border);
+      border-radius: 9px;
+
+      outline: none;
+
+      font-size: 14px;
+
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    input::placeholder {
+      color: #555c68;
+    }
+
+    input:hover {
+      border-color: #303540;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+
+      background: #11141a;
+
+      box-shadow:
+        0 0 0 3px rgba(223, 255, 0, 0.05);
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .password-wrap input {
+      padding-right: 72px;
+    }
+
+    .password-toggle {
+      position: absolute;
+
+      top: 50%;
+      right: 13px;
+
+      transform: translateY(-50%);
+
+      padding: 5px;
+
+      border: none;
+
+      background: transparent;
+      color: var(--accent);
+
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 0.07em;
+    }
+
+    .password-hint {
+      color: var(--muted-2);
+
+      font-size: 9px;
+      line-height: 1.5;
+    }
+
+    .primary-btn {
+      position: relative;
+
+      width: 100%;
+      min-height: 50px;
+
+      margin-top: 4px;
+      padding: 14px 18px;
+
+      border: none;
+      border-radius: 9px;
+
+      background: var(--accent);
+      color: #090a0c;
+
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+
+      transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        opacity 0.15s ease;
+    }
+
+    .primary-btn:hover {
+      background: var(--accent-hover);
+    }
+
+    .primary-btn:active {
+      transform: scale(0.985);
+    }
+
+    .primary-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .auth-note {
+      margin-top: 25px;
+
+      color: #5e6470;
+
+      text-align: center;
+      text-transform: uppercase;
+
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+    }
+
+    /* =========================
+       MESSAGE
+    ========================== */
+
+    .message {
+      display: none;
+
+      margin-bottom: 18px;
+      padding: 13px 14px;
+
+      border-radius: 8px;
+
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .message.error {
+      display: block;
+
+      color: #ff9b9b;
+
+      background: rgba(255, 87, 87, 0.07);
+      border: 1px solid rgba(255, 87, 87, 0.17);
+    }
+
+    .message.success {
+      display: block;
+
+      color: var(--success);
+
+      background: rgba(99, 230, 157, 0.07);
+      border: 1px solid rgba(99, 230, 157, 0.16);
+    }
+
+    /* =========================
+       LOADER
+    ========================== */
+
+    .loader-overlay {
+      position: fixed;
+      inset: 0;
+
+      z-index: 9999;
+
+      display: grid;
+      place-items: center;
+
+      padding: 25px;
+
+      background: rgba(8, 9, 12, 0.97);
+    }
+
+    .loader-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 17px;
+
+      text-align: center;
+    }
+
+    .loader-logo {
+      width: 56px;
+      height: 56px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 12px;
+
+      background: var(--accent);
+      color: #08090c;
+
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .spinner {
+      width: 25px;
+      height: 25px;
+
+      border: 2px solid #30343d;
+      border-top-color: var(--accent);
+      border-radius: 50%;
+
+      animation: spin 0.65s linear infinite;
+    }
+
+    .loader-content strong {
+      color: #c8ccd4;
+
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media (max-width: 850px) {
+
+      .auth-shell {
+        display: block;
+      }
+
+      .brand-side {
+        display: none;
+      }
+
+      .auth-side {
+        min-height: 100svh;
+
+        display: block;
+
+        padding:
+          max(24px, env(safe-area-inset-top))
+          20px
+          max(40px, env(safe-area-inset-bottom));
+      }
+
+      .mobile-brand {
+        display: flex;
+
+        margin-bottom: 58px;
+      }
+
+      .auth-card {
+        width: 100%;
+        max-width: 460px;
+
+        margin: 0 auto;
+      }
+
+      .auth-heading h2 {
+        font-size: 32px;
+      }
+    }
+
+    @media (max-width: 420px) {
+
+      .auth-side {
+        padding-left: 17px;
+        padding-right: 17px;
+      }
+
+      .mobile-brand {
+        margin-bottom: 48px;
+      }
+
+      input {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="auth-shell">
+
+    <!-- ===================================
+         LEFT SIDE
+    ==================================== -->
+
+    <section class="brand-side">
+
+      <div class="brand-top">
+
+        <div class="brand-mark">
+          RW
+        </div>
+
+        <div>
+          <strong>RES WARS</strong>
+          <span>MY ANGEL RESIDENCE</span>
+        </div>
+
+      </div>
+
+
+      <div class="brand-content">
+
+        <p class="eyebrow">
+          My Angel Residence Presents
+        </p>
+
+        <h1>
+          YOUR ROOM.<br>
+          YOUR PARTNER.<br>
+          <span>YOUR REPUTATION.</span>
+        </h1>
+
+        <p class="brand-description">
+          Team up with your roommate, compete against the
+          residence and prove which room runs My Angel.
+        </p>
+
+
+        <div class="brand-stats">
+
+          <div>
+            <strong>2</strong>
+            <span>Players per room</span>
+          </div>
+
+          <div>
+            <strong>∞</strong>
+            <span>Challenges</span>
+          </div>
+
+          <div>
+            <strong>1</strong>
+            <span>Champion</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <p class="brand-footer">
+        Season 01 • My Angel Residence
+      </p>
+
+    </section>
+
+
+    <!-- ===================================
+         RIGHT SIDE
+    ==================================== -->
+
+    <section class="auth-side">
+
+      <div class="mobile-brand">
+
+        <div class="brand-mark">
+          RW
+        </div>
+
+        <div>
+          <strong>RES WARS</strong>
+          <span>MY ANGEL RESIDENCE</span>
+        </div>
+
+      </div>
+
+
+      <div class="auth-card">
+
+        <div class="auth-heading">
+
+          <p class="eyebrow">
+            Welcome to the battle
+          </p>
+
+          <h2 id="authTitle">
+            Welcome back.
+          </h2>
+
+          <p id="authSubtitle">
+            Sign in and return to your room.
+          </p>
+
+        </div>
+
+
+        <!-- TABS -->
+
+        <div class="auth-tabs">
+
+          <button
+            id="loginTab"
+            class="auth-tab active"
+            type="button"
+          >
+            Sign In
+          </button>
+
+          <button
+            id="registerTab"
+            class="auth-tab"
+            type="button"
+          >
+            Create Account
+          </button>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div
+          id="message"
+          class="message"
+        ></div>
+
+
+        <!-- ===================================
+             LOGIN
+        ==================================== -->
+
+        <form id="loginForm">
+
+          <div class="field">
+
+            <label
+              class="field-label"
+              for="loginEmail"
+            >
+              Email address
+            </label>
+
+            <input
+              id="loginEmail"
+              type="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label
+              class="field-label"
+              for="loginPassword"
+            >
+              Password
+            </label>
+
+            <div class="password-wrap">
+
+              <input
+                id="loginPassword"
+                type="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              >
+
+              <button
+                class="password-toggle"
+                type="button"
+                data-target="loginPassword"
+              >
+                SHOW
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <button
+            id="loginBtn"
+            class="primary-btn"
+            type="submit"
+          >
+            ENTER RES WARS
+          </button>
+
+        </form>
+
+
+        <!-- ===================================
+             REGISTER
+        ==================================== -->
+
+        <form
+          id="registerForm"
+          class="hidden"
+        >
+
+          <div class="field">
+
+            <label
+              class="field-label"
+              for="registerName"
+            >
+              Full name
+            </label>
+
+            <input
+              id="registerName"
+              type="text"
+              placeholder="Your full name"
+              autocomplete="name"
+              maxlength="100"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label
+              class="field-label"
+              for="registerStudent"
+            >
+              Student number
+            </label>
+
+            <input
+              id="registerStudent"
+              type="text"
+              placeholder="Your student number"
+              autocomplete="off"
+              maxlength="30"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label
+              class="field-label"
+              for="registerEmail"
+            >
+              Email address
+            </label>
+
+            <input
+              id="registerEmail"
+              type="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label
+              class="field-label"
+              for="registerPassword"
+            >
+              Password
+            </label>
+
+            <div class="password-wrap">
+
+              <input
+                id="registerPassword"
+                type="password"
+                placeholder="Create a password"
+                autocomplete="new-password"
+                minlength="6"
+                required
+              >
+
+              <button
+                class="password-toggle"
+                type="button"
+                data-target="registerPassword"
+              >
+                SHOW
+              </button>
+
+            </div>
+
+            <p class="password-hint">
+              Use at least 6 characters.
+            </p>
+
+          </div>
+
+
+          <button
+            id="registerBtn"
+            class="primary-btn"
+            type="submit"
+          >
+            CREATE PLAYER
+          </button>
+
+        </form>
+
+
+        <p class="auth-note">
+          Exclusive to My Angel Residence
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ===================================
+       FULL SCREEN LOADER
+  ==================================== -->
+
+  <div
+    id="loader"
+    class="loader-overlay hidden"
+  >
+
+    <div class="loader-content">
+
+      <div class="loader-logo">
+        RW
+      </div>
+
+      <div class="spinner"></div>
+
+      <strong id="loaderText">
+        Loading...
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================
+       SUPABASE
+  ==================================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+  <script>
+
+    /* =====================================================
+       RES WARS
+       AUTHENTICATION
+    ====================================================== */
+
+
+    /* ==============================
+       CONFIG
+    ============================== */
+
+    const SUPABASE_URL =
+      "https://tkfnypzohdercxljswfe.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra";
+
+
+    /*
+      Production confirmation destination.
+
+      After the player clicks ACTIVATE MY ACCOUNT
+      inside the email, Supabase will confirm the
+      account and redirect back to RES WARS.
+    */
+
+    const PRODUCTION_URL =
+      "https://reswars.xyz";
+
+
+    const sb = supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+    /* ==============================
+       ELEMENTS
+    ============================== */
+
+    const loginTab =
+      document.getElementById("loginTab");
+
+    const registerTab =
+      document.getElementById("registerTab");
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const registerForm =
+      document.getElementById("registerForm");
+
+    const loginBtn =
+      document.getElementById("loginBtn");
+
+    const registerBtn =
+      document.getElementById("registerBtn");
+
+    const messageBox =
+      document.getElementById("message");
+
+    const authTitle =
+      document.getElementById("authTitle");
+
+    const authSubtitle =
+      document.getElementById("authSubtitle");
+
+    const loader =
+      document.getElementById("loader");
+
+    const loaderText =
+      document.getElementById("loaderText");
+
+
+    /* ==============================
+       HELPERS
+    ============================== */
+
+    function showLoader(
+      text = "Loading..."
+    ) {
+
+      loaderText.textContent = text;
+
+      loader.classList.remove("hidden");
+
+    }
+
+
+    function hideLoader() {
+
+      loader.classList.add("hidden");
+
+    }
+
+
+    function showMessage(
+      text,
+      type = "error"
+    ) {
+
+      messageBox.textContent = text;
+
+      messageBox.className =
+        `message ${type}`;
+
+    }
+
+
+    function clearMessage() {
+
+      messageBox.textContent = "";
+
+      messageBox.className =
+        "message";
+
+    }
+
+
+    function cleanText(value) {
+
+      return value
+        .replace(/\s+/g, " ")
+        .trim();
+
+    }
+
+
+    /* ==============================
+       TABS
+    ============================== */
+
+    function showLogin() {
+
+      clearMessage();
+
+      loginTab.classList.add("active");
+      registerTab.classList.remove("active");
+
+      loginForm.classList.remove("hidden");
+      registerForm.classList.add("hidden");
+
+      authTitle.textContent =
+        "Welcome back.";
+
+      authSubtitle.textContent =
+        "Sign in and return to your room.";
+
+    }
+
+
+    function showRegister() {
+
+      clearMessage();
+
+      registerTab.classList.add("active");
+      loginTab.classList.remove("active");
+
+      registerForm.classList.remove("hidden");
+      loginForm.classList.add("hidden");
+
+      authTitle.textContent =
+        "Enter the arena.";
+
+      authSubtitle.textContent =
+        "Create your player profile and represent your room.";
+
+    }
+
+
+    loginTab.addEventListener(
+      "click",
+      showLogin
+    );
+
+
+    registerTab.addEventListener(
+      "click",
+      showRegister
+    );
+
+
+    /* ==============================
+       PASSWORD VISIBILITY
+    ============================== */
+
+    document
+      .querySelectorAll(".password-toggle")
+      .forEach(button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            const input =
+              document.getElementById(
+                button.dataset.target
+              );
+
+
+            if (!input) {
+              return;
+            }
+
+
+            const currentlyVisible =
+              input.type === "text";
+
+
+            input.type =
+              currentlyVisible
+                ? "password"
+                : "text";
+
+
+            button.textContent =
+              currentlyVisible
+                ? "SHOW"
+                : "HIDE";
+
+          }
+        );
+
+      });
+
+
+    /* ==============================
+       ROUTE PLAYER
+    ============================== */
+
+    async function routePlayer(userId) {
+
+      const {
+        data: profile,
+        error
+      } =
+        await sb
+          .from("profiles")
+          .select(`
+            id,
+            full_name,
+            student_number,
+            residence_id,
+            room_id
+          `)
+          .eq("id", userId)
+          .single();
+
+
+      if (error) {
+
+        console.error(
+          "Profile error:",
+          error
+        );
+
+        throw new Error(
+          "We could not load your RES WARS profile."
+        );
+
+      }
+
+
+      /*
+        Already belongs to a room.
+      */
+
+      if (profile?.room_id) {
+
+        window.location.replace(
+          "index.html"
+        );
+
+        return;
+
+      }
+
+
+      /*
+        Account exists but room setup
+        has not been completed.
+      */
+
+      window.location.replace(
+        "onboarding.html"
+      );
+
+    }
+
+
+    /* ==============================
+       LOGIN
+    ============================== */
+
+    loginForm.addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+        clearMessage();
+
+
+        const email =
+          document
+            .getElementById("loginEmail")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+        const password =
+          document
+            .getElementById("loginPassword")
+            .value;
+
+
+        if (!email || !password) {
+
+          showMessage(
+            "Enter your email address and password."
+          );
+
+          return;
+
+        }
+
+
+        try {
+
+          loginBtn.disabled = true;
+
+          showLoader(
+            "Entering Res Wars..."
+          );
+
+
+          const {
+            data,
+            error
+          } =
+            await sb.auth.signInWithPassword({
+
+              email,
+              password
+
+            });
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          if (!data?.user) {
+
+            throw new Error(
+              "Unable to sign in."
+            );
+
+          }
+
+
+          await routePlayer(
+            data.user.id
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "Login error:",
+            error
+          );
+
+          hideLoader();
+
+          loginBtn.disabled = false;
+
+
+          let message =
+            error?.message ||
+            "Unable to sign in.";
+
+
+          const lower =
+            message.toLowerCase();
+
+
+          if (
+            lower.includes(
+              "invalid login credentials"
+            )
+          ) {
+
+            message =
+              "Incorrect email address or password.";
+
+          }
+
+
+          if (
+            lower.includes(
+              "email not confirmed"
+            )
+          ) {
+
+            message =
+              "Your account has not been activated yet. Open the RES WARS email we sent you and select Activate My Account.";
+
+          }
+
+
+          showMessage(
+            message,
+            "error"
+          );
+
+        }
+
+      }
+    );
+
+
+    /* ==============================
+       REGISTER
+    ============================== */
+
+    registerForm.addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+        clearMessage();
+
+
+        const fullName =
+          cleanText(
+            document
+              .getElementById("registerName")
+              .value
+          );
+
+
+        const studentNumber =
+          cleanText(
+            document
+              .getElementById("registerStudent")
+              .value
+          );
+
+
+        const email =
+          document
+            .getElementById("registerEmail")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+        const password =
+          document
+            .getElementById("registerPassword")
+            .value;
+
+
+        /* --------------------------
+           VALIDATION
+        --------------------------- */
+
+        if (
+          fullName.length < 2
+        ) {
+
+          showMessage(
+            "Please enter your full name."
+          );
+
+          return;
+
+        }
+
+
+        if (
+          studentNumber.length < 3
+        ) {
+
+          showMessage(
+            "Enter a valid student number."
+          );
+
+          return;
+
+        }
+
+
+        if (!email) {
+
+          showMessage(
+            "Enter your email address."
+          );
+
+          return;
+
+        }
+
+
+        if (
+          password.length < 6
+        ) {
+
+          showMessage(
+            "Your password must contain at least 6 characters."
+          );
+
+          return;
+
+        }
+
+
+        try {
+
+          registerBtn.disabled = true;
+
+          showLoader(
+            "Creating your player..."
+          );
+
+
+          /*
+            IMPORTANT:
+
+            emailRedirectTo tells Supabase where
+            the confirmation flow should return
+            after the player activates their account.
+          */
+
+          const {
+            data,
+            error
+          } =
+            await sb.auth.signUp({
+
+              email,
+
+              password,
+
+              options: {
+
+                emailRedirectTo:
+                  PRODUCTION_URL,
+
+                data: {
+
+                  full_name:
+                    fullName,
+
+                  student_number:
+                    studentNumber,
+
+                  residence:
+                    "My Angel Residence"
+
+                }
+
+              }
+
+            });
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          if (!data?.user) {
+
+            throw new Error(
+              "Your player account could not be created."
+            );
+
+          }
+
+
+          /*
+            ------------------------------------
+            EMAIL CONFIRMATION DISABLED
+            ------------------------------------
+
+            If Supabase returns a session immediately,
+            the email has already been considered
+            verified.
+
+            This is mainly useful during development.
+          */
+
+          if (data.session) {
+
+            const {
+              error: profileError
+            } =
+              await sb
+                .from("profiles")
+                .update({
+
+                  full_name:
+                    fullName,
+
+                  student_number:
+                    studentNumber
+
+                })
+                .eq(
+                  "id",
+                  data.user.id
+                );
+
+
+            if (profileError) {
+              throw profileError;
+            }
+
+
+            showLoader(
+              "Preparing your room..."
+            );
+
+
+            await routePlayer(
+              data.user.id
+            );
+
+
+            return;
+
+          }
+
+
+          /*
+            ------------------------------------
+            EMAIL CONFIRMATION ENABLED
+            ------------------------------------
+          */
+
+          hideLoader();
+
+          registerBtn.disabled = false;
+
+
+          /*
+            Clear registration form.
+          */
+
+          registerForm.reset();
+
+
+          /*
+            Return user to login screen.
+          */
+
+          showLogin();
+
+
+          showMessage(
+            `Player created. We sent an activation email to ${email}. Open the email and select ACTIVATE MY ACCOUNT before signing in.`,
+            "success"
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "Registration error:",
+            error
+          );
+
+          hideLoader();
+
+          registerBtn.disabled = false;
+
+
+          let message =
+            error?.message ||
+            "Unable to create your RES WARS account.";
+
+
+          const lower =
+            message.toLowerCase();
+
+
+          if (
+            lower.includes(
+              "already registered"
+            ) ||
+            lower.includes(
+              "already been registered"
+            )
+          ) {
+
+            message =
+              "A RES WARS account already exists with this email address.";
+
+          }
+
+
+          if (
+            lower.includes(
+              "password"
+            ) &&
+            lower.includes(
+              "weak"
+            )
+          ) {
+
+            message =
+              "Your password is too weak. Choose a stronger password.";
+
+          }
+
+
+          showMessage(
+            message,
+            "error"
+          );
+
+        }
+
+      }
+    );
+
+
+    /* ==============================
+       EXISTING SESSION
+    ============================== */
+
+    async function checkExistingSession() {
+
+      try {
+
+        const {
+          data: {
+            session
+          },
+          error
+        } =
+          await sb.auth.getSession();
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        /*
+          No session = remain on auth page.
+        */
+
+        if (!session?.user) {
+
+          return;
+
+        }
+
+
+        showLoader(
+          "Loading your room..."
+        );
+
+
+        await routePlayer(
+          session.user.id
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Session error:",
+          error
+        );
+
+        hideLoader();
+
+      }
+
+    }
+
+
+    /* ==============================
+       START
+    ============================== */
+
+    checkExistingSession();
+
+  </script>
+
+</body>
+</html>
