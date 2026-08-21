@@ -9,7 +9,7 @@
 <link rel="manifest" href="/manifest.json">
 <meta name="application-name" content="RES WARS">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="RES WARS">
 <link rel="apple-touch-icon" href="/icon-192.png">
 
@@ -43,6 +43,7 @@ html{background:var(--bg)}
 
 body{
  min-height:100vh;
+ min-height:100dvh;
  background:var(--bg);
  color:var(--text);
  font-family:Inter,sans-serif;
@@ -1131,8 +1132,8 @@ main{
 @media(max-width:780px){
 
  header{
-  height:65px;
-  padding:0 16px;
+  height:calc(65px + env(safe-area-inset-top));
+  padding:env(safe-area-inset-top) 16px 0;
  }
 
  .online-pill{
@@ -1441,6 +1442,24 @@ main{
   grid-template-columns:1fr 1fr 1fr;
  }
 }
+
+
+/* HOME-SCREEN / STANDALONE SAFE AREA FIX */
+@supports (padding: max(0px)){
+ body{
+  padding-left:env(safe-area-inset-left);
+  padding-right:env(safe-area-inset-right);
+ }
+}
+@media (display-mode: standalone){
+ header{
+  top:0;
+ }
+ .mobile-nav{
+  padding-bottom:max(10px,env(safe-area-inset-bottom));
+ }
+}
+.game:active{transform:scale(.985)}
 
 </style>
 </head>
@@ -2614,7 +2633,31 @@ $("gameModal")
  );
 
 
+function gameSlug(name){
+ return String(name || "")
+  .toLowerCase()
+  .trim()
+  .replace(/[^a-z0-9]+/g,"-")
+  .replace(/^-+|-+$/g,"");
+}
+
 function openGame(game){
+ const slug = gameSlug(game.name);
+ const playable = new Set([
+  "roommate-sync",
+  "reaction-battle",
+  "res-trivia",
+  "secret-room",
+  "photo-hunt",
+  "the-traitor",
+  "puzzle-rush",
+  "word-rush"
+ ]);
+
+ if(playable.has(slug)){
+  window.location.href = `games/${slug}.html?game=${encodeURIComponent(game.id)}`;
+  return;
+ }
 
  $("modalIcon")
   .textContent =
@@ -2716,7 +2759,7 @@ function gameHTML(
    </p>
 
    <span class="game-action">
-    VIEW GAME →
+    PLAY GAME →
    </span>
 
   </article>
