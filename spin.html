@@ -186,7 +186,7 @@ body>*{max-width:100vw}
   .hud{left:7px!important;right:7px!important;width:auto!important;gap:6px!important}
   .hudbox{min-width:0!important;width:auto!important;flex:1!important;padding:7px 8px!important}
   .platform{width:min(88vw,390px)!important;max-width:88vw!important}
-  .bottle-wrap{transform:scale(.68)!important;transform-origin:center center!important}
+  .bottle-wrap{transform-origin:50% 50%!important;scale:.68}
   .status{left:10px!important;right:10px!important;width:auto!important;min-width:0!important;transform:none!important;bottom:82px!important}
   .controls{left:9px!important;right:9px!important;width:auto!important;transform:none!important;bottom:calc(12px + env(safe-area-inset-bottom,0px))!important}
   .controls button{min-width:0!important;width:auto!important}
@@ -221,11 +221,11 @@ body{padding:0!important;margin:0!important;min-height:100dvh!important}
 <body>
 <header class="topbar"><div class="brand"><div class="shield">RW</div><div><strong>RES WARS</strong><small>RESIDENCE NIGHT • SPIN THE BOTTLE</small></div></div><button class="exit" onclick="location.href='index.html'">HOME</button></header>
 <div id="hud" class="hud hidden"><div class="hudbox"><span>ROOM CODE</span><b id="gameCode">------</b></div><div class="hudbox right"><span>ROUND</span><b id="roundNo">00</b></div></div>
-<section id="entry" class="entry"><div class="entrycard"><div class="game-title"><div class="mini">RES WARS • TONIGHT'S GAME</div><h1>SPIN THE<br>BOTTLE</h1><p>Everyone is in the same room. One spin, one person, one Truth or Dare. This is the residence game.</p></div><div class="entrygrid"><div class="choicebox"><h2>HOST THE GAME</h2><p>Start tonight's game and share the room code.</p><button id="hostBtn" class="gamebtn" onclick="hostGame()">HOST GAME</button></div><div class="choicebox"><h2>JOIN YOUR RES</h2><p>Enter the code showing on your friend's screen.</p><input id="joinCode" class="codeinput" maxlength="6" placeholder="ABC123"><button class="gamebtn alt" onclick="joinGame()">JOIN GAME</button></div></div></div></section>
+<section id="entry" class="entry"><div class="entrycard"><div class="game-title"><div class="mini">RES WARS • TONIGHT'S GAME</div><h1>SPIN THE<br>BOTTLE</h1><p>Play together from anywhere. One live spin, one person, one Truth or Dare — and the chosen player can type their own challenge.</p></div><div class="entrygrid"><div class="choicebox"><h2>HOST THE GAME</h2><p>Start tonight's game and share the room code.</p><button id="hostBtn" class="gamebtn" onclick="hostGame()">HOST GAME</button></div><div class="choicebox"><h2>JOIN YOUR RES</h2><p>Enter the code showing on your friend's screen.</p><input id="joinCode" class="codeinput" maxlength="6" placeholder="ABC123"><button class="gamebtn alt" onclick="joinGame()">JOIN GAME</button></div></div></div></section>
 <section id="lobby" class="lobby hidden"><div class="lobbycard"><div class="game-title"><div class="mini">RESIDENCE LOBBY</div><h2>WHO'S PLAYING?</h2><p id="lobbyText">Share the room code.</p></div><div id="players" class="players"></div><button id="startBtn" class="gamebtn hidden" style="max-width:280px" onclick="startGame()">START THE GAME</button></div></section>
 <section id="arena" class="arena hidden"><div class="platform"></div><div id="ring"></div><div id="bottle" class="bottle-wrap"><div class="bottle-cap"></div><div class="bottle-neck"></div><div class="bottle-body"></div></div><div id="status" class="status">WAITING FOR THE HOST...</div><div id="controls" class="controls hidden"><button id="spinBtn" onclick="spinBottle()">SPIN</button><button class="danger" onclick="endGame()">END</button></div></section>
 <div id="choiceModal" class="overlay hidden"><div class="modal"><div class="tag">THE BOTTLE CHOSE</div><h2 id="chosen">PLAYER</h2><p id="choiceCopy"></p><div id="choices" class="choices"><button onclick="choose('truth')">TRUTH</button><button onclick="choose('dare')">DARE</button></div></div></div>
-<div id="challengeModal" class="overlay hidden"><div class="modal"><div id="challengeKind" class="tag">TRUTH</div><h2 id="challengeName">PLAYER</h2><div id="spinCountdown" style="margin:10px auto 14px;font:800 24px Orbitron;color:#ff7a1a">45</div><p id="challengePrompt" class="challenge"></p><div id="resolve" class="modalactions hidden"><button onclick="resolveRound('skipped')">SKIP</button><button onclick="resolveRound('completed')">COMPLETE</button></div><p id="waitingResolve">Waiting for the host to continue...</p></div></div>
+<div id="challengeModal" class="overlay hidden"><div class="modal"><div id="challengeKind" class="tag">TRUTH</div><h2 id="challengeName">PLAYER</h2><div id="spinCountdown" style="margin:10px auto 14px;font:800 24px Orbitron;color:#ff7a1a">45</div><p id="challengePrompt" class="challenge"></p><div id="customPromptBox" class="hidden" style="margin-top:14px;text-align:left"><label for="customPromptInput" style="display:block;color:#a9929c;font-size:10px;font-weight:800;letter-spacing:.08em;margin-bottom:7px">YOUR TRUTH / DARE</label><textarea id="customPromptInput" maxlength="240" rows="4" placeholder="Type your Truth or Dare here..." style="width:100%;resize:none;border-radius:12px;background:#09080a;border:1px solid #49343f;color:#fff;padding:12px;outline:none;font:600 14px/1.45 Rajdhani"></textarea><button id="sendCustomPromptBtn" class="gamebtn" style="margin-top:9px" onclick="sendCustomPrompt()">SEND CHALLENGE</button></div><div id="resolve" class="modalactions hidden"><button onclick="resolveRound('skipped')">SKIP</button><button onclick="resolveRound('completed')">COMPLETE</button></div><p id="waitingResolve">Waiting for the host to continue...</p></div></div>
 <div id="readyOverlay" class="ready-overlay hidden"><div class="ready-box">
 <div class="ready-ey" id="readyState">GAME LOBBY</div><h2 id="readyTitle">GET READY</h2><p id="readyCopy">Everyone must be ready before the game starts.</p>
 <div id="readyCount" class="big-count hidden">5</div><div id="readyList" class="ready-list"></div>
@@ -296,9 +296,75 @@ async function startGame(){
   if(r.error)return note(r.error.message);
   await refresh();
 }async function spinBottle(){if(spin&&!["completed","skipped"].includes(spin.status))return note("Complete the current round first.");$("spinBtn").disabled=true;const r=await sb.rpc("stb_spin",{p_session:session.id});if(r.error){$("spinBtn").disabled=false;return note(r.error.message)}await loadSpin((Array.isArray(r.data)?r.data[0]:r.data).id,true)}
-async function loadSpin(id,animate=true){const r=await sb.from("stb_spins").select("*").eq("id",id).single();if(r.error)return;spin=r.data;if(spin.challenge_id)challenge=(await sb.from("stb_challenges").select("*").eq("id",spin.challenge_id).maybeSingle()).data;renderRing();if(["spinning","choosing"].includes(spin.status)){let i=Math.max(0,players.findIndex(p=>p.id===spin.selected_player_id)),target=i/Math.max(players.length,1)*360;if(animate){rotation=Math.ceil((rotation+Number(spin.rotation_degrees||1800)-target)/360)*360+target;$("status").textContent="SPINNING...";requestAnimationFrame(()=>$("bottle").style.transform=`rotate(${rotation}deg)`);clearTimeout(timer);timer=setTimeout(showChoice,5300)}else showChoice()}else if(spin.status==="challenge")showChallenge();else{$("choiceModal").classList.add("hidden");$("challengeModal").classList.add("hidden");if($("spinBtn"))$("spinBtn").disabled=false;$("status").textContent="ROUND COMPLETE // READY"}}
+async function loadSpin(id,animate=true){
+  const r=await sb.from("stb_spins").select("*").eq("id",id).single();
+  if(r.error)return;
+  spin=r.data;
+  challenge=null;
+  if(spin.challenge_id){
+    challenge=(await sb.from("stb_challenges").select("*").eq("id",spin.challenge_id).maybeSingle()).data;
+  }
+  renderRing();
+
+  if(["spinning","choosing"].includes(spin.status)){
+    let i=Math.max(0,players.findIndex(p=>p.id===spin.selected_player_id));
+    let target=i/Math.max(players.length,1)*360;
+
+    if(animate){
+      const extra=Math.max(5,Math.ceil((Number(spin.rotation_degrees||1800))/360));
+      rotation += extra*360 + target - (rotation%360);
+      $("status").textContent="SPINNING...";
+      requestAnimationFrame(()=>{
+        $("bottle").style.transform=`rotate(${rotation}deg)`;
+      });
+      clearTimeout(timer);
+      timer=setTimeout(showChoice,5300);
+    }else{
+      showChoice();
+    }
+  }else if(spin.status==="challenge"){
+    showChallenge();
+  }else{
+    $("choiceModal").classList.add("hidden");
+    $("challengeModal").classList.add("hidden");
+    if($("spinBtn"))$("spinBtn").disabled=false;
+    $("status").textContent="ROUND COMPLETE // READY";
+  }
+}
 function selected(){return players.find(p=>p.id===spin?.selected_player_id)}function showChoice(){let p=selected();if(!p)return;$("status").textContent=`TARGET: ${p.display_name.toUpperCase()}`;$("chosen").textContent=p.display_name;let mine=p.user_id===user.id;$("choices").classList.toggle("hidden",!mine);$("choiceCopy").textContent=mine?"The bottle chose you. Make your choice.":`Waiting for ${p.display_name} to choose Truth or Dare.`;$("choiceModal").classList.remove("hidden")}
-async function choose(c){const r=await sb.rpc("stb_choose",{p_spin:spin.id,p_choice:c});if(r.error)return note(r.error.message);$("choiceModal").classList.add("hidden");spin=Array.isArray(r.data)?r.data[0]:r.data;await loadSpin(spin.id,false)}let challengeTimer=null;
+async function choose(c){
+  const r=await sb.rpc("stb_choose",{p_spin:spin.id,p_choice:c});
+  if(r.error)return note(r.error.message);
+  $("choiceModal").classList.add("hidden");
+  spin=Array.isArray(r.data)?r.data[0]:r.data;
+  await loadSpin(spin.id,false);
+}
+async function sendCustomPrompt(){
+  const input=$("customPromptInput");
+  const btn=$("sendCustomPromptBtn");
+  const prompt=(input.value||"").trim();
+  if(prompt.length<2)return note("Type your Truth or Dare first.");
+  if(prompt.length>240)return note("Keep the challenge under 240 characters.");
+
+  btn.disabled=true;
+  btn.textContent="SENDING...";
+
+  // stb_spins needs a custom_prompt column (see the SQL migration below).
+  const r=await sb.from("stb_spins").update({custom_prompt:prompt}).eq("id",spin.id).select("*").single();
+  if(r.error){
+    btn.disabled=false;
+    btn.textContent="SEND CHALLENGE";
+    return note("Custom challenge is not enabled yet. Run the SQL migration below.");
+  }
+
+  spin=r.data;
+  $("customPromptBox").classList.add("hidden");
+  input.value="";
+  btn.disabled=false;
+  btn.textContent="SEND CHALLENGE";
+  await loadSpin(spin.id,false);
+}
+let challengeTimer=null;
 function startChallengeCountdown(){
   clearInterval(challengeTimer);
   let left=45;
@@ -310,9 +376,38 @@ function startChallengeCountdown(){
     if(left<=0)clearInterval(challengeTimer);
   },1000);
 }
-function showChallenge(){startChallengeCountdown();let p=selected();if(!p)return;$("choiceModal").classList.add("hidden");$("challengeKind").textContent=(spin.choice||"").toUpperCase();$("challengeName").textContent=p.display_name;$("challengePrompt").textContent=challenge?.prompt||"Challenge unavailable.";let host=session.host_user_id===user.id;$("resolve").classList.toggle("hidden",!host);$("waitingResolve").classList.toggle("hidden",host);$("challengeModal").classList.remove("hidden")}
+function showChallenge(){
+  startChallengeCountdown();
+  let p=selected();
+  if(!p)return;
+  $("choiceModal").classList.add("hidden");
+  $("challengeKind").textContent=(spin.choice||"").toUpperCase();
+  $("challengeName").textContent=p.display_name;
+
+  const custom=String(spin.custom_prompt||"").trim();
+  const isTarget=p.user_id===user.id;
+
+  $("challengePrompt").textContent=custom||challenge?.prompt||"Waiting for a challenge...";
+  $("customPromptBox").classList.toggle("hidden",!isTarget || !!custom);
+  $("resolve").classList.toggle("hidden",session.host_user_id!==user.id);
+  $("waitingResolve").classList.toggle("hidden",session.host_user_id===user.id);
+  $("challengeModal").classList.remove("hidden");
+}
 async function resolveRound(s){const r=await sb.rpc("stb_resolve",{p_spin:spin.id,p_status:s});if(r.error)return note(r.error.message);spin=Array.isArray(r.data)?r.data[0]:r.data;$("challengeModal").classList.add("hidden");$("spinBtn").disabled=false;$("status").textContent="ROUND COMPLETE // READY";renderRing()}async function endGame(){if(!confirm("End this match?"))return;const r=await sb.rpc("stb_end",{p_session:session.id});if(r.error)return note(r.error.message);await claimSpinResult()}async function leaveAndExit(){if(session)await sb.rpc("stb_leave",{p_session:session.id});location.href="index.html"}
-function subscribe(){if(channel)sb.removeChannel(channel);channel=sb.channel(`stb-${session.id}`).on("postgres_changes",{event:"*",schema:"public",table:"stb_sessions",filter:`id=eq.${session.id}`},refresh).on("postgres_changes",{event:"*",schema:"public",table:"stb_players",filter:`session_id=eq.${session.id}`},refresh).on("postgres_changes",{event:"INSERT",schema:"public",table:"stb_spins",filter:`session_id=eq.${session.id}`},p=>loadSpin(p.new.id,true)).on("postgres_changes",{event:"UPDATE",schema:"public",table:"stb_spins",filter:`session_id=eq.${session.id}`},p=>loadSpin(p.new.id,false)).subscribe()}init();
+function subscribe(){
+  if(channel)sb.removeChannel(channel);
+  channel=sb.channel(`stb-${session.id}`)
+    .on("postgres_changes",{event:"*",schema:"public",table:"stb_sessions",filter:`id=eq.${session.id}`},refresh)
+    .on("postgres_changes",{event:"*",schema:"public",table:"stb_players",filter:`session_id=eq.${session.id}`},refresh)
+    .on("postgres_changes",{event:"INSERT",schema:"public",table:"stb_spins",filter:`session_id=eq.${session.id}`},p=>loadSpin(p.new.id,true))
+    .on("postgres_changes",{event:"UPDATE",schema:"public",table:"stb_spins",filter:`session_id=eq.${session.id}`},p=>{
+      const changed=p.new;
+      const shouldAnimate=changed.id===spin?.id && changed.status==="spinning" && Number(changed.rotation_degrees||0)>0;
+      loadSpin(changed.id,shouldAnimate);
+    })
+    .subscribe();
+}
+init();
 
 let readyTicker=null;
 async function toggleMyReady(){
