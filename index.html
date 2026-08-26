@@ -860,9 +860,9 @@
          position: fixed;
          right: 16px;
          bottom: 82px;
-         z-index: 79;
+         z-index: 500;
          width: min(390px, calc(100vw - 24px));
-         height: min(620px, calc(100vh - 105px));
+         height: min(620px, calc(100dvh - 105px));
          border: 1px solid #45323b;
          border-radius: 20px;
          background: #110d10;
@@ -1089,6 +1089,9 @@
          line-height: 1.5
       }
 
+      .optimistic-message { opacity: .86; }
+      .optimistic-message .bubble time { opacity: .55; }
+
       .mine .bubble {
          background: #d75f10;
          color: #1c0d06;
@@ -1201,24 +1204,28 @@
 
       @media(max-width:600px) {
          .chat-fab {
-            right: 13px;
-            bottom: 14px
+            display: none;
          }
 
          .chat-panel {
-            inset: 64px 0 0 0;
+            top: calc(64px + env(safe-area-inset-top, 0px));
+            right: 0;
+            bottom: calc(var(--rw-bottom-nav-h) + env(safe-area-inset-bottom, 0px));
+            left: 0;
             width: 100%;
-            height: calc(100% - 64px);
+            height: auto;
             max-height: none;
+            z-index: 500;
             border-radius: 0;
             border-left: 0;
             border-right: 0;
-            border-bottom: 0
+            border-bottom: 0;
+            box-shadow: 0 -10px 35px #0009;
          }
 
          .chat-toast {
             right: 12px;
-            bottom: 75px
+            bottom: calc(var(--rw-bottom-nav-h) + env(safe-area-inset-bottom, 0px) + 12px);
          }
 
          .person p {
@@ -2270,7 +2277,14 @@
       const ce = id => document.getElementById(id), cesc = s => String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
       const cini = n => (n || "R").split(/\s+/).slice(0, 2).map(x => x[0]).join("").toUpperCase();
       const ctime = d => new Date(d).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-      function setBadge(n) { unreadTotal = Math.max(0, n || 0); ce("chatBadge").textContent = unreadTotal > 99 ? "99+" : unreadTotal; ce("chatBadge").classList.toggle("hidden", !unreadTotal) }
+      function setBadge(n) {
+         unreadTotal = Math.max(0, n || 0);
+         const label = unreadTotal > 99 ? "99+" : String(unreadTotal);
+         ce("chatBadge").textContent = label;
+         ce("chatBadge").classList.toggle("hidden", !unreadTotal);
+         const navBadge = ce("rwNavBadge");
+         if (navBadge) { navBadge.textContent = label; navBadge.classList.toggle("show", !!unreadTotal); }
+      }
       function showChatToast(name, text) { if (chatOpen) return; let t = ce("chatToast"); t.innerHTML = `<b>${cesc(name)}</b>${cesc(text).slice(0, 90)}`; t.classList.remove("hidden"); clearTimeout(showChatToast.t); showChatToast.t = setTimeout(() => t.classList.add("hidden"), 4000) }
       async function initChat() {
          const { data: { session } } = await sb.auth.getSession(); if (!session?.user) return;
@@ -2325,10 +2339,39 @@
          await sb.from("rw_chat_messages").update({ read_at: new Date().toISOString() }).eq("recipient_id", chatMe.id).eq("sender_id", chatPeer.id).is("read_at", null); await loadUnread();
       }
       async function sendMessage(e) {
-         e.preventDefault(); let v = ce("messageInput").value.trim(); if (!v) return;
+         e.preventDefault();
+         const v = ce("messageInput").value.trim();
+         if (!v || !chatMe) return;
          ce("messageInput").value = "";
-         const row = { sender_id: chatMe.id, recipient_id: chatMode === "direct" ? chatPeer.id : null, residence_id: chatResidence, message: v };
-         const { error } = await sb.from("rw_chat_messages").insert(row); if (error) { ce("messageInput").value = v; showChatToast("Message not sent", error.message) }
+
+         // Render the sender's message immediately so the chat feels live.
+         const box = ce("messages");
+         const empty = box.querySelector(".chat-empty");
+         if (empty) empty.remove();
+         const optimistic = document.createElement("div");
+         optimistic.className = "bubble-row mine optimistic-message";
+         optimistic.innerHTML = `<div class="bubble">${cesc(v)}<time>SENDING…</time></div>`;
+         box.appendChild(optimistic);
+         box.scrollTop = box.scrollHeight;
+
+         const row = {
+            sender_id: chatMe.id,
+            recipient_id: chatMode === "direct" ? chatPeer.id : null,
+            residence_id: chatResidence,
+            message: v
+         };
+         const { error } = await sb.from("rw_chat_messages").insert(row);
+         if (error) {
+            optimistic.remove();
+            ce("messageInput").value = v;
+            ce("messageInput").focus();
+            showChatToast("Message not sent", error.message);
+            return;
+         }
+
+         // Reconcile the optimistic bubble with the real database row.
+         await loadMessages();
+         ce("messageInput").focus();
       }
       function subscribeChat() {
          if (chatChannel) sb.removeChannel(chatChannel);
@@ -2342,7 +2385,15 @@
                if (viewing) { await loadMessages(); await markRead() } else { setBadge(unreadTotal + 1); showChatToast(name, m.message); if ("Notification" in window && Notification.permission === "granted" && document.hidden) new Notification(`RES WARS • ${name}`, { body: m.message }) }
             }).on("postgres_changes", { event: "UPDATE", schema: "public", table: "rw_chat_messages" }, () => { }).subscribe();
       }
-      ce("chatFab").addEventListener("click", () => { chatOpen = true; ce("chatPanel").classList.remove("hidden"); ce("chatToast").classList.add("hidden") });
+      function openResidenceChat() {
+         chatOpen = true;
+         ce("chatPanel").classList.remove("hidden");
+         ce("chatToast").classList.add("hidden");
+         requestAnimationFrame(() => {
+            if (!ce("conversation").classList.contains("hidden")) ce("messageInput").focus();
+         });
+      }
+      ce("chatFab").addEventListener("click", openResidenceChat);
       ce("chatClose").addEventListener("click", () => { chatOpen = false; ce("chatPanel").classList.add("hidden") });
       ce("groupTab").addEventListener("click", () => { chatMode = "group"; renderChatHome() }); ce("peopleTab").addEventListener("click", () => { chatMode = "direct"; renderChatHome() });
       ce("peopleQuery").addEventListener("input", renderPeople); ce("convBack").addEventListener("click", renderChatHome); ce("composer").addEventListener("submit", sendMessage);
@@ -2515,14 +2566,10 @@
          else location.href = "index.html#games";
       }
       function rwOpenChat() {
-         const candidates = [
-            document.querySelector(".chat-fab"),
-            document.querySelector("[onclick*='Chat']"),
-            document.querySelector("[onclick*='chat']"),
-            document.getElementById("chatBtn"),
-            document.getElementById("messageBtn")
-         ].filter(Boolean);
-         if (candidates.length) { candidates[0].click(); return }
+         if (typeof openResidenceChat === "function") {
+            openResidenceChat();
+            return;
+         }
          const panel = document.querySelector(".chat-panel,.chat-drawer");
          if (panel) panel.classList.toggle("open");
       }
