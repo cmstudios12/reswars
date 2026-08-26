@@ -17,7 +17,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.08;bac
 .entry{position:absolute;inset:70px 0 0;display:grid;place-items:center;padding:18px}.entrycard{width:min(92vw,790px);padding:38px;border-radius:28px;background:linear-gradient(145deg,#1d161bfa,#100d10fa);border:1px solid #3a2b33;box-shadow:0 35px 100px #0009}.game-title{text-align:center}.game-title .mini{display:inline-flex;padding:7px 11px;border-radius:999px;background:#ff7a1a17;border:1px solid #ff7a1a3d;color:#ff9b54;font-size:9px;font-weight:800;letter-spacing:.2em}.game-title h1{font:900 clamp(38px,7vw,65px)/.92 Orbitron;margin:14px 0;color:var(--cream);letter-spacing:-.04em}.game-title p{max-width:530px;margin:0 auto;color:#a8919d;font-size:14px;line-height:1.55}.entrygrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}.choicebox{padding:21px;border-radius:18px;background:#130f13;border:1px solid #392c33}.choicebox h2{font:800 16px Orbitron;margin:0;color:var(--cream)}.choicebox p{color:#9b8791;font-size:12px}.codeinput{width:100%;height:50px;border-radius:12px;background:#09080a;border:1px solid #46333c;color:#fff;text-align:center;text-transform:uppercase;font:800 20px Orbitron;letter-spacing:.2em;outline:none}.gamebtn{width:100%;height:49px;border:0;margin-top:10px;border-radius:12px;font:800 10px Orbitron;letter-spacing:.07em;background:var(--orange);color:#140b07;box-shadow:0 10px 30px #ff7a1a20}.gamebtn.alt{background:#211820;border:1px solid #49353f;color:#f0dce5}
 .arena{position:absolute;inset:70px 0 0;perspective:1100px;overflow:hidden}.arena:before{content:"RES NIGHT";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:900 clamp(75px,15vw,190px) Orbitron;color:#fff;opacity:.018;white-space:nowrap}.platform{position:absolute;left:50%;top:54%;width:min(66vw,680px);aspect-ratio:1;transform:translate(-50%,-50%) rotateX(67deg);border-radius:50%;background:radial-gradient(circle,#ff7a1a 0 2%,#2b1717 3% 12%,#120e11 13% 42%,#ff7a1a 42.5% 43%,#1a1116 43.5% 65%,#3b2931 66% 67%,#0c090c 68%);box-shadow:0 80px 110px #000,0 0 80px #ff6f1a1f;border:2px solid #4a343c}.platform:after{content:"RES WARS";position:absolute;inset:36%;display:grid;place-items:center;border-radius:50%;border:2px solid #ff8a39;color:#ff9a52;font:900 14px Orbitron;text-shadow:0 0 15px #ff6f1a}
 .ring-player{position:absolute;width:105px;text-align:center;z-index:8;transform:translate(-50%,-50%)}.avatar{width:58px;height:58px;margin:auto;display:grid;place-items:center;border-radius:50%;background:#1c151a;border:2px solid #5b424d;color:#fff1e8;font:800 12px Orbitron;box-shadow:0 10px 25px #0008}.ring-player.selected .avatar{border-color:#ff8b3e;box-shadow:0 0 0 6px #ff7a1a18,0 0 35px #ff7a1a88;transform:scale(1.08)}.ring-player strong{display:block;margin-top:7px;font-size:11px;text-shadow:0 2px 6px #000}.hosttag{display:inline-block;margin-top:3px;padding:2px 6px;border-radius:999px;background:#fff1d9;color:#24150e;font-size:7px;font-weight:800}
-.bottle-wrap{position:absolute;left:50%;top:54%;width:86px;height:285px;margin:-142px 0 0 -43px;z-index:7;transform-origin:50% 50%;will-change:transform;filter:drop-shadow(20px 25px 16px #000c)}
+.bottle-wrap{position:absolute;left:50%;top:54%;width:86px;height:285px;margin:-142px 0 0 -43px;z-index:7;transform-origin:50% 50%;transition:transform 5.3s cubic-bezier(.08,.72,.08,1);filter:drop-shadow(20px 25px 16px #000c)}
 .bottle-neck{position:absolute;left:29px;width:28px;height:82px;border:2px solid #b7cdb7;border-bottom:0;border-radius:9px 9px 3px 3px;background:linear-gradient(90deg,#173a29,#5e8066 48%,#173625);box-shadow:inset 7px 0 10px #d8ffdf22}.bottle-cap{position:absolute;left:24px;top:-9px;width:38px;height:15px;background:#e7d7bd;border-radius:4px}.bottle-body{position:absolute;left:6px;top:69px;width:74px;height:205px;border:2px solid #a8bea9;border-radius:25px 25px 29px 29px;background:linear-gradient(90deg,#123123,#3f674b 25%,#7d987f 47%,#365b43 70%,#102b1f);box-shadow:inset 10px 0 18px #fff2,inset -8px 0 15px #001c18}.bottle-body:after{content:"RES";position:absolute;left:11px;right:11px;top:70px;height:58px;display:grid;place-items:center;background:#fff0da;color:#1b110d;font:900 12px Orbitron;border-radius:5px}
 .status{position:absolute;left:50%;bottom:91px;transform:translateX(-50%);z-index:10;min-width:300px;text-align:center;padding:10px 18px;background:#171116e8;border:1px solid #4b343e;color:#d7c2cc;font-size:12px;border-radius:999px;box-shadow:0 12px 35px #0006}.controls{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);display:flex;gap:9px;z-index:15}.controls button{min-width:195px;height:52px;border:0;border-radius:14px;color:#170b06;background:var(--orange);font:900 11px Orbitron;box-shadow:0 12px 35px #ff7a1a25}.controls .danger{min-width:105px;background:#181317;border:1px solid #49353f;color:#bda7b1;box-shadow:none}
 .lobby{position:absolute;inset:70px 0 0;display:grid;place-items:center;padding:18px}.lobbycard{width:min(92vw,850px);padding:30px;border-radius:26px;background:#151015ed;border:1px solid #3c2d34;text-align:center;box-shadow:0 35px 100px #0008}.lobbycard h2{font:800 25px Orbitron;margin:12px 0 0;color:var(--cream)}.lobbycard p{color:#9c8992}.players{display:flex;justify-content:center;gap:13px;flex-wrap:wrap;margin:25px 0}.playercard{width:125px;padding:15px 8px;border-radius:16px;background:#0f0c0f;border:1px solid #3a2b32}.playercard strong{display:block;margin-top:8px;font-size:11px}.playercard span{font-size:8px;color:#9c858f}
@@ -215,24 +215,29 @@ body{padding:0!important;margin:0!important;min-height:100dvh!important}
 .avatar img{width:100%;height:100%;object-fit:cover;display:block}
 .ring-player .avatar{border:2px solid #6a4a56;box-shadow:0 7px 22px #0009}
 .ring-player.selected .avatar{border-color:#ff7818;box-shadow:0 0 0 4px #ff781825,0 8px 30px #000c}
-
-  #bottle{
-    transform-origin:50% 50%!important;
-    transform-box:border-box;
-    backface-visibility:hidden;
-    -webkit-backface-visibility:hidden;
-  }
 </style><style id="rw-disable-ready-gate">#readyOverlay{display:none!important}</style><style id="rw-simple-start-ui">
 #lobbyText{font-size:14px!important;line-height:1.5!important;color:#d8c4cd!important;min-height:24px}
+#sharedResponseText::selection{background:#ff7a1a55}
+#customPromptInput:focus{border-color:#ff7a1a!important;box-shadow:0 0 0 3px #ff7a1a14}
+
 </style></head>
 <body>
 <header class="topbar"><div class="brand"><div class="shield">RW</div><div><strong>RES WARS</strong><small>RESIDENCE NIGHT • SPIN THE BOTTLE</small></div></div><button class="exit" onclick="location.href='index.html'">HOME</button></header>
 <div id="hud" class="hud hidden"><div class="hudbox"><span>ROOM CODE</span><b id="gameCode">------</b></div><div class="hudbox right"><span>ROUND</span><b id="roundNo">00</b></div></div>
-<section id="entry" class="entry"><div class="entrycard"><div class="game-title"><div class="mini">RES WARS • TONIGHT'S GAME</div><h1>SPIN THE<br>BOTTLE</h1><p>Play together from anywhere. One live spin, one person, one Truth or Dare — and the chosen player can type their own challenge.</p></div><div class="entrygrid"><div class="choicebox"><h2>HOST THE GAME</h2><p>Start tonight's game and share the room code.</p><button id="hostBtn" class="gamebtn" onclick="hostGame()">HOST GAME</button></div><div class="choicebox"><h2>JOIN YOUR RES</h2><p>Enter the code showing on your friend's screen.</p><input id="joinCode" class="codeinput" maxlength="6" placeholder="ABC123"><button class="gamebtn alt" onclick="joinGame()">JOIN GAME</button></div></div></div></section>
+<section id="entry" class="entry"><div class="entrycard"><div class="game-title"><div class="mini">RES WARS • TONIGHT'S GAME</div><h1>SPIN THE<br>BOTTLE</h1><p>Play together from anywhere. One live spin, one person, one Truth or Dare — and the chosen player can type their response so everyone sees it live.</p></div><div class="entrygrid"><div class="choicebox"><h2>HOST THE GAME</h2><p>Start tonight's game and share the room code.</p><button id="hostBtn" class="gamebtn" onclick="hostGame()">HOST GAME</button></div><div class="choicebox"><h2>JOIN YOUR RES</h2><p>Enter the code showing on your friend's screen.</p><input id="joinCode" class="codeinput" maxlength="6" placeholder="ABC123"><button class="gamebtn alt" onclick="joinGame()">JOIN GAME</button></div></div></div></section>
 <section id="lobby" class="lobby hidden"><div class="lobbycard"><div class="game-title"><div class="mini">RESIDENCE LOBBY</div><h2>WHO'S PLAYING?</h2><p id="lobbyText">Share the room code.</p></div><div id="players" class="players"></div><button id="startBtn" class="gamebtn hidden" style="max-width:280px" onclick="startGame()">START THE GAME</button></div></section>
 <section id="arena" class="arena hidden"><div class="platform"></div><div id="ring"></div><div id="bottle" class="bottle-wrap"><div class="bottle-cap"></div><div class="bottle-neck"></div><div class="bottle-body"></div></div><div id="status" class="status">WAITING FOR THE HOST...</div><div id="controls" class="controls hidden"><button id="spinBtn" onclick="spinBottle()">SPIN</button><button class="danger" onclick="endGame()">END</button></div></section>
 <div id="choiceModal" class="overlay hidden"><div class="modal"><div class="tag">THE BOTTLE CHOSE</div><h2 id="chosen">PLAYER</h2><p id="choiceCopy"></p><div id="choices" class="choices"><button onclick="choose('truth')">TRUTH</button><button onclick="choose('dare')">DARE</button></div></div></div>
-<div id="challengeModal" class="overlay hidden"><div class="modal"><div id="challengeKind" class="tag">TRUTH</div><h2 id="challengeName">PLAYER</h2><div id="spinCountdown" style="margin:10px auto 14px;font:800 24px Orbitron;color:#ff7a1a">45</div><p id="challengePrompt" class="challenge"></p><div id="customPromptBox" class="hidden" style="margin-top:14px;text-align:left"><label for="customPromptInput" style="display:block;color:#a9929c;font-size:10px;font-weight:800;letter-spacing:.08em;margin-bottom:7px">YOUR TRUTH / DARE</label><textarea id="customPromptInput" maxlength="240" rows="4" placeholder="Type your Truth or Dare here..." style="width:100%;resize:none;border-radius:12px;background:#09080a;border:1px solid #49343f;color:#fff;padding:12px;outline:none;font:600 14px/1.45 Rajdhani"></textarea><button id="sendCustomPromptBtn" class="gamebtn" style="margin-top:9px" onclick="sendCustomPrompt()">SEND CHALLENGE</button></div><div id="resolve" class="modalactions hidden"><button onclick="resolveRound('skipped')">SKIP</button><button onclick="resolveRound('completed')">COMPLETE</button></div><p id="waitingResolve">Waiting for the host to continue...</p></div></div>
+<div id="challengeModal" class="overlay hidden"><div class="modal"><div id="challengeKind" class="tag">TRUTH</div><h2 id="challengeName">PLAYER</h2><div id="spinCountdown" style="margin:10px auto 14px;font:800 24px Orbitron;color:#ff7a1a">45</div><p id="challengePrompt" class="challenge"></p><div id="customPromptBox" class="hidden" style="margin-top:14px;text-align:left">
+<label for="customPromptInput" style="display:block;color:#a9929c;font-size:10px;font-weight:800;letter-spacing:.08em;margin-bottom:7px">YOUR TRUTH / DARE RESPONSE</label>
+<textarea id="customPromptInput" maxlength="500" rows="5" placeholder="Type your Truth or Dare response here... Everyone in the room will see it." style="width:100%;resize:none;border-radius:12px;background:#09080a;border:1px solid #49343f;color:#fff;padding:12px;outline:none;font:600 14px/1.45 Rajdhani"></textarea>
+<div style="margin-top:7px;color:#8f7c85;font-size:9px;line-height:1.4">Your response is shared live with everyone in this room.</div>
+<button id="sendCustomPromptBtn" class="gamebtn" style="margin-top:9px" onclick="sendCustomPrompt()">SHARE RESPONSE</button>
+</div>
+<div id="sharedResponse" class="hidden" style="margin-top:14px;text-align:left;padding:15px;border-radius:14px;background:#0d0a0d;border:1px solid #ff7a1a55">
+<div style="font-size:9px;font-weight:900;letter-spacing:.12em;color:#ff8a38;margin-bottom:7px">LIVE RESPONSE</div>
+<div id="sharedResponseText" style="font:600 15px/1.5 Rajdhani;color:#fff7ed;white-space:pre-wrap;overflow-wrap:anywhere"></div>
+</div><div id="resolve" class="modalactions hidden"><button onclick="resolveRound('skipped')">SKIP</button><button onclick="resolveRound('completed')">COMPLETE</button></div><p id="waitingResolve">Waiting for the host to continue...</p></div></div>
 <div id="readyOverlay" class="ready-overlay hidden"><div class="ready-box">
 <div class="ready-ey" id="readyState">GAME LOBBY</div><h2 id="readyTitle">GET READY</h2><p id="readyCopy">Everyone must be ready before the game starts.</p>
 <div id="readyCount" class="big-count hidden">5</div><div id="readyList" class="ready-list"></div>
@@ -302,106 +307,35 @@ async function startGame(){
   const r=await sb.rpc("stb_start",{p_session:session.id});
   if(r.error)return note(r.error.message);
   await refresh();
-}async function spinBottle(){
-  if(spin&&!["completed","skipped"].includes(spin.status))
-    return note("Complete the current round first.");
-
-  const btn=$("spinBtn");
-  btn.disabled=true;
-  $("status").textContent="STARTING SPIN...";
-
-  if(window.rwBottleAnimation){
-    try{window.rwBottleAnimation.cancel()}catch(e){}
-    window.rwBottleAnimation=null;
-  }
-
-  const r=await sb.rpc("stb_spin",{p_session:session.id});
-
-  if(r.error){
-    btn.disabled=false;
-    $("status").textContent="READY TO SPIN";
-    return note(r.error.message);
-  }
-
-  const created=Array.isArray(r.data)?r.data[0]:r.data;
-  await loadSpin(created.id,true);
-}
+}async function spinBottle(){if(spin&&!["completed","skipped"].includes(spin.status))return note("Complete the current round first.");$("spinBtn").disabled=true;const r=await sb.rpc("stb_spin",{p_session:session.id});if(r.error){$("spinBtn").disabled=false;return note(r.error.message)}await loadSpin((Array.isArray(r.data)?r.data[0]:r.data).id,true)}
 async function loadSpin(id,animate=true){
   const r=await sb.from("stb_spins").select("*").eq("id",id).single();
   if(r.error)return;
-
   spin=r.data;
   challenge=null;
-
   if(spin.challenge_id){
-    challenge=(await sb.from("stb_challenges")
-      .select("*")
-      .eq("id",spin.challenge_id)
-      .maybeSingle()).data;
+    challenge=(await sb.from("stb_challenges").select("*").eq("id",spin.challenge_id).maybeSingle()).data;
   }
-
   renderRing();
 
-  const bottle=$("bottle");
-
   if(["spinning","choosing"].includes(spin.status)){
-    const count=Math.max(players.length,1);
-    const i=Math.max(0,players.findIndex(p=>p.id===spin.selected_player_id));
-    const target=i/count*360;
+    let i=Math.max(0,players.findIndex(p=>p.id===spin.selected_player_id));
+    let target=i/Math.max(players.length,1)*360;
 
     if(animate){
-      // Cancel any previous animation so every realtime spin starts cleanly.
-      if(window.rwBottleAnimation){
-        try{window.rwBottleAnimation.cancel()}catch(e){}
-      }
-
-      const current=Number.isFinite(rotation)?rotation:0;
-      const extraTurns=Math.max(
-        5,
-        Math.ceil(Number(spin.rotation_degrees||1800)/360)
-      );
-
-      // Finish pointing at the selected player's position.
-      const currentAngle=((current%360)+360)%360;
-      let delta=extraTurns*360 + target-currentAngle;
-      if(delta<extraTurns*360)delta+=360;
-
-      const endAngle=current+delta;
-      rotation=endAngle;
-
+      const extra=Math.max(5,Math.ceil((Number(spin.rotation_degrees||1800))/360));
+      rotation += extra*360 + target - (rotation%360);
       $("status").textContent="SPINNING...";
-      $("spinBtn").disabled=true;
-
-      // IMPORTANT: animate the transform directly. CSS scale remains independent.
-      window.rwBottleAnimation=bottle.animate(
-        [
-          {transform:`rotate(${current}deg)`},
-          {transform:`rotate(${endAngle}deg)`}
-        ],
-        {
-          duration:5300,
-          easing:"cubic-bezier(.08,.72,.08,1)",
-          fill:"forwards"
-        }
-      );
-
+      requestAnimationFrame(()=>{
+        $("bottle").style.transform=`rotate(${rotation}deg)`;
+      });
       clearTimeout(timer);
-      timer=setTimeout(()=>{
-        bottle.style.transform=`rotate(${endAngle}deg)`;
-        try{window.rwBottleAnimation.cancel()}catch(e){}
-        window.rwBottleAnimation=null;
-        showChoice();
-      },5350);
-
+      timer=setTimeout(showChoice,5300);
     }else{
-      // On a newly opened/reloaded screen, show the correct final position.
-      bottle.style.transform=`rotate(${rotation||target}deg)`;
       showChoice();
     }
-
   }else if(spin.status==="challenge"){
     showChallenge();
-
   }else{
     $("choiceModal").classList.add("hidden");
     $("challengeModal").classList.add("hidden");
@@ -409,7 +343,6 @@ async function loadSpin(id,animate=true){
     $("status").textContent="ROUND COMPLETE // READY";
   }
 }
-
 function selected(){return players.find(p=>p.id===spin?.selected_player_id)}function showChoice(){let p=selected();if(!p)return;$("status").textContent=`TARGET: ${p.display_name.toUpperCase()}`;$("chosen").textContent=p.display_name;let mine=p.user_id===user.id;$("choices").classList.toggle("hidden",!mine);$("choiceCopy").textContent=mine?"The bottle chose you. Make your choice.":`Waiting for ${p.display_name} to choose Truth or Dare.`;$("choiceModal").classList.remove("hidden")}
 async function choose(c){
   const r=await sb.rpc("stb_choose",{p_spin:spin.id,p_choice:c});
@@ -432,7 +365,7 @@ async function sendCustomPrompt(){
   const r=await sb.from("stb_spins").update({custom_prompt:prompt}).eq("id",spin.id).select("*").single();
   if(r.error){
     btn.disabled=false;
-    btn.textContent="SEND CHALLENGE";
+    btn.textContent="SHARE RESPONSE";
     return note("Custom challenge is not enabled yet. Run the SQL migration below.");
   }
 
@@ -440,7 +373,7 @@ async function sendCustomPrompt(){
   $("customPromptBox").classList.add("hidden");
   input.value="";
   btn.disabled=false;
-  btn.textContent="SEND CHALLENGE";
+  btn.textContent="SHARE RESPONSE";
   await loadSpin(spin.id,false);
 }
 let challengeTimer=null;
@@ -459,6 +392,7 @@ function showChallenge(){
   startChallengeCountdown();
   let p=selected();
   if(!p)return;
+
   $("choiceModal").classList.add("hidden");
   $("challengeKind").textContent=(spin.choice||"").toUpperCase();
   $("challengeName").textContent=p.display_name;
@@ -466,10 +400,21 @@ function showChallenge(){
   const custom=String(spin.custom_prompt||"").trim();
   const isTarget=p.user_id===user.id;
 
-  $("challengePrompt").textContent=custom||challenge?.prompt||"Waiting for a challenge...";
+  $("challengePrompt").textContent=challenge?.prompt||"Waiting for the player to respond...";
   $("customPromptBox").classList.toggle("hidden",!isTarget || !!custom);
+
+  const shared=$("sharedResponse");
+  const sharedText=$("sharedResponseText");
+  shared.classList.toggle("hidden",!custom);
+  sharedText.textContent=custom;
+
   $("resolve").classList.toggle("hidden",session.host_user_id!==user.id);
   $("waitingResolve").classList.toggle("hidden",session.host_user_id===user.id);
+
+  if(isTarget && !custom){
+    $("customPromptInput").focus();
+  }
+
   $("challengeModal").classList.remove("hidden");
 }
 async function resolveRound(s){const r=await sb.rpc("stb_resolve",{p_spin:spin.id,p_status:s});if(r.error)return note(r.error.message);spin=Array.isArray(r.data)?r.data[0]:r.data;$("challengeModal").classList.add("hidden");$("spinBtn").disabled=false;$("status").textContent="ROUND COMPLETE // READY";renderRing()}async function endGame(){if(!confirm("End this match?"))return;const r=await sb.rpc("stb_end",{p_session:session.id});if(r.error)return note(r.error.message);await claimSpinResult()}async function leaveAndExit(){if(session)await sb.rpc("stb_leave",{p_session:session.id});location.href="index.html"}
