@@ -217,27 +217,15 @@ body{padding:0!important;margin:0!important;min-height:100dvh!important}
 .ring-player.selected .avatar{border-color:#ff7818;box-shadow:0 0 0 4px #ff781825,0 8px 30px #000c}
 </style><style id="rw-disable-ready-gate">#readyOverlay{display:none!important}</style><style id="rw-simple-start-ui">
 #lobbyText{font-size:14px!important;line-height:1.5!important;color:#d8c4cd!important;min-height:24px}
-#sharedResponseText::selection{background:#ff7a1a55}
-#customPromptInput:focus{border-color:#ff7a1a!important;box-shadow:0 0 0 3px #ff7a1a14}
-
 </style></head>
 <body>
 <header class="topbar"><div class="brand"><div class="shield">RW</div><div><strong>RES WARS</strong><small>RESIDENCE NIGHT • SPIN THE BOTTLE</small></div></div><button class="exit" onclick="location.href='index.html'">HOME</button></header>
 <div id="hud" class="hud hidden"><div class="hudbox"><span>ROOM CODE</span><b id="gameCode">------</b></div><div class="hudbox right"><span>ROUND</span><b id="roundNo">00</b></div></div>
-<section id="entry" class="entry"><div class="entrycard"><div class="game-title"><div class="mini">RES WARS • TONIGHT'S GAME</div><h1>SPIN THE<br>BOTTLE</h1><p>Play together from anywhere. One live spin, one person, one Truth or Dare — and the chosen player can type their response so everyone sees it live.</p></div><div class="entrygrid"><div class="choicebox"><h2>HOST THE GAME</h2><p>Start tonight's game and share the room code.</p><button id="hostBtn" class="gamebtn" onclick="hostGame()">HOST GAME</button></div><div class="choicebox"><h2>JOIN YOUR RES</h2><p>Enter the code showing on your friend's screen.</p><input id="joinCode" class="codeinput" maxlength="6" placeholder="ABC123"><button class="gamebtn alt" onclick="joinGame()">JOIN GAME</button></div></div></div></section>
+<section id="entry" class="entry"><div class="entrycard"><div class="game-title"><div class="mini">RES WARS • TONIGHT'S GAME</div><h1>SPIN THE<br>BOTTLE</h1><p>Play together from anywhere. One live spin, one person, one Truth or Dare — and the chosen player can type their own challenge.</p></div><div class="entrygrid"><div class="choicebox"><h2>HOST THE GAME</h2><p>Start tonight's game and share the room code.</p><button id="hostBtn" class="gamebtn" onclick="hostGame()">HOST GAME</button></div><div class="choicebox"><h2>JOIN YOUR RES</h2><p>Enter the code showing on your friend's screen.</p><input id="joinCode" class="codeinput" maxlength="6" placeholder="ABC123"><button class="gamebtn alt" onclick="joinGame()">JOIN GAME</button></div></div></div></section>
 <section id="lobby" class="lobby hidden"><div class="lobbycard"><div class="game-title"><div class="mini">RESIDENCE LOBBY</div><h2>WHO'S PLAYING?</h2><p id="lobbyText">Share the room code.</p></div><div id="players" class="players"></div><button id="startBtn" class="gamebtn hidden" style="max-width:280px" onclick="startGame()">START THE GAME</button></div></section>
 <section id="arena" class="arena hidden"><div class="platform"></div><div id="ring"></div><div id="bottle" class="bottle-wrap"><div class="bottle-cap"></div><div class="bottle-neck"></div><div class="bottle-body"></div></div><div id="status" class="status">WAITING FOR THE HOST...</div><div id="controls" class="controls hidden"><button id="spinBtn" onclick="spinBottle()">SPIN</button><button class="danger" onclick="endGame()">END</button></div></section>
 <div id="choiceModal" class="overlay hidden"><div class="modal"><div class="tag">THE BOTTLE CHOSE</div><h2 id="chosen">PLAYER</h2><p id="choiceCopy"></p><div id="choices" class="choices"><button onclick="choose('truth')">TRUTH</button><button onclick="choose('dare')">DARE</button></div></div></div>
-<div id="challengeModal" class="overlay hidden"><div class="modal"><div id="challengeKind" class="tag">TRUTH</div><h2 id="challengeName">PLAYER</h2><div id="spinCountdown" style="margin:10px auto 14px;font:800 24px Orbitron;color:#ff7a1a">45</div><p id="challengePrompt" class="challenge"></p><div id="customPromptBox" class="hidden" style="margin-top:14px;text-align:left">
-<label for="customPromptInput" style="display:block;color:#a9929c;font-size:10px;font-weight:800;letter-spacing:.08em;margin-bottom:7px">YOUR TRUTH / DARE RESPONSE</label>
-<textarea id="customPromptInput" maxlength="500" rows="5" placeholder="Type your Truth or Dare response here... Everyone in the room will see it." style="width:100%;resize:none;border-radius:12px;background:#09080a;border:1px solid #49343f;color:#fff;padding:12px;outline:none;font:600 14px/1.45 Rajdhani"></textarea>
-<div style="margin-top:7px;color:#8f7c85;font-size:9px;line-height:1.4">Your response is shared live with everyone in this room.</div>
-<button id="sendCustomPromptBtn" class="gamebtn" style="margin-top:9px" onclick="sendCustomPrompt()">SHARE RESPONSE</button>
-</div>
-<div id="sharedResponse" class="hidden" style="margin-top:14px;text-align:left;padding:15px;border-radius:14px;background:#0d0a0d;border:1px solid #ff7a1a55">
-<div style="font-size:9px;font-weight:900;letter-spacing:.12em;color:#ff8a38;margin-bottom:7px">LIVE RESPONSE</div>
-<div id="sharedResponseText" style="font:600 15px/1.5 Rajdhani;color:#fff7ed;white-space:pre-wrap;overflow-wrap:anywhere"></div>
-</div><div id="resolve" class="modalactions hidden"><button onclick="resolveRound('skipped')">SKIP</button><button onclick="resolveRound('completed')">COMPLETE</button></div><p id="waitingResolve">Waiting for the host to continue...</p></div></div>
+<div id="challengeModal" class="overlay hidden"><div class="modal"><div id="challengeKind" class="tag">TRUTH</div><h2 id="challengeName">PLAYER</h2><div id="spinCountdown" style="margin:10px auto 14px;font:800 24px Orbitron;color:#ff7a1a">45</div><p id="challengePrompt" class="challenge"></p><div id="customPromptBox" class="hidden" style="margin-top:14px;text-align:left"><label for="customPromptInput" style="display:block;color:#a9929c;font-size:10px;font-weight:800;letter-spacing:.08em;margin-bottom:7px">YOUR TRUTH / DARE</label><textarea id="customPromptInput" maxlength="240" rows="4" placeholder="Type your Truth or Dare here..." style="width:100%;resize:none;border-radius:12px;background:#09080a;border:1px solid #49343f;color:#fff;padding:12px;outline:none;font:600 14px/1.45 Rajdhani"></textarea><button id="sendCustomPromptBtn" class="gamebtn" style="margin-top:9px" onclick="sendCustomPrompt()">SEND CHALLENGE</button></div><div id="resolve" class="modalactions hidden"><button onclick="resolveRound('skipped')">SKIP</button><button onclick="resolveRound('completed')">COMPLETE</button></div><p id="waitingResolve">Waiting for the host to continue...</p></div></div>
 <div id="readyOverlay" class="ready-overlay hidden"><div class="ready-box">
 <div class="ready-ey" id="readyState">GAME LOBBY</div><h2 id="readyTitle">GET READY</h2><p id="readyCopy">Everyone must be ready before the game starts.</p>
 <div id="readyCount" class="big-count hidden">5</div><div id="readyList" class="ready-list"></div>
@@ -365,7 +353,7 @@ async function sendCustomPrompt(){
   const r=await sb.from("stb_spins").update({custom_prompt:prompt}).eq("id",spin.id).select("*").single();
   if(r.error){
     btn.disabled=false;
-    btn.textContent="SHARE RESPONSE";
+    btn.textContent="SEND CHALLENGE";
     return note("Custom challenge is not enabled yet. Run the SQL migration below.");
   }
 
@@ -373,7 +361,7 @@ async function sendCustomPrompt(){
   $("customPromptBox").classList.add("hidden");
   input.value="";
   btn.disabled=false;
-  btn.textContent="SHARE RESPONSE";
+  btn.textContent="SEND CHALLENGE";
   await loadSpin(spin.id,false);
 }
 let challengeTimer=null;
@@ -392,7 +380,6 @@ function showChallenge(){
   startChallengeCountdown();
   let p=selected();
   if(!p)return;
-
   $("choiceModal").classList.add("hidden");
   $("challengeKind").textContent=(spin.choice||"").toUpperCase();
   $("challengeName").textContent=p.display_name;
@@ -400,21 +387,10 @@ function showChallenge(){
   const custom=String(spin.custom_prompt||"").trim();
   const isTarget=p.user_id===user.id;
 
-  $("challengePrompt").textContent=challenge?.prompt||"Waiting for the player to respond...";
+  $("challengePrompt").textContent=custom||challenge?.prompt||"Waiting for a challenge...";
   $("customPromptBox").classList.toggle("hidden",!isTarget || !!custom);
-
-  const shared=$("sharedResponse");
-  const sharedText=$("sharedResponseText");
-  shared.classList.toggle("hidden",!custom);
-  sharedText.textContent=custom;
-
   $("resolve").classList.toggle("hidden",session.host_user_id!==user.id);
   $("waitingResolve").classList.toggle("hidden",session.host_user_id===user.id);
-
-  if(isTarget && !custom){
-    $("customPromptInput").focus();
-  }
-
   $("challengeModal").classList.remove("hidden");
 }
 async function resolveRound(s){const r=await sb.rpc("stb_resolve",{p_spin:spin.id,p_status:s});if(r.error)return note(r.error.message);spin=Array.isArray(r.data)?r.data[0]:r.data;$("challengeModal").classList.add("hidden");$("spinBtn").disabled=false;$("status").textContent="ROUND COMPLETE // READY";renderRing()}async function endGame(){if(!confirm("End this match?"))return;const r=await sb.rpc("stb_end",{p_session:session.id});if(r.error)return note(r.error.message);await claimSpinResult()}async function leaveAndExit(){if(session)await sb.rpc("stb_leave",{p_session:session.id});location.href="index.html"}
