@@ -1,874 +1,122 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#08090c">
-  <title>RES WARS | Spin the Bottle</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0
-    }
-
-    :root {
-      --bg: #08090c;
-      --panel: #0f1116;
-      --panel2: #15181f;
-      --border: #292e38;
-      --text: #f5f7fb;
-      --muted: #8e95a3;
-      --lime: #dfff00;
-      --success: #63e69d;
-      --danger: #ff6565
-    }
-
-    html,
-    body {
-      min-height: 100%;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, sans-serif
-    }
-
-    button,
-    input {
-      font: inherit
-    }
-
-    .hidden {
-      display: none !important
-    }
-
-    header {
-      height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 22px;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      background: #08090cf5;
-      z-index: 20
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px
-    }
-
-    .logo {
-      width: 40px;
-      height: 40px;
-      display: grid;
-      place-items: center;
-      border-radius: 9px;
-      background: var(--lime);
-      color: #08090c;
-      font-size: 11px;
-      font-weight: 900
-    }
-
-    .brand strong {
-      font-size: 11px
-    }
-
-    .brand small {
-      display: block;
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: 6px;
-      letter-spacing: .14em;
-      font-weight: 900
-    }
-
-    .top-actions {
-      display: flex;
-      gap: 7px
-    }
-
-    .top-btn {
-      padding: 9px 11px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: var(--panel);
-      color: var(--text);
-      font-size: 7px;
-      font-weight: 900
-    }
-
-    main {
-      width: min(100%, 1180px);
-      margin: auto;
-      padding: 26px 18px 70px
-    }
-
-    .hero {
-      text-align: center
-    }
-
-    .eyebrow {
-      color: var(--lime);
-      font-size: 7px;
-      font-weight: 900;
-      letter-spacing: .18em
-    }
-
-    .hero h1 {
-      margin-top: 8px;
-      font-size: clamp(30px, 6vw, 56px);
-      letter-spacing: -.06em
-    }
-
-    .hero p {
-      max-width: 580px;
-      margin: 10px auto 0;
-      color: var(--muted);
-      font-size: 9px;
-      line-height: 1.7
-    }
-
-    .panel {
-      margin-top: 22px;
-      padding: 20px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: var(--panel)
-    }
-
-    .lobby-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px
-    }
-
-    .choice {
-      padding: 20px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: var(--panel2)
-    }
-
-    .choice h2 {
-      font-size: 16px
-    }
-
-    .choice p {
-      margin-top: 7px;
-      color: var(--muted);
-      font-size: 8px;
-      line-height: 1.6
-    }
-
-    .btn {
-      width: 100%;
-      min-height: 45px;
-      margin-top: 15px;
-      border: 0;
-      border-radius: 8px;
-      background: var(--lime);
-      color: #08090c;
-      font-size: 8px;
-      font-weight: 900;
-      letter-spacing: .08em
-    }
-
-    .btn.secondary {
-      border: 1px solid var(--border);
-      background: #1a1e25;
-      color: var(--text)
-    }
-
-    .code-input {
-      width: 100%;
-      height: 45px;
-      margin-top: 15px;
-      padding: 0 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: #0c0e12;
-      color: var(--text);
-      text-align: center;
-      text-transform: uppercase;
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: .18em;
-      outline: none
-    }
-
-    .session-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      align-items: center
-    }
-
-    .session-code small,
-    .round small {
-      display: block;
-      color: var(--muted);
-      font-size: 6px;
-      font-weight: 900;
-      letter-spacing: .13em
-    }
-
-    .session-code strong {
-      display: block;
-      margin-top: 5px;
-      color: var(--lime);
-      font-size: 22px;
-      letter-spacing: .12em
-    }
-
-    .round {
-      text-align: right
-    }
-
-    .round strong {
-      display: block;
-      margin-top: 5px;
-      font-size: 18px
-    }
-
-    .arena {
-      position: relative;
-      min-height: 590px;
-      margin-top: 18px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: radial-gradient(circle at 50% 50%, rgba(223, 255, 0, .06), transparent 34%), #0c0e12;
-      overflow: hidden
-    }
-
-    .player-ring {
-      position: absolute;
-      inset: 0
-    }
-
-    .player {
-      position: absolute;
-      width: 82px;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      transition: .25s
-    }
-
-    .avatar {
-      width: 48px;
-      height: 48px;
-      margin: auto;
-      display: grid;
-      place-items: center;
-      border: 2px solid #303641;
-      border-radius: 50%;
-      background: #171a21;
-      font-size: 10px;
-      font-weight: 900
-    }
-
-    .player.selected .avatar {
-      border-color: var(--lime);
-      box-shadow: 0 0 0 5px rgba(223, 255, 0, .08), 0 0 35px rgba(223, 255, 0, .2)
-    }
-
-    .player.host .avatar:after {
-      content: "H";
-      position: absolute;
-      margin: -5px 0 0 2px;
-      width: 15px;
-      height: 15px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: var(--lime);
-      color: #08090c;
-      font-size: 6px;
-      font-weight: 900
-    }
-
-    .player span {
-      display: block;
-      margin-top: 6px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-size: 7px;
-      font-weight: 800
-    }
-
-    .bottle-wrap {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 220px;
-      height: 220px;
-      transform: translate(-50%, -50%);
-      display: grid;
-      place-items: center
-    }
-
-    .bottle {
-      width: 44px;
-      height: 185px;
-      position: relative;
-      transform-origin: 50% 50%;
-      filter: drop-shadow(0 12px 20px rgba(0, 0, 0, .45));
-      transition: transform 5.4s cubic-bezier(.12, .72, .14, 1)
-    }
-
-    .bottle-neck {
-      position: absolute;
-      left: 14px;
-      top: 0;
-      width: 16px;
-      height: 50px;
-      border: 2px solid #a9b0ba;
-      border-bottom: 0;
-      border-radius: 6px 6px 0 0;
-      background: linear-gradient(90deg, #272d35, #65707a, #252b32)
-    }
-
-    .bottle-body {
-      position: absolute;
-      left: 2px;
-      top: 42px;
-      width: 40px;
-      height: 135px;
-      border: 2px solid #a9b0ba;
-      border-radius: 14px 14px 18px 18px;
-      background: linear-gradient(90deg, #1c2229, #53616c 48%, #20262d);
-      overflow: hidden
-    }
-
-    .bottle-label {
-      position: absolute;
-      left: 5px;
-      right: 5px;
-      top: 42px;
-      height: 46px;
-      display: grid;
-      place-items: center;
-      background: var(--lime);
-      color: #08090c;
-      font-size: 7px;
-      font-weight: 900;
-      transform: rotate(-90deg);
-      border-radius: 3px
-    }
-
-    .bottle-cap {
-      position: absolute;
-      left: 12px;
-      top: -5px;
-      width: 20px;
-      height: 10px;
-      border-radius: 3px;
-      background: var(--lime)
-    }
-
-    .center-status {
-      position: absolute;
-      left: 50%;
-      top: calc(50% + 130px);
-      transform: translateX(-50%);
-      width: min(90%, 360px);
-      text-align: center;
-      color: var(--muted);
-      font-size: 8px;
-      line-height: 1.6
-    }
-
-    .host-controls {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-top: 15px
-    }
-
-    .host-controls .btn {
-      width: auto;
-      min-width: 150px;
-      margin: 0;
-      padding: 0 18px
-    }
-
-    .players-line {
-      margin-top: 14px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 7px
-    }
-
-    .challenge {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      display: grid;
-      place-items: center;
-      padding: 18px;
-      background: rgba(0, 0, 0, .82);
-      backdrop-filter: blur(8px)
-    }
-
-    .challenge-card {
-      width: min(100%, 540px);
-      padding: 26px;
-      border: 1px solid #343a46;
-      border-radius: 16px;
-      background: #101218;
-      text-align: center
-    }
-
-    .challenge-type {
-      display: inline-block;
-      padding: 7px 10px;
-      border: 1px solid rgba(223, 255, 0, .24);
-      border-radius: 20px;
-      color: var(--lime);
-      font-size: 7px;
-      font-weight: 900;
-      letter-spacing: .14em
-    }
-
-    .challenge-card h2 {
-      margin-top: 18px;
-      font-size: 28px;
-      letter-spacing: -.045em
-    }
-
-    .challenge-card p {
-      margin-top: 14px;
-      color: #d8dbe0;
-      font-size: 13px;
-      line-height: 1.7
-    }
-
-    .challenge-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 20px
-    }
-
-    .challenge-actions .btn {
-      margin: 0
-    }
-
-    .selected-name {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 8px
-    }
-
-    .toast {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 200;
-      width: min(360px, calc(100% - 36px));
-      padding: 14px;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      background: #14171d;
-      font-size: 8px
-    }
-
-    .loader {
-      position: fixed;
-      inset: 0;
-      z-index: 300;
-      display: grid;
-      place-items: center;
-      background: var(--bg)
-    }
-
-    .spinner {
-      width: 32px;
-      height: 32px;
-      border: 3px solid #303540;
-      border-top-color: var(--lime);
-      border-radius: 50%;
-      animation: sp .7s linear infinite
-    }
-
-    @keyframes sp {
-      to {
-        transform: rotate(360deg)
-      }
-    }
-
-    .loader p {
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 8px
-    }
-
-    @media(max-width:700px) {
-      header {
-        padding: 0 12px
-      }
-
-      .top-actions .back-label {
-        display: none
-      }
-
-      main {
-        padding: 18px 10px 50px
-      }
-
-      .lobby-actions {
-        grid-template-columns: 1fr
-      }
-
-      .arena {
-        min-height: 520px
-      }
-
-      .player {
-        width: 68px
-      }
-
-      .avatar {
-        width: 42px;
-        height: 42px
-      }
-
-      .bottle-wrap {
-        width: 180px;
-        height: 180px
-      }
-
-      .bottle {
-        height: 155px;
-        transform: scale(.9)
-      }
-
-      .center-status {
-        top: calc(50% + 105px)
-      }
-
-      .host-controls {
-        flex-direction: column;
-        align-items: center
-      }
-
-      .host-controls .btn {
-        width: min(100%, 300px)
-      }
-    }
-  
-    .live-strip{
-      margin-top:14px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      color:var(--success);
-      font-size:7px;
-      font-weight:900;
-      letter-spacing:.12em
-    }
-    .live-dot{
-      width:7px;height:7px;border-radius:50%;
-      background:var(--success);
-      box-shadow:0 0 0 0 rgba(99,230,157,.5);
-      animation:livePulse 1.6s infinite
-    }
-    @keyframes livePulse{
-      0%{box-shadow:0 0 0 0 rgba(99,230,157,.45)}
-      70%{box-shadow:0 0 0 9px rgba(99,230,157,0)}
-      100%{box-shadow:0 0 0 0 rgba(99,230,157,0)}
-    }
-    .session-badge{
-      display:inline-flex;
-      align-items:center;
-      gap:7px;
-      padding:7px 10px;
-      border:1px solid var(--border);
-      border-radius:999px;
-      color:var(--muted);
-      font-size:7px;
-      font-weight:900;
-      letter-spacing:.12em
-    }
-    .session-badge.live{color:var(--success);border-color:rgba(99,230,157,.25);background:rgba(99,230,157,.05)}
-    .session-badge.lobby{color:var(--lime);border-color:rgba(223,255,0,.22);background:rgba(223,255,0,.04)}
-    .copy-code{
-      margin-top:8px;
-      border:0;
-      background:transparent;
-      color:var(--muted);
-      font-size:7px;
-      font-weight:800
-    }
-    .copy-code:hover{color:var(--text)}
-    .player.you .avatar{outline:2px solid rgba(120,168,255,.7);outline-offset:3px}
-    .arena.live{box-shadow:inset 0 0 60px rgba(99,230,157,.025)}
-
-</style>
-</head>
-
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090b13"><title>RES WARS | Spin The Bottle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0b0a0d;color:#fff;font-family:Rajdhani,sans-serif}button,input{font:inherit}.hidden{display:none!important}
+:root{--orange:#ff7a1a;--cream:#fff4df;--ink:#0b0a0d;--panel:#171319;--line:#342a31;--muted:#a997a2;--green:#9eff65}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 52% 42%,#47251e 0,#1d1217 27%,#0b0a0d 66%);z-index:-3}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.08;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:7px 7px;z-index:-2}
+.topbar{height:70px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;background:#0b0a0de8;border-bottom:1px solid #2b2228;position:relative;z-index:20}.brand{display:flex;align-items:center;gap:12px}.shield{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--orange);color:#120b08;font:900 12px Orbitron;box-shadow:0 0 0 5px #ff7a1a16}.brand strong{font:900 14px Orbitron;letter-spacing:.07em}.brand small{display:block;color:#b19ba6;font:600 9px Rajdhani;letter-spacing:.15em;margin-top:4px}.exit{background:#171319;border:1px solid #3a2e35;color:#d7c4cc;border-radius:999px;padding:9px 14px;font-size:10px;font-weight:700}
+.hud{position:absolute;left:18px;right:18px;top:84px;display:flex;justify-content:space-between;z-index:10;pointer-events:none}.hudbox{min-width:150px;background:#171319e8;border:1px solid #403038;border-radius:14px;padding:10px 14px;box-shadow:0 14px 30px #0005}.hudbox span{display:block;color:#9d8792;font-size:8px;font-weight:700;letter-spacing:.15em}.hudbox b{display:block;margin-top:3px;color:var(--cream);font:800 17px Orbitron;letter-spacing:.12em}.hudbox:first-child b{color:var(--orange)}.hudbox.right{text-align:right}
+.entry{position:absolute;inset:70px 0 0;display:grid;place-items:center;padding:18px}.entrycard{width:min(92vw,790px);padding:38px;border-radius:28px;background:linear-gradient(145deg,#1d161bfa,#100d10fa);border:1px solid #3a2b33;box-shadow:0 35px 100px #0009}.game-title{text-align:center}.game-title .mini{display:inline-flex;padding:7px 11px;border-radius:999px;background:#ff7a1a17;border:1px solid #ff7a1a3d;color:#ff9b54;font-size:9px;font-weight:800;letter-spacing:.2em}.game-title h1{font:900 clamp(38px,7vw,65px)/.92 Orbitron;margin:14px 0;color:var(--cream);letter-spacing:-.04em}.game-title p{max-width:530px;margin:0 auto;color:#a8919d;font-size:14px;line-height:1.55}.entrygrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}.choicebox{padding:21px;border-radius:18px;background:#130f13;border:1px solid #392c33}.choicebox h2{font:800 16px Orbitron;margin:0;color:var(--cream)}.choicebox p{color:#9b8791;font-size:12px}.codeinput{width:100%;height:50px;border-radius:12px;background:#09080a;border:1px solid #46333c;color:#fff;text-align:center;text-transform:uppercase;font:800 20px Orbitron;letter-spacing:.2em;outline:none}.gamebtn{width:100%;height:49px;border:0;margin-top:10px;border-radius:12px;font:800 10px Orbitron;letter-spacing:.07em;background:var(--orange);color:#140b07;box-shadow:0 10px 30px #ff7a1a20}.gamebtn.alt{background:#211820;border:1px solid #49353f;color:#f0dce5}
+.arena{position:absolute;inset:70px 0 0;perspective:1100px;overflow:hidden}.arena:before{content:"RES NIGHT";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:900 clamp(75px,15vw,190px) Orbitron;color:#fff;opacity:.018;white-space:nowrap}.platform{position:absolute;left:50%;top:54%;width:min(66vw,680px);aspect-ratio:1;transform:translate(-50%,-50%) rotateX(67deg);border-radius:50%;background:radial-gradient(circle,#ff7a1a 0 2%,#2b1717 3% 12%,#120e11 13% 42%,#ff7a1a 42.5% 43%,#1a1116 43.5% 65%,#3b2931 66% 67%,#0c090c 68%);box-shadow:0 80px 110px #000,0 0 80px #ff6f1a1f;border:2px solid #4a343c}.platform:after{content:"RES WARS";position:absolute;inset:36%;display:grid;place-items:center;border-radius:50%;border:2px solid #ff8a39;color:#ff9a52;font:900 14px Orbitron;text-shadow:0 0 15px #ff6f1a}
+.ring-player{position:absolute;width:105px;text-align:center;z-index:8;transform:translate(-50%,-50%)}.avatar{width:58px;height:58px;margin:auto;display:grid;place-items:center;border-radius:50%;background:#1c151a;border:2px solid #5b424d;color:#fff1e8;font:800 12px Orbitron;box-shadow:0 10px 25px #0008}.ring-player.selected .avatar{border-color:#ff8b3e;box-shadow:0 0 0 6px #ff7a1a18,0 0 35px #ff7a1a88;transform:scale(1.08)}.ring-player strong{display:block;margin-top:7px;font-size:11px;text-shadow:0 2px 6px #000}.hosttag{display:inline-block;margin-top:3px;padding:2px 6px;border-radius:999px;background:#fff1d9;color:#24150e;font-size:7px;font-weight:800}
+.bottle-wrap{position:absolute;left:50%;top:54%;width:86px;height:285px;margin:-142px 0 0 -43px;z-index:7;transform-origin:50% 50%;transition:transform 5.3s cubic-bezier(.08,.72,.08,1);filter:drop-shadow(20px 25px 16px #000c)}
+.bottle-neck{position:absolute;left:29px;width:28px;height:82px;border:2px solid #b7cdb7;border-bottom:0;border-radius:9px 9px 3px 3px;background:linear-gradient(90deg,#173a29,#5e8066 48%,#173625);box-shadow:inset 7px 0 10px #d8ffdf22}.bottle-cap{position:absolute;left:24px;top:-9px;width:38px;height:15px;background:#e7d7bd;border-radius:4px}.bottle-body{position:absolute;left:6px;top:69px;width:74px;height:205px;border:2px solid #a8bea9;border-radius:25px 25px 29px 29px;background:linear-gradient(90deg,#123123,#3f674b 25%,#7d987f 47%,#365b43 70%,#102b1f);box-shadow:inset 10px 0 18px #fff2,inset -8px 0 15px #001c18}.bottle-body:after{content:"RES";position:absolute;left:11px;right:11px;top:70px;height:58px;display:grid;place-items:center;background:#fff0da;color:#1b110d;font:900 12px Orbitron;border-radius:5px}
+.status{position:absolute;left:50%;bottom:91px;transform:translateX(-50%);z-index:10;min-width:300px;text-align:center;padding:10px 18px;background:#171116e8;border:1px solid #4b343e;color:#d7c2cc;font-size:12px;border-radius:999px;box-shadow:0 12px 35px #0006}.controls{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);display:flex;gap:9px;z-index:15}.controls button{min-width:195px;height:52px;border:0;border-radius:14px;color:#170b06;background:var(--orange);font:900 11px Orbitron;box-shadow:0 12px 35px #ff7a1a25}.controls .danger{min-width:105px;background:#181317;border:1px solid #49353f;color:#bda7b1;box-shadow:none}
+.lobby{position:absolute;inset:70px 0 0;display:grid;place-items:center;padding:18px}.lobbycard{width:min(92vw,850px);padding:30px;border-radius:26px;background:#151015ed;border:1px solid #3c2d34;text-align:center;box-shadow:0 35px 100px #0008}.lobbycard h2{font:800 25px Orbitron;margin:12px 0 0;color:var(--cream)}.lobbycard p{color:#9c8992}.players{display:flex;justify-content:center;gap:13px;flex-wrap:wrap;margin:25px 0}.playercard{width:125px;padding:15px 8px;border-radius:16px;background:#0f0c0f;border:1px solid #3a2b32}.playercard strong{display:block;margin-top:8px;font-size:11px}.playercard span{font-size:8px;color:#9c858f}
+.overlay{position:fixed;inset:0;background:#080609ef;z-index:100;display:grid;place-items:center;padding:18px}.modal{width:min(94vw,560px);background:#181217;border:1px solid #4a333e;padding:30px;border-radius:26px;text-align:center;box-shadow:0 0 100px #ff7a1a17}.modal .tag{display:inline-flex;padding:7px 11px;border-radius:999px;background:#ff7a1a18;border:1px solid #ff7a1a44;color:#ff9b58;font:800 9px Orbitron;letter-spacing:.12em}.modal h2{font:900 30px Orbitron;margin:14px 0;color:var(--cream)}.modal p{color:#a9929c}.choices{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:20px}.choices button,.modalactions button{height:72px;border-radius:15px;border:1px solid #49343e;background:#21171e;color:#fff;font:900 13px Orbitron}.choices button:first-child{background:#fff0da;color:#1d120e}.choices button:last-child{background:var(--orange);color:#1b0d07}.challenge{padding:20px;background:#0d0a0d;border:1px solid #45323b;border-radius:15px;color:#fff7ed!important;font:700 18px/1.5 Rajdhani}.modalactions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.modalactions button:last-child{background:var(--orange);color:#1b0d07}.toast{position:fixed;right:18px;bottom:18px;z-index:200;padding:12px 15px;background:#1c151a;border:1px solid #4b3740;border-radius:12px;color:#ead9e0;font-size:11px}
+@media(max-width:650px){.topbar{height:62px;padding:0 11px}.brand small{display:none}.hud{top:70px;left:9px;right:9px}.hudbox{min-width:116px;padding:8px 10px}.hudbox b{font-size:12px}.entry,.lobby,.arena{inset:62px 0 0}.entrycard{padding:24px 14px;border-radius:21px}.entrygrid{grid-template-columns:1fr}.game-title h1{font-size:38px}.platform{width:91vw}.ring-player{width:69px}.avatar{width:44px;height:44px}.bottle-wrap{scale:.75}.status{bottom:84px;min-width:245px}.controls{bottom:18px;width:calc(100% - 18px)}.controls button{min-width:0;flex:1}.controls .danger{flex:.43}.lobbycard{padding:24px 11px}.playercard{width:104px}}
+
+.ready-overlay{position:fixed;inset:0;z-index:190;background:#080608f2;display:grid;place-items:center;padding:18px}
+.ready-box{width:min(470px,100%);background:#171217;border:1px solid #513a43;border-radius:22px;padding:22px;text-align:center;box-shadow:0 30px 100px #000d}
+.ready-ey{font-size:9px;font-weight:900;letter-spacing:.16em;color:#ff8b3d}.ready-box h2{font-size:27px;margin:8px 0 4px}.ready-box p{font-size:11px;color:#9d8992;line-height:1.55}
+.ready-list{display:grid;gap:7px;margin:16px 0;text-align:left}.ready-person{display:flex;align-items:center;gap:9px;padding:10px;border:1px solid #35282e;border-radius:11px;background:#100d10}.ready-person b{font-size:11px}.ready-person span:last-child{margin-left:auto;font-size:8px;font-weight:900}.rdot{width:8px;height:8px;border-radius:50%;background:#68565e}.rdot.on{background:#94ef6e;box-shadow:0 0 0 4px #94ef6e15}.ready-btn{width:100%;height:45px;border:1px solid #ff7818;border-radius:10px;background:#ff7818;color:#190c06;font-size:10px;font-weight:900}.ready-btn.secondary{margin-top:8px;background:#21181d;border-color:#493640;color:#e8dce1}.ready-btn:disabled{opacity:.35}.big-count{font-size:88px;font-weight:900;line-height:1;color:#ff7818;margin:10px 0}.hidden{display:none!important}
+
+.result-overlay{position:fixed;inset:0;z-index:310;background:#070507f4;display:grid;place-items:center;padding:18px}.result-card{width:min(430px,100%);background:#181217;border:1px solid #5a3b2d;border-radius:22px;padding:23px;text-align:center;box-shadow:0 30px 100px #000e}.result-card .ey{font-size:8px;font-weight:900;letter-spacing:.15em;color:#ff8a38}.result-card h2{font-size:29px;margin:8px 0}.result-xp{font-size:38px;font-weight:900;color:#ff7818;margin:13px 0}.result-card p{font-size:10px;color:#9d8992;line-height:1.55}.result-card button{width:100%;height:44px;border:0;border-radius:10px;background:#ff7818;color:#190c06;font-size:9px;font-weight:900;margin-top:12px}
+</style></head>
 <body>
-  <header>
-    <div class="brand">
-      <div class="logo">RW</div>
-      <div><strong>SPIN THE BOTTLE</strong><small>RES WARS LIVE GAME</small></div>
-    </div>
-    <div class="top-actions"><button class="top-btn" onclick="leaveGame()">LEAVE</button><button class="top-btn"
-        onclick="location.href='index.html'"><span class="back-label">BACK TO </span>RES WARS</button></div>
-  </header>
-  <main>
-    <section class="hero">
-      <div class="eyebrow">LIVE MULTIPLAYER</div>
-      <h1>Spin the Bottle</h1>
-      <p>Host a lobby or enter a six-character game code. Every player sees the same server-selected spin in real time.
-      </p>
-    </section>
+<header class="topbar"><div class="brand"><div class="shield">RW</div><div><strong>RES WARS</strong><small>RESIDENCE NIGHT • SPIN THE BOTTLE</small></div></div><button class="exit" onclick="leaveAndExit()">LEAVE</button></header>
+<div id="hud" class="hud hidden"><div class="hudbox"><span>ROOM CODE</span><b id="gameCode">------</b></div><div class="hudbox right"><span>ROUND</span><b id="roundNo">00</b></div></div>
+<section id="entry" class="entry"><div class="entrycard"><div class="game-title"><div class="mini">RES WARS • TONIGHT'S GAME</div><h1>SPIN THE<br>BOTTLE</h1><p>Everyone is in the same room. One spin, one person, one Truth or Dare. This is the residence game.</p></div><div class="entrygrid"><div class="choicebox"><h2>HOST THE GAME</h2><p>Start tonight's game and share the room code.</p><button id="hostBtn" class="gamebtn" onclick="hostGame()">HOST GAME</button></div><div class="choicebox"><h2>JOIN YOUR RES</h2><p>Enter the code showing on your friend's screen.</p><input id="joinCode" class="codeinput" maxlength="6" placeholder="ABC123"><button class="gamebtn alt" onclick="joinGame()">JOIN GAME</button></div></div></div></section>
+<section id="lobby" class="lobby hidden"><div class="lobbycard"><div class="game-title"><div class="mini">RESIDENCE LOBBY</div><h2>WHO'S PLAYING?</h2><p id="lobbyText">Share the room code.</p></div><div id="players" class="players"></div><button id="startBtn" class="gamebtn hidden" style="max-width:280px" onclick="startGame()">START THE GAME</button></div></section>
+<section id="arena" class="arena hidden"><div class="platform"></div><div id="ring"></div><div id="bottle" class="bottle-wrap"><div class="bottle-cap"></div><div class="bottle-neck"></div><div class="bottle-body"></div></div><div id="status" class="status">WAITING FOR THE HOST...</div><div id="controls" class="controls hidden"><button id="spinBtn" onclick="spinBottle()">SPIN</button><button class="danger" onclick="endGame()">END</button></div></section>
+<div id="choiceModal" class="overlay hidden"><div class="modal"><div class="tag">THE BOTTLE CHOSE</div><h2 id="chosen">PLAYER</h2><p id="choiceCopy"></p><div id="choices" class="choices"><button onclick="choose('truth')">TRUTH</button><button onclick="choose('dare')">DARE</button></div></div></div>
+<div id="challengeModal" class="overlay hidden"><div class="modal"><div id="challengeKind" class="tag">TRUTH</div><h2 id="challengeName">PLAYER</h2><div id="spinCountdown" style="margin:10px auto 14px;font:800 24px Orbitron;color:#ff7a1a">45</div><p id="challengePrompt" class="challenge"></p><div id="resolve" class="modalactions hidden"><button onclick="resolveRound('skipped')">SKIP</button><button onclick="resolveRound('completed')">COMPLETE</button></div><p id="waitingResolve">Waiting for the host to continue...</p></div></div>
+<div id="readyOverlay" class="ready-overlay hidden"><div class="ready-box">
+<div class="ready-ey" id="readyState">GAME LOBBY</div><h2 id="readyTitle">GET READY</h2><p id="readyCopy">Everyone must be ready before the game starts.</p>
+<div id="readyCount" class="big-count hidden">5</div><div id="readyList" class="ready-list"></div>
+<button id="myReadyBtn" class="ready-btn" onclick="toggleMyReady()">I'M READY</button>
+<button id="hostStartBtn" class="ready-btn secondary hidden" onclick="beginReadyCountdown()">START GAME</button>
+</div></div><div id="resultOverlay" class="result-overlay hidden"><div class="result-card"><div class="ey">BATTLE COMPLETE</div><h2 id="resultHeading">RESULT SAVED</h2><div id="resultXp" class="result-xp">+0 XP</div><p id="resultCopy">Your RES WARS profile has been updated.</p><button onclick="location.href='profile.html'">VIEW MY PROFILE</button><button style="background:#21181d;color:#e9dce1;border:1px solid #493640" onclick="location.href='index.html'">BACK TO LOBBY</button></div></div><div id="toast" class="toast hidden"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb=supabase.createClient("https://tkfnypzohdercxljswfe.supabase.co","sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra"),$=x=>document.getElementById(x);let user,session,players=[],spin=null,challenge=null,channel,rotation=0,timer;const qs=new URLSearchParams(location.search);
+function note(m){$("toast").textContent=m;$("toast").classList.remove("hidden");clearTimeout(note.t);note.t=setTimeout(()=>$("toast").classList.add("hidden"),3000)}function ini(n){return(n||"P").split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase()}function esc(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+async function init(){const{data:{session:s}}=await sb.auth.getSession();if(!s?.user)return location.replace("auth.html");user=s.user;
+if(qs.get("invite")){await resolveInviteSession();return}
+if(qs.get("session")){session=(await sb.from("stb_sessions").select("*").eq("id",qs.get("session")).single()).data;if(!session)return note("Game not found.");const me=(await sb.from("stb_players").select("id").eq("session_id",session.id).eq("user_id",user.id).eq("active",true).maybeSingle()).data;if(!me){const j=await sb.rpc("stb_join",{p_code:session.code});if(j.error)return note(j.error.message)}await enter()}else if(qs.get("host")==="1")await hostGame()}
+async function resolveInviteSession(){
+ const invite=qs.get("invite");$("entry").classList.add("hidden");note("Connecting both players...");
+ for(let tries=0;tries<20;tries++){
+   const r=await sb.rpc("rw_resolve_spin_invite",{p_invite:invite});
+   if(!r.error&&r.data?.session_id){history.replaceState(null,"",`spin.html?session=${r.data.session_id}`);session=(await sb.from("stb_sessions").select("*").eq("id",r.data.session_id).single()).data;await sb.rpc("rw_set_presence",{p_status:"playing",p_game:"spin-the-bottle",p_session:String(session.id)});await enter();return}
+   if(!String(r.error?.message||"").includes("Waiting for host")){$("entry").classList.remove("hidden");return note(r.error?.message||"Could not open invite")}
+   await new Promise(x=>setTimeout(x,1000));
+ }
+ $("entry").classList.remove("hidden");note("Host has not opened the invite yet.");
+}
+async function hostGame(){const r=await sb.rpc("stb_host");if(r.error)return note(r.error.message);session=Array.isArray(r.data)?r.data[0]:r.data;history.replaceState(null,"",`spin.html?session=${session.id}`);await enter()}async function joinGame(){let c=$("joinCode").value.trim().toUpperCase();if(c.length!==6)return note("Enter the 6-character room code.");const r=await sb.rpc("stb_join",{p_code:c});if(r.error)return note(r.error.message);session=Array.isArray(r.data)?r.data[0]:r.data;history.replaceState(null,"",`spin.html?session=${session.id}`);await enter()}
+async function enter(){$("entry").classList.add("hidden");$("hud").classList.remove("hidden");await refresh();subscribe()}async function refresh(){const[s,p]=await Promise.all([sb.from("stb_sessions").select("*").eq("id",session.id).single(),sb.from("stb_players").select("*").eq("session_id",session.id).eq("active",true).order("joined_at")]);if(s.error)return note(s.error.message);session=s.data;players=p.data||[];$("gameCode").textContent=session.code;$("roundNo").textContent=String(session.round_no||0).padStart(2,"0");render();if(session.current_spin_id&&spin?.id!==session.current_spin_id)await loadSpin(session.current_spin_id,false)}
+function render(){setTimeout(renderReadyGate,0);if(session?.status==="finished")setTimeout(claimSpinResult,150);let host=session.host_user_id===user.id;$("lobby").classList.toggle("hidden",session.status!=="lobby");$("arena").classList.toggle("hidden",session.status!=="live");$("controls").classList.toggle("hidden",!(host&&session.status==="live"));$("startBtn").classList.toggle("hidden",!host);$("startBtn").disabled=players.length<2;$("lobbyText").textContent=host?(players.length<2?"Invite at least one more player to begin.":"Squad ready. Launch the match when everyone is in."):"Connected. Waiting for the host to launch.";$("players").innerHTML=players.map(p=>`<div class="playercard"><div class="avatar">${ini(p.display_name)}</div><strong>${esc(p.display_name)}</strong><span>${p.user_id===session.host_user_id?"HOST":"READY"}</span></div>`).join("");if(session.status==="live")renderRing()}
+function renderRing(){let n=Math.max(players.length,1);$("ring").innerHTML=players.map((p,i)=>{let a=i/n*Math.PI*2-Math.PI/2,x=50+Math.cos(a)*(innerWidth<650?42:36),y=54+Math.sin(a)*(innerWidth<650?34:38);return`<div class="ring-player ${spin?.selected_player_id===p.id?"selected":""}" style="left:${x}%;top:${y}%"><div class="avatar">${ini(p.display_name)}</div><strong>${esc(p.display_name)}</strong>${p.user_id===session.host_user_id?'<div class="hosttag">HOST</div>':''}</div>`}).join("")}
+async function startGame(){const r=await sb.rpc("stb_start",{p_session:session.id});if(r.error)return note(r.error.message);await refresh()}async function spinBottle(){if(spin&&!["completed","skipped"].includes(spin.status))return note("Complete the current round first.");$("spinBtn").disabled=true;const r=await sb.rpc("stb_spin",{p_session:session.id});if(r.error){$("spinBtn").disabled=false;return note(r.error.message)}await loadSpin((Array.isArray(r.data)?r.data[0]:r.data).id,true)}
+async function loadSpin(id,animate=true){const r=await sb.from("stb_spins").select("*").eq("id",id).single();if(r.error)return;spin=r.data;if(spin.challenge_id)challenge=(await sb.from("stb_challenges").select("*").eq("id",spin.challenge_id).maybeSingle()).data;renderRing();if(["spinning","choosing"].includes(spin.status)){let i=Math.max(0,players.findIndex(p=>p.id===spin.selected_player_id)),target=i/Math.max(players.length,1)*360;if(animate){rotation=Math.ceil((rotation+Number(spin.rotation_degrees||1800)-target)/360)*360+target;$("status").textContent="SPINNING...";requestAnimationFrame(()=>$("bottle").style.transform=`rotate(${rotation}deg)`);clearTimeout(timer);timer=setTimeout(showChoice,5300)}else showChoice()}else if(spin.status==="challenge")showChallenge();else{$("choiceModal").classList.add("hidden");$("challengeModal").classList.add("hidden");if($("spinBtn"))$("spinBtn").disabled=false;$("status").textContent="ROUND COMPLETE // READY"}}
+function selected(){return players.find(p=>p.id===spin?.selected_player_id)}function showChoice(){let p=selected();if(!p)return;$("status").textContent=`TARGET: ${p.display_name.toUpperCase()}`;$("chosen").textContent=p.display_name;let mine=p.user_id===user.id;$("choices").classList.toggle("hidden",!mine);$("choiceCopy").textContent=mine?"The bottle chose you. Make your choice.":`Waiting for ${p.display_name} to choose Truth or Dare.`;$("choiceModal").classList.remove("hidden")}
+async function choose(c){const r=await sb.rpc("stb_choose",{p_spin:spin.id,p_choice:c});if(r.error)return note(r.error.message);$("choiceModal").classList.add("hidden");spin=Array.isArray(r.data)?r.data[0]:r.data;await loadSpin(spin.id,false)}let challengeTimer=null;
+function startChallengeCountdown(){
+  clearInterval(challengeTimer);
+  let left=45;
+  const el=document.getElementById("spinCountdown");
+  if(el)el.textContent=left;
+  challengeTimer=setInterval(()=>{
+    left=Math.max(0,left-1);
+    if(el)el.textContent=left;
+    if(left<=0)clearInterval(challengeTimer);
+  },1000);
+}
+function showChallenge(){startChallengeCountdown();let p=selected();if(!p)return;$("choiceModal").classList.add("hidden");$("challengeKind").textContent=(spin.choice||"").toUpperCase();$("challengeName").textContent=p.display_name;$("challengePrompt").textContent=challenge?.prompt||"Challenge unavailable.";let host=session.host_user_id===user.id;$("resolve").classList.toggle("hidden",!host);$("waitingResolve").classList.toggle("hidden",host);$("challengeModal").classList.remove("hidden")}
+async function resolveRound(s){const r=await sb.rpc("stb_resolve",{p_spin:spin.id,p_status:s});if(r.error)return note(r.error.message);spin=Array.isArray(r.data)?r.data[0]:r.data;$("challengeModal").classList.add("hidden");$("spinBtn").disabled=false;$("status").textContent="ROUND COMPLETE // READY";renderRing()}async function endGame(){if(!confirm("End this match?"))return;const r=await sb.rpc("stb_end",{p_session:session.id});if(r.error)return note(r.error.message);await claimSpinResult()}async function leaveAndExit(){if(session)await sb.rpc("stb_leave",{p_session:session.id});location.href="index.html"}
+function subscribe(){if(channel)sb.removeChannel(channel);channel=sb.channel(`stb-${session.id}`).on("postgres_changes",{event:"*",schema:"public",table:"stb_sessions",filter:`id=eq.${session.id}`},refresh).on("postgres_changes",{event:"*",schema:"public",table:"stb_players",filter:`session_id=eq.${session.id}`},refresh).on("postgres_changes",{event:"INSERT",schema:"public",table:"stb_spins",filter:`session_id=eq.${session.id}`},p=>loadSpin(p.new.id,true)).on("postgres_changes",{event:"UPDATE",schema:"public",table:"stb_spins",filter:`session_id=eq.${session.id}`},p=>loadSpin(p.new.id,false)).subscribe()}init();
 
-    <section id="entryPanel" class="panel">
-      <div class="lobby-actions">
-        <div class="choice">
-          <h2>Host a game</h2>
-          <p>Create a lobby and share the code. Any logged-in resident can host.</p><button id="hostBtn" class="btn"
-            onclick="hostGame()">HOST GAME</button>
-        </div>
-        <div class="choice">
-          <h2>Join a game</h2>
-          <p>Enter the code shown on the host's screen.</p><input id="joinCode" class="code-input" maxlength="6"
-            placeholder="ABC123"><button class="btn secondary" onclick="joinGame()">JOIN GAME</button>
-        </div>
-      </div>
-    </section>
+let readyTicker=null;
+async function toggleMyReady(){
+ const me=players.find(p=>p.user_id===user.id);const next=!Boolean(me?.ready);
+ const r=await sb.rpc("stb_set_ready",{p_session:session.id,p_ready:next});
+ if(r.error)return note(r.error.message);await refresh()
+}
+async function beginReadyCountdown(){
+ const r=await sb.rpc("stb_begin_ready_countdown",{p_session:session.id});
+ if(r.error)return note(r.error.message);await refresh()
+}
+function renderReadyGate(){
+ if(!session)return;const ov=$("readyOverlay");
+ if(session.status!=="lobby"){ov.classList.add("hidden");if(readyTicker){clearInterval(readyTicker);readyTicker=null}return}
+ ov.classList.remove("hidden");const me=players.find(p=>p.user_id===user.id),host=session.host_user_id===user.id;
+ $("readyList").innerHTML=players.map(p=>`<div class="ready-person"><span class="rdot ${p.ready?"on":""}"></span><b>${esc(p.display_name||"Player")}${p.user_id===user.id?" (You)":""}</b><span>${p.ready?"READY":"NOT READY"}</span></div>`).join("")||'<p>Waiting for players...</p>';
+ $("myReadyBtn").textContent=me?.ready?"NOT READY":"I'M READY";
+ const allReady=players.length>=2&&players.every(p=>p.ready);
+ $("hostStartBtn").classList.toggle("hidden",!host);$("hostStartBtn").disabled=!allReady||Boolean(session.start_at);
+ if(session.start_at){
+   $("myReadyBtn").disabled=true;$("readyList").classList.add("hidden");$("hostStartBtn").classList.add("hidden");$("readyCount").classList.remove("hidden");$("readyState").textContent="STARTING";$("readyTitle").textContent="BATTLE BEGINS";
+   const tick=async()=>{let n=Math.max(0,Math.ceil((new Date(session.start_at).getTime()-Date.now())/1000));$("readyCount").textContent=n||"GO";if(n<=0&&host){clearInterval(readyTicker);readyTicker=null;const a=await sb.rpc("stb_activate_after_countdown",{p_session:session.id});if(a.error)note(a.error.message);await refresh()}};
+   tick();if(!readyTicker)readyTicker=setInterval(tick,250);
+ }else{
+   $("myReadyBtn").disabled=false;$("readyList").classList.remove("hidden");$("readyCount").classList.add("hidden");$("readyState").textContent=players.length<2?"WAITING FOR PLAYER":`${players.length} PLAYERS CONNECTED`;$("readyTitle").textContent=allReady?"EVERYONE IS READY":"GET READY";$("readyCopy").textContent=host?(allReady?"Everyone is ready. Start the synchronized countdown.":"The start button unlocks when everyone is ready."):"Press ready and wait for the host.";
+ }
+}
 
-    <section id="gamePanel" class="panel hidden">
-      <div class="session-head">
-        <div class="session-code"><small>GAME CODE</small><strong id="gameCode">------</strong><button class="copy-code" onclick="copyCode()">COPY CODE</button></div>
-        <div class="round"><small>STATUS</small><div id="sessionBadge" class="session-badge lobby">LOBBY</div><small style="margin-top:8px">ROUND</small><strong id="roundNo">0</strong></div>
-      </div>
-      <div class="arena">
-        <div id="playerRing" class="player-ring"></div>
-        <div class="bottle-wrap">
-          <div id="bottle" class="bottle">
-            <div class="bottle-cap"></div>
-            <div class="bottle-neck"></div>
-            <div class="bottle-body">
-              <div class="bottle-label">RES WARS</div>
-            </div>
-          </div>
-        </div>
-        <div id="centerStatus" class="center-status">Waiting for players...</div>
-      </div>
-      <div id="hostControls" class="host-controls hidden"><button id="startBtn" class="btn secondary"
-          onclick="startGame()">START GAME</button><button id="spinBtn" class="btn" onclick="spinBottle()">SPIN
-          BOTTLE</button></div>
-      <div id="playersLine" class="players-line"></div>
-      <div id="liveStrip" class="live-strip hidden"><span class="live-dot"></span>LIVE SESSION — REALTIME CONNECTED</div>
-    </section>
-  </main>
-
-  <div id="challengeModal" class="challenge hidden">
-    <div class="challenge-card">
-      <div id="challengeType" class="challenge-type">CHALLENGE</div>
-      <h2 id="selectedPlayer">Player selected</h2>
-      <div id="selectedMeta" class="selected-name"></div>
-      <p id="challengePrompt">Get ready.</p>
-      <div id="challengeActions" class="challenge-actions hidden"><button class="btn secondary"
-          onclick="resolveRound('skipped')">SKIP</button><button class="btn"
-          onclick="resolveRound('completed')">COMPLETE</button></div>
-    </div>
-  </div>
-  <div id="toast" class="toast hidden"></div>
-  <div id="loader" class="loader">
-    <div>
-      <div class="spinner"></div>
-      <p id="loaderText">OPENING RES WARS...</p>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const sb = supabase.createClient("https://tkfnypzohdercxljswfe.supabase.co", "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra");
-    const $ = id => document.getElementById(id);
-    let user = null, profile = null, session = null, players = [], currentSpin = null, challenge = null, channel = null, currentRotation = 0, spinTimer = null, refreshTimer = null, realtimeState = "CLOSED";
-    const params = new URLSearchParams(location.search), gameId = params.get("game"), sessionId = params.get("session"), autoHost = params.get("host") === "1";
-    function toast(m) { $("toast").textContent = m; $("toast").classList.remove("hidden"); clearTimeout(toast.t); toast.t = setTimeout(() => $("toast").classList.add("hidden"), 3200) }
-    function initials(n) { return (n || "P").trim().split(/\s+/).slice(0, 2).map(x => x[0]).join("").toUpperCase() }
-    async function copyCode(){
-      if(!session?.code)return;
-      try{await navigator.clipboard.writeText(session.code);toast("Game code copied.");}
-      catch{toast(`Game code: ${session.code}`)}
-    }
-    async function init() {
-      try {
-        const { data: { session: s } } = await sb.auth.getSession();
-        if (!s?.user) { location.replace("auth.html"); return }
-        user = s.user;
-        const p = await sb.from("profiles").select("*").eq("id", user.id).maybeSingle(); profile = p.data || {};
-        if (sessionId) { await loadSession(sessionId) }
-        else if (autoHost) { await hostGame() }
-        $("loader").classList.add("hidden");
-      } catch (e) { console.error(e); $("loaderText").textContent = e.message || "Could not open game." }
-    }
-    async function hostGame() {
-      $("hostBtn").disabled = true;
-      const { data, error } = await sb.rpc("host_spin_session", { p_game_id: gameId || null });
-      if (error) { $("hostBtn").disabled = false; return toast(error.message) }
-      session = Array.isArray(data) ? data[0] : data;
-      history.replaceState(null, "", `spin.html?session=${encodeURIComponent(session.id)}&game=${encodeURIComponent(session.game_id || gameId || "")}`);
-      await enterSession();
-    }
-    async function joinGame() {
-      const code = $("joinCode").value.trim().toUpperCase(); if (code.length < 4) return toast("Enter the game code.");
-      const { data, error } = await sb.rpc("join_spin_session", { p_code: code }); if (error) return toast(error.message);
-      session = Array.isArray(data) ? data[0] : data;
-      history.replaceState(null, "", `spin.html?session=${encodeURIComponent(session.id)}&game=${encodeURIComponent(session.game_id || "")}`);
-      await enterSession();
-    }
-    async function loadSession(id) {
-      const { data, error } = await sb.from("spin_sessions").select("*").eq("id", id).maybeSingle();
-      if (error || !data) throw new Error(error?.message || "Spin game not found.");
-      session = data;
-      const me = await sb.from("spin_players").select("id").eq("session_id", id).eq("user_id", user.id).eq("active", true).maybeSingle();
-      if (!me.data) {
-        const j = await sb.rpc("join_spin_session", { p_code: session.code });
-        if (j.error) throw j.error;
-      }
-      await enterSession();
-    }
-    async function enterSession() {
-      $("entryPanel").classList.add("hidden"); $("gamePanel").classList.remove("hidden");
-      await refreshAll(); subscribe();
-    }
-    async function refreshAll() {
-      if (!session) return;
-      const [s, p] = await Promise.all([
-        sb.from("spin_sessions").select("*").eq("id", session.id).single(),
-        sb.from("spin_players").select("*").eq("session_id", session.id).eq("active", true).order("joined_at")
-      ]);
-      if (s.error) throw s.error;
-      if (p.error) throw p.error;
-      session = s.data; players = p.data || [];
-      $("gameCode").textContent = session.code; $("roundNo").textContent = session.round_no || 0;
-      const badge=$("sessionBadge");
-      badge.textContent=(session.status||"lobby").toUpperCase();
-      badge.className=`session-badge ${session.status||"lobby"}`;
-      $("liveStrip").classList.toggle("hidden",session.status!=="live");
-      document.querySelector(".arena").classList.toggle("live",session.status==="live");
-      renderPlayers(); renderControls();
-      if (session.current_spin_id && (!currentSpin || currentSpin.id !== session.current_spin_id)) await loadSpin(session.current_spin_id);
-    }
-    function renderPlayers() {
-      const ring = $("playerRing"), cx = 50, cy = 50, rx = 42, ry = 39, n = Math.max(players.length, 1);
-      ring.innerHTML = players.map((p, i) => {
-        const a = (i / n) * Math.PI * 2 - Math.PI / 2, x = cx + Math.cos(a) * rx, y = cy + Math.sin(a) * ry;
-        const sel = currentSpin?.selected_player_id === p.id ? " selected" : "", host = p.user_id === session.host_user_id ? " host" : "", you = p.user_id === user.id ? " you" : "";
-        return `<div class="player${sel}${host}${you}" style="left:${x}%;top:${y}%"><div class="avatar">${initials(p.display_name)}</div><span>${escapeHtml(p.display_name)}${p.user_id===user.id?" (YOU)":""}</span></div>`
-      }).join("");
-      $("playersLine").textContent = `${players.length} player${players.length === 1 ? "" : "s"} connected`;
-    }
-    function renderControls() {
-      const host = session.host_user_id === user.id;
-      $("hostControls").classList.toggle("hidden", !host);
-      $("startBtn").classList.toggle("hidden", session.status !== "lobby");
-      $("spinBtn").classList.toggle("hidden", session.status !== "live");
-      $("spinBtn").disabled = players.length < 2 || session.status !== "live";
-      if(session.status==="lobby"){
-        $("centerStatus").textContent = host
-          ? (players.length<2 ? "Share the game code and wait for at least one more player." : "Players are connected. Press START GAME when ready.")
-          : "You joined the lobby. Waiting for the host to start.";
-      }else if(session.status==="live"){
-        $("centerStatus").textContent = currentSpin && !["completed","skipped"].includes(currentSpin.status)
-          ? "A round is in progress."
-          : "Game is live. Waiting for the host to spin.";
-      }else{
-        $("centerStatus").textContent = "This game has ended.";
-      }
-    }
-    function subscribe() {
-      if (channel) sb.removeChannel(channel);
-      channel = sb.channel(`spin-${session.id}`)
-        .on("postgres_changes", { event: "*", schema: "public", table: "spin_sessions", filter: `id=eq.${session.id}` }, () => refreshAll())
-        .on("postgres_changes", { event: "*", schema: "public", table: "spin_players", filter: `session_id=eq.${session.id}` }, () => refreshAll())
-        .on("postgres_changes", { event: "INSERT", schema: "public", table: "spin_spins", filter: `session_id=eq.${session.id}` }, p => loadSpin(p.new.id))
-        .on("postgres_changes", { event: "UPDATE", schema: "public", table: "spin_spins", filter: `session_id=eq.${session.id}` }, p => {
-          if(currentSpin?.id===p.new.id){
-            currentSpin=p.new;
-            if(["completed","skipped"].includes(p.new.status)){
-              $("challengeModal").classList.add("hidden");
-              $("centerStatus").textContent="Game is live. Waiting for the host to spin.";
-            }
-          }
-        })
-        .subscribe(status=>{
-          realtimeState=status;
-          if(status==="SUBSCRIBED"){
-            toast("Realtime connected.");
-            clearInterval(refreshTimer);
-            refreshTimer=setInterval(()=>refreshAll().catch(console.warn),8000);
-          }
-        });
-    }
-    async function startGame() {
-      $("startBtn").disabled=true;
-      const { error } = await sb.rpc("start_spin_session", { p_session_id: session.id });
-      if (error){$("startBtn").disabled=false;return toast(error.message)}
-      await refreshAll();
-      toast("Game is LIVE.");
-    }
-    async function spinBottle() {
-      if (currentSpin && !["completed", "skipped"].includes(currentSpin.status)) return toast("Complete or skip the current challenge first.");
-      $("spinBtn").disabled = true;
-      const { data, error } = await sb.rpc("spin_bottle", { p_session_id: session.id }); if (error) { $("spinBtn").disabled = false; return toast(error.message) }
-      await loadSpin((Array.isArray(data) ? data[0] : data).id);
-    }
-    async function loadSpin(id) {
-      const { data, error } = await sb.from("spin_spins").select("*").eq("id", id).single(); if (error) return;
-      currentSpin = data;
-      const selected = players.find(p => p.id === data.selected_player_id);
-      if (data.challenge_id) { const c = await sb.from("spin_challenges").select("*").eq("id", data.challenge_id).maybeSingle(); challenge = c.data || null } else challenge = null;
-      renderPlayers();
-      const idx = Math.max(0, players.findIndex(p => p.id === data.selected_player_id)), n = Math.max(players.length, 1);
-      // bottle points upward at 0deg; player positions begin at top and go clockwise
-      const target = (idx / n) * 360;
-      const extra = Number(data.rotation_degrees || 1800);
-      const turns = Math.ceil((currentRotation + extra - target) / 360) * 360 + target;
-      currentRotation = turns;
-      $("centerStatus").textContent = "LIVE SPIN — bottle is choosing a player...";
-      $("bottle").style.transform = `rotate(${turns}deg)`;
-      clearTimeout(spinTimer);
-      spinTimer = setTimeout(() => showChallenge(selected), 5450);
-    }
-    function showChallenge(selected) {
-      $("selectedPlayer").textContent = selected?.display_name || "Selected player";
-      $("selectedMeta").textContent = `Round ${currentSpin?.round_no || session.round_no}`;
-      $("challengeType").textContent = (challenge?.type || "challenge").replace("_", " ").toUpperCase();
-      $("challengePrompt").textContent = challenge?.prompt || "The host may choose a challenge for this round.";
-      $("challengeActions").classList.toggle("hidden", session.host_user_id !== user.id);
-      $("challengeModal").classList.remove("hidden");
-      $("centerStatus").textContent = `${selected?.display_name || "Player"} was selected.`;
-      renderPlayers(); if (navigator.vibrate) navigator.vibrate([80, 50, 120]);
-    }
-    async function resolveRound(status) {
-      if (!currentSpin) return;
-      const { error } = await sb.rpc("resolve_spin", { p_spin_id: currentSpin.id, p_status: status }); if (error) return toast(error.message);
-      currentSpin.status = status; $("challengeModal").classList.add("hidden"); $("spinBtn").disabled = false; $("centerStatus").textContent = "Game is live. Waiting for the host to spin.";
-    }
-    async function leaveGame() {
-      if (session) await sb.rpc("leave_spin_session", { p_session_id: session.id });
-      location.href = "index.html";
-    }
-    function escapeHtml(v) { return String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c])) }
-    window.addEventListener("beforeunload", () => { if (channel) sb.removeChannel(channel); clearInterval(refreshTimer); });
-    init();
-  </script>
-</body>
-
-</html>
+let resultClaimed=false;
+async function claimSpinResult(){
+ if(resultClaimed||!session)return;resultClaimed=true;
+ const r=await sb.rpc("rw_claim_finished_spin",{p_session:session.id});
+ if(r.error){resultClaimed=false;return note(r.error.message)}
+ const x=r.data||{};$("resultHeading").textContent="MATCH COMPLETE";$("resultXp").textContent=`+${x.xp_earned||0} XP`;
+ $("resultCopy").textContent=x.already_awarded?"This match was already saved to your profile.":`Spin the Bottle participation saved • Games played: ${x.games_played||0} • Total XP: ${x.xp||0}`;
+ $("resultOverlay").classList.remove("hidden");await sb.rpc("rw_set_presence",{p_status:"online",p_game:null,p_session:null});
+}
+</script></body></html>
