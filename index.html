@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
 <meta name="theme-color" content="#0b090b"><title>RES WARS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
@@ -52,7 +52,106 @@ footer{border-top:1px solid #21191d}.footer{min-height:90px;display:flex;align-i
 .install-box h3{font:800 22px Manrope;margin:4px 0 7px}.install-box p{font-size:10px;line-height:1.6;color:#9b8790}
 .install-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}.install-actions button{height:44px;border-radius:10px;border:1px solid #44323a;background:#21181d;color:#eadde2;font-size:8px;font-weight:900}.install-actions .install-now{background:#ff7818;border-color:#ff7818;color:#1b0d07}
 @media(max-width:600px){.install-sheet{padding:0;align-items:end}.install-box{border-radius:22px 22px 0 0;padding-bottom:calc(21px + env(safe-area-inset-bottom))}}
-</style></head>
+</style><style>
+/* =========================================================
+   RES WARS — INSTALLED APP / MOBILE SCREEN FIT
+   Keeps every page inside the visible PWA viewport.
+========================================================= */
+:root{
+  --rw-safe-top: env(safe-area-inset-top, 0px);
+  --rw-safe-right: env(safe-area-inset-right, 0px);
+  --rw-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --rw-safe-left: env(safe-area-inset-left, 0px);
+  --rw-vh: 100dvh;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{
+  width:100%;
+  max-width:100%;
+  min-height:100%;
+  overflow-x:hidden;
+  overscroll-behavior:none;
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+  background:#0b090b;
+}
+body{
+  width:100%;
+  max-width:100vw;
+  min-width:0;
+  min-height:100vh;
+  min-height:100dvh;
+  margin:0;
+  overflow-x:hidden;
+  overscroll-behavior-y:none;
+  padding-left:var(--rw-safe-left)!important;
+  padding-right:var(--rw-safe-right)!important;
+}
+img,video,canvas,svg{max-width:100%;height:auto}
+input,select,textarea,button{max-width:100%;font:inherit}
+main,.wrap,.shell,.app,.page,.content,.container,.game-shell,.game-wrap{
+  width:100%;
+  max-width:100%;
+  min-width:0;
+}
+.modalbg,.invite-modal-bg,.ready-overlay,.result-overlay,.install-sheet{
+  width:100vw;
+  width:100dvw;
+  height:100vh;
+  height:100dvh;
+  max-width:100%;
+  padding-top:max(12px,var(--rw-safe-top))!important;
+  padding-right:max(12px,var(--rw-safe-right))!important;
+  padding-bottom:max(12px,var(--rw-safe-bottom))!important;
+  padding-left:max(12px,var(--rw-safe-left))!important;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+.modal,.invite-modal,.ready-box,.result-card,.install-box{
+  width:min(100%,500px)!important;
+  max-width:100%!important;
+  max-height:calc(100dvh - var(--rw-safe-top) - var(--rw-safe-bottom) - 24px);
+  overflow-y:auto;
+}
+@media (display-mode:standalone){
+  body{min-height:100dvh}
+}
+@media(max-width:760px){
+  body{font-size:16px}
+  .wrap,.shell,.app,.page,.content,.container,.game-shell,.game-wrap{
+    padding-left:max(12px,var(--rw-safe-left));
+    padding-right:max(12px,var(--rw-safe-right));
+  }
+  .grid,.games,.game-grid,.stats,.cards,.two,.cols,.columns{
+    min-width:0;
+    max-width:100%;
+  }
+  .card,.game-card,.panel,.stat,.room-hero,.roommate-card{
+    min-width:0;
+    max-width:100%;
+  }
+}
+
+@media(max-width:760px){
+  body{padding-bottom:calc(78px + var(--rw-safe-bottom))!important}
+  header,.topbar,.top-bar{max-width:100vw}
+  .mobile-nav,.bottom-nav,.bottom-bar{
+    left:var(--rw-safe-left)!important;
+    right:var(--rw-safe-right)!important;
+    bottom:0!important;
+    width:auto!important;
+    max-width:none!important;
+    padding-bottom:max(8px,var(--rw-safe-bottom))!important;
+  }
+  .games,.game-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+  .game-card{width:100%!important;min-width:0!important}
+  .chat-panel,.chat-drawer,.support-panel{
+    max-width:100vw!important;
+    max-height:calc(100dvh - var(--rw-safe-top))!important;
+  }
+}
+</style>
+</head>
 <body><div id="installSheet" class="install-sheet hidden"><div class="install-box"><div class="eyebrow">INSTALL RES WARS</div><h3>Play it like a real app.</h3><p id="installText">Add RES WARS to your Home Screen for a full-screen app experience and faster access on game night.</p><div class="install-actions"><button id="installLater">NOT NOW</button><button id="installNow" class="install-now">ADD TO HOME SCREEN</button></div></div></div>
 <header><div class="container nav"><a class="brand" href="#"><div class="logo">RW</div><div><b>RES WARS</b><small>RESIDENCE GAME NIGHT</small></div></a><div class="nav-actions"><button class="nav-btn" onclick="openJoin()">JOIN CODE</button><button id="profile" class="avatar" type="button" onclick="location.href='profile.html'">RW</button></div></div></header>
 
