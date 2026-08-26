@@ -207,6 +207,20 @@ body{padding:0 0 calc(16px + var(--sab))!important;margin:0!important}
 }
 .modalbg{padding-top:calc(12px + var(--sat))!important;padding-bottom:calc(12px + var(--sab))!important}
 </style>
+
+<style id="rw-profile-signout">
+.rw-signout{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:42px;padding:0 16px;border:1px solid #5b3941;border-radius:11px;
+  background:#211419;color:#ffdfe4;font-weight:900;font-size:11px;
+  cursor:pointer;white-space:nowrap
+}
+.rw-signout:hover{background:#2b171d;border-color:#8b4855}
+.rw-signout svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
+@media(max-width:600px){
+  .rw-signout{width:100%;margin-top:10px;min-height:46px}
+}
+</style>
 </head><body>
 <header class="top"><div class="brand"><div class="logo">RW</div><div><b>RES WARS</b><small>Resident profile</small></div></div><button class="back" onclick="location.href='index.html'">BACK TO GAMES</button></header>
 <main class="wrap">
@@ -224,7 +238,10 @@ body{padding:0 0 calc(16px + var(--sab))!important;margin:0!important}
 <div id="profileModal" class="modalbg hidden"><div class="modal"><div class="modalhead"><h3>Edit profile</h3><button class="close" onclick="closeModal('profileModal')">×</button></div><div class="fields"><div class="field"><label>FULL NAME</label><input id="editName" class="input"></div><div class="field"><label>STUDENT NUMBER</label><input id="editStudent" class="input"></div><div class="field"><label>PROFILE PICTURE</label>
 <div class="photo-picker">
   <div id="photoPreview" class="photo-preview">RW</div>
-  <div class="photo-actions">
+  <div class="photo-actions"><button type="button" id="rwSignOutBtn" class="rw-signout" onclick="rwSignOut()">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"/></svg>
+SIGN OUT
+</button>
     <input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" hidden>
     <button type="button" class="btn" onclick="$('avatarFile').click()">CHOOSE PICTURE</button>
     <small>JPG, PNG or WEBP • max 5 MB</small>
@@ -338,5 +355,37 @@ async function loadAchievements(){let[{data:all},{data:mine}]=await Promise.all(
 function subscribe(){sb.channel("profile-live-"+me.id).on("postgres_changes",{event:"*",schema:"public",table:"rw_room_members"},loadAll).on("postgres_changes",{event:"*",schema:"public",table:"rw_rooms"},loadAll).on("postgres_changes",{event:"*",schema:"public",table:"rw_game_history"},loadHistory).subscribe()}init();
 </script><script>
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error));}
+</script>
+
+<script id="rw-profile-signout-js">
+async function rwSignOut(){
+  const btn=document.getElementById("rwSignOutBtn");
+  if(btn){btn.disabled=true;btn.textContent="SIGNING OUT...";}
+  try{
+    // Current RES WARS pages expose the Supabase client as `sb`.
+    if(typeof sb!=="undefined" && sb?.auth){
+      try{
+        // Clear live presence first when the presence RPC is installed.
+        await sb.rpc("rw_set_presence",{p_status:"offline",p_game:null,p_session:null});
+      }catch(_){}
+      const {error}=await sb.auth.signOut();
+      if(error) throw error;
+    }else{
+      // Fallback if the page's client was initialized under another common name.
+      const client=(typeof supabaseClient!=="undefined")?supabaseClient:null;
+      if(client?.auth){
+        const {error}=await client.auth.signOut();
+        if(error) throw error;
+      }
+    }
+    localStorage.removeItem("rw_install_later");
+    location.replace("auth.html");
+  }catch(err){
+    console.error(err);
+    if(btn){btn.disabled=false;btn.innerHTML='SIGN OUT';}
+    if(typeof toast==="function") toast(err?.message||"Could not sign out.");
+    else alert(err?.message||"Could not sign out.");
+  }
+}
 </script>
 </body></html>
