@@ -1,0 +1,1031 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b090b">
+  <title>RES WARS Admin</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b090b;
+      --sidebar: #100d10;
+      --panel: #171217;
+      --panel2: #21181d;
+      --line: #382a31;
+      --line2: #49353f;
+      --orange: #ff7818;
+      --orange2: #ff9a50;
+      --text: #f8efeb;
+      --muted: #ad98a1;
+      --soft: #806d76;
+      --green: #9ff06c;
+      --red: #ff6677;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      font-size: 16px
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+      line-height: 1.5
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr);
+      min-height: 100vh
+    }
+
+    /* SIDEBAR */
+    .side {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 22px 16px;
+      border-right: 1px solid #281e23;
+      background: var(--sidebar)
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 2px 8px 27px
+    }
+
+    .logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      background: var(--orange);
+      display: grid;
+      place-items: center;
+      color: #1b0d07;
+      font: 800 13px Manrope;
+      box-shadow: 0 8px 24px #ff781820
+    }
+
+    .brand b {
+      font: 800 15px Manrope;
+      letter-spacing: -.02em
+    }
+
+    .brand small {
+      display: block;
+      font-size: 9px;
+      color: #8c7781;
+      letter-spacing: .13em;
+      margin-top: 2px
+    }
+
+    .nav {
+      display: grid;
+      gap: 6px
+    }
+
+    .nav button {
+      min-height: 48px;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      background: transparent;
+      color: #b6a2aa;
+      text-align: left;
+      padding: 0 14px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: .15s
+    }
+
+    .nav button:hover {
+      background: #1a1418;
+      color: #fff
+    }
+
+    .nav button.active {
+      background: #251915;
+      border-color: #56331f;
+      color: #ffab70;
+      box-shadow: inset 3px 0 0 var(--orange)
+    }
+
+    .side-bottom {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 18px
+    }
+
+    .side-bottom button {
+      width: 100%;
+      height: 44px;
+      border: 1px solid #44323a;
+      border-radius: 10px;
+      background: #171217;
+      color: #d7c5cc;
+      font-size: 12px;
+      font-weight: 700
+    }
+
+    /* HEADER */
+    .main {
+      min-width: 0
+    }
+
+    .top {
+      height: 76px;
+      padding: 0 28px;
+      border-bottom: 1px solid #281e23;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: #0b090bf4;
+      backdrop-filter: blur(12px)
+    }
+
+    .top h1 {
+      font: 800 20px Manrope;
+      margin: 0;
+      letter-spacing: -.025em
+    }
+
+    .top p {
+      font-size: 11px;
+      color: #8f7b84;
+      margin: 3px 0 0
+    }
+
+    .topright {
+      display: flex;
+      gap: 10px;
+      align-items: center
+    }
+
+    .status {
+      font-size: 10px;
+      font-weight: 800;
+      color: #b8f697;
+      border: 1px solid #385132;
+      background: #142012;
+      padding: 7px 10px;
+      border-radius: 999px
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #261b21;
+      border: 1px solid #513b45;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 800
+    }
+
+    .mobile-menu {
+      display: none
+    }
+
+    /* CONTENT */
+    .content {
+      width: min(1320px, calc(100% - 48px));
+      margin: 32px auto 70px
+    }
+
+    .view {
+      display: none
+    }
+
+    .view.active {
+      display: block
+    }
+
+    .heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 22px
+    }
+
+    .heading h2 {
+      font: 800 clamp(27px, 3vw, 38px) Manrope;
+      margin: 0;
+      letter-spacing: -.045em
+    }
+
+    .heading p {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 6px 0 0
+    }
+
+    .btn {
+      min-height: 42px;
+      padding: 0 15px;
+      border: 1px solid #4a363f;
+      border-radius: 10px;
+      background: #21181d;
+      color: #eadde2;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .01em
+    }
+
+    .btn:hover {
+      border-color: #654a55;
+      background: #291e23
+    }
+
+    .btn.primary {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #1b0d07
+    }
+
+    .btn.red {
+      background: #35171d;
+      border-color: #6b2b38;
+      color: #ffabb6
+    }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 13px;
+      margin-bottom: 18px
+    }
+
+    .stat,
+    .card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 17px
+    }
+
+    .stat {
+      padding: 20px;
+      min-height: 132px
+    }
+
+    .stat span {
+      font-size: 10px;
+      color: #a18c95;
+      font-weight: 800;
+      letter-spacing: .08em
+    }
+
+    .stat b {
+      display: block;
+      font: 800 32px Manrope;
+      margin: 8px 0 1px;
+      letter-spacing: -.04em
+    }
+
+    .stat small {
+      font-size: 11px;
+      color: #806d76
+    }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1.35fr .85fr;
+      gap: 14px
+    }
+
+    .card {
+      padding: 20px;
+      margin-bottom: 14px
+    }
+
+    .card-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px
+    }
+
+    .card-title b {
+      font: 700 15px Manrope
+    }
+
+    .card-title span {
+      font-size: 10px;
+      color: #8c7881
+    }
+
+    /* TABLES */
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid #2b2026;
+      border-radius: 12px
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px
+    }
+
+    .table th {
+      text-align: left;
+      padding: 12px 13px;
+      border-bottom: 1px solid #3a2b32;
+      background: #110d10;
+      color: #9c8790;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .07em
+    }
+
+    .table td {
+      padding: 13px;
+      border-bottom: 1px solid #2b2026;
+      font-size: 12px;
+      color: #dfd1d6;
+      vertical-align: middle
+    }
+
+    .table tr:last-child td {
+      border-bottom: 0
+    }
+
+    .table tbody tr:hover {
+      background: #1a1418
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 9px;
+      font-weight: 800;
+      background: #2a2025;
+      color: #baa6ae
+    }
+
+    .pill.live {
+      background: #172414;
+      color: #b9f89a
+    }
+
+    .pill.warn {
+      background: #352611;
+      color: #ffd27d
+    }
+
+    .pill.red {
+      background: #35171d;
+      color: #ff9caa
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px 15px;
+      color: #907b84;
+      font-size: 12px
+    }
+
+    /* QUICK ACTIONS */
+    .quick {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px
+    }
+
+    .quick button {
+      min-height: 78px;
+      border: 1px solid #3d2e35;
+      border-radius: 12px;
+      background: #100d10;
+      color: #eadde2;
+      text-align: left;
+      padding: 13px;
+      font-size: 12px;
+      font-weight: 800
+    }
+
+    .quick button:hover {
+      border-color: #69452f;
+      background: #1b1412
+    }
+
+    .quick small {
+      display: block;
+      color: #8d7982;
+      margin-top: 5px;
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 1.4
+    }
+
+    /* FORMS */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px
+    }
+
+    .field {
+      display: grid;
+      gap: 7px
+    }
+
+    .field.full {
+      grid-column: 1/-1
+    }
+
+    .field label {
+      font-size: 10px;
+      color: #a38e97;
+      font-weight: 800;
+      letter-spacing: .03em
+    }
+
+    .input {
+      width: 100%;
+      height: 46px;
+      border: 1px solid #493640;
+      border-radius: 10px;
+      background: #0d0a0d;
+      color: #fff;
+      padding: 0 12px;
+      outline: none;
+      font-size: 13px
+    }
+
+    .input:focus {
+      border-color: #9b5a35;
+      box-shadow: 0 0 0 3px #ff78180b
+    }
+
+    textarea.input {
+      height: 118px;
+      padding-top: 12px;
+      resize: vertical
+    }
+
+    .switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #b5a1a9
+    }
+
+    .switch input {
+      accent-color: var(--orange)
+    }
+
+    .search {
+      width: min(360px, 100%)
+    }
+
+    /* GAMES */
+    .gamecards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 13px
+    }
+
+    .gamecard {
+      border: 1px solid #3b2c33;
+      background: #141014;
+      border-radius: 15px;
+      padding: 18px;
+      min-height: 175px
+    }
+
+    .gamecard:hover {
+      border-color: #58404a
+    }
+
+    .gamecard h3 {
+      font: 700 15px Manrope;
+      margin: 0
+    }
+
+    .gamecard p {
+      font-size: 11px;
+      color: #9a858e;
+      line-height: 1.55;
+      min-height: 52px
+    }
+
+    .gamecard .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 9px
+    }
+
+    /* MODAL */
+    .modal-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: #050405e8;
+      display: grid;
+      place-items: center;
+      padding: 18px
+    }
+
+    .modal {
+      width: min(570px, 100%);
+      max-height: 90vh;
+      overflow: auto;
+      border: 1px solid #543c47;
+      background: #171217;
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 30px 90px #000c
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px
+    }
+
+    .modal-head h3 {
+      font: 800 20px Manrope;
+      margin: 0
+    }
+
+    .close {
+      width: 37px;
+      height: 37px;
+      border-radius: 50%;
+      border: 1px solid #46343c;
+      background: #0d0a0d;
+      color: #fff;
+      font-size: 18px
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 120;
+      max-width: 360px;
+      background: #21181d;
+      border: 1px solid #543c47;
+      border-radius: 11px;
+      padding: 12px 15px;
+      font-size: 12px;
+      box-shadow: 0 14px 40px #0009
+    }
+
+    .danger {
+      border-color: #5d2a35
+    }
+
+    .danger .card-title b {
+      color: #ff9eab
+    }
+
+    /* dynamically generated dashboard rows */
+    .score {
+      font-size: 12px !important;
+      padding: 12px 0 !important
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:1050px) {
+      .shell {
+        grid-template-columns: 240px minmax(0, 1fr)
+      }
+
+      .gamecards {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media(max-width:820px) {
+      .shell {
+        grid-template-columns: 1fr
+      }
+
+      .side {
+        position: fixed;
+        z-index: 60;
+        left: -285px;
+        width: 270px;
+        transition: left .2s;
+        box-shadow: 18px 0 50px #0008
+      }
+
+      .side.open {
+        left: 0
+      }
+
+      .mobile-menu {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border: 1px solid #433139;
+        border-radius: 10px;
+        background: #171217;
+        color: #fff;
+        font-size: 18px
+      }
+
+      .top {
+        height: 68px;
+        padding: 0 14px
+      }
+
+      .top-left {
+        display: flex;
+        align-items: center;
+        gap: 11px
+      }
+
+      .top h1 {
+        font-size: 17px
+      }
+
+      .content {
+        width: calc(100% - 24px);
+        margin-top: 22px
+      }
+
+      .grid2 {
+        grid-template-columns: 1fr
+      }
+
+      .topright .status {
+        display: none
+      }
+    }
+
+    @media(max-width:560px) {
+      html {
+        font-size: 16px
+      }
+
+      .heading {
+        display: block
+      }
+
+      .heading .btn,
+      .heading .input {
+        margin-top: 13px
+      }
+
+      .heading h2 {
+        font-size: 28px
+      }
+
+      .heading p {
+        font-size: 12px
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px
+      }
+
+      .stat {
+        padding: 14px;
+        min-height: 112px
+      }
+
+      .stat b {
+        font-size: 27px
+      }
+
+      .stat span {
+        font-size: 9px
+      }
+
+      .stat small {
+        font-size: 9px
+      }
+
+      .card {
+        padding: 14px;
+        border-radius: 14px
+      }
+
+      .card-title b {
+        font-size: 14px
+      }
+
+      .form-grid,
+      .gamecards {
+        grid-template-columns: 1fr
+      }
+
+      .field.full {
+        grid-column: auto
+      }
+
+      .quick {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .quick button {
+        min-height: 72px
+      }
+
+      .table td {
+        font-size: 12px
+      }
+
+      .table th {
+        font-size: 10px
+      }
+
+      .topright .btn {
+        display: none
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px
+      }
+
+      .content {
+        margin-bottom: 40px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="shell">
+    <aside id="side" class="side">
+      <div class="brand">
+        <div class="logo">RW</div>
+        <div><b>RES WARS</b><small>ADMIN CONTROL</small></div>
+      </div>
+      <nav class="nav">
+        <button class="active" data-view="dashboard">Dashboard</button><button data-view="games">Games</button><button
+          data-view="questions">Questions & Challenges</button><button data-view="sessions">Live
+          Sessions</button><button data-view="residents">Residents</button><button
+          data-view="chat">Messages</button><button data-view="announcements">Announcements</button><button
+          data-view="settings">Settings</button>
+      </nav>
+      <div class="side-bottom"><button onclick="location.href='index.html'">← BACK TO RES WARS</button></div>
+    </aside>
+    <section class="main">
+      <header class="top">
+        <div class="top-left"><button id="menu" class="mobile-menu">☰</button>
+          <div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p>RES WARS administration</p>
+          </div>
+        </div>
+        <div class="topright"><span class="status">SYSTEM LIVE</span><button class="btn" onclick="adminLogout()">SIGN
+            OUT</button>
+          <div id="adminAvatar" class="avatar">AD</div>
+        </div>
+      </header>
+      <main class="content">
+
+        <section id="dashboard" class="view active">
+          <div class="heading">
+            <div>
+              <h2>Control centre</h2>
+              <p>Live overview of RES WARS.</p>
+            </div><button class="btn primary" onclick="go('announcements')">NEW ANNOUNCEMENT</button>
+          </div>
+          <div class="stats">
+            <div class="stat"><span>RESIDENTS</span><b id="sResidents">—</b><small>registered profiles</small></div>
+            <div class="stat"><span>LIVE GAMES</span><b id="sLive">—</b><small>sessions running now</small></div>
+            <div class="stat"><span>MESSAGES</span><b id="sMessages">—</b><small>chat messages</small></div>
+            <div class="stat"><span>QUESTIONS</span><b id="sQuestions">—</b><small>game prompts</small></div>
+          </div>
+          <div class="grid2">
+            <div class="card">
+              <div class="card-title"><b>Recent game sessions</b><span>REALTIME</span></div>
+              <div id="recentSessions"></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><b>Quick controls</b></div>
+              <div class="quick"><button onclick="go('games')">Games<small>Enable or disable
+                    games</small></button><button onclick="go('questions')">Content<small>Add questions &
+                    challenges</small></button><button onclick="go('chat')">Messages<small>Moderate residence
+                    chat</small></button><button onclick="go('announcements')">Announcements<small>Publish
+                    notices</small></button></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="games" class="view">
+          <div class="heading">
+            <div>
+              <h2>Games</h2>
+              <p>Control what residents can play.</p>
+            </div>
+          </div>
+          <div id="gameCards" class="gamecards"></div>
+        </section>
+
+        <section id="questions" class="view">
+          <div class="heading">
+            <div>
+              <h2>Questions & challenges</h2>
+              <p>Manage the content used by live games.</p>
+            </div><button class="btn primary" onclick="openPrompt()">ADD CONTENT</button>
+          </div>
+          <div class="card">
+            <div class="card-title"><b>Prompt library</b><select id="promptFilter" class="input search"
+                onchange="loadPrompts()">
+                <option value="">All games</option>
+              </select></div>
+            <div id="promptTable"></div>
+          </div>
+        </section>
+
+        <section id="sessions" class="view">
+          <div class="heading">
+            <div>
+              <h2>Live sessions</h2>
+              <p>Watch active rooms and end a room when necessary.</p>
+            </div><button class="btn" onclick="loadSessions()">REFRESH</button>
+          </div>
+          <div class="card">
+            <div id="sessionTable"></div>
+          </div>
+        </section>
+
+        <section id="residents" class="view">
+          <div class="heading">
+            <div>
+              <h2>Residents</h2>
+              <p>Registered RES WARS profiles.</p>
+            </div><input id="residentSearch" class="input search" placeholder="Search resident..."
+              oninput="renderResidents()">
+          </div>
+          <div class="card">
+            <div id="residentTable"></div>
+          </div>
+        </section>
+
+        <section id="chat" class="view">
+          <div class="heading">
+            <div>
+              <h2>Message moderation</h2>
+              <p>View residence group chat and remove inappropriate messages.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div id="chatTable"></div>
+          </div>
+        </section>
+
+        <section id="announcements" class="view">
+          <div class="heading">
+            <div>
+              <h2>Announcements</h2>
+              <p>Publish notices that can be shown to residents.</p>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="card">
+              <div class="card-title"><b>Create announcement</b></div>
+              <div class="form-grid">
+                <div class="field full"><label>TITLE</label><input id="aTitle" class="input" maxlength="100"
+                    placeholder="Game night tonight"></div>
+                <div class="field full"><label>MESSAGE</label><textarea id="aBody" class="input" maxlength="1000"
+                    placeholder="Write the announcement..."></textarea></div>
+                <div class="field"><label>TYPE</label><select id="aType" class="input">
+                    <option>general</option>
+                    <option>game</option>
+                    <option>update</option>
+                    <option>important</option>
+                  </select></div>
+                <div class="field"><label>STATUS</label><select id="aActive" class="input">
+                    <option value="true">Active</option>
+                    <option value="false">Draft</option>
+                  </select></div>
+                <div class="field full"><button class="btn primary" onclick="publishAnnouncement()">PUBLISH</button>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title"><b>Published announcements</b></div>
+              <div id="announcementList"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="settings" class="view">
+          <div class="heading">
+            <div>
+              <h2>Administration</h2>
+              <p>Security and maintenance controls.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><b>Admin account</b></div>
+            <div id="adminInfo" style="font-size:13px;color:#ad98a1;line-height:1.7"></div>
+          </div>
+          <div class="card danger">
+            <div class="card-title"><b>Maintenance</b></div>
+            <p style="font-size:12px;color:#ad98a1">These actions affect active RES WARS sessions.</p><button
+              class="btn red" onclick="endAll()">END ALL LIVE SESSIONS</button>
+          </div>
+        </section>
+
+      </main>
+    </section>
+  </div>
+
+  <div id="promptModal" class="modal-wrap hidden">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Add game content</h3><button class="close" onclick="closePrompt()">×</button>
+      </div>
+      <div class="form-grid">
+        <div class="field"><label>GAME</label><select id="pGame" class="input"></select></div>
+        <div class="field"><label>TYPE</label><select id="pKind" class="input">
+            <option value="quiz">Quiz</option>
+            <option value="truth">Truth</option>
+            <option value="dare">Dare</option>
+            <option value="sync">Sync</option>
+            <option value="word">Word</option>
+            <option value="round">Round</option>
+          </select></div>
+        <div class="field full"><label>QUESTION / CHALLENGE</label><textarea id="pPrompt" class="input"></textarea>
+        </div>
+        <div class="field full"><label>OPTIONS — comma separated (optional)</label><input id="pOptions" class="input"
+            placeholder="Option A, Option B, Option C, Option D"></div>
+        <div class="field full"><label>CORRECT ANSWER / LETTERS (optional)</label><input id="pAnswer" class="input">
+        </div>
+        <div class="field full"><button class="btn primary" onclick="savePrompt()">SAVE CONTENT</button></div>
+      </div>
+    </div>
+  </div>
+  <div id="toast" class="toast hidden"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const sb = supabase.createClient("https://tkfnypzohdercxljswfe.supabase.co", "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra"), $ = x => document.getElementById(x); let adminUser, games = [], residents = [];
+    function toast(m) { $("toast").textContent = m; $("toast").classList.remove("hidden"); clearTimeout(toast.t); toast.t = setTimeout(() => $("toast").classList.add("hidden"), 2500) } function esc(s) { return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])) } function ago(d) { if (!d) return "—"; let n = (Date.now() - new Date(d)) / 1000; if (n < 60) return "now"; if (n < 3600) return Math.floor(n / 60) + "m"; if (n < 86400) return Math.floor(n / 3600) + "h"; return Math.floor(n / 86400) + "d" }
+    async function init() { let { data: { session } } = await sb.auth.getSession(); if (!session?.user) return location.replace("admin-auth.html"); adminUser = session.user; let { data: a, error: ae } = await sb.from("rw_admins").select("user_id").eq("user_id", adminUser.id).maybeSingle(); if (ae || !a) { await sb.auth.signOut(); alert("This account is not authorised for RES WARS Administration."); return location.replace("admin-auth.html") } let { data: p } = await sb.from("profiles").select("*").eq("id", adminUser.id).maybeSingle(); $("adminAvatar").textContent = (p?.full_name || adminUser.email || "AD").split(/\s+/).slice(0, 2).map(x => x[0]).join("").toUpperCase(); $("adminInfo").innerHTML = `Signed in as <b>${esc(p?.full_name || adminUser.email)}</b><br>${esc(adminUser.email || "")}<br><span style="color:#9ff06c">Verified RES WARS administrator</span>`; await Promise.all([loadGames(), loadResidents(), loadStats(), loadSessions(), loadPrompts(), loadChat(), loadAnnouncements()]); subscribe() }
+    function go(v) { document.querySelectorAll(".view").forEach(x => x.classList.remove("active")); $(v).classList.add("active"); document.querySelectorAll(".nav button").forEach(x => x.classList.toggle("active", x.dataset.view === v)); $("pageTitle").textContent = document.querySelector(`.nav button[data-view="${v}"]`)?.textContent || "Admin"; $("side").classList.remove("open") } document.querySelectorAll(".nav button").forEach(b => b.onclick = () => go(b.dataset.view)); $("menu").onclick = () => $("side").classList.toggle("open");
+    async function loadStats() { let [p, s, m, q] = await Promise.all([sb.from("profiles").select("*", { count: "exact", head: true }), sb.from("rw_sessions").select("*", { count: "exact", head: true }).eq("status", "live"), sb.from("rw_chat_messages").select("*", { count: "exact", head: true }), sb.from("rw_prompts").select("*", { count: "exact", head: true })]); $("sResidents").textContent = p.count ?? 0; $("sLive").textContent = s.count ?? 0; $("sMessages").textContent = m.count ?? 0; $("sQuestions").textContent = q.count ?? 0 }
+    async function loadGames() { let r = await sb.from("rw_games").select("*").order("name"); games = r.data || []; $("gameCards").innerHTML = games.map(g => `<div class="gamecard"><div class="row"><h3>${esc(g.name)}</h3><span class="pill ${g.active ? "live" : "red"}">${g.active ? "LIVE" : "OFF"}</span></div><p>${esc(g.description)}</p><div class="row"><span style="font-size:7px;color:#7e6a73">Min ${g.min_players} players</span><button class="btn" onclick="toggleGame('${g.slug}',${!g.active})">${g.active ? "DISABLE" : "ENABLE"}</button></div></div>`).join(""); $("pGame").innerHTML = games.map(g => `<option value="${g.slug}">${esc(g.name)}</option>`).join(""); $("promptFilter").innerHTML = '<option value="">All games</option>' + games.map(g => `<option value="${g.slug}">${esc(g.name)}</option>`).join("") }
+    async function toggleGame(slug, val) { let r = await sb.from("rw_games").update({ active: val }).eq("slug", slug); if (r.error) return toast(r.error.message); toast(val ? "Game enabled" : "Game disabled"); await loadGames() }
+    async function loadSessions() { let r = await sb.from("rw_sessions").select("*").order("created_at", { ascending: false }).limit(100), rows = r.data || []; let table = `<div class="table-wrap"><table class="table"><thead><tr><th>GAME</th><th>CODE</th><th>STATUS</th><th>ROUND</th><th>CREATED</th><th>ACTION</th></tr></thead><tbody>${rows.map(s => `<tr><td>${esc(games.find(g => g.slug === s.game_slug)?.name || s.game_slug)}</td><td>${esc(s.code)}</td><td><span class="pill ${s.status === "live" ? "live" : s.status === "finished" ? "red" : ""}">${esc(s.status)}</span></td><td>${s.round_no || 0}</td><td>${ago(s.created_at)}</td><td>${s.status !== "finished" ? `<button class="btn red" onclick="adminEnd('${s.id}')">END</button>` : "—"}</td></tr>`).join("")}</tbody></table></div>`; $("sessionTable").innerHTML = rows.length ? table : '<div class="empty">No sessions yet.</div>'; $("recentSessions").innerHTML = rows.slice(0, 6).map(s => `<div class="score" style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #292026;font-size:12px"><span>${esc(games.find(g => g.slug === s.game_slug)?.name || s.game_slug)} • ${esc(s.code)}</span><span class="pill ${s.status === "live" ? "live" : ""}">${esc(s.status)}</span></div>`).join("") || '<div class="empty">No game activity yet.</div>' }
+    async function adminEnd(id) { if (!confirm("End this session for everyone?")) return; let r = await sb.rpc("rw_admin_end_session", { p_session: id }); if (r.error) return toast(r.error.message); toast("Session ended"); await Promise.all([loadSessions(), loadStats()]) }
+    async function endAll() { if (!confirm("End ALL active sessions?")) return; let r = await sb.rpc("rw_admin_end_all_sessions"); if (r.error) return toast(r.error.message); toast(`${r.data || 0} session(s) ended`); await Promise.all([loadSessions(), loadStats()]) }
+    async function loadResidents() { let r = await sb.from("profiles").select("*").order("full_name"); residents = r.data || []; renderResidents() }
+    function renderResidents() { let t = ($("residentSearch")?.value || "").toLowerCase(), a = residents.filter(p => (p.full_name || "").toLowerCase().includes(t) || (p.student_number || "").toLowerCase().includes(t)); $("residentTable").innerHTML = a.length ? `<div class="table-wrap"><table class="table"><thead><tr><th>NAME</th><th>STUDENT NO.</th><th>ROOM</th><th>ROLE</th></tr></thead><tbody>${a.map(p => `<tr><td>${esc(p.full_name || "Resident")}</td><td>${esc(p.student_number || "—")}</td><td>${esc(p.room_id || "—")}</td><td><span class="pill">${p.id === adminUser.id ? "ADMIN" : "RESIDENT"}</span></td></tr>`).join("")}</tbody></table></div>` : '<div class="empty">No residents found.</div>' }
+    async function loadPrompts() { let q = sb.from("rw_prompts").select("*").order("game_slug").limit(500), f = $("promptFilter")?.value; if (f) q = q.eq("game_slug", f); let r = await q, a = r.data || []; $("promptTable").innerHTML = a.length ? `<div class="table-wrap"><table class="table"><thead><tr><th>GAME</th><th>TYPE</th><th>CONTENT</th><th>ACTION</th></tr></thead><tbody>${a.map(p => `<tr><td>${esc(games.find(g => g.slug === p.game_slug)?.name || p.game_slug)}</td><td><span class="pill">${esc(p.kind)}</span></td><td>${esc(p.prompt)}</td><td><button class="btn red" onclick="deletePrompt('${p.id}')">DELETE</button></td></tr>`).join("")}</tbody></table></div>` : '<div class="empty">No prompts found.</div>' }
+    function openPrompt() { $("promptModal").classList.remove("hidden") } function closePrompt() { $("promptModal").classList.add("hidden") }
+    async function savePrompt() { let data = { game_slug: $("pGame").value, kind: $("pKind").value, prompt: $("pPrompt").value.trim(), data: {} }; if (!data.prompt) return toast("Enter the content"); let opts = $("pOptions").value.split(",").map(x => x.trim()).filter(Boolean), ans = $("pAnswer").value.trim(); if (opts.length) data.data.options = opts; if (ans) { if (data.kind === "word") data.data.letters = ans; else data.data.answer = ans } let r = await sb.from("rw_prompts").insert(data); if (r.error) return toast(r.error.message); $("pPrompt").value = $("pOptions").value = $("pAnswer").value = ""; closePrompt(); toast("Content added"); await Promise.all([loadPrompts(), loadStats()]) }
+    async function deletePrompt(id) { if (!confirm("Delete this game content?")) return; let r = await sb.from("rw_prompts").delete().eq("id", id); if (r.error) return toast(r.error.message); toast("Deleted"); loadPrompts() }
+    async function loadChat() { let r = await sb.from("rw_chat_messages").select("id,message,created_at,sender_id,recipient_id,profiles!rw_chat_messages_sender_id_fkey(full_name)").order("created_at", { ascending: false }).limit(150), a = r.data || []; $("chatTable").innerHTML = a.length ? `<div class="table-wrap"><table class="table"><thead><tr><th>FROM</th><th>TYPE</th><th>MESSAGE</th><th>TIME</th><th>ACTION</th></tr></thead><tbody>${a.map(m => `<tr><td>${esc(m.profiles?.full_name || "Resident")}</td><td><span class="pill">${m.recipient_id ? "DM" : "GROUP"}</span></td><td>${esc(m.message)}</td><td>${ago(m.created_at)}</td><td><button class="btn red" onclick="deleteMessage('${m.id}')">REMOVE</button></td></tr>`).join("")}</tbody></table></div>` : '<div class="empty">No chat messages.</div>' }
+    async function deleteMessage(id) { if (!confirm("Remove this message?")) return; let r = await sb.from("rw_chat_messages").delete().eq("id", id); if (r.error) return toast(r.error.message); toast("Message removed"); await Promise.all([loadChat(), loadStats()]) }
+    async function loadAnnouncements() { let r = await sb.from("rw_announcements").select("*").order("created_at", { ascending: false }).limit(50); if (r.error) { $("announcementList").innerHTML = '<div class="empty">Run the Admin SQL to enable announcements.</div>'; return } let a = r.data || []; $("announcementList").innerHTML = a.map(x => `<div style="padding:10px 0;border-bottom:1px solid #292026"><div style="display:flex;justify-content:space-between;gap:8px"><b style="font-size:13px">${esc(x.title)}</b><span class="pill ${x.active ? "live" : ""}">${x.active ? "ACTIVE" : "DRAFT"}</span></div><p style="font-size:12px;color:#ad98a1">${esc(x.body)}</p><button class="btn red" onclick="deleteAnnouncement('${x.id}')">DELETE</button></div>`).join("") || '<div class="empty">No announcements.</div>' }
+    async function publishAnnouncement() { let row = { title: $("aTitle").value.trim(), body: $("aBody").value.trim(), type: $("aType").value, active: $("aActive").value === "true", created_by: adminUser.id }; if (!row.title || !row.body) return toast("Add a title and message"); let r = await sb.from("rw_announcements").insert(row); if (r.error) return toast(r.error.message); $("aTitle").value = $("aBody").value = ""; toast("Announcement published"); loadAnnouncements() }
+    async function deleteAnnouncement(id) { if (!confirm("Delete announcement?")) return; let r = await sb.from("rw_announcements").delete().eq("id", id); if (r.error) return toast(r.error.message); loadAnnouncements() }
+    function subscribe() { sb.channel("rw-admin-live").on("postgres_changes", { event: "*", schema: "public", table: "rw_sessions" }, () => { loadSessions(); loadStats() }).on("postgres_changes", { event: "*", schema: "public", table: "rw_chat_messages" }, () => { loadChat(); loadStats() }).on("postgres_changes", { event: "*", schema: "public", table: "profiles" }, loadResidents).subscribe() } init();
+
+    async function adminLogout() {
+      await sb.auth.signOut();
+      location.replace("admin-auth.html");
+    }
+  </script>
+</body>
+
+</html>

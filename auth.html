@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>RES WARS | Enter the Res</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Orbitron:wght@700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Rajdhani, sans-serif;
+      background: #0b0a0d;
+      color: #fff
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: radial-gradient(circle at 50% 25%, #55291f, #1c1116 34%, #0b0a0d 68%)
+    }
+
+    .wrap {
+      width: min(100%, 430px)
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 24px
+    }
+
+    .logo {
+      width: 64px;
+      height: 64px;
+      margin: auto;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #ff7a1a;
+      color: #1b0c07;
+      font: 900 15px Orbitron
+    }
+
+    .brand h1 {
+      font: 900 26px Orbitron;
+      margin: 12px 0 4px
+    }
+
+    .brand p {
+      margin: 0;
+      color: #9e8993;
+      font-size: 12px
+    }
+
+    .card {
+      padding: 25px;
+      border-radius: 24px;
+      background: #171217;
+      border: 1px solid #44313a;
+      box-shadow: 0 30px 90px #0008
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 4px;
+      border-radius: 13px;
+      background: #0d0a0d
+    }
+
+    .tab {
+      height: 40px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: #8f7c85;
+      font-weight: 800
+    }
+
+    .tab.active {
+      background: #282027;
+      color: #fff
+    }
+
+    .field {
+      margin-top: 14px
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      color: #a08b95;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .08em
+    }
+
+    .field input {
+      width: 100%;
+      height: 50px;
+      border-radius: 12px;
+      border: 1px solid #44313a;
+      background: #0d0a0d;
+      color: #fff;
+      padding: 0 13px;
+      outline: none
+    }
+
+    .submit {
+      width: 100%;
+      height: 52px;
+      margin-top: 18px;
+      border: 0;
+      border-radius: 13px;
+      background: #ff7a1a;
+      color: #1b0c07;
+      font: 900 10px Orbitron
+    }
+
+    .msg {
+      min-height: 18px;
+      text-align: center;
+      color: #ffad73;
+      font-size: 11px;
+      margin-top: 12px
+    }
+
+    .foot {
+      text-align: center;
+      color: #66545d;
+      font-size: 9px;
+      margin-top: 18px;
+      letter-spacing: .1em
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">RW</div>
+      <h1>RES WARS</h1>
+      <p>Your residence. Your people. Tonight's game.</p>
+    </div>
+    <div class="card">
+      <div class="tabs"><button id="loginTab" class="tab active" onclick="mode('login')">SIGN IN</button><button
+          id="registerTab" class="tab" onclick="mode('register')">CREATE ACCOUNT</button></div>
+      <div id="nameField" class="field" style="display:none"><label>YOUR NAME</label><input id="name"
+          placeholder="Name & Surname"></div>
+      <div class="field"><label>EMAIL</label><input id="email" type="email" placeholder="you@example.com"></div>
+      <div class="field"><label>PASSWORD</label><input id="password" type="password" placeholder="••••••••"></div>
+      <button id="submit" class="submit" onclick="go()">ENTER RES WARS</button>
+      <div id="msg" class="msg"></div>
+    </div>
+    <div class="foot">RES WARS • BUILT FOR RESIDENCE NIGHTS</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const sb = supabase.createClient("https://tkfnypzohdercxljswfe.supabase.co", "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra"); let m = "login"; const $ = x => document.getElementById(x); function mode(x) { m = x; $("nameField").style.display = x === "register" ? "block" : "none"; $("loginTab").classList.toggle("active", x === "login"); $("registerTab").classList.toggle("active", x === "register"); $("submit").textContent = x === "login" ? "ENTER RES WARS" : "CREATE MY ACCOUNT" } async function go() { let email = $("email").value.trim(), password = $("password").value, name = $("name").value.trim(); $("msg").textContent = ""; if (!email || !password) return $("msg").textContent = "Enter your email and password."; if (m === "register") { if (!name) return $("msg").textContent = "Enter your name."; let r = await sb.auth.signUp({ email, password, options: { data: { full_name: name } } }); if (r.error) return $("msg").textContent = r.error.message; $("msg").textContent = "Account created. Check your email if confirmation is required."; return } let r = await sb.auth.signInWithPassword({ email, password }); if (r.error) return $("msg").textContent = r.error.message; location.replace("index.html") } (async () => { const { data: { session } } = await sb.auth.getSession(); if (session?.user) location.replace("index.html") })();</script>
+</body>
+
+</html>
