@@ -1,13 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#090b13"><title>RES WARS | Spin The Bottle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
-html{background:#0b090b}body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
-
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0b0a0d;color:#fff;font-family:Rajdhani,sans-serif}button,input{font:inherit}.hidden{display:none!important}
 :root{--orange:#ff7a1a;--cream:#fff4df;--ink:#0b0a0d;--panel:#171319;--line:#342a31;--muted:#a997a2;--green:#9eff65}
 body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 52% 42%,#47251e 0,#1d1217 27%,#0b0a0d 66%);z-index:-3}
@@ -30,193 +28,6 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.08;bac
 .ready-list{display:grid;gap:7px;margin:16px 0;text-align:left}.ready-person{display:flex;align-items:center;gap:9px;padding:10px;border:1px solid #35282e;border-radius:11px;background:#100d10}.ready-person b{font-size:11px}.ready-person span:last-child{margin-left:auto;font-size:8px;font-weight:900}.rdot{width:8px;height:8px;border-radius:50%;background:#68565e}.rdot.on{background:#94ef6e;box-shadow:0 0 0 4px #94ef6e15}.ready-btn{width:100%;height:45px;border:1px solid #ff7818;border-radius:10px;background:#ff7818;color:#190c06;font-size:10px;font-weight:900}.ready-btn.secondary{margin-top:8px;background:#21181d;border-color:#493640;color:#e8dce1}.ready-btn:disabled{opacity:.35}.big-count{font-size:88px;font-weight:900;line-height:1;color:#ff7818;margin:10px 0}.hidden{display:none!important}
 
 .result-overlay{position:fixed;inset:0;z-index:310;background:#070507f4;display:grid;place-items:center;padding:18px}.result-card{width:min(430px,100%);background:#181217;border:1px solid #5a3b2d;border-radius:22px;padding:23px;text-align:center;box-shadow:0 30px 100px #000e}.result-card .ey{font-size:8px;font-weight:900;letter-spacing:.15em;color:#ff8a38}.result-card h2{font-size:29px;margin:8px 0}.result-xp{font-size:38px;font-weight:900;color:#ff7818;margin:13px 0}.result-card p{font-size:10px;color:#9d8992;line-height:1.55}.result-card button{width:100%;height:44px;border:0;border-radius:10px;background:#ff7818;color:#190c06;font-size:9px;font-weight:900;margin-top:12px}
-</style><link rel="manifest" href="manifest.json">
-<meta name="application-name" content="RES WARS">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="RES WARS">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-<style>
-/* =========================================================
-   RES WARS — INSTALLED APP / MOBILE SCREEN FIT
-   Keeps every page inside the visible PWA viewport.
-========================================================= */
-:root{
-  --rw-safe-top: env(safe-area-inset-top, 0px);
-  --rw-safe-right: env(safe-area-inset-right, 0px);
-  --rw-safe-bottom: env(safe-area-inset-bottom, 0px);
-  --rw-safe-left: env(safe-area-inset-left, 0px);
-  --rw-vh: 100dvh;
-}
-*,*::before,*::after{box-sizing:border-box}
-html{
-  width:100%;
-  max-width:100%;
-  min-height:100%;
-  overflow-x:hidden;
-  overscroll-behavior:none;
-  -webkit-text-size-adjust:100%;
-  text-size-adjust:100%;
-  background:#0b090b;
-}
-body{
-  width:100%;
-  max-width:100vw;
-  min-width:0;
-  min-height:100vh;
-  min-height:100dvh;
-  margin:0;
-  overflow-x:hidden;
-  overscroll-behavior-y:none;
-  padding-left:var(--rw-safe-left)!important;
-  padding-right:var(--rw-safe-right)!important;
-}
-img,video,canvas,svg{max-width:100%;height:auto}
-input,select,textarea,button{max-width:100%;font:inherit}
-main,.wrap,.shell,.app,.page,.content,.container,.game-shell,.game-wrap{
-  width:100%;
-  max-width:100%;
-  min-width:0;
-}
-.modalbg,.invite-modal-bg,.ready-overlay,.result-overlay,.install-sheet{
-  width:100vw;
-  width:100dvw;
-  height:100vh;
-  height:100dvh;
-  max-width:100%;
-  padding-top:max(12px,var(--rw-safe-top))!important;
-  padding-right:max(12px,var(--rw-safe-right))!important;
-  padding-bottom:max(12px,var(--rw-safe-bottom))!important;
-  padding-left:max(12px,var(--rw-safe-left))!important;
-  overflow-y:auto;
-  overscroll-behavior:contain;
-}
-.modal,.invite-modal,.ready-box,.result-card,.install-box{
-  width:min(100%,500px)!important;
-  max-width:100%!important;
-  max-height:calc(100dvh - var(--rw-safe-top) - var(--rw-safe-bottom) - 24px);
-  overflow-y:auto;
-}
-@media (display-mode:standalone){
-  body{min-height:100dvh}
-}
-@media(max-width:760px){
-  body{font-size:16px}
-  .wrap,.shell,.app,.page,.content,.container,.game-shell,.game-wrap{
-    padding-left:max(12px,var(--rw-safe-left));
-    padding-right:max(12px,var(--rw-safe-right));
-  }
-  .grid,.games,.game-grid,.stats,.cards,.two,.cols,.columns{
-    min-width:0;
-    max-width:100%;
-  }
-  .card,.game-card,.panel,.stat,.room-hero,.roommate-card{
-    min-width:0;
-    max-width:100%;
-  }
-}
-
-body{min-height:100dvh!important}
-@media(max-width:760px){
-  .top,.topbar,header{padding-top:max(10px,var(--rw-safe-top))!important}
-  .table,.bottle-stage,.stage,.arena{max-width:100%!important;min-width:0!important}
-  canvas{max-height:55dvh}
-}
-</style>
-<style>
-/* =========================================================
-   RES WARS TRUE APP FIT — hard mobile viewport correction
-========================================================= */
-html,body{
-  width:100%!important;
-  min-width:0!important;
-  max-width:100%!important;
-  margin:0!important;
-  overflow-x:clip!important;
-}
-html{height:100%;background:#0b090b}
-body{
-  min-height:100svh!important;
-  min-height:100dvh!important;
-  padding-left:0!important;
-  padding-right:0!important;
-}
-body>*{max-width:100vw}
-.wrap,.shell,.container,.content,.page,.app,.game-shell,.game-wrap{
-  width:100%!important;
-  min-width:0!important;
-  max-width:100%!important;
-  margin-left:auto!important;
-  margin-right:auto!important;
-}
-@media(max-width:760px){
-  html,body{width:100%!important;min-width:0!important;max-width:100%!important}
-  body{font-size:14px!important}
-  .wrap,.shell,.container,.content,.page,.app,.game-shell,.game-wrap{
-    padding-left:12px!important;
-    padding-right:12px!important;
-  }
-  header,.header,.top,.topbar,.top-bar{
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-    left:0!important;
-    right:0!important;
-  }
-  .grid,.games,.game-grid,.cards,.stats,.two,.cols,.columns,
-  .hero,.hero-grid,.dashboard-grid,.profile-grid,.entrygrid{
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-  }
-  .game-card,.card,.panel,.stat,.member,.roommate-card,.room-hero,
-  .hero-card,.entrycard,.lobbycard{
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-  }
-  h1,h2,h3,p,span,b,small{overflow-wrap:anywhere}
-}
-
-@media(max-width:650px){
-  body{height:100dvh!important;min-height:100dvh!important;overflow:hidden!important}
-  .topbar{box-sizing:border-box!important;width:100%!important;max-width:100%!important}
-  .entry,.lobby,.arena{left:0!important;right:0!important;width:100%!important;max-width:100%!important;overflow:hidden!important}
-  .hud{left:7px!important;right:7px!important;width:auto!important;gap:6px!important}
-  .hudbox{min-width:0!important;width:auto!important;flex:1!important;padding:7px 8px!important}
-  .platform{width:min(88vw,390px)!important;max-width:88vw!important}
-  .bottle-wrap{transform:scale(.68)!important;transform-origin:center center!important}
-  .status{left:10px!important;right:10px!important;width:auto!important;min-width:0!important;transform:none!important;bottom:82px!important}
-  .controls{left:9px!important;right:9px!important;width:auto!important;transform:none!important;bottom:calc(12px + env(safe-area-inset-bottom,0px))!important}
-  .controls button{min-width:0!important;width:auto!important}
-  .ready-overlay,.result-overlay{width:100%!important;height:100dvh!important}
-}
-</style>
-<style id="rw-ios-app-fit-final">
-:root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}
-html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
-body{padding:0!important;margin:0!important;min-height:100dvh!important}
-.topbar,.top,header{
-  box-sizing:border-box!important;
-  padding-top:var(--sat)!important;
-  min-height:calc(58px + var(--sat))!important;
-  height:auto!important;
-}
-.entry,.lobby,.arena{max-width:100vw!important}
-.controls{bottom:calc(12px + var(--sab))!important}
-.ready-overlay,.result-overlay,.modalbg{
-  padding-top:calc(12px + var(--sat))!important;
-  padding-bottom:calc(12px + var(--sab))!important;
-}
-</style>
-<style id="rw-spin-profile-photos">
-.avatar{overflow:hidden!important;position:relative;background:#2a1c22!important}
-.avatar img{width:100%;height:100%;object-fit:cover;display:block}
-.ring-player .avatar{border:2px solid #6a4a56;box-shadow:0 7px 22px #0009}
-.ring-player.selected .avatar{border-color:#ff7818;box-shadow:0 0 0 4px #ff781825,0 8px 30px #000c}
-</style><style id="rw-disable-ready-gate">#readyOverlay{display:none!important}</style><style id="rw-simple-start-ui">
-#lobbyText{font-size:14px!important;line-height:1.5!important;color:#d8c4cd!important;min-height:24px}
 </style></head>
 <body>
 <header class="topbar"><div class="brand"><div class="shield">RW</div><div><strong>RES WARS</strong><small>RESIDENCE NIGHT • SPIN THE BOTTLE</small></div></div><button class="exit" onclick="leaveAndExit()">LEAVE</button></header>
@@ -250,51 +61,10 @@ async function resolveInviteSession(){
  $("entry").classList.remove("hidden");note("Host has not opened the invite yet.");
 }
 async function hostGame(){const r=await sb.rpc("stb_host");if(r.error)return note(r.error.message);session=Array.isArray(r.data)?r.data[0]:r.data;history.replaceState(null,"",`spin.html?session=${session.id}`);await enter()}async function joinGame(){let c=$("joinCode").value.trim().toUpperCase();if(c.length!==6)return note("Enter the 6-character room code.");const r=await sb.rpc("stb_join",{p_code:c});if(r.error)return note(r.error.message);session=Array.isArray(r.data)?r.data[0]:r.data;history.replaceState(null,"",`spin.html?session=${session.id}`);await enter()}
-async function enter(){$("entry").classList.add("hidden");$("hud").classList.remove("hidden");await refresh();subscribe()}async function refresh(){const[s,p]=await Promise.all([sb.from("stb_sessions").select("*").eq("id",session.id).single(),sb.from("stb_players").select("*").eq("session_id",session.id).eq("active",true).order("joined_at")]);if(s.error)return note(s.error.message);session=s.data;players=p.data||[];await loadPlayerPhotos();$("gameCode").textContent=session.code;$("roundNo").textContent=String(session.round_no||0).padStart(2,"0");render();if(session.current_spin_id&&spin?.id!==session.current_spin_id)await loadSpin(session.current_spin_id,false)}
-function render(){
-  if(session?.status==="finished")setTimeout(claimSpinResult,150);
-
-  const host=session.host_user_id===user.id;
-  const hasMinimumPlayers=players.length>=2;
-
-  $("lobby").classList.toggle("hidden",session.status!=="lobby");
-  $("arena").classList.toggle("hidden",session.status!=="live");
-  $("controls").classList.toggle("hidden",!(host&&session.status==="live"));
-
-  $("startBtn").classList.toggle(
-    "hidden",
-    !(host&&session.status==="lobby"&&hasMinimumPlayers)
-  );
-  $("startBtn").disabled=!hasMinimumPlayers;
-
-  if(session.status==="lobby"){
-    $("lobbyText").textContent=host
-      ? (hasMinimumPlayers
-        ? `${players.length} players connected. Start the live game now.`
-        : "Waiting for at least one member to join. Once they join, you can start.")
-      : (hasMinimumPlayers
-        ? `${players.length} players connected. Waiting for the host to start.`
-        : "Connected. Waiting for at least one more member to join.");
-
-    $("players").innerHTML=players.map(p=>`
-      <div class="playercard">
-        <div class="avatar">${playerAvatar(p)}</div>
-        <strong>${esc(p.display_name)}</strong>
-        <span>${p.user_id===session.host_user_id?"HOST":"PLAYER"}</span>
-      </div>
-    `).join("");
-  }
-
-  if(session.status==="live")renderRing();
-}
-function renderRing(){let n=Math.max(players.length,1);$("ring").innerHTML=players.map((p,i)=>{let a=i/n*Math.PI*2-Math.PI/2,x=50+Math.cos(a)*(innerWidth<650?42:36),y=54+Math.sin(a)*(innerWidth<650?34:38);return`<div class="ring-player ${spin?.selected_player_id===p.id?"selected":""}" style="left:${x}%;top:${y}%"><div class="avatar">${playerAvatar(p)}</div><strong>${esc(p.display_name)}</strong>${p.user_id===session.host_user_id?'<div class="hosttag">HOST</div>':''}</div>`}).join("")}
-async function startGame(){
-  if(session.host_user_id!==user.id)return note("Only the host can start the game.");
-  if(players.length<2)return note("At least one other member must join first.");
-  const r=await sb.rpc("stb_start",{p_session:session.id});
-  if(r.error)return note(r.error.message);
-  await refresh();
-}async function spinBottle(){if(spin&&!["completed","skipped"].includes(spin.status))return note("Complete the current round first.");$("spinBtn").disabled=true;const r=await sb.rpc("stb_spin",{p_session:session.id});if(r.error){$("spinBtn").disabled=false;return note(r.error.message)}await loadSpin((Array.isArray(r.data)?r.data[0]:r.data).id,true)}
+async function enter(){$("entry").classList.add("hidden");$("hud").classList.remove("hidden");await refresh();subscribe()}async function refresh(){const[s,p]=await Promise.all([sb.from("stb_sessions").select("*").eq("id",session.id).single(),sb.from("stb_players").select("*").eq("session_id",session.id).eq("active",true).order("joined_at")]);if(s.error)return note(s.error.message);session=s.data;players=p.data||[];$("gameCode").textContent=session.code;$("roundNo").textContent=String(session.round_no||0).padStart(2,"0");render();if(session.current_spin_id&&spin?.id!==session.current_spin_id)await loadSpin(session.current_spin_id,false)}
+function render(){setTimeout(renderReadyGate,0);if(session?.status==="finished")setTimeout(claimSpinResult,150);let host=session.host_user_id===user.id;$("lobby").classList.toggle("hidden",session.status!=="lobby");$("arena").classList.toggle("hidden",session.status!=="live");$("controls").classList.toggle("hidden",!(host&&session.status==="live"));$("startBtn").classList.toggle("hidden",!host);$("startBtn").disabled=players.length<2;$("lobbyText").textContent=host?(players.length<2?"Invite at least one more player to begin.":"Squad ready. Launch the match when everyone is in."):"Connected. Waiting for the host to launch.";$("players").innerHTML=players.map(p=>`<div class="playercard"><div class="avatar">${ini(p.display_name)}</div><strong>${esc(p.display_name)}</strong><span>${p.user_id===session.host_user_id?"HOST":"READY"}</span></div>`).join("");if(session.status==="live")renderRing()}
+function renderRing(){let n=Math.max(players.length,1);$("ring").innerHTML=players.map((p,i)=>{let a=i/n*Math.PI*2-Math.PI/2,x=50+Math.cos(a)*(innerWidth<650?42:36),y=54+Math.sin(a)*(innerWidth<650?34:38);return`<div class="ring-player ${spin?.selected_player_id===p.id?"selected":""}" style="left:${x}%;top:${y}%"><div class="avatar">${ini(p.display_name)}</div><strong>${esc(p.display_name)}</strong>${p.user_id===session.host_user_id?'<div class="hosttag">HOST</div>':''}</div>`}).join("")}
+async function startGame(){const r=await sb.rpc("stb_start",{p_session:session.id});if(r.error)return note(r.error.message);await refresh()}async function spinBottle(){if(spin&&!["completed","skipped"].includes(spin.status))return note("Complete the current round first.");$("spinBtn").disabled=true;const r=await sb.rpc("stb_spin",{p_session:session.id});if(r.error){$("spinBtn").disabled=false;return note(r.error.message)}await loadSpin((Array.isArray(r.data)?r.data[0]:r.data).id,true)}
 async function loadSpin(id,animate=true){const r=await sb.from("stb_spins").select("*").eq("id",id).single();if(r.error)return;spin=r.data;if(spin.challenge_id)challenge=(await sb.from("stb_challenges").select("*").eq("id",spin.challenge_id).maybeSingle()).data;renderRing();if(["spinning","choosing"].includes(spin.status)){let i=Math.max(0,players.findIndex(p=>p.id===spin.selected_player_id)),target=i/Math.max(players.length,1)*360;if(animate){rotation=Math.ceil((rotation+Number(spin.rotation_degrees||1800)-target)/360)*360+target;$("status").textContent="SPINNING...";requestAnimationFrame(()=>$("bottle").style.transform=`rotate(${rotation}deg)`);clearTimeout(timer);timer=setTimeout(showChoice,5300)}else showChoice()}else if(spin.status==="challenge")showChallenge();else{$("choiceModal").classList.add("hidden");$("challengeModal").classList.add("hidden");if($("spinBtn"))$("spinBtn").disabled=false;$("status").textContent="ROUND COMPLETE // READY"}}
 function selected(){return players.find(p=>p.id===spin?.selected_player_id)}function showChoice(){let p=selected();if(!p)return;$("status").textContent=`TARGET: ${p.display_name.toUpperCase()}`;$("chosen").textContent=p.display_name;let mine=p.user_id===user.id;$("choices").classList.toggle("hidden",!mine);$("choiceCopy").textContent=mine?"The bottle chose you. Make your choice.":`Waiting for ${p.display_name} to choose Truth or Dare.`;$("choiceModal").classList.remove("hidden")}
 async function choose(c){const r=await sb.rpc("stb_choose",{p_spin:spin.id,p_choice:c});if(r.error)return note(r.error.message);$("choiceModal").classList.add("hidden");spin=Array.isArray(r.data)?r.data[0]:r.data;await loadSpin(spin.id,false)}let challengeTimer=null;
@@ -348,24 +118,5 @@ async function claimSpinResult(){
  const x=r.data||{};$("resultHeading").textContent="MATCH COMPLETE";$("resultXp").textContent=`+${x.xp_earned||0} XP`;
  $("resultCopy").textContent=x.already_awarded?"This match was already saved to your profile.":`Spin the Bottle participation saved • Games played: ${x.games_played||0} • Total XP: ${x.xp||0}`;
  $("resultOverlay").classList.remove("hidden");await sb.rpc("rw_set_presence",{p_status:"online",p_game:null,p_session:null});
-}
-</script><script>
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error));}
-</script>
-<script id="rw-spin-profile-photo-js">
-const rwPhotoCache=new Map();
-function playerAvatar(p){
- const url=p?.avatar_url||rwPhotoCache.get(p?.user_id);
- return url?`<img src="${esc(url)}" alt="${esc(p.display_name||"Player")}" loading="eager">`:ini(p?.display_name||"Player");
-}
-async function loadPlayerPhotos(){
- const ids=[...new Set((players||[]).map(p=>p.user_id).filter(Boolean))];
- const missing=ids.filter(id=>!rwPhotoCache.has(id));
- if(missing.length){
-   const r=await sb.from("profiles").select("id,avatar_url").in("id",missing);
-   if(!r.error)(r.data||[]).forEach(x=>rwPhotoCache.set(x.id,x.avatar_url||null));
-   missing.forEach(id=>{if(!rwPhotoCache.has(id))rwPhotoCache.set(id,null)});
- }
- players=(players||[]).map(p=>({...p,avatar_url:rwPhotoCache.get(p.user_id)||p.avatar_url||null}));
 }
 </script></body></html>
