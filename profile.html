@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b090b"><title>RES WARS | Profile</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b090b;--panel:#171217;--panel2:#21181d;--line:#382a31;--o:#ff7818;--text:#f8efeb;--mut:#a18c95;--green:#9ff06c;--red:#ff6677}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:DM Sans,sans-serif}button,input,textarea{font:inherit}.hidden{display:none!important}
+.top{height:70px;border-bottom:1px solid #281e23;display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;background:#0b090bf5;z-index:20}.brand{display:flex;align-items:center;gap:10px}.logo{width:40px;height:40px;border-radius:11px;background:var(--o);color:#1b0d07;display:grid;place-items:center;font:800 11px Manrope}.brand b{font:800 14px Manrope}.brand small{display:block;color:#806d76;font-size:9px}.back{height:40px;border:1px solid #44323a;border-radius:10px;background:#171217;color:#e4d5da;padding:0 13px;font-size:11px;font-weight:800}
+.wrap{width:min(1120px,calc(100% - 28px));margin:26px auto 60px}.hero{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;padding:24px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(120deg,#191216,#120e11)}
+.avatar{width:104px;height:104px;border-radius:26px;border:2px solid #5a4031;background:#291d22;display:grid;place-items:center;overflow:hidden;font:800 26px Manrope;color:#ffad75}.avatar img{width:100%;height:100%;object-fit:cover}.identity h1{font:800 clamp(26px,4vw,42px) Manrope;margin:0;letter-spacing:-.045em}.identity p{margin:5px 0;color:var(--mut);font-size:13px}.teamline{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.pill{padding:6px 9px;border-radius:999px;background:#251b20;border:1px solid #3c2d34;color:#cbb8bf;font-size:10px;font-weight:800}.pill.hot{background:#321d12;border-color:#714127;color:#ffab70}.level{min-width:125px;text-align:center;padding:15px;border-left:1px solid #392a31}.level span{font-size:10px;color:#9b8790;font-weight:800}.level b{display:block;font:800 31px Manrope;color:var(--o);margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}.stat,.card{border:1px solid var(--line);background:var(--panel);border-radius:15px}.stat{padding:17px}.stat span{font-size:10px;color:#9b8790;font-weight:800}.stat b{display:block;font:800 27px Manrope;margin-top:5px}
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px}.card{padding:18px;margin-bottom:14px}.title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.title h2{font:800 17px Manrope;margin:0}.title span{font-size:10px;color:#806d76}.btn{height:40px;padding:0 13px;border:1px solid #493640;border-radius:9px;background:#21181d;color:#eee0e5;font-size:10px;font-weight:800}.btn.primary{background:var(--o);border-color:var(--o);color:#1b0d07}.btn.red{background:#35171d;border-color:#682b37;color:#ff9dac}
+.room{display:grid;grid-template-columns:65px 1fr;gap:13px;align-items:center}.teamlogo{width:65px;height:65px;border-radius:16px;background:#2a1d22;border:1px solid #49343e;display:grid;place-items:center;font:800 15px Manrope;color:#ff9c59;overflow:hidden}.teamlogo img{width:100%;height:100%;object-fit:cover}.room h3{margin:0;font:800 17px Manrope}.room p{font-size:11px;color:#9c8790;margin:4px 0}.code{margin-top:12px;padding:11px;border:1px dashed #64432f;border-radius:10px;background:#17100d;display:flex;justify-content:space-between;gap:10px;align-items:center}.code span{font-size:10px;color:#a99099}.code b{font:800 15px Manrope;letter-spacing:.12em;color:#ffad75}
+.member{display:flex;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid #2a2025}.member:last-child{border:0}.mini{width:38px;height:38px;border-radius:50%;background:#2b1e23;display:grid;place-items:center;font-size:10px;font-weight:800}.member b{font-size:12px}.member small{display:block;color:#806d76;font-size:9px;margin-top:2px}
+.achievement{padding:11px 0;border-bottom:1px solid #2a2025}.achievement:last-child{border:0}.achievement b{font-size:12px}.achievement p{font-size:10px;color:#8d7982;margin:3px 0}.achievement.locked{opacity:.4}
+.history{display:grid;grid-template-columns:1fr auto auto;gap:10px;padding:11px 0;border-bottom:1px solid #2a2025;align-items:center}.history:last-child{border:0}.history b{font-size:11px}.history small{display:block;color:#806d76;font-size:9px}.result{font-size:9px;font-weight:800}.win{color:var(--green)}.loss{color:#a18c95}.xp{font-size:10px;color:#ffad75;font-weight:800}
+.empty{padding:25px 10px;text-align:center;color:#806d76;font-size:11px;line-height:1.6}
+.modalbg{position:fixed;inset:0;background:#050405e8;z-index:80;display:grid;place-items:center;padding:15px}.modal{width:min(520px,100%);max-height:90vh;overflow:auto;background:#171217;border:1px solid #503943;border-radius:18px;padding:20px}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.modalhead h3{font:800 19px Manrope;margin:0}.close{width:35px;height:35px;border-radius:50%;border:1px solid #44323a;background:#0d0a0d;color:#fff;font-size:17px}.fields{display:grid;gap:11px}.field label{display:block;font-size:9px;color:#a08b94;font-weight:800;margin-bottom:5px}.input{width:100%;height:45px;border:1px solid #493640;border-radius:10px;background:#0d0a0d;color:#fff;padding:0 11px;outline:none;font-size:13px}textarea.input{height:90px;padding-top:10px}.split{display:grid;grid-template-columns:1fr 1fr;gap:9px}.toast{position:fixed;right:15px;bottom:15px;z-index:100;padding:11px 14px;border:1px solid #503943;border-radius:10px;background:#21181d;font-size:11px}
+
+.profile-banner{margin-bottom:14px;padding:16px 18px;border:1px solid #4b3328;border-radius:15px;background:linear-gradient(110deg,#21130e,#171217);display:flex;align-items:center;justify-content:space-between;gap:14px}
+.profile-banner b{font:800 13px Manrope}.profile-banner p{font-size:10px;color:#a18c95;margin:3px 0 0}.online{display:inline-flex;align-items:center;gap:6px;color:#baf59c;font-size:9px;font-weight:800}.online:before{content:"";width:7px;height:7px;border-radius:50%;background:#8eea65;box-shadow:0 0 0 4px #8eea6515}
+.photo-picker{display:flex;align-items:center;gap:13px;padding:12px;border:1px solid #3d2d34;border-radius:12px;background:#100d10}.photo-preview{width:68px;height:68px;border-radius:18px;overflow:hidden;background:#2a1d22;border:1px solid #5a4031;display:grid;place-items:center;font:800 16px Manrope;color:#ffad75;flex:none}.photo-preview img{width:100%;height:100%;object-fit:cover}.photo-actions{display:grid;gap:5px}.photo-actions small{font-size:9px;color:#806d76}
+.room-hero{position:relative;overflow:hidden;padding:18px;border:1px solid #4b342d;border-radius:15px;background:linear-gradient(125deg,#21140f,#171217 55%)}.room-hero:after{content:"TEAM";position:absolute;right:-8px;bottom:-24px;font:800 58px Manrope;color:#ffffff05;letter-spacing:-.07em}.room-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.room-meta span{font-size:9px;color:#c5b1b9;border:1px solid #49353e;background:#171115;border-radius:999px;padding:5px 8px}
+.roommate-title{font-size:9px;font-weight:800;color:#806d76;letter-spacing:.08em;margin:16px 0 4px}.roommate-card{display:flex;align-items:center;gap:11px;padding:12px;border:1px solid #3c2d34;border-radius:12px;background:#110d10;margin-top:8px}.roommate-card.you{border-color:#65402a;background:#19110d}.roommate-card .mini{width:43px;height:43px}.roommate-card b{font-size:12px}.roommate-card small{display:block;font-size:9px;color:#88747d;margin-top:2px}.member-tag{margin-left:auto;font-size:8px;font-weight:800;color:#ffad75}
+
+.crop-stage{height:min(58vh,470px);background:#080608;border:1px solid #3d2d34;border-radius:14px;overflow:hidden;display:grid;place-items:center}
+.crop-stage img{display:block;max-width:100%}
+.crop-help{font-size:10px;color:#9b8790;line-height:1.5;margin:10px 0 14px}
+.crop-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.btn.loading{pointer-events:none;opacity:.75}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid #5f2d0f;border-top-color:#160b05;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-3px;margin-right:7px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.save-status{display:none;margin-top:9px;padding:9px 10px;border-radius:9px;border:1px solid #4b3429;background:#1a110d;color:#ffb47d;font-size:10px}
+.save-status.show{display:block}
+@media(max-width:760px){.hero{grid-template-columns:auto 1fr;padding:17px;gap:13px}.avatar{width:76px;height:76px;border-radius:20px}.level{grid-column:1/-1;border-left:0;border-top:1px solid #392a31;display:flex;align-items:center;justify-content:space-between;text-align:left;padding:12px 0 0}.level b{font-size:24px}.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.top{padding:0 12px}.wrap{margin-top:15px}.identity h1{font-size:25px}.identity p{font-size:11px}}
+</style></head><body>
+<header class="top"><div class="brand"><div class="logo">RW</div><div><b>RES WARS</b><small>Resident profile</small></div></div><button class="back" onclick="location.href='index.html'">BACK TO GAMES</button></header>
+<main class="wrap">
+<div class="profile-banner"><div><b>RESIDENT IDENTITY</b><p>Your profile, room team and roommate are connected to your RES WARS account.</p></div><span class="online">ONLINE</span></div>
+<section class="hero"><div id="avatar" class="avatar">RW</div><div class="identity"><h1 id="name">Loading profile...</h1><p id="student">Resident</p><div class="teamline"><span id="residencePill" class="pill">RESIDENCE</span><span id="roomPill" class="pill hot">NO ROOM YET</span></div></div><div class="level"><span>RES WARS LEVEL</span><b id="level">1</b></div></section>
+<section class="stats"><div class="stat"><span>XP</span><b id="xp">0</b></div><div class="stat"><span>WINS</span><b id="wins">0</b></div><div class="stat"><span>GAMES PLAYED</span><b id="played">0</b></div><div class="stat"><span>WIN RATE</span><b id="rate">0%</b></div></section>
+<div class="grid"><div>
+<section class="card"><div class="title"><h2>Room & team</h2><button id="teamAction" class="btn primary">SET UP TEAM</button></div><div id="roomBox"></div></section>
+<section class="card"><div class="title"><h2>Recent battles</h2><span>GAME HISTORY</span></div><div id="history"></div></section>
+</div><div>
+<section class="card"><div class="title"><h2>Resident profile</h2><button class="btn" onclick="openProfile()">EDIT PROFILE</button></div><div id="profileInfo"></div></section>
+<section class="card"><div class="title"><h2>Achievements</h2><span id="achievementCount">0 UNLOCKED</span></div><div id="achievements"></div></section>
+</div></div></main>
+
+<div id="profileModal" class="modalbg hidden"><div class="modal"><div class="modalhead"><h3>Edit profile</h3><button class="close" onclick="closeModal('profileModal')">×</button></div><div class="fields"><div class="field"><label>FULL NAME</label><input id="editName" class="input"></div><div class="field"><label>STUDENT NUMBER</label><input id="editStudent" class="input"></div><div class="field"><label>PROFILE PICTURE</label>
+<div class="photo-picker">
+  <div id="photoPreview" class="photo-preview">RW</div>
+  <div class="photo-actions">
+    <input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+    <button type="button" class="btn" onclick="$('avatarFile').click()">CHOOSE PICTURE</button>
+    <small>JPG, PNG or WEBP • max 5 MB</small>
+  </div>
+</div></div><div class="field"><label>SHORT BIO</label><textarea id="editBio" class="input" maxlength="180"></textarea></div><button id="saveProfileBtn" class="btn primary" onclick="saveProfile()">SAVE PROFILE</button><div id="saveStatus" class="save-status">Saving your RES WARS profile...</div></div></div></div>
+
+<div id="teamModal" class="modalbg hidden"><div class="modal"><div class="modalhead"><h3>Room & team setup</h3><button class="close" onclick="closeModal('teamModal')">×</button></div><div id="teamSetup"><div class="fields"><div class="field"><label>YOUR ROOM NUMBER</label><input id="newRoom" class="input" placeholder="e.g. 12"></div><div class="field"><label>TEAM NAME</label><input id="newTeam" class="input" placeholder="e.g. The Destroyers"></div><button class="btn primary" onclick="createRoom()">CREATE MY ROOM TEAM</button><div style="text-align:center;color:#806d76;font-size:10px">OR JOIN YOUR ROOMMATE</div><div class="field"><label>ROOMMATE INVITE CODE</label><input id="joinCode" class="input" maxlength="8" placeholder="8-character code"></div><button class="btn" onclick="joinRoom()">JOIN ROOM TEAM</button></div></div>
+<div id="teamEdit" class="fields hidden"><div class="field"><label>TEAM NAME</label><input id="teamNameEdit" class="input"></div><div class="field"><label>TEAM LOGO IMAGE URL (OPTIONAL)</label><input id="teamLogoEdit" class="input" placeholder="https://..."></div><button class="btn primary" onclick="updateTeam()">SAVE TEAM</button><button class="btn red" onclick="leaveRoom()">LEAVE ROOM / TEAM</button></div></div></div>
+
+<div id="cropModal" class="modalbg hidden"><div class="modal">
+ <div class="modalhead"><h3>Crop profile picture</h3><button class="close" onclick="cancelCrop()">×</button></div>
+ <div class="crop-stage"><img id="cropImage" alt="Crop profile picture"></div>
+ <p class="crop-help">Drag the picture to position your face. Pinch or scroll to zoom. The highlighted square is what RES WARS will save.</p>
+ <div class="crop-actions"><button class="btn" type="button" onclick="cancelCrop()">CANCEL</button><button class="btn primary" type="button" onclick="applyCrop()">USE THIS CROP</button></div>
+</div></div>
+<div id="toast" class="toast hidden"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const sb=supabase.createClient("https://tkfnypzohdercxljswfe.supabase.co","sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra"),$=id=>document.getElementById(id);let me,profile,room,members=[],selectedAvatarFile=null,cropper=null,cropSourceUrl=null;
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])),ini=n=>(n||"RW").split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase();
+function toast(m){$("toast").textContent=m;$("toast").classList.remove("hidden");clearTimeout(toast.t);toast.t=setTimeout(()=>$("toast").classList.add("hidden"),2600)}function closeModal(id){$(id).classList.add("hidden")}
+$("avatarFile").addEventListener("change",e=>{
+ const f=e.target.files?.[0];if(!f)return;
+ if(!["image/jpeg","image/png","image/webp"].includes(f.type)){e.target.value="";return toast("Choose a JPG, PNG or WEBP image")}
+ if(f.size>5*1024*1024){e.target.value="";return toast("Picture must be smaller than 5 MB")}
+ if(cropSourceUrl)URL.revokeObjectURL(cropSourceUrl);
+ cropSourceUrl=URL.createObjectURL(f);
+ $("cropImage").src=cropSourceUrl;$("cropModal").classList.remove("hidden");
+ setTimeout(()=>{
+   if(cropper)cropper.destroy();
+   cropper=new Cropper($("cropImage"),{aspectRatio:1,viewMode:1,dragMode:"move",autoCropArea:.88,responsive:true,background:false,movable:true,zoomable:true,rotatable:false,scalable:false});
+ },60);
+});
+function cancelCrop(){
+ if(cropper){cropper.destroy();cropper=null}
+ if(cropSourceUrl){URL.revokeObjectURL(cropSourceUrl);cropSourceUrl=null}
+ $("avatarFile").value="";$("cropModal").classList.add("hidden");
+}
+function applyCrop(){
+ if(!cropper)return;
+ const canvas=cropper.getCroppedCanvas({width:700,height:700,imageSmoothingEnabled:true,imageSmoothingQuality:"high"});
+ canvas.toBlob(blob=>{
+   if(!blob)return toast("Could not crop that picture");
+   selectedAvatarFile=new File([blob],"profile.jpg",{type:"image/jpeg"});
+   $("photoPreview").innerHTML=`<img src="${URL.createObjectURL(blob)}" alt="Selected cropped profile picture">`;
+   if(cropper){cropper.destroy();cropper=null}
+   if(cropSourceUrl){URL.revokeObjectURL(cropSourceUrl);cropSourceUrl=null}
+   $("cropModal").classList.add("hidden");$("avatarFile").value="";
+   toast("Crop ready. Press Save Profile.");
+ },"image/jpeg",.9);
+}
+async function init(){let{data:{session}}=await sb.auth.getSession();if(!session?.user)return location.replace("auth.html");me=session.user;await loadAll();subscribe()}
+async function loadAll(){let{data:p,error}=await sb.from("profiles").select("*").eq("id",me.id).maybeSingle();if(error)return toast(error.message);profile=p||{};room=null;members=[];let{data:membership}=await sb.from("rw_room_members").select("room_id").eq("user_id",me.id).maybeSingle();if(membership){let{data:r}=await sb.from("rw_rooms").select("*").eq("id",membership.room_id).maybeSingle();room=r;if(room){let{data:ms}=await sb.from("rw_room_members").select("user_id,joined_at").eq("room_id",room.id);members=ms||[];if(members.length){let ids=members.map(x=>x.user_id),{data:ps}=await sb.from("profiles").select("*").in("id",ids);members=members.map(m=>({...m,profile:(ps||[]).find(p=>p.id===m.user_id)}))}await sb.rpc("rw_refresh_room_totals",{p_room:room.id})}}render();loadHistory();loadAchievements()}
+function render(){let n=profile.full_name||me.email?.split("@")[0]||"Resident",x=profile.xp||0,w=profile.wins||0,g=profile.games_played||0;$("name").textContent=n;$("student").textContent=profile.student_number?`Student ${profile.student_number}`:"RES WARS Resident";$("residencePill").textContent=profile.residence_id?"RESIDENCE MEMBER":"RESIDENCE";$("roomPill").textContent=room?`ROOM ${room.room_number}`:"NO ROOM YET";$("xp").textContent=x.toLocaleString();$("wins").textContent=w;$("played").textContent=g;$("rate").textContent=g?Math.round(w/g*100)+"%":"0%";$("level").textContent=Math.max(1,Math.floor(x/500)+1);$("avatar").innerHTML=profile.avatar_url?`<img src="${esc(profile.avatar_url)}" alt="">`:ini(n);$("photoPreview").innerHTML=profile.avatar_url?`<img src="${esc(profile.avatar_url)}" alt="">`:ini(n);$("profileInfo").innerHTML=`<div class="member"><div class="mini">${ini(n)}</div><div><b>${esc(n)}</b><small>${esc(profile.student_number||"Student number not added")}</small></div></div><p style="font-size:11px;color:#9c8790;line-height:1.6">${esc(profile.bio||"No bio yet. Add a short profile bio.")}</p>`;$("editName").value=profile.full_name||"";$("editStudent").value=profile.student_number||"";$("editBio").value=profile.bio||"";$("teamAction").textContent=room?"MANAGE TEAM":"SET UP TEAM";renderRoom()}
+function renderRoom(){
+ if(!room){
+   $("roomBox").innerHTML='<div class="empty"><b style="color:#e8d9df">Your room team is not connected yet.</b><br><br>Create your room team, then give the generated invite code to your roommate. Once they join, their name and profile will appear here automatically.</div>';
+   return;
+ }
+ let tn=room.team_name||`Room ${room.room_number}`;
+ let mate=members.find(m=>m.user_id!==me.id), self=members.find(m=>m.user_id===me.id);
+ let memberCard=(m,isYou=false)=>{
+   if(!m)return `<div class="roommate-card"><div class="mini">?</div><div><b>Waiting for roommate</b><small>Share the invite code below so your roommate can join.</small></div><span class="member-tag">OPEN</span></div>`;
+   let pn=m.profile?.full_name||"Resident";
+   return `<div class="roommate-card ${isYou?"you":""}"><div class="mini">${m.profile?.avatar_url?`<img src="${esc(m.profile.avatar_url)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:ini(pn)}</div><div><b>${esc(pn)}</b><small>${esc(m.profile?.student_number||"RES WARS resident")}</small></div><span class="member-tag">${isYou?"YOU":"ROOMMATE"}</span></div>`
+ };
+ $("roomBox").innerHTML=`<div class="room-hero"><div class="room"><div class="teamlogo">${room.team_logo_url?`<img src="${esc(room.team_logo_url)}">`:ini(tn)}</div><div><h3>${esc(tn)}</h3><p>Your official RES WARS room team</p><div class="room-meta"><span>ROOM ${esc(room.room_number)}</span><span>${members.length}/2 MEMBERS</span><span>${(room.total_xp||0).toLocaleString()} TEAM XP</span><span>${room.wins||0} WINS</span></div></div></div></div>
+ <div class="roommate-title">ROOM MEMBERS</div>${memberCard(self,true)}${memberCard(mate,false)}
+ <div class="code"><span>ROOMMATE INVITE CODE</span><b>${esc(room.invite_code)}</b></div>`;
+ $("teamNameEdit").value=room.team_name||"";$("teamLogoEdit").value=room.team_logo_url||""
+}
+$("teamAction").onclick=()=>{if(room){$("teamSetup").classList.add("hidden");$("teamEdit").classList.remove("hidden")}else{$("teamSetup").classList.remove("hidden");$("teamEdit").classList.add("hidden")}$("teamModal").classList.remove("hidden")};function openProfile(){$("profileModal").classList.remove("hidden")}
+async function saveProfile(){
+ const btn=$("saveProfileBtn"),status=$("saveStatus");
+ let row={full_name:$("editName").value.trim(),student_number:$("editStudent").value.trim(),bio:$("editBio").value.trim()||null};
+ if(!row.full_name)return toast("Full name is required");
+ if(btn.disabled)return;
+ btn.disabled=true;btn.classList.add("loading");btn.innerHTML='<span class="spinner"></span>SAVING...';
+ status.classList.add("show");status.textContent=selectedAvatarFile?"Uploading your cropped picture...":"Saving your profile...";
+ try{
+   if(selectedAvatarFile){
+     if(selectedAvatarFile.size>5*1024*1024)throw new Error("Picture must be smaller than 5 MB");
+     const path=`${me.id}/profile-${Date.now()}.jpg`;
+     const up=await sb.storage.from("avatars").upload(path,selectedAvatarFile,{upsert:true,contentType:"image/jpeg"});
+     if(up.error)throw up.error;
+     status.textContent="Picture uploaded. Updating your profile...";
+     const pub=sb.storage.from("avatars").getPublicUrl(path);
+     row.avatar_url=pub.data.publicUrl;
+   }
+   const {error}=await sb.from("profiles").update(row).eq("id",me.id);
+   if(error)throw error;
+   status.textContent="Profile saved successfully.";
+   selectedAvatarFile=null;
+   await loadAll();
+   setTimeout(()=>{closeModal("profileModal");status.classList.remove("show")},450);
+   toast("Profile saved");
+ }catch(err){
+   status.textContent=err.message||"Could not save profile.";
+   toast(err.message||"Could not save profile");
+ }finally{
+   btn.disabled=false;btn.classList.remove("loading");btn.textContent="SAVE PROFILE";
+ }
+}
+async function createRoom(){let nr=$("newRoom").value.trim(),nt=$("newTeam").value.trim();if(!nr)return toast("Enter your room number");let{error}=await sb.rpc("rw_create_room",{p_room_number:nr,p_team_name:nt||null});if(error)return toast(error.message);closeModal("teamModal");toast("Room team created");loadAll()}
+async function joinRoom(){let c=$("joinCode").value.trim();if(!c)return toast("Enter the invite code");let{error}=await sb.rpc("rw_join_room",{p_invite_code:c});if(error)return toast(error.message);closeModal("teamModal");toast("Joined your roommate's team");loadAll()}
+async function updateTeam(){let{error}=await sb.rpc("rw_update_team",{p_team_name:$("teamNameEdit").value.trim(),p_team_logo_url:$("teamLogoEdit").value.trim()||null});if(error)return toast(error.message);closeModal("teamModal");toast("Team updated");loadAll()}
+async function leaveRoom(){if(!confirm("Leave this room/team?"))return;let{error}=await sb.rpc("rw_leave_room");if(error)return toast(error.message);closeModal("teamModal");toast("You left the room/team");loadAll()}
+async function loadHistory(){let{data,error}=await sb.from("rw_game_history").select("*").eq("user_id",me.id).order("played_at",{ascending:false}).limit(8);if(error){$("history").innerHTML='<div class="empty">Game history will appear after the SQL is installed.</div>';return}let a=data||[];$("history").innerHTML=a.length?a.map(h=>`<div class="history"><div><b>${esc((h.game_slug||"game").replaceAll("-"," ").toUpperCase())}</b><small>${new Date(h.played_at).toLocaleDateString()}</small></div><span class="result ${h.won?"win":"loss"}">${h.won?"WIN":"PLAYED"}</span><span class="xp">+${h.xp_earned||0} XP</span></div>`).join(""):'<div class="empty">No completed battles yet. Your recent games will appear here.</div>'}
+async function loadAchievements(){let[{data:all},{data:mine}]=await Promise.all([sb.from("rw_achievements").select("*").order("xp_reward"),sb.from("rw_user_achievements").select("achievement_id,unlocked_at").eq("user_id",me.id)]);let owned=new Set((mine||[]).map(x=>x.achievement_id));$("achievementCount").textContent=`${owned.size} UNLOCKED`;$("achievements").innerHTML=(all||[]).map(a=>`<div class="achievement ${owned.has(a.id)?"":"locked"}"><b>${owned.has(a.id)?"UNLOCKED • ":"LOCKED • "}${esc(a.name)}</b><p>${esc(a.description)} • ${a.xp_reward} XP reward</p></div>`).join("")}
+function subscribe(){sb.channel("profile-live-"+me.id).on("postgres_changes",{event:"*",schema:"public",table:"rw_room_members"},loadAll).on("postgres_changes",{event:"*",schema:"public",table:"rw_rooms"},loadAll).on("postgres_changes",{event:"*",schema:"public",table:"rw_game_history"},loadHistory).subscribe()}init();
+</script></body></html>
