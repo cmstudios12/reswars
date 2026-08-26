@@ -1,3637 +1,574 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"
->
-
-<meta name="theme-color" content="#08090c">
-<link rel="manifest" href="/manifest.json">
-<meta name="application-name" content="RES WARS">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="RES WARS">
-<link rel="apple-touch-icon" href="/icon-192.png">
-
-<title>Battle Arena | RES WARS</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-  rel="stylesheet"
->
-
-<style>
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-:root{
-  --bg:#08090c;
-  --panel:#0e1015;
-  --panel2:#13161c;
-  --panel3:#181b22;
-  --border:#242832;
-  --border2:#303540;
-
-  --text:#f5f7fb;
-  --muted:#8e95a3;
-  --muted2:#5f6672;
-
-  --lime:#dfff00;
-  --lime2:#ecff55;
-
-  --success:#63e69d;
-  --danger:#ff6565;
-  --warning:#ffc95c;
-}
-
-html{
-  background:var(--bg);
-}
-
-body{
-  min-height:100vh;
-
-  background:
-    radial-gradient(
-      circle at 50% -10%,
-      rgba(223,255,0,.06),
-      transparent 28%
-    ),
-    var(--bg);
-
-  color:var(--text);
-
-  font-family:Inter,sans-serif;
-
-  -webkit-font-smoothing:antialiased;
-
-  overflow-x:hidden;
-}
-
-button{
-  font:inherit;
-  cursor:pointer;
-}
-
-.hidden{
-  display:none!important;
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-header{
-  height:70px;
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  padding:0 28px;
-
-  position:sticky;
-  top:0;
-
-  z-index:100;
-
-  border-bottom:1px solid var(--border);
-
-  background:rgba(8,9,12,.97);
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:11px;
-}
-
-.logo{
-  width:42px;
-  height:42px;
-
-  display:grid;
-  place-items:center;
-
-  border-radius:9px;
-
-  background:var(--lime);
-  color:#08090c;
-
-  font-size:13px;
-  font-weight:900;
-}
-
-.brand strong{
-  display:block;
-
-  font-size:13px;
-  font-weight:900;
-
-  letter-spacing:.05em;
-}
-
-.brand small{
-  display:block;
-
-  margin-top:3px;
-
-  color:var(--muted);
-
-  font-size:7px;
-  font-weight:800;
-
-  letter-spacing:.15em;
-}
-
-.header-right{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.live-badge{
-  display:flex;
-  align-items:center;
-  gap:7px;
-
-  padding:8px 11px;
-
-  border:1px solid rgba(255,101,101,.2);
-  border-radius:30px;
-
-  background:rgba(255,101,101,.04);
-  color:#ff8c8c;
-
-  font-size:7px;
-  font-weight:900;
-
-  letter-spacing:.1em;
-}
-
-.live-dot{
-  width:6px;
-  height:6px;
-
-  border-radius:50%;
-
-  background:#ff6565;
-
-  animation:pulse 1.2s infinite;
-}
-
-@keyframes pulse{
-
-  0%,100%{
-    opacity:1;
-  }
-
-  50%{
-    opacity:.35;
-  }
-
-}
-
-.exit-btn{
-  padding:9px 11px;
-
-  border:1px solid var(--border);
-  border-radius:8px;
-
-  background:var(--panel);
-  color:var(--muted);
-
-  font-size:8px;
-  font-weight:800;
-}
-
-
-/* =========================================================
-   PAGE
-========================================================= */
-
-.page{
-  width:min(100%,1050px);
-
-  margin:auto;
-
-  padding:34px 20px 70px;
-}
-
-
-/* =========================================================
-   BATTLE TOP
-========================================================= */
-
-.battle-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  gap:20px;
-
-  margin-bottom:22px;
-}
-
-.battle-info .eyebrow{
-  color:var(--lime);
-
-  font-size:8px;
-  font-weight:900;
-
-  letter-spacing:.18em;
-}
-
-.battle-info h1{
-  margin-top:8px;
-
-  font-size:29px;
-
-  letter-spacing:-.045em;
-}
-
-.battle-info p{
-  margin-top:7px;
-
-  color:var(--muted);
-
-  font-size:9px;
-}
-
-.team-mini{
-  text-align:right;
-}
-
-.team-mini small{
-  color:var(--muted2);
-
-  font-size:7px;
-  font-weight:900;
-
-  letter-spacing:.12em;
-}
-
-.team-mini strong{
-  display:block;
-
-  margin-top:5px;
-
-  font-size:12px;
-}
-
-.team-mini span{
-  display:block;
-
-  margin-top:4px;
-
-  color:var(--muted);
-
-  font-size:8px;
-}
-
-
-/* =========================================================
-   PROGRESS
-========================================================= */
-
-.progress-card{
-  padding:16px 18px;
-
-  display:grid;
-  grid-template-columns:1fr auto;
-
-  gap:20px;
-
-  align-items:center;
-
-  margin-bottom:16px;
-
-  border:1px solid var(--border);
-  border-radius:11px;
-
-  background:var(--panel);
-}
-
-.progress-meta{
-  display:flex;
-  align-items:center;
-  gap:17px;
-}
-
-.progress-item small{
-  display:block;
-
-  color:var(--muted2);
-
-  font-size:7px;
-  font-weight:900;
-
-  letter-spacing:.1em;
-}
-
-.progress-item strong{
-  display:block;
-
-  margin-top:5px;
-
-  font-size:12px;
-}
-
-.score{
-  color:var(--lime);
-}
-
-.progress-bar{
-  width:100%;
-
-  height:4px;
-
-  margin-top:12px;
-
-  overflow:hidden;
-
-  border-radius:10px;
-
-  background:#20242c;
-}
-
-.progress-fill{
-  height:100%;
-
-  width:0%;
-
-  border-radius:inherit;
-
-  background:var(--lime);
-
-  transition:width .4s ease;
-}
-
-
-/* =========================================================
-   ARENA
-========================================================= */
-
-.arena{
-  position:relative;
-
-  min-height:520px;
-
-  overflow:hidden;
-
-  border:1px solid var(--border);
-  border-radius:16px;
-
-  background:
-    radial-gradient(
-      circle at 50% 15%,
-      rgba(223,255,0,.06),
-      transparent 32%
-    ),
-    linear-gradient(
-      180deg,
-      #111319,
-      #0d0f13
-    );
-}
-
-.arena::after{
-  content:"RW";
-
-  position:absolute;
-
-  right:-40px;
-  bottom:-75px;
-
-  font-size:270px;
-  font-weight:900;
-
-  letter-spacing:-.13em;
-
-  color:rgba(223,255,0,.018);
-
-  pointer-events:none;
-}
-
-.arena-inner{
-  position:relative;
-
-  z-index:2;
-
-  width:min(100%,760px);
-
-  margin:auto;
-
-  padding:45px 30px;
-}
-
-
-/* =========================================================
-   WAITING STATE
-========================================================= */
-
-.center-state{
-  min-height:430px;
-
-  display:grid;
-  place-items:center;
-
-  text-align:center;
-}
-
-.center-state-inner{
-  max-width:480px;
-}
-
-.state-icon{
-  width:72px;
-  height:72px;
-
-  display:grid;
-  place-items:center;
-
-  margin:auto;
-
-  border:1px solid var(--border2);
-  border-radius:50%;
-
-  background:var(--panel2);
-
-  font-size:29px;
-}
-
-.center-state h2{
-  margin-top:22px;
-
-  font-size:28px;
-
-  letter-spacing:-.04em;
-}
-
-.center-state p{
-  margin-top:11px;
-
-  color:var(--muted);
-
-  font-size:10px;
-  line-height:1.7;
-}
-
-
-/* =========================================================
-   QUESTION
-========================================================= */
-
-.round-label{
-  text-align:center;
-
-  color:var(--lime);
-
-  font-size:8px;
-  font-weight:900;
-
-  letter-spacing:.18em;
-}
-
-.question{
-  max-width:700px;
-
-  margin:20px auto 0;
-
-  text-align:center;
-
-  font-size:clamp(27px,5vw,43px);
-  line-height:1.12;
-
-  letter-spacing:-.05em;
-}
-
-.instructions{
-  margin-top:14px;
-
-  text-align:center;
-
-  color:var(--muted);
-
-  font-size:9px;
-  line-height:1.6;
-}
-
-
-/* =========================================================
-   TIMER
-========================================================= */
-
-.timer-wrap{
-  margin:28px auto 0;
-
-  text-align:center;
-}
-
-.timer-ring{
-  width:70px;
-  height:70px;
-
-  display:grid;
-  place-items:center;
-
-  margin:auto;
-
-  border:2px solid var(--lime);
-  border-radius:50%;
-
-  background:rgba(223,255,0,.025);
-}
-
-.timer-ring.warning{
-  border-color:var(--warning);
-  color:var(--warning);
-}
-
-.timer-ring.danger{
-  border-color:var(--danger);
-  color:var(--danger);
-}
-
-.timer-ring strong{
-  font-size:21px;
-}
-
-.timer-wrap small{
-  display:block;
-
-  margin-top:8px;
-
-  color:var(--muted2);
-
-  font-size:7px;
-  font-weight:900;
-
-  letter-spacing:.1em;
-}
-
-
-/* =========================================================
-   ANSWERS
-========================================================= */
-
-.answer-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-
-  gap:12px;
-
-  margin-top:32px;
-}
-
-.answer-btn{
-  min-height:150px;
-
-  padding:22px;
-
-  border:1px solid var(--border);
-  border-radius:13px;
-
-  background:var(--panel);
-  color:var(--text);
-
-  transition:
-    border-color .18s ease,
-    transform .18s ease,
-    background .18s ease;
-}
-
-.answer-btn:hover{
-  transform:translateY(-2px);
-
-  border-color:var(--lime);
-
-  background:var(--panel2);
-}
-
-.answer-btn:disabled{
-  cursor:not-allowed;
-
-  opacity:.45;
-
-  transform:none;
-}
-
-.answer-btn.selected{
-  border-color:var(--lime);
-
-  background:rgba(223,255,0,.06);
-
-  box-shadow:
-    inset 0 0 0 1px rgba(223,255,0,.08);
-}
-
-.answer-avatar{
-  width:48px;
-  height:48px;
-
-  display:grid;
-  place-items:center;
-
-  margin:auto;
-
-  border-radius:50%;
-
-  background:var(--panel3);
-
-  font-size:12px;
-  font-weight:900;
-}
-
-.answer-btn.selected .answer-avatar{
-  background:var(--lime);
-  color:#08090c;
-}
-
-.answer-btn strong{
-  display:block;
-
-  margin-top:16px;
-
-  text-align:center;
-
-  font-size:12px;
-}
-
-.answer-btn span{
-  display:block;
-
-  margin-top:6px;
-
-  text-align:center;
-
-  color:var(--muted);
-
-  font-size:8px;
-}
-
-
-/* =========================================================
-   ANSWERED
-========================================================= */
-
-.answer-locked{
-  margin-top:23px;
-
-  padding:13px 15px;
-
-  text-align:center;
-
-  border:1px solid rgba(99,230,157,.18);
-  border-radius:8px;
-
-  background:rgba(99,230,157,.04);
-  color:#98efba;
-
-  font-size:8px;
-  font-weight:800;
-
-  letter-spacing:.07em;
-}
-
-
-/* =========================================================
-   SCORE BOARD
-========================================================= */
-
-.score-card{
-  margin-top:16px;
-
-  padding:20px;
-
-  border:1px solid var(--border);
-  border-radius:11px;
-
-  background:var(--panel);
-}
-
-.score-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  gap:15px;
-}
-
-.score-head h3{
-  font-size:11px;
-}
-
-.score-head span{
-  color:var(--muted);
-
-  font-size:7px;
-}
-
-.room-rank-row{
-  display:grid;
-  grid-template-columns:40px 1fr auto;
-
-  align-items:center;
-
-  padding:12px 0;
-
-  border-bottom:1px solid var(--border);
-}
-
-.room-rank-row:last-child{
-  border-bottom:0;
-}
-
-.room-position{
-  font-size:9px;
-  font-weight:900;
-
-  color:var(--muted);
-}
-
-.room-position.top{
-  color:var(--lime);
-}
-
-.room-rank-name strong{
-  display:block;
-
-  font-size:9px;
-}
-
-.room-rank-name small{
-  display:block;
-
-  margin-top:3px;
-
-  color:var(--muted2);
-
-  font-size:7px;
-}
-
-.room-rank-score{
-  font-size:9px;
-  font-weight:900;
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-.toast{
-  position:fixed;
-
-  right:18px;
-  bottom:18px;
-
-  z-index:3000;
-
-  width:min(360px,calc(100% - 36px));
-
-  padding:14px 15px;
-
-  border:1px solid var(--border2);
-  border-radius:9px;
-
-  background:#12151b;
-
-  box-shadow:
-    0 20px 70px rgba(0,0,0,.5);
-
-  font-size:9px;
-  line-height:1.6;
-}
-
-.toast.success{
-  color:#9ceebb;
-
-  border-color:rgba(99,230,157,.25);
-}
-
-.toast.error{
-  color:#ff9d9d;
-
-  border-color:rgba(255,101,101,.25);
-}
-
-
-/* =========================================================
-   LOADER
-========================================================= */
-
-.loader{
-  position:fixed;
-
-  inset:0;
-
-  z-index:9999;
-
-  display:grid;
-  place-items:center;
-
-  background:#08090c;
-}
-
-.loader-box{
-  text-align:center;
-}
-
-.loader-logo{
-  width:55px;
-  height:55px;
-
-  display:grid;
-  place-items:center;
-
-  margin:auto;
-
-  border-radius:11px;
-
-  background:var(--lime);
-  color:#08090c;
-
-  font-weight:900;
-}
-
-.spinner{
-  width:24px;
-  height:24px;
-
-  margin:20px auto;
-
-  border:2px solid #303540;
-  border-top-color:var(--lime);
-  border-radius:50%;
-
-  animation:spin .65s linear infinite;
-}
-
-.loader p{
-  color:var(--muted);
-
-  font-size:8px;
-  font-weight:900;
-
-  letter-spacing:.12em;
-}
-
-@keyframes spin{
-
-  to{
-    transform:rotate(360deg);
-  }
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:680px){
-
-  header{
-    height:64px;
-
-    padding:0 15px;
-  }
-
-  .brand small{
-    display:none;
-  }
-
-  .live-badge{
-    display:none;
-  }
-
-  .page{
-    padding:24px 14px 45px;
-  }
-
-  .battle-top{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .team-mini{
-    text-align:left;
-  }
-
-  .progress-card{
-    grid-template-columns:1fr;
-  }
-
-  .progress-meta{
-    justify-content:space-between;
-  }
-
-  .arena-inner{
-    padding:36px 18px;
-  }
-
-  .answer-grid{
-    grid-template-columns:1fr;
-  }
-
-  .answer-btn{
-    min-height:110px;
-
-    display:grid;
-    grid-template-columns:46px 1fr;
-
-    align-items:center;
-
-    gap:15px;
-
-    text-align:left;
-  }
-
-  .answer-avatar{
-    margin:0;
-  }
-
-  .answer-btn strong,
-  .answer-btn span{
-    text-align:left;
-  }
-
-  .answer-btn strong{
-    margin-top:0;
-  }
-
-}
-
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#0b090b">
+  <title>RES WARS | Live Game</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --o: #ff7818;
+      --bg: #0b090b;
+      --p: #171217;
+      --p2: #21181d;
+      --l: #3b2c34;
+      --m: #9b8790;
+      --g: #9ff06c;
+      --r: #ff6677
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: #fff;
+      font-family: DM Sans, sans-serif;
+      min-width: 320px
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit
+    }
+
+    button {
+      cursor: pointer
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    .top {
+      height: 64px;
+      border-bottom: 1px solid #251c21;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      position: sticky;
+      top: 0;
+      background: #0b090bf5;
+      z-index: 20
+    }
+
+    .brand {
+      font: 800 13px Manrope
+    }
+
+    .brand span {
+      color: var(--o)
+    }
+
+    .topright {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .livepill {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      font-size: 8px;
+      color: #b9a6ae
+    }
+
+    .livepill i {
+      width: 7px;
+      height: 7px;
+      background: var(--g);
+      border-radius: 50%
+    }
+
+    .back {
+      border: 1px solid var(--l);
+      background: var(--p);
+      color: #cbbac1;
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 8px;
+      font-weight: 700
+    }
+
+    .wrap {
+      width: min(720px, calc(100% - 22px));
+      margin: 18px auto 55px
+    }
+
+    .hero {
+      text-align: center;
+      padding: 12px 5px 16px
+    }
+
+    .hero small {
+      color: #ff9c55;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .14em
+    }
+
+    .hero h1 {
+      font: 800 clamp(27px, 7vw, 42px) Manrope;
+      margin: 6px 0
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--m);
+      font-size: 10px
+    }
+
+    .card {
+      border: 1px solid var(--l);
+      background: var(--p);
+      border-radius: 18px;
+      padding: 17px;
+      margin-bottom: 10px
+    }
+
+    .roomhead {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 10px
+    }
+
+    .roomhead>div:last-child {
+      text-align: right
+    }
+
+    .roomhead small {
+      display: block;
+      font-size: 7px;
+      color: #8d7982;
+      font-weight: 700
+    }
+
+    .roomcode {
+      font: 800 20px Manrope;
+      letter-spacing: .14em;
+      color: var(--o)
+    }
+
+    .roundnum {
+      font: 800 17px Manrope
+    }
+
+    .timer {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      position: relative;
+      background: conic-gradient(var(--o) calc(var(--progress, 1)*360deg), #32242b 0);
+      margin: auto
+    }
+
+    .timer:after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border-radius: 50%;
+      background: var(--p)
+    }
+
+    .timer strong {
+      z-index: 1;
+      font: 800 20px Manrope
+    }
+
+    .timer small {
+      position: absolute;
+      z-index: 1;
+      top: 42px;
+      font-size: 6px;
+      color: #a38e97
+    }
+
+    .players {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px
+    }
+
+    .player {
+      padding: 9px 5px;
+      border: 1px solid #392b32;
+      border-radius: 11px;
+      background: #100d10;
+      text-align: center;
+      min-width: 0
+    }
+
+    .av {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #2a1d23;
+      margin: auto;
+      display: grid;
+      place-items: center;
+      font-size: 8px;
+      font-weight: 800
+    }
+
+    .player b {
+      display: block;
+      font-size: 8px;
+      margin-top: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .player span {
+      font-size: 6px;
+      color: #88747d
+    }
+
+    .player.me {
+      border-color: #6c493a
+    }
+
+    .player.dead {
+      opacity: .38
+    }
+
+    .btn {
+      width: 100%;
+      height: 45px;
+      border: 0;
+      border-radius: 11px;
+      background: var(--o);
+      color: #1b0d07;
+      font-size: 8px;
+      font-weight: 800;
+      margin-top: 9px
+    }
+
+    .btn.alt {
+      background: var(--p2);
+      color: #e5d5db;
+      border: 1px solid #44323a
+    }
+
+    .btn.red {
+      background: #3a171e;
+      color: #ff9daa;
+      border: 1px solid #6d2937
+    }
+
+    .btn:disabled {
+      opacity: .45;
+      cursor: not-allowed
+    }
+
+    .gamearea {
+      text-align: center;
+      padding: 19px 5px
+    }
+
+    .phase {
+      font-size: 7px;
+      color: #ff9c55;
+      font-weight: 800;
+      letter-spacing: .14em
+    }
+
+    .gamearea h2 {
+      font: 800 23px/1.25 Manrope;
+      margin: 10px 0
+    }
+
+    .gamearea p {
+      color: #9b8790;
+      font-size: 10px;
+      line-height: 1.55
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 13px
+    }
+
+    .option {
+      min-height: 48px;
+      border: 1px solid #44323a;
+      border-radius: 11px;
+      background: #21181d;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 9px
+    }
+
+    .option:active {
+      transform: scale(.98)
+    }
+
+    .input {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid #44323a;
+      border-radius: 11px;
+      background: #0d0a0d;
+      color: #fff;
+      padding: 11px 12px;
+      outline: none;
+      font-size: 16px
+    }
+
+    .bigcount {
+      font: 800 72px Manrope;
+      color: #fff1e8;
+      line-height: 1
+    }
+
+    .role {
+      padding: 16px;
+      border: 1px solid #523943;
+      border-radius: 13px;
+      background: #0e0b0e
+    }
+
+    .role span {
+      font-size: 7px;
+      color: #8f7b84
+    }
+
+    .role b {
+      display: block;
+      font: 800 24px Manrope;
+      color: var(--o);
+      margin-top: 5px
+    }
+
+    .result {
+      padding: 14px;
+      border: 1px solid #44323a;
+      border-radius: 12px;
+      background: #0f0c0f;
+      color: #f5e8ed;
+      font-size: 11px;
+      line-height: 1.55
+    }
+
+    .score {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #2b2026;
+      font-size: 9px
+    }
+
+    .score:last-child {
+      border-bottom: 0
+    }
+
+    .score b {
+      color: #fff0e8
+    }
+
+    .hostbar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px
+    }
+
+    .submitted {
+      color: #aef28b !important
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 15px;
+      transform: translateX(-50%);
+      background: #24191f;
+      border: 1px solid #49343e;
+      padding: 10px 13px;
+      border-radius: 10px;
+      font-size: 9px;
+      z-index: 50;
+      max-width: calc(100% - 25px)
+    }
+
+    @media(max-width:520px) {
+      .wrap {
+        margin-top: 10px
+      }
+
+      .hero {
+        padding-top: 8px
+      }
+
+      .card {
+        padding: 13px;
+        border-radius: 15px
+      }
+
+      .players {
+        grid-template-columns: repeat(3, 1fr)
+      }
+
+      .roomhead {
+        grid-template-columns: 1fr 62px 1fr
+      }
+
+      .timer {
+        width: 58px;
+        height: 58px
+      }
+
+      .timer:after {
+        inset: 5px
+      }
+
+      .timer strong {
+        font-size: 17px
+      }
+
+      .timer small {
+        top: 35px
+      }
+
+      .gamearea h2 {
+        font-size: 19px
+      }
+
+      .options {
+        grid-template-columns: 1fr
+      }
+
+      .hostbar {
+        grid-template-columns: 1fr
+      }
+
+      .bigcount {
+        font-size: 59px
+      }
+    }
+  </style>
 </head>
 
 <body>
-
-
-<!-- =========================================================
-     HEADER
-========================================================= -->
-
-<header>
-
-  <div class="brand">
-
-    <div class="logo">
-      RW
+  <header class="top">
+    <div class="brand">RES <span>WARS</span></div>
+    <div class="topright">
+      <div class="livepill"><i></i> LIVE</div><button class="back" onclick="location.href='index.html'">HOME</button>
     </div>
-
-    <div>
-      <strong>RES WARS</strong>
-      <small>BATTLE ARENA</small>
-    </div>
-
-  </div>
-
-
-  <div class="header-right">
-
-    <div
-      id="liveBadge"
-      class="live-badge"
-    >
-
-      <span class="live-dot"></span>
-
-      <span id="battleStatusLabel">BATTLE</span>
-
-    </div>
-
-
-    <button
-      class="exit-btn"
-      onclick="location.href='index.html'"
-    >
-      EXIT
-    </button>
-
-  </div>
-
-</header>
-
-
-<!-- =========================================================
-     PAGE
-========================================================= -->
-
-<main class="page">
-
-
-  <div class="battle-top">
-
-
-    <div class="battle-info">
-
-      <div class="eyebrow">
-        LIVE RES WARS
-      </div>
-
-      <h1 id="battleTitle">
-        Loading battle...
-      </h1>
-
-      <p id="battleSubtitle">
-        My Angel Residence
-      </p>
-
-    </div>
-
-
-    <div class="team-mini">
-
-      <small>
-        REPRESENTING
-      </small>
-
-      <strong id="teamName">
-        —
-      </strong>
-
-      <span id="roomNumber">
-        Room —
-      </span>
-
-    </div>
-
-  </div>
-
-
-  <!-- =====================================================
-       PROGRESS
-  ====================================================== -->
-
-  <div class="progress-card">
-
-    <div>
-
-      <div class="progress-meta">
-
-        <div class="progress-item">
-
-          <small>
-            ROUND
-          </small>
-
-          <strong id="roundProgress">
-            0 / 0
-          </strong>
-
+  </header>
+  <main class="wrap">
+    <section class="hero"><small>LIVE RES GAME</small>
+      <h1 id="title">Loading...</h1>
+      <p id="desc"></p>
+    </section>
+    <section id="setup" class="card">
+      <div style="text-align:center;color:#a28e97;font-size:10px">Host a new room or join your friends.</div><button
+        id="hostBtn" class="btn" onclick="host()">HOST THIS GAME</button><input id="joinCode" class="input"
+        maxlength="6" placeholder="6-character room code"
+        style="margin-top:9px;text-align:center;text-transform:uppercase"><button class="btn alt" onclick="join()">JOIN
+        ROOM</button>
+    </section>
+    <section id="room" class="hidden">
+      <div class="card roomhead">
+        <div><small>ROOM</small>
+          <div id="code" class="roomcode">------</div>
         </div>
-
-
-        <div class="progress-item">
-
-          <small>
-            ROOM SCORE
-          </small>
-
-          <strong
-            id="roomScore"
-            class="score"
-          >
-            0
-          </strong>
-
+        <div id="timer" class="timer"><strong id="seconds">--</strong><small>SECONDS</small></div>
+        <div><small>ROUND</small>
+          <div id="roundNo" class="roundnum">00</div>
         </div>
-
-
-        <div class="progress-item">
-
-          <small>
-            RES RANK
-          </small>
-
-          <strong id="battleRank">
-            —
-          </strong>
-
-        </div>
-
       </div>
-
-
-      <div class="progress-bar">
-
-        <div
-          id="progressFill"
-          class="progress-fill"
-        ></div>
-
+      <div class="card">
+        <div id="players" class="players"></div><button id="start" class="btn hidden" onclick="start()">START
+          GAME</button>
       </div>
-
-    </div>
-
-
-    <div
-      id="answerStatus"
-      style="
-        color:var(--muted);
-        font-size:8px;
-        font-weight:800;
-        text-align:right;
-      "
-    >
-      WAITING
-    </div>
-
-  </div>
-
-
-  <!-- =====================================================
-       ARENA
-  ====================================================== -->
-
-  <section class="arena">
-
-    <div
-      id="arenaContent"
-      class="arena-inner"
-    >
-
-      <div class="center-state">
-
-        <div class="center-state-inner">
-
-          <div class="state-icon">
-            ⚡
-          </div>
-
-          <h2>
-            Entering the arena...
-          </h2>
-
-          <p>
-            RES WARS is preparing your live battle.
-          </p>
-
-        </div>
-
+      <div id="liveCard" class="card hidden">
+        <div id="gameArea" class="gamearea"></div>
+        <div id="hostbar" class="hostbar hidden"><button id="closeRound" class="btn alt" onclick="closeRound()">SHOW
+            RESULT / CLOSE ROUND</button><button id="next" class="btn" onclick="nextRound()">NEXT ROUND</button></div>
+        <button id="end" class="btn red hidden" onclick="endGame()">END GAME</button>
       </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       BATTLE LEADERBOARD
-  ====================================================== -->
-
-  <section class="score-card">
-
-    <div class="score-head">
-
-      <h3>
-        Live Battle Ranking
-      </h3>
-
-      <span id="joinedRoomsLabel">
-        0 ROOMS
-      </span>
-
-    </div>
-
-
-    <div id="battleLeaderboard">
-
-      <div
-        style="
-          padding:25px 0;
-          color:var(--muted);
-          text-align:center;
-          font-size:9px;
-        "
-      >
-        Loading scores...
+      <div id="scoreCard" class="card hidden">
+        <div style="font-size:8px;color:#8d7982;font-weight:800">LIVE SCOREBOARD</div>
+        <div id="scores"></div>
       </div>
-
-    </div>
-
-  </section>
-
-
-</main>
-
-
-<!-- =========================================================
-     TOAST
-========================================================= -->
-
-<div
-  id="toast"
-  class="toast hidden"
-></div>
-
-
-<!-- =========================================================
-     LOADER
-========================================================= -->
-
-<div
-  id="loader"
-  class="loader"
->
-
-  <div class="loader-box">
-
-    <div class="loader-logo">
-      RW
-    </div>
-
-    <div class="spinner"></div>
-
-    <p id="loaderText">
-      ENTERING BATTLE...
-    </p>
-
-  </div>
-
-</div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-<script>
-
-/* =========================================================
-   CONFIG
-========================================================= */
-
-const SUPABASE_URL =
-  "https://tkfnypzohdercxljswfe.supabase.co";
-
-
-const SUPABASE_KEY =
-  "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra";
-
-
-const sb =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-
-/* =========================================================
-   STATE
-========================================================= */
-
-let user = null;
-
-let profile = null;
-
-let room = null;
-
-let members = [];
-
-let session = null;
-
-let game = null;
-
-let currentRound = null;
-
-let currentQuestion = null;
-
-let myAnswer = null;
-
-let sessionRooms = [];
-
-let battleRoom = null;
-
-let timerInterval = null;
-
-let sessionChannel = null;
-
-let roundsChannel = null;
-
-let answersChannel = null;
-
-let scoreChannel = null;
-
-
-/* =========================================================
-   ELEMENT HELPERS
-========================================================= */
-
-const $ =
-  id =>
-    document.getElementById(id);
-
-
-function esc(value){
-
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-
-function initials(name){
-
-  return String(name || "RW")
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0,2)
-    .map(
-      word =>
-        word[0]
-    )
-    .join("")
-    .toUpperCase()
-    ||
-    "RW";
-
-}
-
-
-function toast(
-  text,
-  type = "success"
-){
-
-  const element =
-    $("toast");
-
-
-  element.textContent =
-    text;
-
-
-  element.className =
-    `toast ${type}`;
-
-
-  clearTimeout(
-    toast.timer
-  );
-
-
-  toast.timer =
-    setTimeout(
-      () => {
-
-        element
-          .classList
-          .add("hidden");
-
-      },
-      4000
-    );
-
-}
-
-
-function hideLoader(){
-
-  $("loader")
-    .classList
-    .add("hidden");
-
-}
-
-
-function showFatal(text){
-
-  $("loaderText")
-    .textContent =
-      text;
-
-
-  const spinner =
-    document.querySelector(
-      ".spinner"
-    );
-
-
-  if(spinner){
-
-    spinner.style.display =
-      "none";
-
-  }
-
-}
-
-
-function getSessionId(){
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-
-  return params.get(
-    "session"
-  );
-
-}
-
-function getGameId(){
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-  return params.get("game");
-
-}
-
-
-/* =========================================================
-   ROOM MEMBERS
-========================================================= */
-
-async function loadMembers(){
-
-  const {
-    data: links,
-    error
-  } =
-    await sb
-      .from("room_members")
-      .select(`
-        user_id,
-        joined_at
-      `)
-      .eq(
-        "room_id",
-        room.id
-      )
-      .order(
-        "joined_at",
-        {
-          ascending:true
+    </section>
+  </main>
+  <div id="toast" class="toast hidden"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const sb = supabase.createClient("https://tkfnypzohdercxljswfe.supabase.co", "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra"), $ = x => document.getElementById(x), q = new URLSearchParams(location.search); let user, game, session, players = [], prompt, answers = [], channel, timerId; const slug = q.get("game") || "truth-dare";
+    function toast(m) { $("toast").textContent = m; $("toast").classList.remove("hidden"); clearTimeout(toast.t); toast.t = setTimeout(() => $("toast").classList.add("hidden"), 2500) } function ini(n) { return (n || "P").split(/\s+/).slice(0, 2).map(x => x[0]).join("").toUpperCase() } function esc(s) { return String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])) }
+    async function init() {
+      const a = await sb.auth.getSession(); if (!a.data.session?.user) return location.replace("auth.html"); user = a.data.session.user;
+      if (q.get("invite")) { await resolveInviteSession(); return }
+      game = (await sb.from("rw_games").select("*").eq("slug", slug).maybeSingle()).data; if (!game) return toast("Game not found"); $("title").textContent = game.name; $("desc").textContent = game.description; if (q.get("session")) { let r = await sb.from("rw_sessions").select("*").eq("id", q.get("session")).maybeSingle(); if (!r.data) return toast("Room not found"); session = r.data; let me = await sb.from("rw_players").select("id").eq("session_id", session.id).eq("user_id", user.id).maybeSingle(); if (!me.data) { let j = await sb.rpc("rw_join", { p_code: session.code }); if (j.error) return toast(j.error.message) } await enter() } else if (q.get("code")) { $("joinCode").value = q.get("code"); await join() } else if (q.get("host") === "1") await host()
+    }
+    async function resolveInviteSession() {
+      const invite = q.get("invite"); $("setup").classList.add("hidden"); toast("Connecting both players...");
+      for (let tries = 0; tries < 20; tries++) {
+        const r = await sb.rpc("rw_resolve_game_invite", { p_invite: invite });
+        if (!r.error && r.data?.session_id) {
+          const gs = r.data.game_slug || "truth-dare"; game = (await sb.from("rw_games").select("*").eq("slug", gs).maybeSingle()).data;
+          if (game) { $("title").textContent = game.name; $("desc").textContent = game.description }
+          history.replaceState(null, "", `battle.html?game=${encodeURIComponent(gs)}&session=${r.data.session_id}`);
+          session = (await sb.from("rw_sessions").select("*").eq("id", r.data.session_id).single()).data;
+          await sb.rpc("rw_set_presence", { p_status: "playing", p_game: gs, p_session: String(session.id) }); await enter(); return
         }
-      );
-
-
-  if(error){
-    throw error;
-  }
-
-
-  if(!links?.length){
-
-    members = [];
-
-    return;
-
-  }
-
-
-  const ids =
-    links.map(
-      item =>
-        item.user_id
-    );
-
-
-  const {
-    data: profiles,
-    error: profileError
-  } =
-    await sb
-      .from("profiles")
-      .select(`
-        id,
-        full_name
-      `)
-      .in(
-        "id",
-        ids
-      );
-
-
-  if(profileError){
-    throw profileError;
-  }
-
-
-  members =
-    links.map(
-      link => ({
-
-        ...link,
-
-        profile:
-          profiles.find(
-            item =>
-              item.id ===
-              link.user_id
-          )
-
-      })
-    );
-
-}
-
-
-/* =========================================================
-   SESSION
-========================================================= */
-
-async function loadSession(){
-
-  const requestedSessionId =
-    getSessionId();
-
-  const requestedGameId =
-    getGameId();
-
-
-  /*
-    Preferred flow:
-    battle.html?session=<uuid>
-
-    The session is the source of truth. The game is loaded from
-    game_sessions.game_id, so players and hosts always enter the
-    exact battle that was created from index.html.
-  */
-
-  if(requestedSessionId){
-
-    const {
-      data,
-      error
-    } =
-      await sb
-        .from("game_sessions")
-        .select(`
-          id,
-          residence_id,
-          host_user_id,
-          game_id,
-          title,
-          status,
-          scheduled_for,
-          started_at,
-          ended_at,
-          current_round,
-          total_rounds,
-          created_at
-        `)
-        .eq("id",requestedSessionId)
-        .maybeSingle();
-
-
-    if(error){
-      throw error;
-    }
-
-
-    if(!data){
-      throw new Error(
-        "This battle session no longer exists."
-      );
-    }
-
-
-    session = data;
-
-  }else{
-
-    /*
-      Compatibility flow:
-      battle.html?game=<uuid>
-
-      If a player opens a game card without a session parameter,
-      find the newest open battle for that game and residence.
-    */
-
-    if(!requestedGameId){
-      throw new Error(
-        "No battle session was supplied."
-      );
-    }
-
-
-    const {
-      data,
-      error
-    } =
-      await sb
-        .from("game_sessions")
-        .select(`
-          id,
-          residence_id,
-          host_user_id,
-          game_id,
-          title,
-          status,
-          scheduled_for,
-          started_at,
-          ended_at,
-          current_round,
-          total_rounds,
-          created_at
-        `)
-        .eq("residence_id",room.residence_id)
-        .eq("game_id",requestedGameId)
-        .in("status",["scheduled","lobby","live"])
-        .order("created_at",{ascending:false})
-        .limit(1)
-        .maybeSingle();
-
-
-    if(error){
-      throw error;
-    }
-
-
-    if(!data){
-      throw new Error(
-        "There is no open battle for this game yet. Return to RES WARS and join when the lobby opens."
-      );
-    }
-
-
-    session = data;
-
-    const cleanUrl =
-      `battle.html?session=${encodeURIComponent(session.id)}&game=${encodeURIComponent(session.game_id)}`;
-
-    history.replaceState(
-      {},
-      "",
-      cleanUrl
-    );
-
-  }
-
-
-  if(
-    session.residence_id !==
-    room.residence_id
-  ){
-    throw new Error(
-      "This battle belongs to another residence."
-    );
-  }
-
-
-  const {
-    data: gameData,
-    error: gameError
-  } =
-    await sb
-      .from("games")
-      .select(`
-        id,
-        name,
-        description,
-        icon,
-        active
-      `)
-      .eq(
-        "id",
-        session.game_id
-      )
-      .single();
-
-
-  if(gameError){
-    throw gameError;
-  }
-
-
-  game =
-    gameData;
-
-}
-
-/* =========================================================
-   VERIFY ROOM JOINED
-========================================================= */
-
-async function verifyBattleRoom(){
-
-  const {
-    data,
-    error
-  } =
-    await sb
-      .from("session_rooms")
-      .select(`
-        id,
-        session_id,
-        room_id,
-        score,
-        xp_earned,
-        position,
-        status
-      `)
-      .eq("session_id",session.id)
-      .eq("room_id",room.id)
-      .maybeSingle();
-
-
-  if(error){
-    throw error;
-  }
-
-
-  if(data){
-
-    if(data.status === "disqualified"){
-      throw new Error(
-        "Your room has been disqualified from this battle."
-      );
-    }
-
-    battleRoom = data;
-    return;
-
-  }
-
-
-  /*
-    New universal lobby flow:
-    a resident may open the exact session immediately after it is
-    created. If their room is not linked yet, try to join it here.
-  */
-
-  const {
-    data: joined,
-    error: joinError
-  } =
-    await sb
-      .from("session_rooms")
-      .insert({
-        session_id:session.id,
-        room_id:room.id,
-        score:0,
-        xp_earned:0,
-        status:"joined"
-      })
-      .select(`
-        id,
-        session_id,
-        room_id,
-        score,
-        xp_earned,
-        position,
-        status
-      `)
-      .single();
-
-
-  if(joinError){
-
-    /*
-      A concurrent realtime/join request may have inserted the room
-      first. Re-read before treating it as a real failure.
-    */
-
-    const retry =
-      await sb
-        .from("session_rooms")
-        .select(`
-          id,
-          session_id,
-          room_id,
-          score,
-          xp_earned,
-          position,
-          status
-        `)
-        .eq("session_id",session.id)
-        .eq("room_id",room.id)
-        .maybeSingle();
-
-
-    if(retry.error){
-      throw retry.error;
-    }
-
-
-    if(!retry.data){
-      throw new Error(
-        joinError.message ||
-        "Your room could not join this battle."
-      );
-    }
-
-
-    battleRoom =
-      retry.data;
-
-    return;
-  }
-
-
-  battleRoom =
-    joined;
-
-}
-
-/* =========================================================
-   BATTLE SCORES
-========================================================= */
-
-async function loadBattleLeaderboard(){
-
-  const {
-    data,
-    error
-  } =
-    await sb
-      .from("session_rooms")
-      .select(`
-        id,
-        room_id,
-        score,
-        status,
-        joined_at
-      `)
-      .eq(
-        "session_id",
-        session.id
-      )
-      .neq(
-        "status",
-        "disqualified"
-      )
-      .order(
-        "score",
-        {
-          ascending:false
-        }
-      )
-      .order(
-        "joined_at",
-        {
-          ascending:true
-        }
-      );
-
-
-  if(error){
-    throw error;
-  }
-
-
-  const links =
-    data || [];
-
-
-  if(!links.length){
-
-    sessionRooms = [];
-
-    renderLeaderboard();
-
-    return;
-
-  }
-
-
-  const ids =
-    links.map(
-      item =>
-        item.room_id
-    );
-
-
-  const {
-    data: roomData,
-    error: roomError
-  } =
-    await sb
-      .from("rooms")
-      .select(`
-        id,
-        room_number,
-        team_name
-      `)
-      .in(
-        "id",
-        ids
-      );
-
-
-  if(roomError){
-    throw roomError;
-  }
-
-
-  sessionRooms =
-    links.map(
-      link => ({
-
-        ...link,
-
-        room:
-          roomData.find(
-            item =>
-              item.id ===
-              link.room_id
-          )
-
-      })
-    );
-
-
-  battleRoom =
-    links.find(
-      item =>
-        item.room_id ===
-        room.id
-    )
-    ||
-    battleRoom;
-
-
-  renderLeaderboard();
-
-  renderProgress();
-
-}
-
-
-/* =========================================================
-   LEADERBOARD RENDER
-========================================================= */
-
-function renderLeaderboard(){
-
-  $("joinedRoomsLabel")
-    .textContent =
-      `${sessionRooms.length} ROOM${
-        sessionRooms.length === 1
-          ? ""
-          : "S"
-      }`;
-
-
-  if(!sessionRooms.length){
-
-    $("battleLeaderboard")
-      .innerHTML =
-        `
-          <div
-            style="
-              padding:25px 0;
-              color:var(--muted);
-              text-align:center;
-              font-size:9px;
-            "
-          >
-            No battle scores yet.
-          </div>
-        `;
-
-    return;
-
-  }
-
-
-  $("battleLeaderboard")
-    .innerHTML =
-      sessionRooms
-        .slice(0,10)
-        .map(
-          (entry,index) => {
-
-            const team =
-              entry.room?.team_name ||
-              `Room ${entry.room?.room_number || "?"}`;
-
-
-            return `
-              <div class="room-rank-row">
-
-                <div
-                  class="room-position ${
-                    index < 3
-                      ? "top"
-                      : ""
-                  }"
-                >
-                  #${index + 1}
-                </div>
-
-
-                <div class="room-rank-name">
-
-                  <strong>
-                    ${esc(team)}
-                    ${
-                      entry.room_id ===
-                      room.id
-                        ?
-                        `<span
-                          style="
-                            color:var(--lime);
-                            font-size:7px;
-                            margin-left:5px;
-                          "
-                        >
-                          YOU
-                        </span>`
-                        :
-                        ""
-                    }
-                  </strong>
-
-                  <small>
-                    Room
-                    ${esc(
-                      entry.room?.room_number ||
-                      "?"
-                    )}
-                  </small>
-
-                </div>
-
-
-                <div class="room-rank-score">
-                  ${Number(
-                    entry.score || 0
-                  )}
-                </div>
-
-              </div>
-            `;
-
-          }
-        )
-        .join("");
-
-}
-
-
-/* =========================================================
-   PROGRESS
-========================================================= */
-
-function renderProgress(){
-
-  const current =
-    Number(
-      session?.current_round ||
-      0
-    );
-
-
-  const total =
-    Number(
-      session?.total_rounds ||
-      0
-    );
-
-
-  $("roundProgress")
-    .textContent =
-      `${current} / ${total}`;
-
-
-  $("roomScore")
-    .textContent =
-      Number(
-        battleRoom?.score ||
-        0
-      );
-
-
-  const rankIndex =
-    sessionRooms.findIndex(
-      item =>
-        item.room_id ===
-        room.id
-    );
-
-
-  $("battleRank")
-    .textContent =
-      rankIndex >= 0
-        ? `#${rankIndex + 1}`
-        : "—";
-
-
-  const percent =
-    total > 0
-      ?
-      Math.min(
-        100,
-        (
-          current /
-          total
-        )
-        *
-        100
-      )
-      :
-      0;
-
-
-  $("progressFill")
-    .style.width =
-      `${percent}%`;
-
-}
-
-
-/* =========================================================
-   LOAD CURRENT ROUND
-========================================================= */
-
-async function loadCurrentRound(){
-
-  if(
-    !session ||
-    session.current_round < 1
-  ){
-
-    currentRound = null;
-
-    currentQuestion = null;
-
-    myAnswer = null;
-
-    renderArena();
-
-    return;
-
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await sb
-      .from("game_rounds")
-      .select(`
-        id,
-        session_id,
-        round_number,
-        title,
-        instructions,
-        question_id,
-        duration_seconds,
-        status,
-        starts_at,
-        ends_at,
-        revealed_at,
-        scored,
-        payload
-      `)
-      .eq(
-        "session_id",
-        session.id
-      )
-      .eq(
-        "round_number",
-        session.current_round
-      )
-      .maybeSingle();
-
-
-  if(error){
-    throw error;
-  }
-
-
-  currentRound =
-    data || null;
-
-
-  currentQuestion =
-    null;
-
-
-  myAnswer =
-    null;
-
-
-  if(
-    currentRound?.question_id
-  ){
-
-    const {
-      data: questionData,
-      error: questionError
-    } =
-      await sb
-        .from("game_questions")
-        .select(`
-          id,
-          question,
-          question_type,
-          points
-        `)
-        .eq(
-          "id",
-          currentRound.question_id
-        )
-        .single();
-
-
-    if(questionError){
-      throw questionError;
-    }
-
-
-    currentQuestion =
-      questionData;
-
-
-    const {
-      data: answerData,
-      error: answerError
-    } =
-      await sb
-        .from("round_answers")
-        .select(`
-          id,
-          answer,
-          submitted_at,
-          correct,
-          points
-        `)
-        .eq(
-          "round_id",
-          currentRound.id
-        )
-        .eq(
-          "user_id",
-          user.id
-        )
-        .maybeSingle();
-
-
-    if(answerError){
-      throw answerError;
-    }
-
-
-    myAnswer =
-      answerData || null;
-
-  }
-
-
-  renderArena();
-
-}
-
-
-/* =========================================================
-   ARENA
-========================================================= */
-
-function renderArena(){
-
-  if(!session){
-
-    $("liveBadge").classList.add("hidden");
-    $("answerStatus").textContent = "WAITING";
-
-    $("arena").innerHTML = `
-      <div style="min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:36px 20px">
-        <div style="width:58px;height:58px;display:grid;place-items:center;border-radius:14px;background:var(--lime);color:#08090c;font-size:16px;font-weight:900;margin-bottom:22px">RW</div>
-        <div class="round-label">GAME LOBBY</div>
-        <h2 style="margin-top:10px;font-size:28px;font-weight:900;letter-spacing:-.04em">${esc(game?.name || "RES WARS")}</h2>
-        <p style="max-width:430px;margin-top:10px;color:var(--muted);font-size:10px;line-height:1.7">
-          Your room is ready. Waiting for the Game Master to start the game.
-          You do not need to refresh this page.
-        </p>
-      </div>
-    `;
-
-    return;
-  }
-
-
-  stopTimer();
-
-  const statusLabel = $("battleStatusLabel");
-  if(statusLabel){
-    statusLabel.textContent =
-      session.status === "live"
-        ? "BATTLE LIVE"
-        : session.status === "lobby"
-        ? "LOBBY OPEN"
-        : session.status === "finished"
-        ? "BATTLE FINISHED"
-        : String(session.status || "BATTLE").toUpperCase();
-  }
-
-  $("liveBadge").classList.toggle(
-    "hidden",
-    session.status === "finished" ||
-    session.status === "cancelled"
-  );
-
-
-  $("battleTitle")
-    .textContent =
-      session.title ||
-      game?.name ||
-      "RES WARS Battle";
-
-
-  $("battleSubtitle")
-    .textContent =
-      `${game?.icon || "🎮"} ${
-        game?.name || "RES WARS"
-      } • My Angel Residence`;
-
-
-  $("teamName")
-    .textContent =
-      room.team_name ||
-      `Room ${room.room_number}`;
-
-
-  $("roomNumber")
-    .textContent =
-      `Room ${room.room_number}`;
-
-
-  renderProgress();
-
-
-  /* -----------------------------------------------------
-     BATTLE NOT LIVE
-  ----------------------------------------------------- */
-
-  if(
-    session.status !==
-    "live"
-  ){
-
-    $("answerStatus")
-      .textContent =
-        session.status
-          .toUpperCase();
-
-
-    $("arenaContent")
-      .innerHTML =
-        `
-          <div class="center-state">
-
-            <div class="center-state-inner">
-
-              <div class="state-icon">
-                ⏳
-              </div>
-
-              <h2>
-                Waiting for the battle.
-              </h2>
-
-              <p>
-                The host hasn't started this battle yet.
-                Keep this screen open — RES WARS will update
-                automatically when the host starts the game.
-              </p>
-
-            </div>
-
-          </div>
-        `;
-
-    return;
-
-  }
-
-
-  /* -----------------------------------------------------
-     WAITING FOR ROUND
-  ----------------------------------------------------- */
-
-  if(
-    !currentRound ||
-    currentRound.status ===
-    "waiting"
-  ){
-
-    $("answerStatus")
-      .textContent =
-        "WAITING FOR ROUND";
-
-
-    $("arenaContent")
-      .innerHTML =
-        `
-          <div class="center-state">
-
-            <div class="center-state-inner">
-
-              <div class="state-icon">
-                ❤️
-              </div>
-
-              <h2>
-                Get ready.
-              </h2>
-
-              <p>
-                Keep your phone ready.
-                The next challenge will appear automatically
-                when the host starts the round.
-              </p>
-
-            </div>
-
-          </div>
-        `;
-
-    return;
-
-  }
-
-
-  /* -----------------------------------------------------
-     ROUND FINISHED
-  ----------------------------------------------------- */
-
-  if(
-    currentRound.status ===
-    "finished"
-  ){
-
-    $("answerStatus")
-      .textContent =
-        "ROUND COMPLETE";
-
-
-    $("arenaContent")
-      .innerHTML =
-        `
-          <div class="center-state">
-
-            <div class="center-state-inner">
-
-              <div class="state-icon">
-                ✓
-              </div>
-
-              <h2>
-                Round complete.
-              </h2>
-
-              <p>
-                ${
-                  myAnswer
-                    ?
-                    "Your answer was locked successfully."
-                    :
-                    "You did not submit an answer for this round."
-                }
-
-                <br><br>
-
-                Your room currently has
-                <strong
-                  style="color:var(--lime);"
-                >
-                  ${Number(
-                    battleRoom?.score ||
-                    0
-                  )} points
-                </strong>.
-
-                Waiting for the host to start
-                the next round.
-              </p>
-
-            </div>
-
-          </div>
-        `;
-
-    return;
-
-  }
-
-
-  /* -----------------------------------------------------
-     LIVE QUESTION
-  ----------------------------------------------------- */
-
-  if(
-    currentRound.status ===
-    "live"
-  ){
-
-    $("answerStatus")
-      .textContent =
-        myAnswer
-          ? "ANSWER LOCKED"
-          : "ANSWER NOW";
-
-
-    const isRoommateSync =
-      game?.name
-        ?.toLowerCase() ===
-      "roommate sync";
-
-
-    if(isRoommateSync && currentQuestion){
-
-      const selectedId =
-        myAnswer
-          ?.answer
-          ?.selected_user_id;
-
-
-      $("arenaContent")
-        .innerHTML =
-          `
-            <div class="round-label">
-              ROUND ${currentRound.round_number}
-              OF ${session.total_rounds}
-            </div>
-
-            <h2 class="question">
-              ${esc(currentQuestion.question)}
-            </h2>
-
-            <div class="instructions">
-              Choose the roommate who best matches the question.
-              <br>
-              Your roommate answers separately.
-            </div>
-
-            <div class="timer-wrap">
-              <div id="timerRing" class="timer-ring">
-                <strong id="timerSeconds">--</strong>
-              </div>
-              <small>SECONDS LEFT</small>
-            </div>
-
-            <div class="answer-grid">
-              ${members.map(member => {
-
-                const name =
-                  member.profile?.full_name ||
-                  "Player";
-
-                const selected =
-                  selectedId ===
-                  member.user_id;
-
-                return `
-                  <button
-                    class="answer-btn ${selected ? "selected" : ""}"
-                    data-player="${esc(member.user_id)}"
-                    ${myAnswer ? "disabled" : ""}
-                  >
-                    <div class="answer-avatar">
-                      ${esc(initials(name))}
-                    </div>
-
-                    <div>
-                      <strong>${esc(name)}</strong>
-                      <span>
-                        ${
-                          member.user_id === user.id
-                            ? "ME"
-                            : "MY ROOMMATE"
-                        }
-                      </span>
-                    </div>
-                  </button>
-                `;
-              }).join("")}
-            </div>
-
-            ${
-              myAnswer
-                ? `
-                  <div class="answer-locked">
-                    ✓ ANSWER LOCKED
-                    <br>
-                    Waiting for the round to end.
-                  </div>
-                `
-                : ""
-            }
-          `;
-
-
-      document
-        .querySelectorAll("[data-player]")
-        .forEach(button => {
-
-          button.addEventListener(
-            "click",
-            () => {
-              submitAnswer(
-                button.dataset.player,
-                button
-              );
-            }
-          );
-
-        });
-
-
-      startTimer();
-      return;
-    }
-
-
-    /*
-      Generic universal-game display.
-      This lets every hosted game enter battle.html instead of being
-      rejected as an unsupported module. If the round payload contains
-      prompt/question/instructions, display it cleanly while dedicated
-      mechanics can be added game-by-game later.
-    */
-
-    const payload =
-      currentRound.payload &&
-      typeof currentRound.payload === "object"
-        ? currentRound.payload
-        : {};
-
-    const genericQuestion =
-      currentQuestion?.question ||
-      payload.question ||
-      payload.prompt ||
-      currentRound.title ||
-      game?.name ||
-      "RES WARS Challenge";
-
-    const genericInstructions =
-      currentRound.instructions ||
-      payload.instructions ||
-      game?.description ||
-      "Follow the host's instructions for this round.";
-
-
-    $("arenaContent")
-      .innerHTML =
-        `
-          <div class="round-label">
-            ROUND ${currentRound.round_number}
-            OF ${session.total_rounds}
-          </div>
-
-          <h2 class="question">
-            ${esc(genericQuestion)}
-          </h2>
-
-          <div class="instructions">
-            ${esc(genericInstructions)}
-          </div>
-
-          <div class="timer-wrap">
-            <div id="timerRing" class="timer-ring">
-              <strong id="timerSeconds">--</strong>
-            </div>
-            <small>SECONDS LEFT</small>
-          </div>
-
-          <div class="answer-locked" style="margin-top:30px;color:var(--muted);border-color:var(--border);background:var(--panel2)">
-            ${esc(game?.name || "RES WARS")} • LIVE ROUND
-            <br>
-            This arena is synced to the host in real time.
-          </div>
-        `;
-
-
-    startTimer();
-    return;
-  }
-
-}
-
-/* =========================================================
-   TIMER
-========================================================= */
-
-function stopTimer(){
-
-  if(timerInterval){
-
-    clearInterval(
-      timerInterval
-    );
-
-    timerInterval =
-      null;
-
-  }
-
-}
-
-
-function startTimer(){
-
-  stopTimer();
-
-
-  if(
-    !currentRound?.ends_at
-  ){
-    return;
-  }
-
-
-  const update = () => {
-
-    const end =
-      new Date(
-        currentRound.ends_at
-      ).getTime();
-
-
-    const remaining =
-      Math.max(
-        0,
-        end - Date.now()
-      );
-
-
-    const seconds =
-      Math.ceil(
-        remaining /
-        1000
-      );
-
-
-    const text =
-      $("timerSeconds");
-
-
-    const ring =
-      $("timerRing");
-
-
-    if(text){
-
-      text.textContent =
-        seconds;
-
-    }
-
-
-    if(ring){
-
-      ring.classList.remove(
-        "warning",
-        "danger"
-      );
-
-
-      if(
-        seconds <= 5
-      ){
-
-        ring.classList.add(
-          "danger"
-        );
-
-      }else if(
-        seconds <= 10
-      ){
-
-        ring.classList.add(
-          "warning"
-        );
-
+        if (!String(r.error?.message || "").includes("Waiting for host")) { $("setup").classList.remove("hidden"); return toast(r.error?.message || "Could not open invite") }
+        await new Promise(x => setTimeout(x, 1000));
       }
-
+      $("setup").classList.remove("hidden"); toast("Host has not opened the invite yet.");
     }
-
-
-    if(
-      remaining <= 0
-    ){
-
-      stopTimer();
-
-
-      if(
-        !myAnswer
-      ){
-
-        $("answerStatus")
-          .textContent =
-            "TIME UP";
-
-
-        document
-          .querySelectorAll(
-            "[data-player]"
-          )
-          .forEach(
-            button =>
-              button.disabled = true
-          );
-
-      }
-
+    async function host() { let r = await sb.rpc("rw_host", { p_game: slug }); if (r.error) return toast(r.error.message); session = r.data; history.replaceState(null, "", `game.html?game=${slug}&session=${session.id}`); await enter() }
+    async function join() { let c = $("joinCode").value.trim().toUpperCase(); if (c.length !== 6) return toast("Enter the room code"); let r = await sb.rpc("rw_join", { p_code: c }); if (r.error) return toast(r.error.message); session = r.data; if (session.game_slug !== slug) { location.href = `game.html?game=${session.game_slug}&session=${session.id}`; return } history.replaceState(null, "", `game.html?game=${slug}&session=${session.id}`); await enter() }
+    async function enter() { $("setup").classList.add("hidden"); $("room").classList.remove("hidden"); await refresh(); subscribe() }
+    async function refresh() { if (!session) return; let [s, p, a] = await Promise.all([sb.from("rw_sessions").select("*").eq("id", session.id).single(), sb.from("rw_players").select("*").eq("session_id", session.id).order("joined_at"), sb.from("rw_answers").select("*").eq("session_id", session.id).eq("round_no", session.round_no || 0)]); if (s.error) return toast(s.error.message); session = s.data; players = p.data || []; answers = a.data || []; prompt = session.current_prompt_id ? (await sb.from("rw_prompts").select("*").eq("id", session.current_prompt_id).maybeSingle()).data : null; render(); runTimer() }
+    function render() { let host = session.host_user_id === user.id; $("code").textContent = session.code; $("roundNo").textContent = String(session.round_no || 0).padStart(2, "0"); $("players").innerHTML = players.map(p => `<div class="player ${p.user_id === user.id ? "me" : ""} ${p.alive === false ? "dead" : ""}"><div class="av">${ini(p.display_name)}</div><b>${esc(p.display_name)}</b><span>${p.user_id === session.host_user_id ? "HOST" : p.alive === false ? "OUT" : p.score + " PTS"}</span></div>`).join(""); $("start").classList.toggle("hidden", !(host && session.status === "lobby")); $("start").disabled = players.length < (game.min_players || 2); $("liveCard").classList.toggle("hidden", session.status !== "live"); $("scoreCard").classList.toggle("hidden", session.status !== "live"); $("hostbar").classList.toggle("hidden", !(host && session.status === "live")); $("end").classList.toggle("hidden", !(host && session.status === "live")); $("scores").innerHTML = [...players].sort((a, b) => b.score - a.score).map(p => `<div class="score"><span>${esc(p.display_name)}${p.alive === false ? " • OUT" : ""}</span><b>${p.score}</b></div>`).join(""); if (session.status === "live") renderGame() }
+    function runTimer() { clearInterval(timerId); const draw = () => { if (!session?.round_ends_at) { $("seconds").textContent = "--"; $("timer").style.setProperty("--progress", 0); return } let total = game?.slug === "word-rush" ? 45 : game?.slug === "truth-dare" ? 45 : game?.slug === "res-mafia" ? 60 : 20, left = Math.max(0, Math.ceil((new Date(session.round_ends_at) - Date.now()) / 1000)); $("seconds").textContent = left; $("timer").style.setProperty("--progress", Math.min(1, left / total)); if (left <= 0) { clearInterval(timerId); if (session.host_user_id === user.id && ["answer", "vote"].includes(session.phase)) setTimeout(() => closeRound(), 400) } }; draw(); timerId = setInterval(draw, 250) }
+    function answered() { return answers.some(a => a.user_id === user.id) }
+    function renderGame() {
+      let h = `<div class="phase">${esc((session.phase || "ready").toUpperCase())}</div>`; if (session.round_no === 0) { h += `<h2>Everyone is connected.</h2><p>Host starts the first round when the room is ready.</p>`; $("gameArea").innerHTML = h; return }
+      if (session.phase === "round_end") { h += renderResult(); $("gameArea").innerHTML = h; return }
+      if (session.phase === "finished") { h += `<h2>Game complete.</h2><div class="result">${esc(session.round_result?.winner || session.round_result?.reason || "Thanks for playing.")}</div>`; $("gameArea").innerHTML = h; return }
+      if (slug === "truth-dare") { let target = players.find(p => p.id === session.state?.target), mine = target?.user_id === user.id; if (session.phase === "choose") { h += `<h2>${esc(target?.display_name || "Player")} was selected.</h2>`; h += mine ? `<p>Your turn. Choose one.</p><div class="options"><button class="option" onclick="truthDare('truth')">TRUTH</button><button class="option" onclick="truthDare('dare')">DARE</button></div>` : `<p>Waiting for ${esc(target?.display_name || "the player")} to choose Truth or Dare.</p>` } else { h += `<h2>${esc(target?.display_name || "Player")} • ${esc((session.state?.choice || "").toUpperCase())}</h2><div class="result">${esc(prompt?.prompt || "Challenge loading...")}</div><p>Do it in the room. Host moves to the next round when complete.</p>` } }
+      else if (slug === "twenty-one") { let c = Number(session.state?.count || 0), turn = Number(session.state?.turn || 0), tp = players[turn]; h += `<div class="bigcount">${c}</div>`; if (c >= 21) h += `<h2>${esc(players.find(p => p.user_id === session.state?.loser)?.display_name || "Player")} hit 21.</h2>`; else { h += `<h2>${esc(tp?.display_name || "Player")}'s turn</h2><p>Add 1, 2 or 3. Whoever reaches 21 loses.</p>`; if (tp?.user_id === user.id) h += `<div class="options"><button class="option" onclick="add21(1)">+1</button><button class="option" onclick="add21(2)">+2</button><button class="option" onclick="add21(3)">+3</button></div>` } }
+      else if (slug === "battle-quiz") { h += `<h2>${esc(prompt?.prompt || "Question")}</h2>`; let opts = prompt?.data?.options || []; h += answered() ? `<p class="submitted">Answer locked • ${answers.length}/${players.length} submitted</p>` : `<div class="options">${opts.map(o => `<button class="option" onclick='answer(${JSON.stringify(o)})'>${esc(o)}</button>`).join("")}</div>` }
+      else if (slug === "roommate-sync") { h += `<h2>${esc(prompt?.prompt || "Question")}</h2>`; let opts = prompt?.data?.options || []; h += answered() ? `<p class="submitted">Answer locked • ${answers.length}/${players.length} submitted</p>` : `<div class="options">${opts.map(o => `<button class="option" onclick='answer(${JSON.stringify(o)})'>${esc(o)}</button>`).join("")}</div>` }
+      else if (slug === "word-rush") { h += `<h2>${esc(prompt?.data?.letters || "LETTERS")}</h2><p>${esc(prompt?.prompt || "Create as many words as possible.")}</p>`; h += answered() ? `<p class="submitted">Words submitted • waiting for the round result</p>` : `<textarea id="wordInput" class="input" rows="3" placeholder="Type words separated by spaces or commas"></textarea><button class="btn" onclick="submitWords()">SUBMIT WORDS</button>` }
+      else if (slug === "res-mafia") { let me = players.find(p => p.user_id === user.id); h += `<div class="role"><span>YOUR SECRET ROLE</span><b>${esc((me?.role || "resident").toUpperCase())}</b></div><h2>Discuss. Then vote somebody out.</h2>`; h += answered() ? `<p class="submitted">Vote locked • ${answers.length}/${players.filter(p => p.alive).length} votes submitted</p>` : `<div class="options">${players.filter(p => p.alive && p.user_id !== user.id).map(p => `<button class="option" onclick='answer(${JSON.stringify(p.user_id)})'>${esc(p.display_name)}</button>`).join("")}</div>` }
+      $("gameArea").innerHTML = h
     }
-
-  };
-
-
-  update();
-
-
-  timerInterval =
-    setInterval(
-      update,
-      250
-    );
-
-}
-
-
-/* =========================================================
-   SUBMIT ANSWER
-========================================================= */
-
-async function submitAnswer(
-  selectedUser,
-  clickedButton
-){
-
-  if(
-    !currentRound ||
-    myAnswer
-  ){
-    return;
-  }
-
-
-  const buttons =
-    document.querySelectorAll(
-      "[data-player]"
-    );
-
-
-  buttons.forEach(
-    button =>
-      button.disabled = true
-  );
-
-
-  clickedButton
-    ?.classList
-    .add("selected");
-
-
-  $("answerStatus")
-    .textContent =
-      "SUBMITTING...";
-
-
-  try{
-
-    const {
-      error
-    } =
-      await sb.rpc(
-        "submit_roommate_sync_answer",
-        {
-
-          p_round_id:
-            currentRound.id,
-
-          p_selected_user:
-            selectedUser
-
-        }
-      );
-
-
-    if(error){
-      throw error;
-    }
-
-
-    const {
-      data,
-      error: fetchError
-    } =
-      await sb
-        .from("round_answers")
-        .select(`
-          id,
-          answer,
-          submitted_at,
-          correct,
-          points
-        `)
-        .eq(
-          "round_id",
-          currentRound.id
-        )
-        .eq(
-          "user_id",
-          user.id
-        )
-        .single();
-
-
-    if(fetchError){
-      throw fetchError;
-    }
-
-
-    myAnswer =
-      data;
-
-
-    $("answerStatus")
-      .textContent =
-        "ANSWER LOCKED";
-
-
-    toast(
-      "Your answer has been locked.",
-      "success"
-    );
-
-
-    renderArena();
-
-
-  }catch(error){
-
-    console.error(
-      "Answer:",
-      error
-    );
-
-
-    buttons.forEach(
-      button =>
-        button.disabled = false
-    );
-
-
-    clickedButton
-      ?.classList
-      .remove("selected");
-
-
-    $("answerStatus")
-      .textContent =
-        "ANSWER NOW";
-
-
-    toast(
-      error.message ||
-      "Unable to submit your answer.",
-      "error"
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   REFRESH SESSION
-========================================================= */
-
-async function refreshSession(){
-
-  const {
-    data,
-    error
-  } =
-    await sb
-      .from("game_sessions")
-      .select(`
-        id,
-        residence_id,
-        game_id,
-        title,
-        status,
-        scheduled_for,
-        started_at,
-        ended_at,
-        current_round,
-        total_rounds
-      `)
-      .eq(
-        "id",
-        session.id
-      )
-      .single();
-
-
-  if(error){
-    throw error;
-  }
-
-
-  session =
-    data;
-
-
-  if(
-    session.status ===
-    "finished"
-  ){
-
-    stopTimer();
-
-
-    $("answerStatus")
-      .textContent =
-        "BATTLE FINISHED";
-
-
-    $("arenaContent")
-      .innerHTML =
-        `
-          <div class="center-state">
-
-            <div class="center-state-inner">
-
-              <div class="state-icon">
-                🏆
-              </div>
-
-              <h2>
-                Battle finished.
-              </h2>
-
-              <p>
-                Your room finished with
-
-                <strong
-                  style="color:var(--lime);"
-                >
-                  ${Number(
-                    battleRoom?.score ||
-                    0
-                  )} points
-                </strong>.
-
-                <br><br>
-
-                Return to the RES WARS lobby
-                to see the latest rankings.
-              </p>
-
-
-              <button
-                onclick="location.href='index.html'"
-                style="
-                  margin-top:22px;
-                  width:100%;
-                  padding:14px;
-                  border:0;
-                  border-radius:8px;
-                  background:var(--lime);
-                  color:#08090c;
-                  font-size:9px;
-                  font-weight:900;
-                "
-              >
-                RETURN TO RES WARS
-              </button>
-
-            </div>
-
-          </div>
-        `;
-
-
-    return;
-
-  }
-
-
-  if(
-    session.status ===
-    "cancelled"
-  ){
-
-    stopTimer();
-
-
-    $("arenaContent")
-      .innerHTML =
-        `
-          <div class="center-state">
-
-            <div class="center-state-inner">
-
-              <div class="state-icon">
-                ×
-              </div>
-
-              <h2>
-                Battle cancelled.
-              </h2>
-
-              <p>
-                The Game Master cancelled this battle.
-              </p>
-
-            </div>
-
-          </div>
-        `;
-
-
-    return;
-
-  }
-
-
-  await loadCurrentRound();
-
-  renderProgress();
-
-}
-
-
-/* =========================================================
-   REALTIME
-========================================================= */
-
-function subscribeRealtime(){
-
-
-  /* -------------------------------------------------------
-     SESSION STATUS / CURRENT ROUND
-  ------------------------------------------------------- */
-
-  sessionChannel =
-    sb
-      .channel(
-        `battle-session-${session.id}`
-      )
-      .on(
-        "postgres_changes",
-        {
-          event:"UPDATE",
-          schema:"public",
-          table:"game_sessions",
-          filter:
-            `id=eq.${session.id}`
-        },
-        async () => {
-
-          try{
-
-            await refreshSession();
-
-          }catch(error){
-
-            console.error(
-              "Session realtime:",
-              error
-            );
-
-          }
-
-        }
-      )
-      .subscribe();
-
-
-  /* -------------------------------------------------------
-     ROUND CHANGES
-  ------------------------------------------------------- */
-
-  roundsChannel =
-    sb
-      .channel(
-        `battle-rounds-${session.id}`
-      )
-      .on(
-        "postgres_changes",
-        {
-          event:"*",
-          schema:"public",
-          table:"game_rounds",
-          filter:
-            `session_id=eq.${session.id}`
-        },
-        async () => {
-
-          try{
-
-            await refreshSession();
-
-          }catch(error){
-
-            console.error(
-              "Round realtime:",
-              error
-            );
-
-          }
-
-        }
-      )
-      .subscribe();
-
-
-  /* -------------------------------------------------------
-     OWN ANSWER
-  ------------------------------------------------------- */
-
-  answersChannel =
-    sb
-      .channel(
-        `battle-answers-${user.id}`
-      )
-      .on(
-        "postgres_changes",
-        {
-          event:"*",
-          schema:"public",
-          table:"round_answers",
-          filter:
-            `user_id=eq.${user.id}`
-        },
-        async payload => {
-
-          if(
-            currentRound &&
-            (
-              payload.new?.round_id ===
-              currentRound.id
-              ||
-              payload.old?.round_id ===
-              currentRound.id
-            )
-          ){
-
-            try{
-
-              await loadCurrentRound();
-
-            }catch(error){
-
-              console.error(
-                "Answer realtime:",
-                error
-              );
-
-            }
-
-          }
-
-        }
-      )
-      .subscribe();
-
-
-  /* -------------------------------------------------------
-     LIVE SCORES
-  ------------------------------------------------------- */
-
-  scoreChannel =
-    sb
-      .channel(
-        `battle-scores-${session.id}`
-      )
-      .on(
-        "postgres_changes",
-        {
-          event:"UPDATE",
-          schema:"public",
-          table:"session_rooms",
-          filter:
-            `session_id=eq.${session.id}`
-        },
-        async () => {
-
-          try{
-
-            await loadBattleLeaderboard();
-
-          }catch(error){
-
-            console.error(
-              "Score realtime:",
-              error
-            );
-
-          }
-
-        }
-      )
-      .subscribe();
-
-}
-
-
-
-/* =========================================================
-   WAIT FOR GAME MASTER
-========================================================= */
-
-let sessionWatcher = null;
-
-function startSessionWatcher(){
-
-  if(sessionWatcher){
-    clearInterval(sessionWatcher);
-  }
-
-  sessionWatcher = setInterval(async () => {
-
-    try{
-
-      await loadSession();
-
-      if(!session){
-        renderArena();
-        return;
-      }
-
-      clearInterval(sessionWatcher);
-      sessionWatcher = null;
-
-      if(session.residence_id !== room.residence_id){
-        throw new Error(
-          "This battle belongs to another residence."
-        );
-      }
-
-      await verifyBattleRoom();
-      await loadBattleLeaderboard();
-      await loadCurrentRound();
-
-      $("battleTitle").textContent =
-        session.title || game.name;
-
-      renderProgress();
-      renderArena();
-      subscribeRealtime();
-
-      toast(
-        session.status === "live"
-          ? "Game started."
-          : "Game lobby opened.",
-        "success"
-      );
-
-    }catch(error){
-      console.error("Session watcher:",error);
-    }
-
-  },1500);
-
-}
-
-
-/* =========================================================
-   INITIALISE
-========================================================= */
-
-async function init(){
-
-  try{
-
-    /* -----------------------------------------------------
-       AUTH
-    ----------------------------------------------------- */
-
-    const {
-      data:{
-        session: authSession
-      },
-      error: authError
-    } =
-      await sb.auth
-        .getSession();
-
-
-    if(authError){
-      throw authError;
-    }
-
-
-    if(!authSession?.user){
-
-      location.replace(
-        "auth.html"
-      );
-
-      return;
-
-    }
-
-
-    user =
-      authSession.user;
-
-
-    /* -----------------------------------------------------
-       PROFILE
-    ----------------------------------------------------- */
-
-    const {
-      data: profileData,
-      error: profileError
-    } =
-      await sb
-        .from("profiles")
-        .select(`
-          id,
-          full_name,
-          room_id,
-          residence_id
-        `)
-        .eq(
-          "id",
-          user.id
-        )
-        .single();
-
-
-    if(profileError){
-      throw profileError;
-    }
-
-
-    profile =
-      profileData;
-
-
-    if(!profile.room_id){
-
-      location.replace(
-        "onboarding.html"
-      );
-
-      return;
-
-    }
-
-
-    /* -----------------------------------------------------
-       ROOM
-    ----------------------------------------------------- */
-
-    const {
-      data: roomData,
-      error: roomError
-    } =
-      await sb
-        .from("rooms")
-        .select(`
-          id,
-          residence_id,
-          room_number,
-          team_name
-        `)
-        .eq(
-          "id",
-          profile.room_id
-        )
-        .single();
-
-
-    if(roomError){
-      throw roomError;
-    }
-
-
-    room =
-      roomData;
-
-
-    /* -----------------------------------------------------
-       LOAD
-    ----------------------------------------------------- */
-
-    await loadMembers();
-
-    await loadSession();
-
-    /*
-      It is normal for there to be no session yet.
-      The player can enter the arena before the Game Master presses START GAME.
-    */
-    if(session){
-
-      if(
-        session.residence_id !==
-        room.residence_id
-      ){
-        throw new Error(
-          "This battle belongs to another residence."
-        );
-      }
-
-      await verifyBattleRoom();
-      await loadBattleLeaderboard();
-      await loadCurrentRound();
-
-    }else{
-
-      battleRoom = null;
-      sessionRooms = [];
-      currentRound = null;
-      currentQuestion = null;
-      myAnswer = null;
-
-    }
-
-
-    /* -----------------------------------------------------
-       UI
-    ----------------------------------------------------- */
-
-    $("teamName")
-      .textContent =
-        room.team_name ||
-        `Room ${room.room_number}`;
-
-
-    $("roomNumber")
-      .textContent =
-        `Room ${room.room_number}`;
-
-
-    $("battleTitle")
-      .textContent =
-        session?.title ||
-        game.name;
-
-
-    $("battleSubtitle")
-      .textContent =
-        `${game.name} • My Angel Residence`;
-
-
-    renderProgress();
-
-    renderArena();
-
-
-    /* -----------------------------------------------------
-       REALTIME
-    ----------------------------------------------------- */
-    if(session){
-      subscribeRealtime();
-    }else{
-      startSessionWatcher();
-    }
-
-    hideLoader();
-
-
-  }catch(error){
-
-    console.error(
-      "Battle init:",
-      error
-    );
-
-
-    showFatal(
-      error.message ||
-      "Unable to enter this battle."
-    );
-
-  }
-
-}
-
-
-if("serviceWorker" in navigator){
-  window.addEventListener("load",() => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {});
-  });
-}
-
-init();
-
-</script>
-
+    function renderResult() { if (slug === "battle-quiz") return `<h2>Correct answer</h2><div class="result">${esc(session.round_result?.answer || "—")}</div>`; if (slug === "roommate-sync") return `<h2>Room result</h2><div class="result">Most selected: <b>${esc(session.round_result?.majority || "—")}</b><br>${Number(session.round_result?.matches || 0)} matching answer(s)</div>`; if (slug === "res-mafia") { let p = players.find(x => x.user_id === session.round_result?.eliminated); return `<h2>${p ? esc(p.display_name) + " was voted out." : "Vote complete."}</h2><div class="result">Mafia remaining: ${Number(session.round_result?.mafia_left || 0)}<br>Residents remaining: ${Number(session.round_result?.residents_left || 0)}</div>` } if (slug === "twenty-one") { let p = players.find(x => x.user_id === session.round_result?.loser); return `<h2>${esc(p?.display_name || "Player")} reached 21.</h2><div class="result">Round lost. Host can start another round.</div>` } if (slug === "truth-dare") return `<h2>Round complete.</h2><div class="result">Ready for another player.</div>`; return `<h2>Round complete.</h2><div class="result">Scores updated.</div>` }
+    async function start() { let r = await sb.rpc("rw_start", { p_session: session.id }); if (r.error) return toast(r.error.message); session = r.data; await nextRound() }
+    async function nextRound() { let r = await sb.rpc("rw_next", { p_session: session.id }); if (r.error) return toast(r.error.message); session = r.data; await refresh() }
+    async function closeRound() { if (session.phase === "round_end" || session.phase === "choose" || session.phase === "challenge" || slug === "twenty-one") { if (["choose", "challenge"].includes(session.phase) && slug === "truth-dare") { session.phase = "round_end"; await sb.from("rw_sessions").update({ phase: "round_end", round_ends_at: null }).eq("id", session.id); await refresh(); return } if (slug === "twenty-one" && session.phase !== "round_end") return toast("Finish the Twenty One round first"); } let r = await sb.rpc("rw_close_round", { p_session: session.id }); if (r.error) return toast(r.error.message); session = r.data; await refresh() }
+    async function answer(v) { let r = await sb.rpc("rw_answer", { p_session: session.id, p_answer: v }); if (r.error) return toast(r.error.message); toast("Answer locked"); await refresh() }
+    async function truthDare(c) { let r = await sb.rpc("rw_truth_dare_choose", { p_session: session.id, p_choice: c }); if (r.error) return toast(r.error.message); session = r.data; await refresh() }
+    async function submitWords() { let v = $("wordInput")?.value.trim(); if (!v) return toast("Type your words first"); let r = await sb.rpc("rw_word_submit", { p_session: session.id, p_words: v }); if (r.error) return toast(r.error.message); toast(`Submitted • ${r.data} points`); await refresh() }
+    async function add21(n) { let r = await sb.rpc("rw_twenty_one", { p_session: session.id, p_add: n }); if (r.error) return toast(r.error.message); session = r.data; await refresh() }
+    async function endGame() { if (!confirm("End this game for everyone?")) return; let r = await sb.rpc("rw_finish", { p_session: session.id }); if (r.error) return toast(r.error.message); location.href = "index.html" }
+    function subscribe() { if (channel) sb.removeChannel(channel); channel = sb.channel("rw-v2-" + session.id).on("postgres_changes", { event: "*", schema: "public", table: "rw_sessions", filter: `id=eq.${session.id}` }, refresh).on("postgres_changes", { event: "*", schema: "public", table: "rw_players", filter: `session_id=eq.${session.id}` }, refresh).on("postgres_changes", { event: "*", schema: "public", table: "rw_answers", filter: `session_id=eq.${session.id}` }, refresh).subscribe() } init();
+  </script>
 </body>
+
 </html>
