@@ -219,7 +219,7 @@ body{padding:0!important;margin:0!important;min-height:100dvh!important}
 #lobbyText{font-size:14px!important;line-height:1.5!important;color:#d8c4cd!important;min-height:24px}
 </style></head>
 <body>
-<header class="topbar"><div class="brand"><div class="shield">RW</div><div><strong>RES WARS</strong><small>RESIDENCE NIGHT • SPIN THE BOTTLE</small></div></div><button class="exit" onclick="leaveAndExit()">LEAVE</button></header>
+<header class="topbar"><div class="brand"><div class="shield">RW</div><div><strong>RES WARS</strong><small>RESIDENCE NIGHT • SPIN THE BOTTLE</small></div></div><button class="exit" onclick="location.href='index.html'">HOME</button></header>
 <div id="hud" class="hud hidden"><div class="hudbox"><span>ROOM CODE</span><b id="gameCode">------</b></div><div class="hudbox right"><span>ROUND</span><b id="roundNo">00</b></div></div>
 <section id="entry" class="entry"><div class="entrycard"><div class="game-title"><div class="mini">RES WARS • TONIGHT'S GAME</div><h1>SPIN THE<br>BOTTLE</h1><p>Everyone is in the same room. One spin, one person, one Truth or Dare. This is the residence game.</p></div><div class="entrygrid"><div class="choicebox"><h2>HOST THE GAME</h2><p>Start tonight's game and share the room code.</p><button id="hostBtn" class="gamebtn" onclick="hostGame()">HOST GAME</button></div><div class="choicebox"><h2>JOIN YOUR RES</h2><p>Enter the code showing on your friend's screen.</p><input id="joinCode" class="codeinput" maxlength="6" placeholder="ABC123"><button class="gamebtn alt" onclick="joinGame()">JOIN GAME</button></div></div></div></section>
 <section id="lobby" class="lobby hidden"><div class="lobbycard"><div class="game-title"><div class="mini">RESIDENCE LOBBY</div><h2>WHO'S PLAYING?</h2><p id="lobbyText">Share the room code.</p></div><div id="players" class="players"></div><button id="startBtn" class="gamebtn hidden" style="max-width:280px" onclick="startGame()">START THE GAME</button></div></section>
@@ -238,18 +238,19 @@ const sb=supabase.createClient("https://tkfnypzohdercxljswfe.supabase.co","sb_pu
 function note(m){$("toast").textContent=m;$("toast").classList.remove("hidden");clearTimeout(note.t);note.t=setTimeout(()=>$("toast").classList.add("hidden"),3000)}function ini(n){return(n||"P").split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase()}function esc(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 async function init(){const{data:{session:s}}=await sb.auth.getSession();if(!s?.user)return location.replace("auth.html");user=s.user;
 if(qs.get("invite")){await resolveInviteSession();return}
-if(qs.get("session")){session=(await sb.from("stb_sessions").select("*").eq("id",qs.get("session")).single()).data;if(!session)return note("Game not found.");const me=(await sb.from("stb_players").select("id").eq("session_id",session.id).eq("user_id",user.id).eq("active",true).maybeSingle()).data;if(!me){const j=await sb.rpc("stb_join",{p_code:session.code});if(j.error)return note(j.error.message)}await enter()}else if(qs.get("host")==="1")await hostGame()}
+if(qs.get("session"))return location.replace(`game.html?session=${encodeURIComponent(qs.get("session"))}`);
+if(qs.get("host")==="1")return hostGame()}
 async function resolveInviteSession(){
  const invite=qs.get("invite");$("entry").classList.add("hidden");note("Connecting both players...");
  for(let tries=0;tries<20;tries++){
    const r=await sb.rpc("rw_resolve_spin_invite",{p_invite:invite});
-   if(!r.error&&r.data?.session_id){history.replaceState(null,"",`spin.html?session=${r.data.session_id}`);session=(await sb.from("stb_sessions").select("*").eq("id",r.data.session_id).single()).data;await sb.rpc("rw_set_presence",{p_status:"playing",p_game:"spin-the-bottle",p_session:String(session.id)});await enter();return}
+   if(!r.error&&r.data?.session_id){location.href=`game.html?session=${r.data.session_id}`;return}
    if(!String(r.error?.message||"").includes("Waiting for host")){$("entry").classList.remove("hidden");return note(r.error?.message||"Could not open invite")}
    await new Promise(x=>setTimeout(x,1000));
  }
  $("entry").classList.remove("hidden");note("Host has not opened the invite yet.");
 }
-async function hostGame(){const r=await sb.rpc("stb_host");if(r.error)return note(r.error.message);session=Array.isArray(r.data)?r.data[0]:r.data;history.replaceState(null,"",`spin.html?session=${session.id}`);await enter()}async function joinGame(){let c=$("joinCode").value.trim().toUpperCase();if(c.length!==6)return note("Enter the 6-character room code.");const r=await sb.rpc("stb_join",{p_code:c});if(r.error)return note(r.error.message);session=Array.isArray(r.data)?r.data[0]:r.data;history.replaceState(null,"",`spin.html?session=${session.id}`);await enter()}
+async function hostGame(){const r=await sb.rpc("stb_host");if(r.error)return note(r.error.message);const s=Array.isArray(r.data)?r.data[0]:r.data;location.href=`game.html?session=${s.id}`}async function joinGame(){let c=$("joinCode").value.trim().toUpperCase();if(c.length!==6)return note("Enter the 6-character room code.");const r=await sb.rpc("stb_join",{p_code:c});if(r.error)return note(r.error.message);const s=Array.isArray(r.data)?r.data[0]:r.data;location.href=`game.html?session=${s.id}`}
 async function enter(){$("entry").classList.add("hidden");$("hud").classList.remove("hidden");await refresh();subscribe()}async function refresh(){const[s,p]=await Promise.all([sb.from("stb_sessions").select("*").eq("id",session.id).single(),sb.from("stb_players").select("*").eq("session_id",session.id).eq("active",true).order("joined_at")]);if(s.error)return note(s.error.message);session=s.data;players=p.data||[];await loadPlayerPhotos();$("gameCode").textContent=session.code;$("roundNo").textContent=String(session.round_no||0).padStart(2,"0");render();if(session.current_spin_id&&spin?.id!==session.current_spin_id)await loadSpin(session.current_spin_id,false)}
 function render(){
   if(session?.status==="finished")setTimeout(claimSpinResult,150);
