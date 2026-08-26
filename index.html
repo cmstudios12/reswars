@@ -1,423 +1,2291 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
-<meta name="theme-color" content="#0b090b"><title>RES WARS</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-<style>
-html{background:#0b090b}body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+  <meta name="theme-color" content="#0b090b">
+  <title>RES WARS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    html {
+      background: #0b090b
+    }
 
-:root{--bg:#0b090b;--panel:#151115;--panel2:#1b1519;--line:#33262d;--orange:#ff7818;--cream:#fff3e7;--text:#f7eeea;--muted:#9b8790;--green:#9ff06c}
-*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}body{margin:0;min-width:320px;background:var(--bg);color:var(--text);font-family:"DM Sans",sans-serif;overflow-x:hidden}button,input{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}.hidden{display:none!important}.container{width:min(1120px,calc(100% - 32px));margin:auto}
-header{height:72px;position:sticky;top:0;z-index:50;background:#0b090bf5;border-bottom:1px solid #21191d}.nav{height:100%;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px}.logo{width:43px;height:43px;border-radius:13px;background:var(--orange);color:#1b0d07;display:grid;place-items:center;font:800 12px Manrope}.brand b{display:block;font:800 14px Manrope}.brand small{display:block;font-size:7px;color:#89757e;letter-spacing:.12em;margin-top:2px}.nav-actions{display:flex;gap:7px;align-items:center}.nav-btn{height:39px;padding:0 12px;border:1px solid #382a31;border-radius:11px;background:#151115;color:#d8c7ce;font-size:9px;font-weight:800}.avatar{width:39px;height:39px;border-radius:50%;border:1px solid #49343e;background:#21181e;color:#fff;font-size:10px;font-weight:800}
-.hero{padding:54px 0 45px;display:grid;grid-template-columns:1fr .95fr;gap:55px;align-items:center}.live{display:flex;align-items:center;gap:8px;font-size:9px;font-weight:800;color:#dec4b8;letter-spacing:.08em}.dot{width:7px;height:7px;border-radius:50%;background:var(--green)}h1{font:800 clamp(45px,6vw,72px)/.98 Manrope;letter-spacing:-.055em;color:var(--cream);margin:17px 0}h1 span{color:var(--orange)}.hero p{max-width:520px;color:var(--muted);font-size:14px;line-height:1.7}.actions{display:flex;gap:9px;margin-top:24px}.btn{height:49px;padding:0 18px;border-radius:12px;border:1px solid #3b2c33;background:#171216;color:#eadde2;font-size:9px;font-weight:800}.btn.primary{background:var(--orange);border-color:var(--orange);color:#1b0d07}.note{font-size:9px;color:#75636c;margin-top:16px}
-.featured{height:360px;border-radius:25px;border:1px solid #3c2b33;background:radial-gradient(circle at 50% 42%,#4b2922,#211419 42%,#110d10 73%);position:relative;overflow:hidden}.featured-top{position:absolute;left:18px;right:18px;top:17px;display:flex;justify-content:space-between;z-index:4}.tag{font-size:7px;color:#a38c96;letter-spacing:.12em;font-weight:800}.status{font-size:7px;color:#b8f697;background:#142012;border:1px solid #344b30;border-radius:999px;padding:6px 8px}.circle{position:absolute;left:50%;top:49%;width:270px;height:270px;transform:translate(-50%,-50%) rotateX(64deg);border-radius:50%;background:radial-gradient(circle,#ff7818 0 2%,#251518 3% 13%,#0f0c0e 14% 43%,#ff7818 44% 44.7%,#171015 45% 68%,#4b3039 69% 70%,#0a080a 71%)}.bottle{position:absolute;left:50%;top:45%;width:52px;height:176px;transform:translate(-50%,-50%) rotate(27deg)}.bottle:before{content:"";position:absolute;left:18px;width:17px;height:51px;border:2px solid #a5b9a6;border-bottom:0;border-radius:6px;background:#365a42}.bottle:after{content:"RW";position:absolute;left:3px;top:45px;width:46px;height:125px;border:2px solid #a5b9a6;border-radius:17px 17px 20px 20px;background:linear-gradient(90deg,#183425,#66816b,#264b35);display:grid;place-items:center;color:#fff1dc;font:800 8px Manrope}.featured-bottom{position:absolute;z-index:4;left:18px;right:18px;bottom:17px}.featured-bottom h2{font:800 17px Manrope;margin:0}.featured-bottom p{font-size:9px;color:#9e8993;margin:4px 0 0}
-.section{padding:55px 0}.head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.eyebrow{color:#ff9b55;font-size:8px;font-weight:800;letter-spacing:.13em}.head h2{font:800 31px Manrope;letter-spacing:-.04em;margin:6px 0 0;color:var(--cream)}.head p{max-width:420px;margin:0;color:#88747d;font-size:11px;line-height:1.6}
-.games{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.game{min-width:0;border:1px solid #33262d;border-radius:18px;background:#141014;overflow:hidden;transition:border-color .2s}.game:hover{border-color:#59404b}.art{height:125px;position:relative;display:grid;place-items:center;background:#1e1418}.art .symbol{font:800 28px Manrope;color:#fff1e5}.art.spin{background:radial-gradient(circle,#513027,#1b1216 67%)}.art.truth{background:radial-gradient(circle,#2f294b,#17131d 67%)}.art.cards{background:radial-gradient(circle,#3b3522,#191611 67%)}.art.sync{background:radial-gradient(circle,#213d37,#111916 67%)}.art.quiz{background:radial-gradient(circle,#3d2230,#1b1016 67%)}.art.word{background:radial-gradient(circle,#26354a,#11161e 67%)}.art.mafia{background:radial-gradient(circle,#442421,#1c1110 67%)}.art.future{background:#111011}.mini-bottle{width:27px;height:88px;border-radius:8px 8px 12px 12px;border:2px solid #a6b8a7;background:linear-gradient(90deg,#183425,#6f8a72,#234932);transform:rotate(24deg)}.mini-bottle:before{content:"";position:absolute;width:11px;height:29px;margin:-27px 0 0 6px;border:2px solid #a6b8a7;border-bottom:0;border-radius:4px;background:#345b40}.game-content{padding:14px}.game-row{display:flex;justify-content:space-between;gap:8px;align-items:start}.game h3{font:700 13px Manrope;margin:0}.pill{flex:none;padding:4px 6px;border-radius:999px;background:#21181d;color:#907b85;font-size:6px;font-weight:800}.pill.live{background:#172314;color:#aef28b}.game p{height:31px;overflow:hidden;color:#84717a;font-size:9px;line-height:1.55;margin:7px 0 12px}.play{width:100%;height:34px;border:1px solid #3b2b33;border-radius:9px;background:#1b1519;color:#d8c7ce;font-size:8px;font-weight:800}.play.primary{background:var(--orange);border-color:var(--orange);color:#1b0d07}.play:disabled{opacity:.45;cursor:default}
-.info{border-top:1px solid #21191d;border-bottom:1px solid #21191d;background:#0e0b0e}.info-grid{display:grid;grid-template-columns:repeat(3,1fr)}.info-item{padding:24px}.info-item+ .info-item{border-left:1px solid #282025}.info-item b{display:block;font:700 12px Manrope}.info-item span{display:block;color:#78666f;font-size:9px;margin-top:5px}
-.cta{margin:15px auto 65px;padding:31px;border:1px solid #392a31;border-radius:22px;background:#171115;display:flex;align-items:center;justify-content:space-between;gap:25px}.cta h2{font:800 25px Manrope;margin:0}.cta p{margin:6px 0 0;color:#8e7a84;font-size:10px}.cta .btn{flex:none}
-footer{border-top:1px solid #21191d}.footer{min-height:90px;display:flex;align-items:center;justify-content:space-between;color:#67565f;font-size:8px}.footer-links{display:flex;gap:17px}
-.modal-wrap{position:fixed;inset:0;z-index:100;background:#070507e8;display:grid;place-items:center;padding:16px}.modal{width:min(100%,410px);padding:24px;border:1px solid #49343e;border-radius:21px;background:#181217}.modal-head{display:flex;justify-content:space-between}.modal h3{font:800 21px Manrope;margin:4px 0}.modal p{color:#8d7983;font-size:10px}.close{width:34px;height:34px;border-radius:50%;border:1px solid #3c2c34;background:#100d10;color:#c5b2ba}.code{width:100%;height:55px;margin-top:8px;border:1px solid #49343e;border-radius:12px;background:#0c090c;color:#fff;text-align:center;text-transform:uppercase;font:800 20px Manrope;letter-spacing:.2em;outline:none}.modal .btn{width:100%;margin-top:9px}
-@media(max-width:850px){.hero{grid-template-columns:1fr;text-align:center;padding-top:35px}.live,.actions{justify-content:center}.hero p{margin-left:auto;margin-right:auto}.featured{width:min(100%,550px);margin:auto}.games{grid-template-columns:repeat(3,1fr)}.head{display:block}.head p{margin-top:9px}}
-@media(max-width:600px){.container{width:calc(100% - 22px)}header{height:64px}.logo{width:39px;height:39px;border-radius:11px}.brand small,.nav-btn{display:none}.avatar{width:37px;height:37px}.hero{padding:28px 0 34px;gap:24px}.hero h1{font-size:43px;margin:13px 0}.hero p{font-size:12px;line-height:1.6}.actions{display:grid}.btn{width:100%;height:47px}.featured{height:310px;border-radius:20px}.circle{width:230px;height:230px}.section{padding:43px 0}.head h2{font-size:26px}.games{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.game{border-radius:14px}.art{height:88px}.art .symbol{font-size:22px}.game-content{padding:11px}.game h3{font-size:11px}.game p{font-size:8px;height:27px;margin:6px 0 9px}.pill{font-size:5px}.play{height:32px;font-size:7px}.info-grid{grid-template-columns:1fr}.info-item{padding:17px 0}.info-item+.info-item{border-left:0;border-top:1px solid #282025}.cta{padding:23px 18px;display:block;text-align:center}.cta .btn{margin-top:17px}.footer{padding:22px 0;display:block}.footer-links{margin-top:12px;flex-wrap:wrap}}
+    body {
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right)
+    }
 
-/* RES WARS LIVE CHAT */
-.chat-fab{position:fixed;right:18px;bottom:20px;z-index:80;width:52px;height:52px;border:0;border-radius:50%;background:var(--orange);color:#1b0d07;display:grid;place-items:center;box-shadow:0 10px 30px #0008}.chat-fab svg{width:22px;height:22px}.chat-badge{position:absolute;right:-2px;top:-3px;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:#ef445b;color:#fff;border:2px solid #0b090b;display:grid;place-items:center;font-size:7px;font-weight:800}.chat-panel{position:fixed;right:16px;bottom:82px;z-index:79;width:min(390px,calc(100vw - 24px));height:min(620px,calc(100vh - 105px));border:1px solid #45323b;border-radius:20px;background:#110d10;box-shadow:0 24px 70px #000b;overflow:hidden;display:flex;flex-direction:column}.chat-head{height:62px;flex:none;padding:0 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2b2026;background:#171217}.chat-head b{font:800 13px Manrope}.chat-head small{display:block;color:#8c7781;font-size:7px;margin-top:2px}.chat-x{width:34px;height:34px;border-radius:50%;border:1px solid #3c2c34;background:#0d0a0d;color:#d7c5cc}.chat-tabs{display:grid;grid-template-columns:1fr 1fr;padding:9px;gap:7px;border-bottom:1px solid #261c21}.chat-tab{height:36px;border:1px solid #382a31;border-radius:9px;background:#171217;color:#9d8992;font-size:8px;font-weight:800}.chat-tab.active{background:#2b1b16;border-color:#6e432d;color:#ff9b55}.chat-search{padding:0 9px 9px}.chat-search input{width:100%;height:39px;border:1px solid #382a31;border-radius:10px;background:#0c090c;color:#fff;padding:0 11px;outline:none;font-size:12px}.chat-body{flex:1;min-height:0;overflow-y:auto;padding:9px}.chat-empty{text-align:center;padding:42px 18px;color:#7f6c75;font-size:10px;line-height:1.6}.person{width:100%;border:0;border-bottom:1px solid #251c21;background:transparent;color:#fff;padding:10px 5px;display:grid;grid-template-columns:39px 1fr auto;gap:9px;align-items:center;text-align:left}.person-av{width:39px;height:39px;border-radius:50%;background:#2a1d23;display:grid;place-items:center;font-size:8px;font-weight:800;position:relative}.online{position:absolute;width:9px;height:9px;border-radius:50%;background:#9ff06c;border:2px solid #110d10;right:0;bottom:1px}.person b{display:block;font-size:9px}.person p{margin:3px 0 0;color:#806d76;font-size:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}.person time{font-size:6px;color:#6e5c65}.mini-badge{margin-top:5px;margin-left:auto;min-width:17px;height:17px;padding:0 5px;border-radius:999px;background:var(--orange);color:#1b0d07;display:grid;place-items:center;font-size:6px;font-weight:800}.conversation{display:flex;flex-direction:column;height:100%}.conv-top{flex:none;padding:9px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #251c21}.conv-back{width:34px;height:34px;border:1px solid #392b32;border-radius:9px;background:#171217;color:#fff}.conv-name b{display:block;font-size:9px}.conv-name span{font-size:7px;color:#8a7680}.messages{flex:1;overflow-y:auto;padding:12px 9px}.bubble-row{display:flex;margin:7px 0}.bubble-row.mine{justify-content:flex-end}.bubble{max-width:82%;padding:9px 11px;border-radius:13px 13px 13px 4px;background:#21181d;color:#eadde2;font-size:9px;line-height:1.5}.mine .bubble{background:#d75f10;color:#1c0d06;border-radius:13px 13px 4px 13px}.bubble strong{display:block;font-size:7px;margin-bottom:3px;color:#ffad75}.mine .bubble strong{color:#55220b}.bubble time{display:block;font-size:6px;opacity:.6;margin-top:4px;text-align:right}.composer{flex:none;padding:9px;border-top:1px solid #2b2026;display:grid;grid-template-columns:1fr 43px;gap:7px;background:#171217}.composer input{min-width:0;height:43px;border:1px solid #3c2c34;border-radius:11px;background:#0c090c;color:#fff;padding:0 11px;outline:none;font-size:12px}.send{height:43px;border:0;border-radius:11px;background:var(--orange);color:#1b0d07;font-size:15px;font-weight:800}.typing{height:20px;padding:3px 12px;color:#8d7982;font-size:7px;font-style:italic}.chat-toast{position:fixed;right:18px;bottom:85px;z-index:90;width:min(310px,calc(100vw - 36px));padding:11px 12px;border:1px solid #49343e;border-radius:12px;background:#1c1519;color:#fff;font-size:9px;box-shadow:0 14px 35px #0009}.chat-toast b{display:block;color:#ff9b55;margin-bottom:3px}.chat-permission{margin:5px 9px 0;padding:9px;border:1px solid #44323a;border-radius:10px;background:#1a1418;font-size:8px;color:#9b8790;display:flex;align-items:center;justify-content:space-between;gap:8px}.chat-permission button{border:0;border-radius:8px;background:var(--orange);color:#1b0d07;font-size:7px;font-weight:800;padding:7px 9px}
-@media(max-width:600px){.chat-fab{right:13px;bottom:14px}.chat-panel{inset:64px 0 0 0;width:100%;height:calc(100% - 64px);max-height:none;border-radius:0;border-left:0;border-right:0;border-bottom:0}.chat-toast{right:12px;bottom:75px}.person p{max-width:190px}}
+    :root {
+      --bg: #0b090b;
+      --panel: #151115;
+      --panel2: #1b1519;
+      --line: #33262d;
+      --orange: #ff7818;
+      --cream: #fff3e7;
+      --text: #f7eeea;
+      --muted: #9b8790;
+      --green: #9ff06c
+    }
 
-/* LIVE PRESENCE + INVITES */
-.presence-dot{width:9px;height:9px;border-radius:50%;background:#6d5c64;display:inline-block;flex:none}
-.presence-dot.online{background:#91ef68;box-shadow:0 0 0 4px #91ef6815}
-.presence-dot.playing{background:#ff7818;box-shadow:0 0 0 4px #ff781818}
-.presence-dot.away{background:#e8bd58}.person-actions{display:flex;gap:6px;margin-left:auto}
-.invite-mini{border:1px solid #5b3b29;background:#25160f;color:#ffad75;border-radius:8px;padding:7px 8px;font-size:7px;font-weight:900}
-.invite-modal-bg{position:fixed;inset:0;background:#050405e8;z-index:250;display:grid;place-items:center;padding:16px}
-.invite-modal{width:min(430px,100%);background:#171217;border:1px solid #503943;border-radius:18px;padding:19px;box-shadow:0 28px 90px #000c}
-.invite-modal h3{font-size:20px;margin:0 0 5px}.invite-modal p{font-size:10px;color:#a18c95;line-height:1.55}
-.invite-games{display:grid;gap:8px;margin-top:14px}.invite-game{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #3d2d34;border-radius:11px;background:#100d10;padding:11px}.invite-game b{font-size:11px}.invite-game button,.invite-actions button{height:35px;border-radius:8px;border:1px solid #4d382f;background:#25160f;color:#ffad75;padding:0 10px;font-size:8px;font-weight:900}
-.invite-card{position:fixed;z-index:270;right:16px;top:82px;width:min(380px,calc(100% - 32px));background:#1c1519;border:1px solid #69442e;border-radius:15px;padding:15px;box-shadow:0 22px 65px #000b}
-.invite-card .ey{font-size:7px;color:#ff9b55;font-weight:900;letter-spacing:.13em}.invite-card h3{font-size:17px;margin:5px 0}.invite-card p{font-size:10px;color:#a18c95;margin:0 0 12px}.invite-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.invite-actions button.accept{background:#ff7818;border-color:#ff7818;color:#1b0d07}
-.online-count{font-size:8px;color:#a18c95;margin-left:7px}.hidden{display:none!important}
-</style><link rel="manifest" href="manifest.json">
-<meta name="application-name" content="RES WARS">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="RES WARS">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-<style>
-.install-sheet{position:fixed;inset:0;z-index:500;background:#050405e8;display:grid;place-items:end center;padding:16px}
-.install-box{width:min(500px,100%);background:#181217;border:1px solid #49343e;border-radius:22px;padding:21px;box-shadow:0 25px 80px #000c}
-.install-box h3{font:800 22px Manrope;margin:4px 0 7px}.install-box p{font-size:10px;line-height:1.6;color:#9b8790}
-.install-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}.install-actions button{height:44px;border-radius:10px;border:1px solid #44323a;background:#21181d;color:#eadde2;font-size:8px;font-weight:900}.install-actions .install-now{background:#ff7818;border-color:#ff7818;color:#1b0d07}
-@media(max-width:600px){.install-sheet{padding:0;align-items:end}.install-box{border-radius:22px 22px 0 0;padding-bottom:calc(21px + env(safe-area-inset-bottom))}}
-</style><style>
-/* =========================================================
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+      overflow-x: hidden
+    }
+
+    button,
+    input {
+      font: inherit
+    }
+
+    button {
+      cursor: pointer
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: auto
+    }
+
+    header {
+      height: 72px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: #0b090bf5;
+      border-bottom: 1px solid #21191d
+    }
+
+    .nav {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .logo {
+      width: 43px;
+      height: 43px;
+      border-radius: 13px;
+      background: var(--orange);
+      color: #1b0d07;
+      display: grid;
+      place-items: center;
+      font: 800 12px Manrope
+    }
+
+    .brand b {
+      display: block;
+      font: 800 14px Manrope
+    }
+
+    .brand small {
+      display: block;
+      font-size: 7px;
+      color: #89757e;
+      letter-spacing: .12em;
+      margin-top: 2px
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 7px;
+      align-items: center
+    }
+
+    .nav-btn {
+      height: 39px;
+      padding: 0 12px;
+      border: 1px solid #382a31;
+      border-radius: 11px;
+      background: #151115;
+      color: #d8c7ce;
+      font-size: 9px;
+      font-weight: 800
+    }
+
+    .avatar {
+      width: 39px;
+      height: 39px;
+      border-radius: 50%;
+      border: 1px solid #49343e;
+      background: #21181e;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800
+    }
+
+    .hero {
+      padding: 54px 0 45px;
+      display: grid;
+      grid-template-columns: 1fr .95fr;
+      gap: 55px;
+      align-items: center
+    }
+
+    .live {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 9px;
+      font-weight: 800;
+      color: #dec4b8;
+      letter-spacing: .08em
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green)
+    }
+
+    h1 {
+      font: 800 clamp(45px, 6vw, 72px)/.98 Manrope;
+      letter-spacing: -.055em;
+      color: var(--cream);
+      margin: 17px 0
+    }
+
+    h1 span {
+      color: var(--orange)
+    }
+
+    .hero p {
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7
+    }
+
+    .actions {
+      display: flex;
+      gap: 9px;
+      margin-top: 24px
+    }
+
+    .btn {
+      height: 49px;
+      padding: 0 18px;
+      border-radius: 12px;
+      border: 1px solid #3b2c33;
+      background: #171216;
+      color: #eadde2;
+      font-size: 9px;
+      font-weight: 800
+    }
+
+    .btn.primary {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #1b0d07
+    }
+
+    .note {
+      font-size: 9px;
+      color: #75636c;
+      margin-top: 16px
+    }
+
+    .featured {
+      height: 360px;
+      border-radius: 25px;
+      border: 1px solid #3c2b33;
+      background: radial-gradient(circle at 50% 42%, #4b2922, #211419 42%, #110d10 73%);
+      position: relative;
+      overflow: hidden
+    }
+
+    .featured-top {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 17px;
+      display: flex;
+      justify-content: space-between;
+      z-index: 4
+    }
+
+    .tag {
+      font-size: 7px;
+      color: #a38c96;
+      letter-spacing: .12em;
+      font-weight: 800
+    }
+
+    .status {
+      font-size: 7px;
+      color: #b8f697;
+      background: #142012;
+      border: 1px solid #344b30;
+      border-radius: 999px;
+      padding: 6px 8px
+    }
+
+    .circle {
+      position: absolute;
+      left: 50%;
+      top: 49%;
+      width: 270px;
+      height: 270px;
+      transform: translate(-50%, -50%) rotateX(64deg);
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff7818 0 2%, #251518 3% 13%, #0f0c0e 14% 43%, #ff7818 44% 44.7%, #171015 45% 68%, #4b3039 69% 70%, #0a080a 71%)
+    }
+
+    .bottle {
+      position: absolute;
+      left: 50%;
+      top: 45%;
+      width: 52px;
+      height: 176px;
+      transform: translate(-50%, -50%) rotate(27deg)
+    }
+
+    .bottle:before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      width: 17px;
+      height: 51px;
+      border: 2px solid #a5b9a6;
+      border-bottom: 0;
+      border-radius: 6px;
+      background: #365a42
+    }
+
+    .bottle:after {
+      content: "RW";
+      position: absolute;
+      left: 3px;
+      top: 45px;
+      width: 46px;
+      height: 125px;
+      border: 2px solid #a5b9a6;
+      border-radius: 17px 17px 20px 20px;
+      background: linear-gradient(90deg, #183425, #66816b, #264b35);
+      display: grid;
+      place-items: center;
+      color: #fff1dc;
+      font: 800 8px Manrope
+    }
+
+    .featured-bottom {
+      position: absolute;
+      z-index: 4;
+      left: 18px;
+      right: 18px;
+      bottom: 17px
+    }
+
+    .featured-bottom h2 {
+      font: 800 17px Manrope;
+      margin: 0
+    }
+
+    .featured-bottom p {
+      font-size: 9px;
+      color: #9e8993;
+      margin: 4px 0 0
+    }
+
+    .section {
+      padding: 55px 0
+    }
+
+    .head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 22px
+    }
+
+    .eyebrow {
+      color: #ff9b55;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .13em
+    }
+
+    .head h2 {
+      font: 800 31px Manrope;
+      letter-spacing: -.04em;
+      margin: 6px 0 0;
+      color: var(--cream)
+    }
+
+    .head p {
+      max-width: 420px;
+      margin: 0;
+      color: #88747d;
+      font-size: 11px;
+      line-height: 1.6
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px
+    }
+
+    .game {
+      min-width: 0;
+      border: 1px solid #33262d;
+      border-radius: 18px;
+      background: #141014;
+      overflow: hidden;
+      transition: border-color .2s
+    }
+
+    .game:hover {
+      border-color: #59404b
+    }
+
+    .art {
+      height: 125px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      background: #1e1418
+    }
+
+    .art .symbol {
+      font: 800 28px Manrope;
+      color: #fff1e5
+    }
+
+    .art.spin {
+      background: radial-gradient(circle, #513027, #1b1216 67%)
+    }
+
+    .art.truth {
+      background: radial-gradient(circle, #2f294b, #17131d 67%)
+    }
+
+    .art.cards {
+      background: radial-gradient(circle, #3b3522, #191611 67%)
+    }
+
+    .art.sync {
+      background: radial-gradient(circle, #213d37, #111916 67%)
+    }
+
+    .art.quiz {
+      background: radial-gradient(circle, #3d2230, #1b1016 67%)
+    }
+
+    .art.word {
+      background: radial-gradient(circle, #26354a, #11161e 67%)
+    }
+
+    .art.mafia {
+      background: radial-gradient(circle, #442421, #1c1110 67%)
+    }
+
+    .art.future {
+      background: #111011
+    }
+
+    .mini-bottle {
+      width: 27px;
+      height: 88px;
+      border-radius: 8px 8px 12px 12px;
+      border: 2px solid #a6b8a7;
+      background: linear-gradient(90deg, #183425, #6f8a72, #234932);
+      transform: rotate(24deg)
+    }
+
+    .mini-bottle:before {
+      content: "";
+      position: absolute;
+      width: 11px;
+      height: 29px;
+      margin: -27px 0 0 6px;
+      border: 2px solid #a6b8a7;
+      border-bottom: 0;
+      border-radius: 4px;
+      background: #345b40
+    }
+
+    .game-content {
+      padding: 14px
+    }
+
+    .game-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: start
+    }
+
+    .game h3 {
+      font: 700 13px Manrope;
+      margin: 0
+    }
+
+    .pill {
+      flex: none;
+      padding: 4px 6px;
+      border-radius: 999px;
+      background: #21181d;
+      color: #907b85;
+      font-size: 6px;
+      font-weight: 800
+    }
+
+    .pill.live {
+      background: #172314;
+      color: #aef28b
+    }
+
+    .game p {
+      height: 31px;
+      overflow: hidden;
+      color: #84717a;
+      font-size: 9px;
+      line-height: 1.55;
+      margin: 7px 0 12px
+    }
+
+    .play {
+      width: 100%;
+      height: 34px;
+      border: 1px solid #3b2b33;
+      border-radius: 9px;
+      background: #1b1519;
+      color: #d8c7ce;
+      font-size: 8px;
+      font-weight: 800
+    }
+
+    .play.primary {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #1b0d07
+    }
+
+    .play:disabled {
+      opacity: .45;
+      cursor: default
+    }
+
+    .info {
+      border-top: 1px solid #21191d;
+      border-bottom: 1px solid #21191d;
+      background: #0e0b0e
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr)
+    }
+
+    .info-item {
+      padding: 24px
+    }
+
+    .info-item+.info-item {
+      border-left: 1px solid #282025
+    }
+
+    .info-item b {
+      display: block;
+      font: 700 12px Manrope
+    }
+
+    .info-item span {
+      display: block;
+      color: #78666f;
+      font-size: 9px;
+      margin-top: 5px
+    }
+
+    .cta {
+      margin: 15px auto 65px;
+      padding: 31px;
+      border: 1px solid #392a31;
+      border-radius: 22px;
+      background: #171115;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px
+    }
+
+    .cta h2 {
+      font: 800 25px Manrope;
+      margin: 0
+    }
+
+    .cta p {
+      margin: 6px 0 0;
+      color: #8e7a84;
+      font-size: 10px
+    }
+
+    .cta .btn {
+      flex: none
+    }
+
+    footer {
+      border-top: 1px solid #21191d
+    }
+
+    .footer {
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #67565f;
+      font-size: 8px
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 17px
+    }
+
+    .modal-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: #070507e8;
+      display: grid;
+      place-items: center;
+      padding: 16px
+    }
+
+    .modal {
+      width: min(100%, 410px);
+      padding: 24px;
+      border: 1px solid #49343e;
+      border-radius: 21px;
+      background: #181217
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between
+    }
+
+    .modal h3 {
+      font: 800 21px Manrope;
+      margin: 4px 0
+    }
+
+    .modal p {
+      color: #8d7983;
+      font-size: 10px
+    }
+
+    .close {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid #3c2c34;
+      background: #100d10;
+      color: #c5b2ba
+    }
+
+    .code {
+      width: 100%;
+      height: 55px;
+      margin-top: 8px;
+      border: 1px solid #49343e;
+      border-radius: 12px;
+      background: #0c090c;
+      color: #fff;
+      text-align: center;
+      text-transform: uppercase;
+      font: 800 20px Manrope;
+      letter-spacing: .2em;
+      outline: none
+    }
+
+    .modal .btn {
+      width: 100%;
+      margin-top: 9px
+    }
+
+    @media(max-width:850px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding-top: 35px
+      }
+
+      .live,
+      .actions {
+        justify-content: center
+      }
+
+      .hero p {
+        margin-left: auto;
+        margin-right: auto
+      }
+
+      .featured {
+        width: min(100%, 550px);
+        margin: auto
+      }
+
+      .games {
+        grid-template-columns: repeat(3, 1fr)
+      }
+
+      .head {
+        display: block
+      }
+
+      .head p {
+        margin-top: 9px
+      }
+    }
+
+    @media(max-width:600px) {
+      .container {
+        width: calc(100% - 22px)
+      }
+
+      header {
+        height: 64px
+      }
+
+      .logo {
+        width: 39px;
+        height: 39px;
+        border-radius: 11px
+      }
+
+      .brand small,
+      .nav-btn {
+        display: none
+      }
+
+      .avatar {
+        width: 37px;
+        height: 37px
+      }
+
+      .hero {
+        padding: 28px 0 34px;
+        gap: 24px
+      }
+
+      .hero h1 {
+        font-size: 43px;
+        margin: 13px 0
+      }
+
+      .hero p {
+        font-size: 12px;
+        line-height: 1.6
+      }
+
+      .actions {
+        display: grid
+      }
+
+      .btn {
+        width: 100%;
+        height: 47px
+      }
+
+      .featured {
+        height: 310px;
+        border-radius: 20px
+      }
+
+      .circle {
+        width: 230px;
+        height: 230px
+      }
+
+      .section {
+        padding: 43px 0
+      }
+
+      .head h2 {
+        font-size: 26px
+      }
+
+      .games {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px
+      }
+
+      .game {
+        border-radius: 14px
+      }
+
+      .art {
+        height: 88px
+      }
+
+      .art .symbol {
+        font-size: 22px
+      }
+
+      .game-content {
+        padding: 11px
+      }
+
+      .game h3 {
+        font-size: 11px
+      }
+
+      .game p {
+        font-size: 8px;
+        height: 27px;
+        margin: 6px 0 9px
+      }
+
+      .pill {
+        font-size: 5px
+      }
+
+      .play {
+        height: 32px;
+        font-size: 7px
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr
+      }
+
+      .info-item {
+        padding: 17px 0
+      }
+
+      .info-item+.info-item {
+        border-left: 0;
+        border-top: 1px solid #282025
+      }
+
+      .cta {
+        padding: 23px 18px;
+        display: block;
+        text-align: center
+      }
+
+      .cta .btn {
+        margin-top: 17px
+      }
+
+      .footer {
+        padding: 22px 0;
+        display: block
+      }
+
+      .footer-links {
+        margin-top: 12px;
+        flex-wrap: wrap
+      }
+    }
+
+    /* RES WARS LIVE CHAT */
+    .chat-fab {
+      position: fixed;
+      right: 18px;
+      bottom: 20px;
+      z-index: 80;
+      width: 52px;
+      height: 52px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #1b0d07;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 30px #0008
+    }
+
+    .chat-fab svg {
+      width: 22px;
+      height: 22px
+    }
+
+    .chat-badge {
+      position: absolute;
+      right: -2px;
+      top: -3px;
+      min-width: 19px;
+      height: 19px;
+      padding: 0 5px;
+      border-radius: 999px;
+      background: #ef445b;
+      color: #fff;
+      border: 2px solid #0b090b;
+      display: grid;
+      place-items: center;
+      font-size: 7px;
+      font-weight: 800
+    }
+
+    .chat-panel {
+      position: fixed;
+      right: 16px;
+      bottom: 82px;
+      z-index: 79;
+      width: min(390px, calc(100vw - 24px));
+      height: min(620px, calc(100vh - 105px));
+      border: 1px solid #45323b;
+      border-radius: 20px;
+      background: #110d10;
+      box-shadow: 0 24px 70px #000b;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column
+    }
+
+    .chat-head {
+      height: 62px;
+      flex: none;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #2b2026;
+      background: #171217
+    }
+
+    .chat-head b {
+      font: 800 13px Manrope
+    }
+
+    .chat-head small {
+      display: block;
+      color: #8c7781;
+      font-size: 7px;
+      margin-top: 2px
+    }
+
+    .chat-x {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid #3c2c34;
+      background: #0d0a0d;
+      color: #d7c5cc
+    }
+
+    .chat-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 9px;
+      gap: 7px;
+      border-bottom: 1px solid #261c21
+    }
+
+    .chat-tab {
+      height: 36px;
+      border: 1px solid #382a31;
+      border-radius: 9px;
+      background: #171217;
+      color: #9d8992;
+      font-size: 8px;
+      font-weight: 800
+    }
+
+    .chat-tab.active {
+      background: #2b1b16;
+      border-color: #6e432d;
+      color: #ff9b55
+    }
+
+    .chat-search {
+      padding: 0 9px 9px
+    }
+
+    .chat-search input {
+      width: 100%;
+      height: 39px;
+      border: 1px solid #382a31;
+      border-radius: 10px;
+      background: #0c090c;
+      color: #fff;
+      padding: 0 11px;
+      outline: none;
+      font-size: 12px
+    }
+
+    .chat-body {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 9px
+    }
+
+    .chat-empty {
+      text-align: center;
+      padding: 42px 18px;
+      color: #7f6c75;
+      font-size: 10px;
+      line-height: 1.6
+    }
+
+    .person {
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid #251c21;
+      background: transparent;
+      color: #fff;
+      padding: 10px 5px;
+      display: grid;
+      grid-template-columns: 39px 1fr auto;
+      gap: 9px;
+      align-items: center;
+      text-align: left
+    }
+
+    .person-av {
+      width: 39px;
+      height: 39px;
+      border-radius: 50%;
+      background: #2a1d23;
+      display: grid;
+      place-items: center;
+      font-size: 8px;
+      font-weight: 800;
+      position: relative
+    }
+
+    .online {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #9ff06c;
+      border: 2px solid #110d10;
+      right: 0;
+      bottom: 1px
+    }
+
+    .person b {
+      display: block;
+      font-size: 9px
+    }
+
+    .person p {
+      margin: 3px 0 0;
+      color: #806d76;
+      font-size: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 220px
+    }
+
+    .person time {
+      font-size: 6px;
+      color: #6e5c65
+    }
+
+    .mini-badge {
+      margin-top: 5px;
+      margin-left: auto;
+      min-width: 17px;
+      height: 17px;
+      padding: 0 5px;
+      border-radius: 999px;
+      background: var(--orange);
+      color: #1b0d07;
+      display: grid;
+      place-items: center;
+      font-size: 6px;
+      font-weight: 800
+    }
+
+    .conversation {
+      display: flex;
+      flex-direction: column;
+      height: 100%
+    }
+
+    .conv-top {
+      flex: none;
+      padding: 9px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #251c21
+    }
+
+    .conv-back {
+      width: 34px;
+      height: 34px;
+      border: 1px solid #392b32;
+      border-radius: 9px;
+      background: #171217;
+      color: #fff
+    }
+
+    .conv-name b {
+      display: block;
+      font-size: 9px
+    }
+
+    .conv-name span {
+      font-size: 7px;
+      color: #8a7680
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 9px
+    }
+
+    .bubble-row {
+      display: flex;
+      margin: 7px 0
+    }
+
+    .bubble-row.mine {
+      justify-content: flex-end
+    }
+
+    .bubble {
+      max-width: 82%;
+      padding: 9px 11px;
+      border-radius: 13px 13px 13px 4px;
+      background: #21181d;
+      color: #eadde2;
+      font-size: 9px;
+      line-height: 1.5
+    }
+
+    .mine .bubble {
+      background: #d75f10;
+      color: #1c0d06;
+      border-radius: 13px 13px 4px 13px
+    }
+
+    .bubble strong {
+      display: block;
+      font-size: 7px;
+      margin-bottom: 3px;
+      color: #ffad75
+    }
+
+    .mine .bubble strong {
+      color: #55220b
+    }
+
+    .bubble time {
+      display: block;
+      font-size: 6px;
+      opacity: .6;
+      margin-top: 4px;
+      text-align: right
+    }
+
+    .composer {
+      flex: none;
+      padding: 9px;
+      border-top: 1px solid #2b2026;
+      display: grid;
+      grid-template-columns: 1fr 43px;
+      gap: 7px;
+      background: #171217
+    }
+
+    .composer input {
+      min-width: 0;
+      height: 43px;
+      border: 1px solid #3c2c34;
+      border-radius: 11px;
+      background: #0c090c;
+      color: #fff;
+      padding: 0 11px;
+      outline: none;
+      font-size: 12px
+    }
+
+    .send {
+      height: 43px;
+      border: 0;
+      border-radius: 11px;
+      background: var(--orange);
+      color: #1b0d07;
+      font-size: 15px;
+      font-weight: 800
+    }
+
+    .typing {
+      height: 20px;
+      padding: 3px 12px;
+      color: #8d7982;
+      font-size: 7px;
+      font-style: italic
+    }
+
+    .chat-toast {
+      position: fixed;
+      right: 18px;
+      bottom: 85px;
+      z-index: 90;
+      width: min(310px, calc(100vw - 36px));
+      padding: 11px 12px;
+      border: 1px solid #49343e;
+      border-radius: 12px;
+      background: #1c1519;
+      color: #fff;
+      font-size: 9px;
+      box-shadow: 0 14px 35px #0009
+    }
+
+    .chat-toast b {
+      display: block;
+      color: #ff9b55;
+      margin-bottom: 3px
+    }
+
+    .chat-permission {
+      margin: 5px 9px 0;
+      padding: 9px;
+      border: 1px solid #44323a;
+      border-radius: 10px;
+      background: #1a1418;
+      font-size: 8px;
+      color: #9b8790;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px
+    }
+
+    .chat-permission button {
+      border: 0;
+      border-radius: 8px;
+      background: var(--orange);
+      color: #1b0d07;
+      font-size: 7px;
+      font-weight: 800;
+      padding: 7px 9px
+    }
+
+    @media(max-width:600px) {
+      .chat-fab {
+        right: 13px;
+        bottom: 14px
+      }
+
+      .chat-panel {
+        inset: 64px 0 0 0;
+        width: 100%;
+        height: calc(100% - 64px);
+        max-height: none;
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 0
+      }
+
+      .chat-toast {
+        right: 12px;
+        bottom: 75px
+      }
+
+      .person p {
+        max-width: 190px
+      }
+    }
+
+    /* LIVE PRESENCE + INVITES */
+    .presence-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #6d5c64;
+      display: inline-block;
+      flex: none
+    }
+
+    .presence-dot.online {
+      background: #91ef68;
+      box-shadow: 0 0 0 4px #91ef6815
+    }
+
+    .presence-dot.playing {
+      background: #ff7818;
+      box-shadow: 0 0 0 4px #ff781818
+    }
+
+    .presence-dot.away {
+      background: #e8bd58
+    }
+
+    .person-actions {
+      display: flex;
+      gap: 6px;
+      margin-left: auto
+    }
+
+    .invite-mini {
+      border: 1px solid #5b3b29;
+      background: #25160f;
+      color: #ffad75;
+      border-radius: 8px;
+      padding: 7px 8px;
+      font-size: 7px;
+      font-weight: 900
+    }
+
+    .invite-modal-bg {
+      position: fixed;
+      inset: 0;
+      background: #050405e8;
+      z-index: 250;
+      display: grid;
+      place-items: center;
+      padding: 16px
+    }
+
+    .invite-modal {
+      width: min(430px, 100%);
+      background: #171217;
+      border: 1px solid #503943;
+      border-radius: 18px;
+      padding: 19px;
+      box-shadow: 0 28px 90px #000c
+    }
+
+    .invite-modal h3 {
+      font-size: 20px;
+      margin: 0 0 5px
+    }
+
+    .invite-modal p {
+      font-size: 10px;
+      color: #a18c95;
+      line-height: 1.55
+    }
+
+    .invite-games {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px
+    }
+
+    .invite-game {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border: 1px solid #3d2d34;
+      border-radius: 11px;
+      background: #100d10;
+      padding: 11px
+    }
+
+    .invite-game b {
+      font-size: 11px
+    }
+
+    .invite-game button,
+    .invite-actions button {
+      height: 35px;
+      border-radius: 8px;
+      border: 1px solid #4d382f;
+      background: #25160f;
+      color: #ffad75;
+      padding: 0 10px;
+      font-size: 8px;
+      font-weight: 900
+    }
+
+    .invite-card {
+      position: fixed;
+      z-index: 270;
+      right: 16px;
+      top: 82px;
+      width: min(380px, calc(100% - 32px));
+      background: #1c1519;
+      border: 1px solid #69442e;
+      border-radius: 15px;
+      padding: 15px;
+      box-shadow: 0 22px 65px #000b
+    }
+
+    .invite-card .ey {
+      font-size: 7px;
+      color: #ff9b55;
+      font-weight: 900;
+      letter-spacing: .13em
+    }
+
+    .invite-card h3 {
+      font-size: 17px;
+      margin: 5px 0
+    }
+
+    .invite-card p {
+      font-size: 10px;
+      color: #a18c95;
+      margin: 0 0 12px
+    }
+
+    .invite-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px
+    }
+
+    .invite-actions button.accept {
+      background: #ff7818;
+      border-color: #ff7818;
+      color: #1b0d07
+    }
+
+    .online-count {
+      font-size: 8px;
+      color: #a18c95;
+      margin-left: 7px
+    }
+
+    .hidden {
+      display: none !important
+    }
+  </style>
+  <link rel="manifest" href="manifest.json">
+  <meta name="application-name" content="RES WARS">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="RES WARS">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <style>
+    .install-sheet {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: #050405e8;
+      display: grid;
+      place-items: end center;
+      padding: 16px
+    }
+
+    .install-box {
+      width: min(500px, 100%);
+      background: #181217;
+      border: 1px solid #49343e;
+      border-radius: 22px;
+      padding: 21px;
+      box-shadow: 0 25px 80px #000c
+    }
+
+    .install-box h3 {
+      font: 800 22px Manrope;
+      margin: 4px 0 7px
+    }
+
+    .install-box p {
+      font-size: 10px;
+      line-height: 1.6;
+      color: #9b8790
+    }
+
+    .install-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 15px
+    }
+
+    .install-actions button {
+      height: 44px;
+      border-radius: 10px;
+      border: 1px solid #44323a;
+      background: #21181d;
+      color: #eadde2;
+      font-size: 8px;
+      font-weight: 900
+    }
+
+    .install-actions .install-now {
+      background: #ff7818;
+      border-color: #ff7818;
+      color: #1b0d07
+    }
+
+    @media(max-width:600px) {
+      .install-sheet {
+        padding: 0;
+        align-items: end
+      }
+
+      .install-box {
+        border-radius: 22px 22px 0 0;
+        padding-bottom: calc(21px + env(safe-area-inset-bottom))
+      }
+    }
+  </style>
+  <style>
+    /* =========================================================
    RES WARS — INSTALLED APP / MOBILE SCREEN FIT
    Keeps every page inside the visible PWA viewport.
 ========================================================= */
-:root{
-  --rw-safe-top: env(safe-area-inset-top, 0px);
-  --rw-safe-right: env(safe-area-inset-right, 0px);
-  --rw-safe-bottom: env(safe-area-inset-bottom, 0px);
-  --rw-safe-left: env(safe-area-inset-left, 0px);
-  --rw-vh: 100dvh;
-}
-*,*::before,*::after{box-sizing:border-box}
-html{
-  width:100%;
-  max-width:100%;
-  min-height:100%;
-  overflow-x:hidden;
-  overscroll-behavior:none;
-  -webkit-text-size-adjust:100%;
-  text-size-adjust:100%;
-  background:#0b090b;
-}
-body{
-  width:100%;
-  max-width:100vw;
-  min-width:0;
-  min-height:100vh;
-  min-height:100dvh;
-  margin:0;
-  overflow-x:hidden;
-  overscroll-behavior-y:none;
-  padding-left:var(--rw-safe-left)!important;
-  padding-right:var(--rw-safe-right)!important;
-}
-img,video,canvas,svg{max-width:100%;height:auto}
-input,select,textarea,button{max-width:100%;font:inherit}
-main,.wrap,.shell,.app,.page,.content,.container,.game-shell,.game-wrap{
-  width:100%;
-  max-width:100%;
-  min-width:0;
-}
-.modalbg,.invite-modal-bg,.ready-overlay,.result-overlay,.install-sheet{
-  width:100vw;
-  width:100dvw;
-  height:100vh;
-  height:100dvh;
-  max-width:100%;
-  padding-top:max(12px,var(--rw-safe-top))!important;
-  padding-right:max(12px,var(--rw-safe-right))!important;
-  padding-bottom:max(12px,var(--rw-safe-bottom))!important;
-  padding-left:max(12px,var(--rw-safe-left))!important;
-  overflow-y:auto;
-  overscroll-behavior:contain;
-}
-.modal,.invite-modal,.ready-box,.result-card,.install-box{
-  width:min(100%,500px)!important;
-  max-width:100%!important;
-  max-height:calc(100dvh - var(--rw-safe-top) - var(--rw-safe-bottom) - 24px);
-  overflow-y:auto;
-}
-@media (display-mode:standalone){
-  body{min-height:100dvh}
-}
-@media(max-width:760px){
-  body{font-size:16px}
-  .wrap,.shell,.app,.page,.content,.container,.game-shell,.game-wrap{
-    padding-left:max(12px,var(--rw-safe-left));
-    padding-right:max(12px,var(--rw-safe-right));
-  }
-  .grid,.games,.game-grid,.stats,.cards,.two,.cols,.columns{
-    min-width:0;
-    max-width:100%;
-  }
-  .card,.game-card,.panel,.stat,.room-hero,.roommate-card{
-    min-width:0;
-    max-width:100%;
-  }
-}
+    :root {
+      --rw-safe-top: env(safe-area-inset-top, 0px);
+      --rw-safe-right: env(safe-area-inset-right, 0px);
+      --rw-safe-bottom: env(safe-area-inset-bottom, 0px);
+      --rw-safe-left: env(safe-area-inset-left, 0px);
+      --rw-vh: 100dvh;
+    }
 
-@media(max-width:760px){
-  body{padding-bottom:calc(78px + var(--rw-safe-bottom))!important}
-  header,.topbar,.top-bar{max-width:100vw}
-  .mobile-nav,.bottom-nav,.bottom-bar{
-    left:var(--rw-safe-left)!important;
-    right:var(--rw-safe-right)!important;
-    bottom:0!important;
-    width:auto!important;
-    max-width:none!important;
-    padding-bottom:max(8px,var(--rw-safe-bottom))!important;
-  }
-  .games,.game-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
-  .game-card{width:100%!important;min-width:0!important}
-  .chat-panel,.chat-drawer,.support-panel{
-    max-width:100vw!important;
-    max-height:calc(100dvh - var(--rw-safe-top))!important;
-  }
-}
-</style>
-</head>
-<body><div id="installSheet" class="install-sheet hidden"><div class="install-box"><div class="eyebrow">INSTALL RES WARS</div><h3>Play it like a real app.</h3><p id="installText">Add RES WARS to your Home Screen for a full-screen app experience and faster access on game night.</p><div class="install-actions"><button id="installLater">NOT NOW</button><button id="installNow" class="install-now">ADD TO HOME SCREEN</button></div></div></div>
-<header><div class="container nav"><a class="brand" href="#"><div class="logo">RW</div><div><b>RES WARS</b><small>RESIDENCE GAME NIGHT</small></div></a><div class="nav-actions"><button class="nav-btn" onclick="openJoin()">JOIN CODE</button><button id="profile" class="avatar" type="button" onclick="location.href='profile.html'">RW</button></div></div></header>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box
+    }
 
-<main>
-<section class="container hero">
-<div><div class="live"><span class="dot"></span> RES GAME NIGHT</div><h1>Your res.<br>Your people.<br><span>Your games.</span></h1><p>One place for the games that turn ordinary residence nights into something everyone remembers. Host from your phone, invite the room and play together.</p><div class="actions"><button class="btn primary" onclick="location.href='spin.html?host=1'">HOST A GAME</button><button class="btn" onclick="openJoin()">JOIN WITH CODE</button></div><div class="note">Anyone can host • Everyone joins from their own phone</div></div>
-<div class="featured"><div class="featured-top"><span class="tag">FEATURED TONIGHT</span><span class="status">PLAY NOW</span></div><div class="circle"></div><div class="bottle"></div><div class="featured-bottom"><h2>Spin the Bottle</h2><p>Truth • Dare • Live room</p></div></div>
-</section>
+    html {
+      width: 100%;
+      max-width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      overscroll-behavior: none;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      background: #0b090b;
+    }
 
-<section class="info"><div class="container info-grid"><div class="info-item"><b>No permanent game master</b><span>Any resident can host when the group is ready.</span></div><div class="info-item"><b>One room code</b><span>Everyone joins the same live session.</span></div><div class="info-item"><b>Built for mobile</b><span>Quick controls, small cards and no sideways scrolling.</span></div></div></section>
+    body {
+      width: 100%;
+      max-width: 100vw;
+      min-width: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0;
+      overflow-x: hidden;
+      overscroll-behavior-y: none;
+      padding-left: var(--rw-safe-left) !important;
+      padding-right: var(--rw-safe-right) !important;
+    }
 
-<section class="container section">
-<div class="head"><div><div class="eyebrow">GAME ROOM</div><h2>Choose what the res is playing.</h2></div><p>The RES WARS game room is live. Choose a game, host a room and share the code with everyone around you.</p></div>
-<div class="games">
-<article class="game"><div class="art spin"><div class="mini-bottle"></div></div><div class="game-content"><div class="game-row"><h3>Spin the Bottle</h3><span class="pill live">LIVE</span></div><p>The bottle chooses. The player picks Truth or Dare.</p><button class="play primary" onclick="location.href='spin.html'">PLAY</button></div></article>
-<article class="game"><div class="art truth"><div class="symbol">T/D</div></div><div class="game-content"><div class="game-row"><h3>Truth or Dare</h3><span class="pill live">LIVE</span></div><p>Take turns choosing a truth or taking on a dare.</p><button class="play primary" onclick="location.href='game.html?game=truth-dare&host=1'">PLAY</button></div></article>
-<article class="game"><div class="art cards"><div class="symbol">21</div></div><div class="game-content"><div class="game-row"><h3>Twenty One</h3><span class="pill live">LIVE</span></div><p>Fast social rounds with choices, pressure and surprises.</p><button class="play primary" onclick="location.href='game.html?game=twenty-one&host=1'">PLAY</button></div></article>
-<article class="game"><div class="art sync"><div class="symbol">SYNC</div></div><div class="game-content"><div class="game-row"><h3>Roommate Sync</h3><span class="pill live">LIVE</span></div><p>Find out how well roommates really know each other.</p><button class="play primary" onclick="location.href='game.html?game=roommate-sync&host=1'">PLAY</button></div></article>
-<article class="game"><div class="art quiz"><div class="symbol">?</div></div><div class="game-content"><div class="game-row"><h3>Battle Quiz</h3><span class="pill live">LIVE</span></div><p>Hard questions, quick answers and residence bragging rights.</p><button class="play primary" onclick="location.href='game.html?game=battle-quiz&host=1'">PLAY</button></div></article>
-<article class="game"><div class="art word"><div class="symbol">ABC</div></div><div class="game-content"><div class="game-row"><h3>Word Rush</h3><span class="pill live">LIVE</span></div><p>Beat the timer and build more valid words than the room.</p><button class="play primary" onclick="location.href='game.html?game=word-rush&host=1'">PLAY</button></div></article>
-<article class="game"><div class="art mafia"><div class="symbol">M</div></div><div class="game-content"><div class="game-row"><h3>Res Mafia</h3><span class="pill live">LIVE</span></div><p>Roles, accusations and one room trying to find the Mafia.</p><button class="play primary" onclick="location.href='game.html?game=res-mafia&host=1'">PLAY</button></div></article>
-<article class="game"><div class="art future"><div class="symbol">+</div></div><div class="game-content"><div class="game-row"><h3>More games</h3><span class="pill">LATER</span></div><p>New games can join RES WARS without changing the whole app.</p><button class="play" disabled>IN DEVELOPMENT</button></div></article>
-</div>
-</section>
+    img,
+    video,
+    canvas,
+    svg {
+      max-width: 100%;
+      height: auto
+    }
 
-<section class="container cta"><div><h2>Everyone's together? Start the room.</h2><p>Create a Spin the Bottle room now and share the code with everyone around you.</p></div><button class="btn primary" onclick="location.href='spin.html?host=1'">HOST SPIN THE BOTTLE</button></section>
-</main>
+    input,
+    select,
+    textarea,
+    button {
+      max-width: 100%;
+      font: inherit
+    }
 
-<footer><div class="container footer"><div>© 2026 RES WARS • MADE FOR RESIDENCE NIGHTS</div><div class="footer-links"><a href="#">Home</a><a href="#" onclick="openJoin();return false">Join Game</a><a href="admin.html">Admin</a></div></div></footer>
+    main,
+    .wrap,
+    .shell,
+    .app,
+    .page,
+    .content,
+    .container,
+    .game-shell,
+    .game-wrap {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+    }
 
-<div id="joinModal" class="modal-wrap hidden"><div class="modal"><div class="modal-head"><div><div class="eyebrow">JOIN A ROOM</div><h3>Enter game code</h3></div><button class="close" onclick="closeJoin()">×</button></div><p>Enter the six-character code shown by the host.</p><input id="roomCode" class="code" maxlength="6" placeholder="ABC123" autocomplete="off"><button class="btn primary" onclick="joinGame()">CONTINUE</button></div></div>
+    .modalbg,
+    .invite-modal-bg,
+    .ready-overlay,
+    .result-overlay,
+    .install-sheet {
+      width: 100vw;
+      width: 100dvw;
+      height: 100vh;
+      height: 100dvh;
+      max-width: 100%;
+      padding-top: max(12px, var(--rw-safe-top)) !important;
+      padding-right: max(12px, var(--rw-safe-right)) !important;
+      padding-bottom: max(12px, var(--rw-safe-bottom)) !important;
+      padding-left: max(12px, var(--rw-safe-left)) !important;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
 
+    .modal,
+    .invite-modal,
+    .ready-box,
+    .result-card,
+    .install-box {
+      width: min(100%, 500px) !important;
+      max-width: 100% !important;
+      max-height: calc(100dvh - var(--rw-safe-top) - var(--rw-safe-bottom) - 24px);
+      overflow-y: auto;
+    }
 
-<button id="chatFab" class="chat-fab" aria-label="Open residence messages">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3 1.7-5.1A7 7 0 0 1 3 12V8a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
-<span id="chatBadge" class="chat-badge hidden">0</span>
-</button>
-<aside id="chatPanel" class="chat-panel hidden" aria-label="Residence chat">
- <div class="chat-head"><div><b>RES WARS Messages</b><small id="chatStatus">Connecting to residence...</small></div><button id="chatClose" class="chat-x">×</button></div>
- <div id="chatHome">
-   <div class="chat-tabs"><button id="groupTab" class="chat-tab active">RES GROUP</button><button id="peopleTab" class="chat-tab">DIRECT MESSAGES</button></div>
-   <div id="chatPermission" class="chat-permission hidden"><span>Turn on browser alerts for new messages.</span><button id="enableAlerts">ENABLE</button></div>
-   <div id="peopleSearch" class="chat-search hidden"><input id="peopleQuery" placeholder="Search resmate..."></div>
-   <div id="chatList" class="chat-body"></div>
- </div>
- <div id="conversation" class="conversation hidden">
-   <div class="conv-top"><button id="convBack" class="conv-back">‹</button><div class="conv-name"><b id="convTitle">Residence Group</b><span id="convSub">Live residence chat</span></div></div>
-   <div id="messages" class="messages"></div><div id="typing" class="typing"></div>
-   <form id="composer" class="composer"><input id="messageInput" maxlength="700" autocomplete="off" placeholder="Write a message..."><button class="send" aria-label="Send">↑</button></form>
- </div>
-</aside>
-<div id="chatToast" class="chat-toast hidden"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const sb=supabase.createClient("https://tkfnypzohdercxljswfe.supabase.co","sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra"),$=x=>document.getElementById(x);
-function openJoin(){$("joinModal").classList.remove("hidden");setTimeout(()=>$("roomCode").focus(),60)}
-function closeJoin(){$("joinModal").classList.add("hidden")}
-function joinGame(){const c=$("roomCode").value.trim().toUpperCase();if(c.length!==6)return $("roomCode").focus();location.href="spin.html?code="+encodeURIComponent(c)}
-$("roomCode").addEventListener("keydown",e=>{if(e.key==="Enter")joinGame()});
-$("joinModal").addEventListener("click",e=>{if(e.target===$("joinModal"))closeJoin()});
-(async()=>{const{data:{session}}=await sb.auth.getSession();if(!session?.user)return location.replace("auth.html");const{data:p}=await sb.from("profiles").select("full_name").eq("id",session.user.id).maybeSingle();$("profile").textContent=(p?.full_name||session.user.email||"RW").split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase()})();
+    @media (display-mode:standalone) {
+      body {
+        min-height: 100dvh
+      }
+    }
 
-// ---------- RES WARS LIVE RESIDENCE CHAT ----------
-let chatMe=null, chatResidence=null, chatProfiles=[], chatMode="group", chatPeer=null, chatOpen=false, chatChannel=null, typingTimer=null, unreadTotal=0;
-const ce=id=>document.getElementById(id), cesc=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const cini=n=>(n||"R").split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase();
-const ctime=d=>new Date(d).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
-function setBadge(n){unreadTotal=Math.max(0,n||0);ce("chatBadge").textContent=unreadTotal>99?"99+":unreadTotal;ce("chatBadge").classList.toggle("hidden",!unreadTotal)}
-function showChatToast(name,text){if(chatOpen)return;let t=ce("chatToast");t.innerHTML=`<b>${cesc(name)}</b>${cesc(text).slice(0,90)}`;t.classList.remove("hidden");clearTimeout(showChatToast.t);showChatToast.t=setTimeout(()=>t.classList.add("hidden"),4000)}
-async function initChat(){
- const {data:{session}}=await sb.auth.getSession(); if(!session?.user)return;
- chatMe=session.user;
- const {data:p}=await sb.from("profiles").select("*").eq("id",chatMe.id).maybeSingle();
- chatResidence=p?.residence_id||null;
- ce("chatStatus").textContent=chatResidence?"Residence chat • live":"Residence chat • profile";
- if("Notification" in window && Notification.permission==="default")ce("chatPermission").classList.remove("hidden");
- await loadPeople(); await loadUnread(); subscribeChat(); renderChatHome();
-}
-async function loadPeople(){
- let q=sb.from("profiles").select("id,full_name,residence_id,room_id").neq("id",chatMe.id).order("full_name");
- if(chatResidence)q=q.eq("residence_id",chatResidence);
- const {data}=await q; chatProfiles=data||[];
-}
-async function loadUnread(){
- let q=sb.from("rw_chat_messages").select("id,sender_id,recipient_id,read_at").is("read_at",null).neq("sender_id",chatMe.id);
- if(chatResidence)q=q.eq("residence_id",chatResidence);
- const {data}=await q; setBadge((data||[]).filter(m=>m.recipient_id===chatMe.id||m.recipient_id===null).length);
-}
-function renderChatHome(){
- ce("conversation").classList.add("hidden");ce("chatHome").classList.remove("hidden");
- if(chatMode==="group"){
-  ce("groupTab").classList.add("active");ce("peopleTab").classList.remove("active");ce("peopleSearch").classList.add("hidden");
-  ce("chatList").innerHTML=`<button class="person" id="openGroup"><div class="person-av">ALL<span class="online"></span></div><div><b>Residence Group</b><p>Chat live with everyone in your residence.</p></div><time>LIVE</time></button>`;
-  ce("openGroup").onclick=()=>openConversation("group",null);
- }else{
-  ce("groupTab").classList.remove("active");ce("peopleTab").classList.add("active");ce("peopleSearch").classList.remove("hidden");renderPeople();
- }
-}
-function renderPeople(){
- const term=ce("peopleQuery").value.trim().toLowerCase(), arr=chatProfiles.filter(p=>(p.full_name||"").toLowerCase().includes(term));
- ce("chatList").innerHTML=arr.length?arr.map(p=>`<button class="person" data-peer="${p.id}"><div class="person-av">${cini(p.full_name)}<span class="online"></span></div><div><b>${cesc(p.full_name||"Resmate")}</b><p>Tap to start a private live chat.</p></div><time>DM</time></button>`).join(""):`<div class="chat-empty">No resmates found.</div>`;
- ce("chatList").querySelectorAll("[data-peer]").forEach(b=>b.onclick=()=>openConversation("direct",chatProfiles.find(p=>p.id===b.dataset.peer)));
-}
-async function openConversation(mode,peer){
- chatMode=mode;chatPeer=peer;ce("chatHome").classList.add("hidden");ce("conversation").classList.remove("hidden");
- ce("convTitle").textContent=mode==="group"?"Residence Group":peer?.full_name||"Resmate";ce("convSub").textContent=mode==="group"?"Everyone in your residence":"Private message";
- await loadMessages(); await markRead();
-}
-async function loadMessages(){
- let q=sb.from("rw_chat_messages").select("id,sender_id,recipient_id,message,created_at,profiles!rw_chat_messages_sender_id_fkey(full_name)").order("created_at",{ascending:true}).limit(150);
- if(chatResidence)q=q.eq("residence_id",chatResidence);
- if(chatMode==="group")q=q.is("recipient_id",null);
- else q=q.or(`and(sender_id.eq.${chatMe.id},recipient_id.eq.${chatPeer.id}),and(sender_id.eq.${chatPeer.id},recipient_id.eq.${chatMe.id})`);
- const {data,error}=await q;if(error){ce("messages").innerHTML=`<div class="chat-empty">${cesc(error.message)}</div>`;return}
- ce("messages").innerHTML=(data||[]).map(m=>`<div class="bubble-row ${m.sender_id===chatMe.id?"mine":""}"><div class="bubble">${chatMode==="group"&&m.sender_id!==chatMe.id?`<strong>${cesc(m.profiles?.full_name||"Resmate")}</strong>`:""}${cesc(m.message)}<time>${ctime(m.created_at)}</time></div></div>`).join("")||`<div class="chat-empty">No messages yet. Start the conversation.</div>`;
- ce("messages").scrollTop=ce("messages").scrollHeight;
-}
-async function markRead(){
- if(chatMode!=="direct"||!chatPeer)return;
- await sb.from("rw_chat_messages").update({read_at:new Date().toISOString()}).eq("recipient_id",chatMe.id).eq("sender_id",chatPeer.id).is("read_at",null);await loadUnread();
-}
-async function sendMessage(e){
- e.preventDefault();let v=ce("messageInput").value.trim();if(!v)return;
- ce("messageInput").value="";
- const row={sender_id:chatMe.id,recipient_id:chatMode==="direct"?chatPeer.id:null,residence_id:chatResidence,message:v};
- const {error}=await sb.from("rw_chat_messages").insert(row);if(error){ce("messageInput").value=v;showChatToast("Message not sent",error.message)}
-}
-function subscribeChat(){
- if(chatChannel)sb.removeChannel(chatChannel);
- chatChannel=sb.channel("rw-res-chat-"+(chatResidence||chatMe.id))
- .on("postgres_changes",{event:"INSERT",schema:"public",table:"rw_chat_messages"},async payload=>{
-   const m=payload.new;if(m.sender_id===chatMe.id)return;
-   if(chatResidence&&m.residence_id!==chatResidence)return;
-   if(m.recipient_id&&m.recipient_id!==chatMe.id)return;
-   let sender=chatProfiles.find(p=>p.id===m.sender_id);let name=sender?.full_name||"Resmate";
-   const viewing=chatOpen&&!ce("conversation").classList.contains("hidden")&&((chatMode==="group"&&!m.recipient_id)||(chatMode==="direct"&&chatPeer?.id===m.sender_id));
-   if(viewing){await loadMessages();await markRead()}else{setBadge(unreadTotal+1);showChatToast(name,m.message);if("Notification" in window&&Notification.permission==="granted"&&document.hidden)new Notification(`RES WARS • ${name}`,{body:m.message})}
- }).on("postgres_changes",{event:"UPDATE",schema:"public",table:"rw_chat_messages"},()=>{}).subscribe();
-}
-ce("chatFab").addEventListener("click",()=>{chatOpen=true;ce("chatPanel").classList.remove("hidden");ce("chatToast").classList.add("hidden")});
-ce("chatClose").addEventListener("click",()=>{chatOpen=false;ce("chatPanel").classList.add("hidden")});
-ce("groupTab").addEventListener("click",()=>{chatMode="group";renderChatHome()});ce("peopleTab").addEventListener("click",()=>{chatMode="direct";renderChatHome()});
-ce("peopleQuery").addEventListener("input",renderPeople);ce("convBack").addEventListener("click",renderChatHome);ce("composer").addEventListener("submit",sendMessage);
-ce("messageInput").addEventListener("input",()=>{clearTimeout(typingTimer);ce("typing").textContent=ce("messageInput").value?"Typing...":"";typingTimer=setTimeout(()=>ce("typing").textContent="",700)});
-ce("enableAlerts").addEventListener("click",async()=>{if("Notification" in window){let r=await Notification.requestPermission();ce("chatPermission").classList.add("hidden");if(r==="granted")showChatToast("Notifications enabled","New messages can alert you while this page is open in the background.")}});
-initChat();
+    @media(max-width:760px) {
+      body {
+        font-size: 16px
+      }
 
-/* =========================================================
-   LIVE PRESENCE + GAME INVITATIONS
+      .wrap,
+      .shell,
+      .app,
+      .page,
+      .content,
+      .container,
+      .game-shell,
+      .game-wrap {
+        padding-left: max(12px, var(--rw-safe-left));
+        padding-right: max(12px, var(--rw-safe-right));
+      }
+
+      .grid,
+      .games,
+      .game-grid,
+      .stats,
+      .cards,
+      .two,
+      .cols,
+      .columns {
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .card,
+      .game-card,
+      .panel,
+      .stat,
+      .room-hero,
+      .roommate-card {
+        min-width: 0;
+        max-width: 100%;
+      }
+    }
+
+    @media(max-width:760px) {
+      body {
+        padding-bottom: calc(78px + var(--rw-safe-bottom)) !important
+      }
+
+      header,
+      .topbar,
+      .top-bar {
+        max-width: 100vw
+      }
+
+      .mobile-nav,
+      .bottom-nav,
+      .bottom-bar {
+        left: var(--rw-safe-left) !important;
+        right: var(--rw-safe-right) !important;
+        bottom: 0 !important;
+        width: auto !important;
+        max-width: none !important;
+        padding-bottom: max(8px, var(--rw-safe-bottom)) !important;
+      }
+
+      .games,
+      .game-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 9px !important
+      }
+
+      .game-card {
+        width: 100% !important;
+        min-width: 0 !important
+      }
+
+      .chat-panel,
+      .chat-drawer,
+      .support-panel {
+        max-width: 100vw !important;
+        max-height: calc(100dvh - var(--rw-safe-top)) !important;
+      }
+    }
+  </style>
+  <style>
+    /* =========================================================
+   RES WARS TRUE APP FIT — hard mobile viewport correction
 ========================================================= */
-let rwPresence=[],rwInvitePeer=null,rwIncoming=null,rwPresenceTimer=null;
-function rwStatus(p){
- if(!p)return {status:"offline",text:"OFFLINE"};
- let age=Date.now()-new Date(p.last_seen).getTime();
- if(age>120000)return {status:"offline",text:"OFFLINE"};
- if(p.status==="playing")return {status:"playing",text:"PLAYING"};
- if(p.status==="away")return {status:"away",text:"AWAY"};
- return {status:"online",text:"ONLINE"};
-}
-async function rwHeartbeat(status="online",game=null,session=null){
- if(!chatMe)return;
- await sb.rpc("rw_set_presence",{p_status:status,p_game:game,p_session:session});
-}
-async function loadPresence(){
- if(!chatResidence)return;
- let {data}=await sb.from("rw_presence").select("*").eq("residence_id",chatResidence);
- rwPresence=data||[];
- if(chatMode==="direct"&&typeof renderPeople==="function")renderPeople();
-}
-function presenceFor(id){return rwPresence.find(x=>x.user_id===id)}
-function openInvitePicker(userId){
- rwInvitePeer=chatProfiles.find(p=>p.id===userId);if(!rwInvitePeer)return;
- ce("inviteWho").textContent=`Choose what you want to play with ${rwInvitePeer.full_name||"this resmate"}.`;
- const gameOptions=[
-  {slug:"spin-the-bottle",name:"Spin the Bottle",url:"spin.html"},
-  {slug:"battle",name:"RES WARS Battle",url:"game.html"}
- ];
- ce("inviteGames").innerHTML=gameOptions.map(g=>`<div class="invite-game"><b>${g.name}</b><button onclick="sendGameInvite('${g.slug}','${g.name}')">INVITE</button></div>`).join("");
- ce("invitePicker").classList.remove("hidden");
-}
-function closeInvitePicker(){ce("invitePicker").classList.add("hidden");rwInvitePeer=null}
-async function sendGameInvite(slug,name){
- if(!rwInvitePeer)return;
- const {error}=await sb.rpc("rw_send_game_invite",{p_recipient:rwInvitePeer.id,p_game_slug:slug,p_game_name:name,p_session_key:null});
- if(error)return showChatToast("Invite not sent",error.message);
- showChatToast("Game invite sent",`${rwInvitePeer.full_name||"Your resmate"} has been invited to ${name}.`);
- closeInvitePicker();
-}
-async function loadPendingInvite(){
- if(!chatMe)return;
- const {data}=await sb.from("rw_game_invites").select("*").eq("recipient_id",chatMe.id).eq("status","pending").gt("expires_at",new Date().toISOString()).order("created_at",{ascending:false}).limit(1).maybeSingle();
- if(data)showIncomingInvite(data);
-}
-function showIncomingInvite(inv){
- rwIncoming=inv;let sender=chatProfiles.find(p=>p.id===inv.sender_id);
- ce("incomingTitle").textContent=inv.game_name;
- ce("incomingText").textContent=`${sender?.full_name||"A resmate"} wants to play ${inv.game_name} with you now.`;
- ce("incomingInvite").classList.remove("hidden");
- if("Notification" in window&&Notification.permission==="granted"&&document.hidden)new Notification("RES WARS • Game Invite",{body:ce("incomingText").textContent});
-}
-async function respondInvite(accept){
- if(!rwIncoming)return;
- const inv=rwIncoming;ce("incomingInvite").classList.add("hidden");
- const {data,error}=await sb.rpc("rw_respond_game_invite",{p_invite:inv.id,p_accept:accept});
- if(error)return showChatToast("Invite error",error.message);
- rwIncoming=null;if(!accept)return showChatToast("Invite declined","You stayed in the lobby.");
- // Both invitation routes use a stable invite id as a shared session seed.
- if(inv.game_slug==="spin-the-bottle")location.href=`spin.html?invite=${encodeURIComponent(inv.id)}`;
- else location.href=`game.html?invite=${encodeURIComponent(inv.id)}`;
-}
-function subscribePresenceInvites(){
- sb.channel("rw-presence-"+chatResidence)
- .on("postgres_changes",{event:"*",schema:"public",table:"rw_presence"},()=>loadPresence())
- .subscribe();
- sb.channel("rw-invites-"+chatMe.id)
- .on("postgres_changes",{event:"INSERT",schema:"public",table:"rw_game_invites",filter:`recipient_id=eq.${chatMe.id}`},p=>showIncomingInvite(p.new))
- .on("postgres_changes",{event:"UPDATE",schema:"public",table:"rw_game_invites",filter:`sender_id=eq.${chatMe.id}`},p=>{
-   if(p.new.status==="accepted"){showChatToast("Invite accepted",`${chatProfiles.find(x=>x.id===p.new.recipient_id)?.full_name||"Your resmate"} accepted your ${p.new.game_name} invite.`);setTimeout(()=>{if(p.new.game_slug==="spin-the-bottle")location.href=`spin.html?invite=${encodeURIComponent(p.new.id)}`;else location.href=`game.html?invite=${encodeURIComponent(p.new.id)}`},650)};
- })
- .subscribe();
-}
-async function initPresenceInvites(){
- // initChat creates chatMe/chatResidence; wait briefly if necessary.
- for(let i=0;i<20&&!chatMe;i++)await new Promise(r=>setTimeout(r,100));
- if(!chatMe)return;
- await rwHeartbeat("online");await loadPresence();await loadPendingInvite();subscribePresenceInvites();
- rwPresenceTimer=setInterval(()=>rwHeartbeat(document.hidden?"away":"online"),30000);
- document.addEventListener("visibilitychange",()=>rwHeartbeat(document.hidden?"away":"online"));
- window.addEventListener("pagehide",()=>{try{sb.rpc("rw_set_presence",{p_status:"offline",p_game:null,p_session:null})}catch(e){}});
-}
-setTimeout(initPresenceInvites,250);
+    html,
+    body {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      overflow-x: clip !important;
+    }
 
-function enhancePeopleWithPresence(){
- const list=ce("peopleList");if(!list)return;
- [...list.querySelectorAll("[data-person]")].forEach(el=>{
-   const id=el.getAttribute("data-person"),st=rwStatus(presenceFor(id));
-   if(!el.querySelector(".presence-dot")){let dot=document.createElement("span");dot.className=`presence-dot ${st.status}`;dot.title=st.text;el.prepend(dot)}
-   if(!el.querySelector(".invite-mini")){let b=document.createElement("button");b.className="invite-mini";b.type="button";b.textContent="INVITE";b.onclick=e=>{e.stopPropagation();openInvitePicker(id)};el.appendChild(b)}
- });
-}
-const _rwOldRenderPeople=renderPeople;
-renderPeople=function(){_rwOldRenderPeople();setTimeout(enhancePeopleWithPresence,0)};
-</script>
+    html {
+      height: 100%;
+      background: #0b090b
+    }
 
-<div id="invitePicker" class="invite-modal-bg hidden"><div class="invite-modal">
- <h3>Invite to play</h3><p id="inviteWho">Choose a game.</p>
- <div id="inviteGames" class="invite-games"></div>
- <div style="margin-top:10px;text-align:right"><button class="nav-btn" onclick="closeInvitePicker()">CANCEL</button></div>
-</div></div>
-<div id="incomingInvite" class="invite-card hidden">
- <div class="ey">LIVE GAME INVITE</div><h3 id="incomingTitle">Game invite</h3><p id="incomingText"></p>
- <div class="invite-actions"><button onclick="respondInvite(false)">DECLINE</button><button class="accept" onclick="respondInvite(true)">ACCEPT & PLAY</button></div>
-</div>
-<script>
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error));}
-</script>
-<script>
-let rwInstallPrompt=null;
-const rwStandalone=()=>window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
-window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();rwInstallPrompt=e;if(!rwStandalone()&&!localStorage.getItem("rw_install_later"))setTimeout(()=>document.getElementById("installSheet")?.classList.remove("hidden"),1200)});
-window.addEventListener("appinstalled",()=>{rwInstallPrompt=null;document.getElementById("installSheet")?.classList.add("hidden");localStorage.setItem("rw_installed","1")});
-document.getElementById("installLater")?.addEventListener("click",()=>{localStorage.setItem("rw_install_later",Date.now());document.getElementById("installSheet").classList.add("hidden")});
-document.getElementById("installNow")?.addEventListener("click",async()=>{
- if(rwInstallPrompt){rwInstallPrompt.prompt();await rwInstallPrompt.userChoice;rwInstallPrompt=null;document.getElementById("installSheet").classList.add("hidden");return}
- const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
- document.getElementById("installText").textContent=ios?"On iPhone: tap the Share button, choose “Add to Home Screen”, then tap Add.":"Open your browser menu and choose “Install app” or “Add to Home screen”.";
-});
-if(!rwStandalone()&&!localStorage.getItem("rw_install_later")&&/iphone|ipad|ipod/i.test(navigator.userAgent)){setTimeout(()=>document.getElementById("installSheet")?.classList.remove("hidden"),1800)}
-</script></body></html>
+    body {
+      min-height: 100svh !important;
+      min-height: 100dvh !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+
+    body>* {
+      max-width: 100vw
+    }
+
+    .wrap,
+    .shell,
+    .container,
+    .content,
+    .page,
+    .app,
+    .game-shell,
+    .game-wrap {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    @media(max-width:760px) {
+
+      html,
+      body {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important
+      }
+
+      body {
+        font-size: 14px !important
+      }
+
+      .wrap,
+      .shell,
+      .container,
+      .content,
+      .page,
+      .app,
+      .game-shell,
+      .game-wrap {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+
+      header,
+      .header,
+      .top,
+      .topbar,
+      .top-bar {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+      }
+
+      .grid,
+      .games,
+      .game-grid,
+      .cards,
+      .stats,
+      .two,
+      .cols,
+      .columns,
+      .hero,
+      .hero-grid,
+      .dashboard-grid,
+      .profile-grid,
+      .entrygrid {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      .game-card,
+      .card,
+      .panel,
+      .stat,
+      .member,
+      .roommate-card,
+      .room-hero,
+      .hero-card,
+      .entrycard,
+      .lobbycard {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      h1,
+      h2,
+      h3,
+      p,
+      span,
+      b,
+      small {
+        overflow-wrap: anywhere
+      }
+    }
+
+    @media(max-width:760px) {
+      body {
+        padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important
+      }
+
+      main {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important
+      }
+
+      .games,
+      .game-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px !important
+      }
+
+      .game-card {
+        min-height: 0 !important
+      }
+
+      .mobile-nav,
+      .bottom-nav,
+      .bottom-bar {
+        position: fixed !important;
+        box-sizing: border-box !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        padding-left: max(6px, env(safe-area-inset-left, 0px)) !important;
+        padding-right: max(6px, env(safe-area-inset-right, 0px)) !important;
+        padding-bottom: max(7px, env(safe-area-inset-bottom, 0px)) !important;
+        scrollbar-width: none;
+      }
+
+      .mobile-nav::-webkit-scrollbar,
+      .bottom-nav::-webkit-scrollbar,
+      .bottom-bar::-webkit-scrollbar {
+        display: none
+      }
+
+      .mobile-btn {
+        min-width: 52px !important;
+        flex: 1 0 52px !important;
+        padding-left: 3px !important;
+        padding-right: 3px !important
+      }
+
+      .chat-panel,
+      .chat-drawer,
+      .support-panel {
+        box-sizing: border-box !important;
+        left: 8px !important;
+        right: 8px !important;
+        bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+        width: auto !important;
+        height: auto !important;
+        max-height: calc(100dvh - 92px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) !important;
+      }
+
+      .chat-fab {
+        right: max(12px, env(safe-area-inset-right, 0px)) !important;
+        bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="installSheet" class="install-sheet hidden">
+    <div class="install-box">
+      <div class="eyebrow">INSTALL RES WARS</div>
+      <h3>Play it like a real app.</h3>
+      <p id="installText">Add RES WARS to your Home Screen for a full-screen app experience and faster access on game
+        night.</p>
+      <div class="install-actions"><button id="installLater">NOT NOW</button><button id="installNow"
+          class="install-now">ADD TO HOME SCREEN</button></div>
+    </div>
+  </div>
+  <header>
+    <div class="container nav"><a class="brand" href="#">
+        <div class="logo">RW</div>
+        <div><b>RES WARS</b><small>RESIDENCE GAME NIGHT</small></div>
+      </a>
+      <div class="nav-actions"><button class="nav-btn" onclick="openJoin()">JOIN CODE</button><button id="profile"
+          class="avatar" type="button" onclick="location.href='profile.html'">RW</button></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="container hero">
+      <div>
+        <div class="live"><span class="dot"></span> RES GAME NIGHT</div>
+        <h1>Your res.<br>Your people.<br><span>Your games.</span></h1>
+        <p>One place for the games that turn ordinary residence nights into something everyone remembers. Host from your
+          phone, invite the room and play together.</p>
+        <div class="actions"><button class="btn primary" onclick="location.href='spin.html?host=1'">HOST A
+            GAME</button><button class="btn" onclick="openJoin()">JOIN WITH CODE</button></div>
+        <div class="note">Anyone can host • Everyone joins from their own phone</div>
+      </div>
+      <div class="featured">
+        <div class="featured-top"><span class="tag">FEATURED TONIGHT</span><span class="status">PLAY NOW</span></div>
+        <div class="circle"></div>
+        <div class="bottle"></div>
+        <div class="featured-bottom">
+          <h2>Spin the Bottle</h2>
+          <p>Truth • Dare • Live room</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="info">
+      <div class="container info-grid">
+        <div class="info-item"><b>No permanent game master</b><span>Any resident can host when the group is
+            ready.</span></div>
+        <div class="info-item"><b>One room code</b><span>Everyone joins the same live session.</span></div>
+        <div class="info-item"><b>Built for mobile</b><span>Quick controls, small cards and no sideways
+            scrolling.</span></div>
+      </div>
+    </section>
+
+    <section class="container section">
+      <div class="head">
+        <div>
+          <div class="eyebrow">GAME ROOM</div>
+          <h2>Choose what the res is playing.</h2>
+        </div>
+        <p>The RES WARS game room is live. Choose a game, host a room and share the code with everyone around you.</p>
+      </div>
+      <div class="games">
+        <article class="game">
+          <div class="art spin">
+            <div class="mini-bottle"></div>
+          </div>
+          <div class="game-content">
+            <div class="game-row">
+              <h3>Spin the Bottle</h3><span class="pill live">LIVE</span>
+            </div>
+            <p>The bottle chooses. The player picks Truth or Dare.</p><button class="play primary"
+              onclick="location.href='spin.html'">PLAY</button>
+          </div>
+        </article>
+        <article class="game">
+          <div class="art truth">
+            <div class="symbol">T/D</div>
+          </div>
+          <div class="game-content">
+            <div class="game-row">
+              <h3>Truth or Dare</h3><span class="pill live">LIVE</span>
+            </div>
+            <p>Take turns choosing a truth or taking on a dare.</p><button class="play primary"
+              onclick="location.href='game.html?game=truth-dare&host=1'">PLAY</button>
+          </div>
+        </article>
+        <article class="game">
+          <div class="art cards">
+            <div class="symbol">21</div>
+          </div>
+          <div class="game-content">
+            <div class="game-row">
+              <h3>Twenty One</h3><span class="pill live">LIVE</span>
+            </div>
+            <p>Fast social rounds with choices, pressure and surprises.</p><button class="play primary"
+              onclick="location.href='game.html?game=twenty-one&host=1'">PLAY</button>
+          </div>
+        </article>
+        <article class="game">
+          <div class="art sync">
+            <div class="symbol">SYNC</div>
+          </div>
+          <div class="game-content">
+            <div class="game-row">
+              <h3>Roommate Sync</h3><span class="pill live">LIVE</span>
+            </div>
+            <p>Find out how well roommates really know each other.</p><button class="play primary"
+              onclick="location.href='game.html?game=roommate-sync&host=1'">PLAY</button>
+          </div>
+        </article>
+        <article class="game">
+          <div class="art quiz">
+            <div class="symbol">?</div>
+          </div>
+          <div class="game-content">
+            <div class="game-row">
+              <h3>Battle Quiz</h3><span class="pill live">LIVE</span>
+            </div>
+            <p>Hard questions, quick answers and residence bragging rights.</p><button class="play primary"
+              onclick="location.href='game.html?game=battle-quiz&host=1'">PLAY</button>
+          </div>
+        </article>
+        <article class="game">
+          <div class="art word">
+            <div class="symbol">ABC</div>
+          </div>
+          <div class="game-content">
+            <div class="game-row">
+              <h3>Word Rush</h3><span class="pill live">LIVE</span>
+            </div>
+            <p>Beat the timer and build more valid words than the room.</p><button class="play primary"
+              onclick="location.href='game.html?game=word-rush&host=1'">PLAY</button>
+          </div>
+        </article>
+        <article class="game">
+          <div class="art mafia">
+            <div class="symbol">M</div>
+          </div>
+          <div class="game-content">
+            <div class="game-row">
+              <h3>Res Mafia</h3><span class="pill live">LIVE</span>
+            </div>
+            <p>Roles, accusations and one room trying to find the Mafia.</p><button class="play primary"
+              onclick="location.href='game.html?game=res-mafia&host=1'">PLAY</button>
+          </div>
+        </article>
+        <article class="game">
+          <div class="art future">
+            <div class="symbol">+</div>
+          </div>
+          <div class="game-content">
+            <div class="game-row">
+              <h3>More games</h3><span class="pill">LATER</span>
+            </div>
+            <p>New games can join RES WARS without changing the whole app.</p><button class="play" disabled>IN
+              DEVELOPMENT</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="container cta">
+      <div>
+        <h2>Everyone's together? Start the room.</h2>
+        <p>Create a Spin the Bottle room now and share the code with everyone around you.</p>
+      </div><button class="btn primary" onclick="location.href='spin.html?host=1'">HOST SPIN THE BOTTLE</button>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer">
+      <div>© 2026 RES WARS • MADE FOR RESIDENCE NIGHTS</div>
+      <div class="footer-links"><a href="#">Home</a><a href="#" onclick="openJoin();return false">Join Game</a><a
+          href="admin.html">Admin</a></div>
+    </div>
+  </footer>
+
+  <div id="joinModal" class="modal-wrap hidden">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">JOIN A ROOM</div>
+          <h3>Enter game code</h3>
+        </div><button class="close" onclick="closeJoin()">×</button>
+      </div>
+      <p>Enter the six-character code shown by the host.</p><input id="roomCode" class="code" maxlength="6"
+        placeholder="ABC123" autocomplete="off"><button class="btn primary" onclick="joinGame()">CONTINUE</button>
+    </div>
+  </div>
+
+
+  <button id="chatFab" class="chat-fab" aria-label="Open residence messages">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15a4 4 0 0 1-4 4H8l-5 3 1.7-5.1A7 7 0 0 1 3 12V8a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
+    </svg>
+    <span id="chatBadge" class="chat-badge hidden">0</span>
+  </button>
+  <aside id="chatPanel" class="chat-panel hidden" aria-label="Residence chat">
+    <div class="chat-head">
+      <div><b>RES WARS Messages</b><small id="chatStatus">Connecting to residence...</small></div><button id="chatClose"
+        class="chat-x">×</button>
+    </div>
+    <div id="chatHome">
+      <div class="chat-tabs"><button id="groupTab" class="chat-tab active">RES GROUP</button><button id="peopleTab"
+          class="chat-tab">DIRECT MESSAGES</button></div>
+      <div id="chatPermission" class="chat-permission hidden"><span>Turn on browser alerts for new
+          messages.</span><button id="enableAlerts">ENABLE</button></div>
+      <div id="peopleSearch" class="chat-search hidden"><input id="peopleQuery" placeholder="Search resmate..."></div>
+      <div id="chatList" class="chat-body"></div>
+    </div>
+    <div id="conversation" class="conversation hidden">
+      <div class="conv-top"><button id="convBack" class="conv-back">‹</button>
+        <div class="conv-name"><b id="convTitle">Residence Group</b><span id="convSub">Live residence chat</span></div>
+      </div>
+      <div id="messages" class="messages"></div>
+      <div id="typing" class="typing"></div>
+      <form id="composer" class="composer"><input id="messageInput" maxlength="700" autocomplete="off"
+          placeholder="Write a message..."><button class="send" aria-label="Send">↑</button></form>
+    </div>
+  </aside>
+  <div id="chatToast" class="chat-toast hidden"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const sb = supabase.createClient("https://tkfnypzohdercxljswfe.supabase.co", "sb_publishable_MFJw5HdM0uJvj_MC70mJgg_RPRm5Gra"), $ = x => document.getElementById(x);
+    function openJoin() { $("joinModal").classList.remove("hidden"); setTimeout(() => $("roomCode").focus(), 60) }
+    function closeJoin() { $("joinModal").classList.add("hidden") }
+    function joinGame() { const c = $("roomCode").value.trim().toUpperCase(); if (c.length !== 6) return $("roomCode").focus(); location.href = "spin.html?code=" + encodeURIComponent(c) }
+    $("roomCode").addEventListener("keydown", e => { if (e.key === "Enter") joinGame() });
+    $("joinModal").addEventListener("click", e => { if (e.target === $("joinModal")) closeJoin() });
+    (async () => { const { data: { session } } = await sb.auth.getSession(); if (!session?.user) return location.replace("auth.html"); const { data: p } = await sb.from("profiles").select("full_name").eq("id", session.user.id).maybeSingle(); $("profile").textContent = (p?.full_name || session.user.email || "RW").split(/\s+/).slice(0, 2).map(x => x[0]).join("").toUpperCase() })();
+
+    // ---------- RES WARS LIVE RESIDENCE CHAT ----------
+    let chatMe = null, chatResidence = null, chatProfiles = [], chatMode = "group", chatPeer = null, chatOpen = false, chatChannel = null, typingTimer = null, unreadTotal = 0;
+    const ce = id => document.getElementById(id), cesc = s => String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const cini = n => (n || "R").split(/\s+/).slice(0, 2).map(x => x[0]).join("").toUpperCase();
+    const ctime = d => new Date(d).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    function setBadge(n) { unreadTotal = Math.max(0, n || 0); ce("chatBadge").textContent = unreadTotal > 99 ? "99+" : unreadTotal; ce("chatBadge").classList.toggle("hidden", !unreadTotal) }
+    function showChatToast(name, text) { if (chatOpen) return; let t = ce("chatToast"); t.innerHTML = `<b>${cesc(name)}</b>${cesc(text).slice(0, 90)}`; t.classList.remove("hidden"); clearTimeout(showChatToast.t); showChatToast.t = setTimeout(() => t.classList.add("hidden"), 4000) }
+    async function initChat() {
+      const { data: { session } } = await sb.auth.getSession(); if (!session?.user) return;
+      chatMe = session.user;
+      const { data: p } = await sb.from("profiles").select("*").eq("id", chatMe.id).maybeSingle();
+      chatResidence = p?.residence_id || null;
+      ce("chatStatus").textContent = chatResidence ? "Residence chat • live" : "Residence chat • profile";
+      if ("Notification" in window && Notification.permission === "default") ce("chatPermission").classList.remove("hidden");
+      await loadPeople(); await loadUnread(); subscribeChat(); renderChatHome();
+    }
+    async function loadPeople() {
+      let q = sb.from("profiles").select("id,full_name,residence_id,room_id").neq("id", chatMe.id).order("full_name");
+      if (chatResidence) q = q.eq("residence_id", chatResidence);
+      const { data } = await q; chatProfiles = data || [];
+    }
+    async function loadUnread() {
+      let q = sb.from("rw_chat_messages").select("id,sender_id,recipient_id,read_at").is("read_at", null).neq("sender_id", chatMe.id);
+      if (chatResidence) q = q.eq("residence_id", chatResidence);
+      const { data } = await q; setBadge((data || []).filter(m => m.recipient_id === chatMe.id || m.recipient_id === null).length);
+    }
+    function renderChatHome() {
+      ce("conversation").classList.add("hidden"); ce("chatHome").classList.remove("hidden");
+      if (chatMode === "group") {
+        ce("groupTab").classList.add("active"); ce("peopleTab").classList.remove("active"); ce("peopleSearch").classList.add("hidden");
+        ce("chatList").innerHTML = `<button class="person" id="openGroup"><div class="person-av">ALL<span class="online"></span></div><div><b>Residence Group</b><p>Chat live with everyone in your residence.</p></div><time>LIVE</time></button>`;
+        ce("openGroup").onclick = () => openConversation("group", null);
+      } else {
+        ce("groupTab").classList.remove("active"); ce("peopleTab").classList.add("active"); ce("peopleSearch").classList.remove("hidden"); renderPeople();
+      }
+    }
+    function renderPeople() {
+      const term = ce("peopleQuery").value.trim().toLowerCase(), arr = chatProfiles.filter(p => (p.full_name || "").toLowerCase().includes(term));
+      ce("chatList").innerHTML = arr.length ? arr.map(p => `<button class="person" data-peer="${p.id}"><div class="person-av">${cini(p.full_name)}<span class="online"></span></div><div><b>${cesc(p.full_name || "Resmate")}</b><p>Tap to start a private live chat.</p></div><time>DM</time></button>`).join("") : `<div class="chat-empty">No resmates found.</div>`;
+      ce("chatList").querySelectorAll("[data-peer]").forEach(b => b.onclick = () => openConversation("direct", chatProfiles.find(p => p.id === b.dataset.peer)));
+    }
+    async function openConversation(mode, peer) {
+      chatMode = mode; chatPeer = peer; ce("chatHome").classList.add("hidden"); ce("conversation").classList.remove("hidden");
+      ce("convTitle").textContent = mode === "group" ? "Residence Group" : peer?.full_name || "Resmate"; ce("convSub").textContent = mode === "group" ? "Everyone in your residence" : "Private message";
+      await loadMessages(); await markRead();
+    }
+    async function loadMessages() {
+      let q = sb.from("rw_chat_messages").select("id,sender_id,recipient_id,message,created_at,profiles!rw_chat_messages_sender_id_fkey(full_name)").order("created_at", { ascending: true }).limit(150);
+      if (chatResidence) q = q.eq("residence_id", chatResidence);
+      if (chatMode === "group") q = q.is("recipient_id", null);
+      else q = q.or(`and(sender_id.eq.${chatMe.id},recipient_id.eq.${chatPeer.id}),and(sender_id.eq.${chatPeer.id},recipient_id.eq.${chatMe.id})`);
+      const { data, error } = await q; if (error) { ce("messages").innerHTML = `<div class="chat-empty">${cesc(error.message)}</div>`; return }
+      ce("messages").innerHTML = (data || []).map(m => `<div class="bubble-row ${m.sender_id === chatMe.id ? "mine" : ""}"><div class="bubble">${chatMode === "group" && m.sender_id !== chatMe.id ? `<strong>${cesc(m.profiles?.full_name || "Resmate")}</strong>` : ""}${cesc(m.message)}<time>${ctime(m.created_at)}</time></div></div>`).join("") || `<div class="chat-empty">No messages yet. Start the conversation.</div>`;
+      ce("messages").scrollTop = ce("messages").scrollHeight;
+    }
+    async function markRead() {
+      if (chatMode !== "direct" || !chatPeer) return;
+      await sb.from("rw_chat_messages").update({ read_at: new Date().toISOString() }).eq("recipient_id", chatMe.id).eq("sender_id", chatPeer.id).is("read_at", null); await loadUnread();
+    }
+    async function sendMessage(e) {
+      e.preventDefault(); let v = ce("messageInput").value.trim(); if (!v) return;
+      ce("messageInput").value = "";
+      const row = { sender_id: chatMe.id, recipient_id: chatMode === "direct" ? chatPeer.id : null, residence_id: chatResidence, message: v };
+      const { error } = await sb.from("rw_chat_messages").insert(row); if (error) { ce("messageInput").value = v; showChatToast("Message not sent", error.message) }
+    }
+    function subscribeChat() {
+      if (chatChannel) sb.removeChannel(chatChannel);
+      chatChannel = sb.channel("rw-res-chat-" + (chatResidence || chatMe.id))
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "rw_chat_messages" }, async payload => {
+          const m = payload.new; if (m.sender_id === chatMe.id) return;
+          if (chatResidence && m.residence_id !== chatResidence) return;
+          if (m.recipient_id && m.recipient_id !== chatMe.id) return;
+          let sender = chatProfiles.find(p => p.id === m.sender_id); let name = sender?.full_name || "Resmate";
+          const viewing = chatOpen && !ce("conversation").classList.contains("hidden") && ((chatMode === "group" && !m.recipient_id) || (chatMode === "direct" && chatPeer?.id === m.sender_id));
+          if (viewing) { await loadMessages(); await markRead() } else { setBadge(unreadTotal + 1); showChatToast(name, m.message); if ("Notification" in window && Notification.permission === "granted" && document.hidden) new Notification(`RES WARS • ${name}`, { body: m.message }) }
+        }).on("postgres_changes", { event: "UPDATE", schema: "public", table: "rw_chat_messages" }, () => { }).subscribe();
+    }
+    ce("chatFab").addEventListener("click", () => { chatOpen = true; ce("chatPanel").classList.remove("hidden"); ce("chatToast").classList.add("hidden") });
+    ce("chatClose").addEventListener("click", () => { chatOpen = false; ce("chatPanel").classList.add("hidden") });
+    ce("groupTab").addEventListener("click", () => { chatMode = "group"; renderChatHome() }); ce("peopleTab").addEventListener("click", () => { chatMode = "direct"; renderChatHome() });
+    ce("peopleQuery").addEventListener("input", renderPeople); ce("convBack").addEventListener("click", renderChatHome); ce("composer").addEventListener("submit", sendMessage);
+    ce("messageInput").addEventListener("input", () => { clearTimeout(typingTimer); ce("typing").textContent = ce("messageInput").value ? "Typing..." : ""; typingTimer = setTimeout(() => ce("typing").textContent = "", 700) });
+    ce("enableAlerts").addEventListener("click", async () => { if ("Notification" in window) { let r = await Notification.requestPermission(); ce("chatPermission").classList.add("hidden"); if (r === "granted") showChatToast("Notifications enabled", "New messages can alert you while this page is open in the background.") } });
+    initChat();
+
+    /* =========================================================
+       LIVE PRESENCE + GAME INVITATIONS
+    ========================================================= */
+    let rwPresence = [], rwInvitePeer = null, rwIncoming = null, rwPresenceTimer = null;
+    function rwStatus(p) {
+      if (!p) return { status: "offline", text: "OFFLINE" };
+      let age = Date.now() - new Date(p.last_seen).getTime();
+      if (age > 120000) return { status: "offline", text: "OFFLINE" };
+      if (p.status === "playing") return { status: "playing", text: "PLAYING" };
+      if (p.status === "away") return { status: "away", text: "AWAY" };
+      return { status: "online", text: "ONLINE" };
+    }
+    async function rwHeartbeat(status = "online", game = null, session = null) {
+      if (!chatMe) return;
+      await sb.rpc("rw_set_presence", { p_status: status, p_game: game, p_session: session });
+    }
+    async function loadPresence() {
+      if (!chatResidence) return;
+      let { data } = await sb.from("rw_presence").select("*").eq("residence_id", chatResidence);
+      rwPresence = data || [];
+      if (chatMode === "direct" && typeof renderPeople === "function") renderPeople();
+    }
+    function presenceFor(id) { return rwPresence.find(x => x.user_id === id) }
+    function openInvitePicker(userId) {
+      rwInvitePeer = chatProfiles.find(p => p.id === userId); if (!rwInvitePeer) return;
+      ce("inviteWho").textContent = `Choose what you want to play with ${rwInvitePeer.full_name || "this resmate"}.`;
+      const gameOptions = [
+        { slug: "spin-the-bottle", name: "Spin the Bottle", url: "spin.html" },
+        { slug: "battle", name: "RES WARS Battle", url: "game.html" }
+      ];
+      ce("inviteGames").innerHTML = gameOptions.map(g => `<div class="invite-game"><b>${g.name}</b><button onclick="sendGameInvite('${g.slug}','${g.name}')">INVITE</button></div>`).join("");
+      ce("invitePicker").classList.remove("hidden");
+    }
+    function closeInvitePicker() { ce("invitePicker").classList.add("hidden"); rwInvitePeer = null }
+    async function sendGameInvite(slug, name) {
+      if (!rwInvitePeer) return;
+      const { error } = await sb.rpc("rw_send_game_invite", { p_recipient: rwInvitePeer.id, p_game_slug: slug, p_game_name: name, p_session_key: null });
+      if (error) return showChatToast("Invite not sent", error.message);
+      showChatToast("Game invite sent", `${rwInvitePeer.full_name || "Your resmate"} has been invited to ${name}.`);
+      closeInvitePicker();
+    }
+    async function loadPendingInvite() {
+      if (!chatMe) return;
+      const { data } = await sb.from("rw_game_invites").select("*").eq("recipient_id", chatMe.id).eq("status", "pending").gt("expires_at", new Date().toISOString()).order("created_at", { ascending: false }).limit(1).maybeSingle();
+      if (data) showIncomingInvite(data);
+    }
+    function showIncomingInvite(inv) {
+      rwIncoming = inv; let sender = chatProfiles.find(p => p.id === inv.sender_id);
+      ce("incomingTitle").textContent = inv.game_name;
+      ce("incomingText").textContent = `${sender?.full_name || "A resmate"} wants to play ${inv.game_name} with you now.`;
+      ce("incomingInvite").classList.remove("hidden");
+      if ("Notification" in window && Notification.permission === "granted" && document.hidden) new Notification("RES WARS • Game Invite", { body: ce("incomingText").textContent });
+    }
+    async function respondInvite(accept) {
+      if (!rwIncoming) return;
+      const inv = rwIncoming; ce("incomingInvite").classList.add("hidden");
+      const { data, error } = await sb.rpc("rw_respond_game_invite", { p_invite: inv.id, p_accept: accept });
+      if (error) return showChatToast("Invite error", error.message);
+      rwIncoming = null; if (!accept) return showChatToast("Invite declined", "You stayed in the lobby.");
+      // Both invitation routes use a stable invite id as a shared session seed.
+      if (inv.game_slug === "spin-the-bottle") location.href = `spin.html?invite=${encodeURIComponent(inv.id)}`;
+      else location.href = `game.html?invite=${encodeURIComponent(inv.id)}`;
+    }
+    function subscribePresenceInvites() {
+      sb.channel("rw-presence-" + chatResidence)
+        .on("postgres_changes", { event: "*", schema: "public", table: "rw_presence" }, () => loadPresence())
+        .subscribe();
+      sb.channel("rw-invites-" + chatMe.id)
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "rw_game_invites", filter: `recipient_id=eq.${chatMe.id}` }, p => showIncomingInvite(p.new))
+        .on("postgres_changes", { event: "UPDATE", schema: "public", table: "rw_game_invites", filter: `sender_id=eq.${chatMe.id}` }, p => {
+          if (p.new.status === "accepted") { showChatToast("Invite accepted", `${chatProfiles.find(x => x.id === p.new.recipient_id)?.full_name || "Your resmate"} accepted your ${p.new.game_name} invite.`); setTimeout(() => { if (p.new.game_slug === "spin-the-bottle") location.href = `spin.html?invite=${encodeURIComponent(p.new.id)}`; else location.href = `game.html?invite=${encodeURIComponent(p.new.id)}` }, 650) };
+        })
+        .subscribe();
+    }
+    async function initPresenceInvites() {
+      // initChat creates chatMe/chatResidence; wait briefly if necessary.
+      for (let i = 0; i < 20 && !chatMe; i++)await new Promise(r => setTimeout(r, 100));
+      if (!chatMe) return;
+      await rwHeartbeat("online"); await loadPresence(); await loadPendingInvite(); subscribePresenceInvites();
+      rwPresenceTimer = setInterval(() => rwHeartbeat(document.hidden ? "away" : "online"), 30000);
+      document.addEventListener("visibilitychange", () => rwHeartbeat(document.hidden ? "away" : "online"));
+      window.addEventListener("pagehide", () => { try { sb.rpc("rw_set_presence", { p_status: "offline", p_game: null, p_session: null }) } catch (e) { } });
+    }
+    setTimeout(initPresenceInvites, 250);
+
+    function enhancePeopleWithPresence() {
+      const list = ce("peopleList"); if (!list) return;
+      [...list.querySelectorAll("[data-person]")].forEach(el => {
+        const id = el.getAttribute("data-person"), st = rwStatus(presenceFor(id));
+        if (!el.querySelector(".presence-dot")) { let dot = document.createElement("span"); dot.className = `presence-dot ${st.status}`; dot.title = st.text; el.prepend(dot) }
+        if (!el.querySelector(".invite-mini")) { let b = document.createElement("button"); b.className = "invite-mini"; b.type = "button"; b.textContent = "INVITE"; b.onclick = e => { e.stopPropagation(); openInvitePicker(id) }; el.appendChild(b) }
+      });
+    }
+    const _rwOldRenderPeople = renderPeople;
+    renderPeople = function () { _rwOldRenderPeople(); setTimeout(enhancePeopleWithPresence, 0) };
+  </script>
+
+  <div id="invitePicker" class="invite-modal-bg hidden">
+    <div class="invite-modal">
+      <h3>Invite to play</h3>
+      <p id="inviteWho">Choose a game.</p>
+      <div id="inviteGames" class="invite-games"></div>
+      <div style="margin-top:10px;text-align:right"><button class="nav-btn"
+          onclick="closeInvitePicker()">CANCEL</button></div>
+    </div>
+  </div>
+  <div id="incomingInvite" class="invite-card hidden">
+    <div class="ey">LIVE GAME INVITE</div>
+    <h3 id="incomingTitle">Game invite</h3>
+    <p id="incomingText"></p>
+    <div class="invite-actions"><button onclick="respondInvite(false)">DECLINE</button><button class="accept"
+        onclick="respondInvite(true)">ACCEPT & PLAY</button></div>
+  </div>
+  <script>
+    if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.error)); }
+  </script>
+  <script>
+    let rwInstallPrompt = null;
+    const rwStandalone = () => window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+    window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); rwInstallPrompt = e; if (!rwStandalone() && !localStorage.getItem("rw_install_later")) setTimeout(() => document.getElementById("installSheet")?.classList.remove("hidden"), 1200) });
+    window.addEventListener("appinstalled", () => { rwInstallPrompt = null; document.getElementById("installSheet")?.classList.add("hidden"); localStorage.setItem("rw_installed", "1") });
+    document.getElementById("installLater")?.addEventListener("click", () => { localStorage.setItem("rw_install_later", Date.now()); document.getElementById("installSheet").classList.add("hidden") });
+    document.getElementById("installNow")?.addEventListener("click", async () => {
+      if (rwInstallPrompt) { rwInstallPrompt.prompt(); await rwInstallPrompt.userChoice; rwInstallPrompt = null; document.getElementById("installSheet").classList.add("hidden"); return }
+      const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      document.getElementById("installText").textContent = ios ? "On iPhone: tap the Share button, choose “Add to Home Screen”, then tap Add." : "Open your browser menu and choose “Install app” or “Add to Home screen”.";
+    });
+    if (!rwStandalone() && !localStorage.getItem("rw_install_later") && /iphone|ipad|ipod/i.test(navigator.userAgent)) { setTimeout(() => document.getElementById("installSheet")?.classList.remove("hidden"), 1800) }
+  </script>
+</body>
+
+</html>
