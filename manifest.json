@@ -1,0 +1,35 @@
+{
+  "name": "RES WARS",
+  "short_name": "RES WARS",
+  "description": "Residence multiplayer game night.",
+  "id": "./index.html",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "background_color": "#0b090b",
+  "theme_color": "#0b090b",
+  "orientation": "portrait-primary",
+  "categories": [
+    "games",
+    "entertainment",
+    "social"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
