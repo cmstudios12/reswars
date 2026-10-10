@@ -25,7 +25,185 @@
 
  .new-brand-logo{display:block;width:226px;max-width:42vw;height:auto;object-fit:contain} @media(max-width:760px){.new-brand-logo{width:185px;max-width:52vw}}
 </style>
-<script src="config.js"></script><script src="app.js" type="module"></script>
+<script>
+// Public Supabase credentials are safe to use in the browser with strict RLS.
+// NEVER put your service_role key, database password, or payment secrets here.
+window.MYANGEL_CONFIG = Object.freeze({
+  supabaseUrl: 'https://bhzemfnslqjjtasajawb.supabase.co',
+  supabasePublishableKey: 'sb_publishable_oH4LcehXXFjNUSSqCQmqFA_7Usq6NqZ',
+  whatsapp: '27798682198'
+});
+
+</script>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/+esm';
+const CFG=window.MYANGEL_CONFIG;
+const db=createClient(CFG.supabaseUrl,CFG.supabasePublishableKey,{auth:{persistSession:true}});
+const $=id=>document.getElementById(id);
+const ico=name=>`<svg class="ico" aria-hidden="true"><use href="#ic-${name}"></use></svg>`;
+const money=cents=>'R'+(cents/100).toLocaleString('en-ZA',{minimumFractionDigits:0,maximumFractionDigits:2});
+const clean=s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
+const safeImage=url=>{const s=String(url||'');return (/^assets\/[\w./-]+$/.test(s)||/^https:\/\/[\w.-]+(?:[:0-9]+)?\/[\w%!?#=&+.,/@~-]*$/.test(s))?s:'assets/gogo-square.jpg';};
+const dateOf=iso=>new Intl.DateTimeFormat('en-ZA',{timeZone:'Africa/Johannesburg',weekday:'long',day:'2-digit',month:'long',year:'numeric'}).format(new Date(iso));
+const shortDate=iso=>new Intl.DateTimeFormat('en-ZA',{timeZone:'Africa/Johannesburg',day:'2-digit',month:'short',year:'numeric'}).format(new Date(iso));
+const timeOf=iso=>new Intl.DateTimeFormat('en-ZA',{timeZone:'Africa/Johannesburg',hour:'numeric',minute:'2-digit',hour12:true}).format(new Date(iso));
+const today=()=>new Date();
+let events=[],current=null,posterIndex=0,format='portrait',selectedTier=null,availability={},loadingBooking=false;
+let lastReservationForEmail=null;
+
+const posterList=()=>[...(current?.event_posters||[])].sort((a,b)=>a.sort_order-b.sort_order);
+const tiers=()=>[...(current?.ticket_types||[])].sort((a,b)=>a.sort_order-b.sort_order);
+const bookable=t=>!!(current&&current.status==='published'&&new Date(current.starts_at)>today()&&t.active&&t.is_online&&new Date(t.sale_starts_at)<=today()&&new Date(t.sale_ends_at)>today()&&(availability[t.id]===undefined||availability[t.id]===null||availability[t.id]>0));
+const imageFor=e=>safeImage(e.cover_image_url||e.event_posters?.[0]?.square_url);
+const lowestPrice=e=>{const available=(e.ticket_types||[]).filter(x=>x.active&&x.is_online&&new Date(x.sale_ends_at)>today());return available.length?money(Math.min(...available.map(x=>x.price_cents))):'See event';};
+function toast(msg){$('toast').textContent=msg;$('toast').hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').hidden=true,4200);}
+function renderEventCards(){
+ $('eventCount').textContent=`${events.length} ${events.length===1?'upcoming event':'upcoming events'}`;
+ if(!events.length){$('eventsGrid').innerHTML='<div class="empty-events"><h3>Something wonderful is coming.</h3><p>There are no published upcoming events right now. Check back soon.</p></div>';return;}
+ $('eventsGrid').innerHTML=events.map((e,i)=>`<article class="event-card"><a class="event-poster" href="#event/${encodeURIComponent(e.slug)}" aria-label="View ${clean(e.title)}"><img loading="${i?'lazy':'eager'}" src="${clean(imageFor(e))}" alt="${clean(e.title)} event poster"><span class="status-chip">${i===0?'FEATURED EVENT':'UPCOMING EVENT'}</span></a><div class="event-body"><div class="event-category">${clean(e.category)}</div><h3>${clean(e.title)}</h3><p>${clean(e.subtitle||e.description||'Discover a memorable live experience at My Angel Country Lodge.')}</p><div class="event-facts"><span>${ico('cal')}${clean(shortDate(e.starts_at))}</span><span>${ico('clock')}${clean(timeOf(e.starts_at))} SAST</span><span>${ico('pin')}${clean(e.venue_name)}</span></div><div class="event-bottom"><div><small>Tickets from</small><strong>${clean(lowestPrice(e))}</strong></div><a class="button button-primary" href="#event/${encodeURIComponent(e.slug)}">Explore event ${ico('arrow')}</a></div></div></article>`).join('');
+}
+async function fetchEvents(){
+ $('eventsError').hidden=true;
+ const {data,error}=await db.from('events').select('*,event_posters(*),ticket_types(*)').eq('status','published').gte('starts_at',new Date().toISOString()).order('starts_at',{ascending:true});
+ if(error){$('eventsGrid').innerHTML='';$('eventsError').hidden=false;$('eventsError').textContent='Unable to load live events. The Supabase database may not be configured yet. Please try again or contact My Angel.';console.error(error);return;}
+ events=data||[];renderEventCards();renderRoute();
+}
+function routeName(){const h=decodeURIComponent(location.hash.replace(/^#/,''));return h||'home';}
+function renderRoute(){const r=routeName();$('mobileLinks').classList.remove('open');$('menuToggle').setAttribute('aria-expanded','false');if(r.startsWith('event/')){
+ const slug=r.slice(6);const e=events.find(x=>x.slug===slug);if(!e){$('homeView').hidden=false;$('detailView').hidden=true;$('stickyBar').hidden=true;toast('Event not found or not published');return;}
+ if(current?.id!==e.id){current=e;availability={};selectedTier=null;posterIndex=0;format='portrait';loadAvailability(e.id);}
+ $('homeView').hidden=true;$('detailView').hidden=false;renderDetail();$('stickyBar').hidden=false;window.scrollTo({top:0,behavior:'instant'});
+ }else{
+ current=null;$('homeView').hidden=false;$('detailView').hidden=true;$('stickyBar').hidden=true;
+ if(['events','about','faq'].includes(r))requestAnimationFrame(()=>$(r)?.scrollIntoView({behavior:'smooth'}));else window.scrollTo({top:0,behavior:'instant'});
+ }}
+async function loadAvailability(eventId){const {data,error}=await db.rpc('myangel_availability',{p_event_id:eventId});if(error){console.warn('Live availability unavailable',error);return;}if(current?.id!==eventId)return;availability=Object.fromEntries((data||[]).map(t=>[t.ticket_type_id,t.remaining]));renderTickets();}
+function renderDetail(){if(!current)return;
+ const e=current;$('crumbName').textContent=e.title;$('detailCover').src=imageFor(e);$('detailCover').alt=e.title+' poster';$('detailCategory').textContent=(e.category||'Live event').toUpperCase()+' · MY ANGEL EXCLUSIVE';$('detailTitle').textContent=e.title;$('detailSummary').textContent=e.description||e.subtitle||'';$('detailDate').textContent=dateOf(e.starts_at);$('detailTime').textContent=timeOf(e.starts_at);$('detailVenue').textContent=e.venue_name;$('detailArea').textContent=e.venue_area;$('detailFrom').textContent=lowestPrice(e);$('stickyPrice').textContent='From '+lowestPrice(e);$('eventVenueName').textContent=e.venue_name;$('eventVenueArea').textContent=e.venue_area;$('directionsLink').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(`${e.venue_name}, ${e.venue_area}`);
+ $('artistGrid').innerHTML=posterList().map((p,i)=>`<button type="button" class="artist-card" data-artist="${i}"><img src="${clean(safeImage(p.square_url))}" loading="lazy" alt="${clean(p.artist_name)} event poster"><strong>${clean(p.artist_name)} ${ico('arrow')}</strong></button>`).join('')||'<p>The full lineup will be announced soon.</p>';
+ $('artistGrid').querySelectorAll('[data-artist]').forEach(btn=>btn.addEventListener('click',()=>{posterIndex=Number(btn.dataset.artist);format='portrait';renderGallery();$('gallery').scrollIntoView({behavior:'smooth'});}));
+ renderGallery();renderTickets();
+}
+function renderGallery(){const ps=posterList();const empty=!ps.length;$('galleryStage').hidden=empty;$('galleryDots').hidden=empty;document.querySelector('.gallery-bottom').hidden=empty;if(empty){$('galleryCounter').textContent='No posters';return;}posterIndex=(posterIndex+ps.length)%ps.length;const p=ps[posterIndex];$('galleryImage').src=safeImage(format==='portrait'?p.portrait_url:p.square_url);$('galleryImage').alt=p.artist_name+' '+format+' poster';$('galleryArtist').textContent=p.artist_name;$('galleryCounter').textContent=String(posterIndex+1).padStart(2,'0')+' / '+String(ps.length).padStart(2,'0');$('galleryDots').innerHTML=ps.map((x,i)=>`<button aria-label="View ${clean(x.artist_name)}" data-dot="${i}" class="${i===posterIndex?'active':''}"></button>`).join('');document.querySelectorAll('[data-format]').forEach(b=>b.classList.toggle('selected',b.dataset.format===format));}
+function movePoster(n){const count=posterList().length;if(count){posterIndex=(posterIndex+n+count)%count;renderGallery();}}
+function tierStatus(t){if(!t.active)return 'Unavailable';if(!t.is_online)return 'At the gate';if(new Date(t.sale_starts_at)>today())return 'Coming soon';if(new Date(t.sale_ends_at)<=today())return 'Sales closed';if(current&&new Date(current.starts_at)<=today())return 'Event finished';if(availability[t.id]===0)return 'Sold out';return 'On sale';}
+function renderTickets(){if(!current)return;const ts=tiers();$('tierList').innerHTML=ts.map(t=>{const status=tierStatus(t);return `<div class="tier-row"><div><strong>${clean(t.name)}<span class="tier-badge ${status==='On sale'?'':'off'}">${clean(status)}</span></strong><small>${clean(t.description)}${availability[t.id]!=null&&t.is_online?' · '+availability[t.id]+' left':''}</small></div><span>${money(t.price_cents)}</span></div>`;}).join('')||'<p>Tickets have not been released yet.</p>';
+ const canBuy=ts.some(bookable);for(const id of ['heroBook','bottomBook','stickyBook'])$(id).disabled=!canBuy;
+ selectedTier=ts.find(x=>x.id===selectedTier&&bookable(x))?.id||ts.find(bookable)?.id||null;
+}
+function openBooking(){
+ if(!current)return;
+ const availableTiers=tiers().filter(bookable);
+ if(!availableTiers.length){toast('Tickets are not currently available online.');return;}
+ $('bookingStep').hidden=false;$('bookingProcessing').hidden=true;$('bookingSuccess').hidden=true;
+ $('bookingError').hidden=true;$('successPaymentIssue').hidden=true;
+ $('bookingQty').value='1';
+ $('bookingTier').innerHTML=availableTiers.map(t=>`<option value="${t.id}">${clean(t.name)} — ${money(t.price_cents)}</option>`).join('');
+ $('bookingTier').value=availableTiers.some(t=>t.id===selectedTier)?selectedTier:availableTiers[0].id;
+ updateTotal();lastReservationForEmail=null;
+ $('bookingOverlay').hidden=false;document.body.classList.add('locked');$('bookingTier').focus();
+}
+function closeBooking(){
+ if(loadingBooking)return;
+ $('bookingOverlay').hidden=true;document.body.classList.remove('locked');
+ $('bookingForm').reset();
+}
+function updateTotal(){
+ const t=tiers().find(x=>x.id===$('bookingTier').value);
+ $('bookingTotal').textContent=money((t?.price_cents||0)*Number($('bookingQty').value||1));
+}
+function showEmailResult(kind){
+ const sent=['sent','already_sent','accepted'].includes(kind);
+ const waiting=kind==='in_progress';
+ const successful=sent;
+ $('bookingStep').hidden=true;$('bookingProcessing').hidden=true;$('bookingSuccess').hidden=false;
+ $('bookingSuccess').classList.toggle('email-has-sent',successful);
+ $('bookingSuccess').classList.toggle('email-needs-help',!successful);
+ $('confirmationEyebrow').textContent=sent?'GOOD NEWS — EMAIL SENT':waiting?'RESERVATION SAVED':'RESERVATION SAVED';
+ $('confirmationTitle').textContent=sent?'Your ticket preview has been emailed!':waiting?'Your email is on its way.':'Your reservation is confirmed.';
+ $('confirmationText').textContent=sent?'Check your email! Your booking details and beautifully designed sample PDF are waiting for you.':waiting?'Your reservation was saved, but the email service is still processing it. Please check your inbox shortly.':'Your booking is safe. We could not confirm the email was sent. Use Retry email below; there is no need to book again.';
+ $('deliveredEmail').hidden=!sent;
+ $('deliveredEmailAddress').textContent=lastReservationForEmail?.email||'';
+ $('successEmailStatus').textContent=sent?'The email provider accepted your message. Check your inbox and Spam/Junk folder if it is not visible yet.':waiting?'Your email request is being processed. Your booking reference is safe.':'Your reservation was saved, but sending the email failed. Please retry using this booking reference.';
+ $('retryReservationEmail').hidden=sent;
+ $('retryReservationEmail').textContent=waiting?'Check / retry email':'Retry sending email';
+ $('successClose').textContent=sent?'Wonderful, thanks!':'Close';
+ $('celebrateConfetti').replaceChildren();
+ if(sent && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const colors=['#c95b2a','#edab62','#e9cfa1','#e68855','#f4bd72'];
+  for(let i=0;i<17;i++){
+   const part=document.createElement('i');
+   part.style.setProperty('--x',`${(i*37)%99}%`);
+   part.style.setProperty('--delay',`${(i%7)*-0.13}s`);
+   part.style.setProperty('--rotate',`${(i*53)%290}deg`);
+   part.style.setProperty('--c',colors[i%colors.length]);
+   $('celebrateConfetti').append(part);
+  }
+ }
+}
+async function sendReservationEmail(booking){
+ if(!booking)return;
+ $('bookingStep').hidden=true;$('bookingSuccess').hidden=true;$('bookingProcessing').hidden=false;
+ $('processingTitle').textContent='Sending your ticket email...';
+ $('retryReservationEmail').disabled=true;
+ try{
+  const {data,error}=await db.functions.invoke('send-reservation-email',{body:{booking_id:booking.booking_id,booking_reference:booking.booking_reference}});
+  if(error||data?.error)throw Error(data?.error||error?.message||'Email service unavailable');
+  if(!['sent','already_sent','accepted','in_progress'].includes(data?.status))throw Error('Email service returned an unexpected response');
+  showEmailResult(data.status);
+ }catch(error){
+  console.error('Reservation email delivery:',error);
+  showEmailResult('failed');
+ }finally{
+  $('retryReservationEmail').disabled=false;
+ }
+}
+async function submitBooking(ev){
+ ev.preventDefault();if(loadingBooking)return;
+ if(!$('bookingForm').reportValidity())return;
+ const t=tiers().find(x=>x.id===$('bookingTier').value);
+ if(!t||!bookable(t)){$('bookingError').textContent='This ticket category is not currently on sale. Please refresh.';$('bookingError').hidden=false;return;}
+ const button=$('submitBooking');const quantity=Number($('bookingQty').value);
+ const enteredEmail=$('bookingEmail').value.trim();
+ loadingBooking=true;button.disabled=true;button.textContent='Preparing your ticket email…';
+ $('bookingError').hidden=true;
+ $('bookingStep').hidden=true;$('bookingProcessing').hidden=false;$('bookingSuccess').hidden=true;
+ $('processingTitle').textContent='Reserving your tickets...';
+ try{
+  const {data,error}=await db.rpc('create_myangel_booking',{
+   p_ticket_type_id:t.id,p_buyer_name:$('bookingName').value.trim(),p_buyer_email:enteredEmail,
+   p_buyer_phone:$('bookingPhone').value.trim(),p_quantity:quantity,p_website:$('websiteField').value
+  });
+  if(error)throw error;
+  const b=data?.[0];if(!b)throw Error('No booking details returned. Please contact the lodge before retrying.');
+  $('successReference').textContent=b.booking_reference;
+  $('successAmount').textContent=`${money(b.amount_cents)} · ${quantity} ticket${quantity===1?'':'s'} · ${t.name}`;
+  $('successExpiry').textContent='Reservation held until '+new Intl.DateTimeFormat('en-ZA',{timeZone:'Africa/Johannesburg',day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}).format(new Date(b.expires_at))+' (SAST).';
+  $('reservationStatusLink').href=`payment.html?booking=${encodeURIComponent(b.booking_id)}&ref=${encodeURIComponent(b.booking_reference)}`;
+  $('successWhatsapp').href=`https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent('Hi My Angel Events. I need help with my reservation '+b.booking_reference+'.')}`;
+  lastReservationForEmail={booking_id:b.booking_id,booking_reference:b.booking_reference,email:enteredEmail};
+  loadAvailability(current.id);
+  await sendReservationEmail(lastReservationForEmail);
+ }catch(ex){
+  $('bookingProcessing').hidden=true;$('bookingStep').hidden=false;
+  $('bookingError').textContent=(ex?.message||'Unable to create booking.')+' If you are unsure whether a booking was saved, contact the lodge before trying again.';
+  $('bookingError').hidden=false;console.error(ex);
+ }finally{
+  loadingBooking=false;button.disabled=false;button.textContent='Purchase ticket';
+ }
+}
+$('retryReservationEmail').addEventListener('click',()=>sendReservationEmail(lastReservationForEmail));
+$('bookingForm').addEventListener('submit',submitBooking);$('bookingTier').addEventListener('change',updateTotal);$('bookingQty').addEventListener('change',updateTotal);
+for(const id of ['heroBook','bottomBook','stickyBook'])$(id).addEventListener('click',openBooking);
+$('closeBooking').addEventListener('click',closeBooking);$('successClose').addEventListener('click',closeBooking);$('bookingOverlay').addEventListener('click',e=>{if(e.target===$('bookingOverlay')&&!loadingBooking)closeBooking();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('bookingOverlay').hidden&&!loadingBooking)closeBooking();if(e.key==='ArrowRight'&&document.activeElement===$('galleryStage'))movePoster(1);if(e.key==='ArrowLeft'&&document.activeElement===$('galleryStage'))movePoster(-1);});
+$('menuToggle').addEventListener('click',()=>{const b=$('mobileLinks');b.classList.toggle('open');$('menuToggle').setAttribute('aria-expanded',String(b.classList.contains('open')));});
+$('galleryPrev').addEventListener('click',()=>movePoster(-1));$('galleryNext').addEventListener('click',()=>movePoster(1));$('galleryDots').addEventListener('click',e=>{const dot=e.target.closest('[data-dot]');if(dot){posterIndex=Number(dot.dataset.dot);renderGallery();}});document.querySelectorAll('[data-format]').forEach(b=>b.addEventListener('click',()=>{format=b.dataset.format;renderGallery();}));
+let pointerStart=null;$('galleryStage').addEventListener('pointerdown',e=>{pointerStart={x:e.clientX,y:e.clientY};});$('galleryStage').addEventListener('pointerup',e=>{if(!pointerStart)return;const dx=e.clientX-pointerStart.x,dy=e.clientY-pointerStart.y;pointerStart=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.25)movePoster(dx<0?1:-1);});
+document.querySelectorAll('.detail-tabs a').forEach(a=>a.addEventListener('click',ev=>{ev.preventDefault();const id=a.getAttribute('href').slice(1);document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});}));
+window.addEventListener('hashchange',renderRoute);fetchEvents();
+
+</script>
 <style>
 /* My Angel Events premium editorial refresh. Embedded in index.html so the rest of the project stays untouched. */
 :root{--paper:#f8f7f3;--ivory:#fff;--ink:#332d28;--sub:#766b62;--line:#e6e3e1;--accent:#bd704c;--accent-dark:#9d5436;--peach:#f6efe5;--gold:#e7bf83;--display:'Manrope','Outfit',sans-serif;--body:'DM Sans',sans-serif;--max:1216px}
@@ -68,30 +246,141 @@ html{scroll-padding-top:94px}body{background:#fffdf9;color:var(--ink)}::selectio
 @media(max-width:420px){.hero-art{height:365px}.hero-frame{padding:18px}.hero-image-wrap{inset:56px 18px 49px}.hero-frame-bottom{left:18px;right:18px}.hero-corner-badge{top:38px}.hero h1{font-size:clamp(46px,12vw,58px)}.hero-actions{gap:11px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style>
+<style id="instant-email-styles">
+.instant-email-status{padding:16px 18px;margin:14px 0 12px;border:1px solid #f1d7bd;border-radius:10px;background:#fff4e6;color:#68472f;font-size:14px;font-weight:650;line-height:1.6}
+#retryReservationEmail{margin-bottom:10px}
+</style>
+<style id="myangel-happy-ticket-ui">
+/* My Angel clean cream-and-orange confirmation, all within index.html */
+.purchase-dialog{width:min(100%,580px);border:1px solid #f3e2d0;border-radius:22px;padding:34px 36px 30px;overflow-x:hidden}
+#bookingStep h2 em{color:#ca5f2e;font-style:normal}
+.checkout-kicker{font-size:10.5px;font-weight:900;letter-spacing:.14em;color:#b65a2b;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:9px}
+#bookingStep .checkout-kicker{justify-content:flex-start}
+.checkout-kicker-dot{width:8px;height:8px;background:#e39663;border-radius:50%}
+.checkout-intro{font-size:14px!important;line-height:1.7!important;max-width:475px}
+.test-note{display:flex;gap:11px;align-items:flex-start;background:#fff3e6;border:1px solid #f3dac2;color:#744f34;padding:12px 13px;border-radius:10px;margin:18px 0 8px;font-size:12px;line-height:1.55}
+.test-note .ico,.sample-warning .ico{flex:none;width:19px;height:19px;color:#bb6633}
+.purchase-button{margin-top:10px;min-height:52px;font-size:14px;letter-spacing:.02em}
+#bookingProcessing{text-align:center;padding:42px 12px 35px}
+#bookingProcessing h2{margin:16px auto;max-width:395px;color:#382923;font-size:clamp(26px,4vw,36px);letter-spacing:-.05em}
+#bookingProcessing p{max-width:370px;margin:0 auto 23px;font-size:14px;line-height:1.75}
+.send-animation{position:relative;display:grid;place-items:center;width:114px;height:114px;margin:5px auto 20px;border-radius:50%;background:#fff2e6;color:#cf6d34}
+.send-animation:after{content:"";position:absolute;inset:-9px;border:2px dashed #e9c79f;border-radius:50%;animation:mailSpin 9s linear infinite}
+.send-animation>.ico{height:53px;width:53px;position:relative;z-index:1}
+.send-orbit{position:absolute;background:#edb473;width:11px;height:11px;border-radius:50%;top:4px;right:12px;animation:orbitBob 2.5s ease-in-out infinite}
+.send-orbit-two{width:7px;height:7px;top:auto;right:auto;left:8px;bottom:17px;animation-delay:-1s}
+.send-progress{height:5px;width:min(250px,75%);border-radius:10px;background:#f5e7d8;margin:16px auto 19px;overflow:hidden}
+.send-progress span{display:block;width:37%;height:100%;background:#d26b33;border-radius:10px;animation:mailLoad 1.35s ease-in-out infinite alternate}
+.process-footnote{display:flex;align-items:center;justify-content:center;gap:7px;color:#997964;font-size:11px}
+.process-footnote .ico{width:15px;height:15px}
+.email-confirmation{padding:5px 0 0}
+.celebration-top{position:relative;text-align:center;padding:16px 3px 12px;isolation:isolate}
+.joy-icon{width:88px;height:88px;border-radius:50%;background:#e7f3dc;outline:8px solid #f3f9ec;margin:11px auto 22px;display:grid;place-items:center;color:#477838;box-shadow:0 8px 26px #61754e25;animation:joyPop .56s cubic-bezier(.16,1.3,.3,1) both}
+.joy-icon>.ico{width:42px;height:42px;stroke-width:3}
+.email-needs-help .joy-icon{background:#fff0e6;outline-color:#fffaed;color:#bc6331;box-shadow:none}
+.email-confirmation h2{text-align:center;color:#342920;font:900 clamp(27px,5vw,40px)/1.16 var(--display);letter-spacing:-.055em;margin:14px auto 12px;max-width:480px}
+.email-confirmation .celebration-top>p{font-size:14px;line-height:1.72;margin:0 auto;max-width:440px;color:#78675c}
+.delivered-email{display:flex;align-items:center;justify-content:center;gap:9px;margin:18px auto 5px;padding:10px 12px;max-width:100%;width:max-content;border-radius:9px;background:#f8f0e8;border:1px solid #eeddc8;color:#5b4439;font-size:13px;overflow-wrap:anywhere}
+.delivered-email .ico{width:17px;height:17px;color:#bc6331;flex:none}
+.confirmed-reference{margin:12px auto 14px;background:#fff8ee;border:1px dashed #e7bf9a;border-radius:13px;text-align:center;padding:17px 13px}
+.confirmed-reference span{font-size:10px;letter-spacing:.11em;color:#9c6d52}
+.confirmed-reference strong{font:900 27px var(--display);color:#442f28;letter-spacing:.025em;word-break:break-word}
+.confirmed-reference small{font-size:12px;line-height:1.6}
+.expiry-detail{text-align:center;font-size:11.5px!important;margin:0 0 12px!important}
+.email-confirmation .instant-email-status{background:#f3f9ef;border:1px solid #d9e7cb;color:#446139;border-radius:11px;padding:13px 16px;font-size:12.5px;line-height:1.7;font-weight:650}
+.email-needs-help .instant-email-status{background:#fff4e9;border-color:#f2d8b8;color:#89522f}
+.sample-warning{display:flex;gap:10px;align-items:flex-start;background:#fffbf5;border:1px solid #f1e4d5;border-radius:9px;padding:11px 12px;color:#896c55;font-size:11.5px;line-height:1.55;margin:10px 0 16px}
+.confirmation-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.confirmation-actions>.button{font-size:12.5px;padding:12px 13px;min-height:47px}
+.support-minilink{display:block;text-align:center;margin:17px auto 0;color:#a55c39;font-size:12px;text-decoration:underline;text-underline-offset:3px}
+.confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
+.confetti i{position:absolute;top:-3%;left:var(--x);width:7px;height:13px;border-radius:2px;background:var(--c);transform:rotate(var(--rotate));opacity:0;animation:joyConfetti 2.3s ease-out var(--delay) both}
+@keyframes joyConfetti{0%{transform:translateY(-45px) rotate(0);opacity:0}19%{opacity:.95}100%{transform:translateY(180px) rotate(390deg);opacity:0}}
+@keyframes joyPop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+@keyframes mailSpin{to{transform:rotate(360deg)}}
+@keyframes orbitBob{50%{transform:translate(-6px,7px)}}
+@keyframes mailLoad{to{transform:translateX(175%)}}
+@media(max-width:520px){.purchase-dialog{padding:26px 19px 21px;border-radius:17px}.checkout-kicker{font-size:9.5px}.email-confirmation h2{font-size:30px}.joy-icon{width:78px;height:78px}.confirmation-actions{grid-template-columns:1fr}.confirmed-reference{margin-top:14px}.email-confirmation .celebration-top>p{font-size:13px}}
+@media(max-width:520px){.purchase-dialog{padding:20px 17px 18px}.celebration-top{padding:6px 2px 7px}.joy-icon{width:68px;height:68px;outline-width:6px;margin:5px auto 13px}.joy-icon>.ico{width:34px;height:34px}.email-confirmation h2{font-size:28px;margin:10px auto 8px}.email-confirmation .celebration-top>p{font-size:12.5px;line-height:1.5}.delivered-email{margin:10px auto 3px;padding:8px 10px;font-size:12px}.confirmed-reference{margin:9px auto 8px;padding:12px 11px}.confirmed-reference strong{font-size:24px;margin:4px 0}.confirmed-reference small{font-size:11px}.expiry-detail{margin:0 0 7px!important}.email-confirmation .instant-email-status{padding:9px 11px;font-size:11.5px;line-height:1.5;margin:7px 0}.sample-warning{padding:8px 10px;font-size:10.5px;line-height:1.45;margin:8px 0 10px}.confirmation-actions>.button{min-height:42px;padding:10px 12px}.support-minilink{margin:10px auto 0;font-size:11.5px}}
+@media(prefers-reduced-motion:reduce){.send-animation:after,.send-orbit,.send-progress span,.joy-icon,.confetti i{animation:none!important}}
+</style>
 </head>
 <body>
-<svg aria-hidden="true" class="sprite" xmlns="http://www.w3.org/2000/svg"><symbol id="ic-arrow" viewbox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></symbol><symbol id="ic-left" viewbox="0 0 24 24"><path d="m14 6-6 6 6 6"></path></symbol><symbol id="ic-right" viewbox="0 0 24 24"><path d="m10 6 6 6-6 6"></path></symbol><symbol id="ic-pin" viewbox="0 0 24 24"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.5"></circle></symbol><symbol id="ic-cal" viewbox="0 0 24 24"><rect height="16" rx="2" width="18" x="3" y="5"></rect><path d="M7 3v4m10-4v4M3 10h18"></path></symbol><symbol id="ic-clock" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></symbol><symbol id="ic-ticket" viewbox="0 0 24 24"><path d="M3 8V5h18v3a4 4 0 0 0 0 8v3H3v-3a4 4 0 0 0 0-8Z"></path><path d="M12 5v14" stroke-dasharray="2 3"></path></symbol><symbol id="ic-shield" viewbox="0 0 24 24"><path d="m12 2 9 4v6c0 6-4 9-9 11-5-2-9-5-9-11V6l9-4Z"></path><path d="m8 12 3 3 5-6"></path></symbol><symbol id="ic-check" viewbox="0 0 24 24"><path d="m4 12 5 5L20 6"></path></symbol><symbol id="ic-x" viewbox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"></path></symbol><symbol id="ic-menu" viewbox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></symbol><symbol id="ic-star" viewbox="0 0 24 24"><path d="m12 2 3 6 7 1-5 5 1 8-6-4-6 4 1-8-5-5 7-1 3-6Z"></path></symbol><symbol id="ic-building" viewbox="0 0 24 24"><path d="M3 21V7l9-5 9 5v14M3 10h18M7 14h2m6 0h2m-8 7v-5h6v5"></path></symbol><symbol id="ic-search" viewbox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 5 5"></path></symbol><symbol id="ic-chevron-down" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></symbol><symbol id="ic-spark" viewbox="0 0 24 24"><path d="m12 2 2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2Z"></path></symbol><symbol id="ic-lock" viewbox="0 0 24 24"><rect height="11" rx="2" width="14" x="5" y="11"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></symbol></svg>
+<svg aria-hidden="true" class="sprite" xmlns="http://www.w3.org/2000/svg"><symbol id="ic-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m4 7 8 6 8-6"></path></symbol><symbol id="ic-arrow" viewbox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></symbol><symbol id="ic-left" viewbox="0 0 24 24"><path d="m14 6-6 6 6 6"></path></symbol><symbol id="ic-right" viewbox="0 0 24 24"><path d="m10 6 6 6-6 6"></path></symbol><symbol id="ic-pin" viewbox="0 0 24 24"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.5"></circle></symbol><symbol id="ic-cal" viewbox="0 0 24 24"><rect height="16" rx="2" width="18" x="3" y="5"></rect><path d="M7 3v4m10-4v4M3 10h18"></path></symbol><symbol id="ic-clock" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></symbol><symbol id="ic-ticket" viewbox="0 0 24 24"><path d="M3 8V5h18v3a4 4 0 0 0 0 8v3H3v-3a4 4 0 0 0 0-8Z"></path><path d="M12 5v14" stroke-dasharray="2 3"></path></symbol><symbol id="ic-shield" viewbox="0 0 24 24"><path d="m12 2 9 4v6c0 6-4 9-9 11-5-2-9-5-9-11V6l9-4Z"></path><path d="m8 12 3 3 5-6"></path></symbol><symbol id="ic-check" viewbox="0 0 24 24"><path d="m4 12 5 5L20 6"></path></symbol><symbol id="ic-x" viewbox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"></path></symbol><symbol id="ic-menu" viewbox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></symbol><symbol id="ic-star" viewbox="0 0 24 24"><path d="m12 2 3 6 7 1-5 5 1 8-6-4-6 4 1-8-5-5 7-1 3-6Z"></path></symbol><symbol id="ic-building" viewbox="0 0 24 24"><path d="M3 21V7l9-5 9 5v14M3 10h18M7 14h2m6 0h2m-8 7v-5h6v5"></path></symbol><symbol id="ic-search" viewbox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 5 5"></path></symbol><symbol id="ic-chevron-down" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></symbol><symbol id="ic-spark" viewbox="0 0 24 24"><path d="m12 2 2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2Z"></path></symbol><symbol id="ic-lock" viewbox="0 0 24 24"><rect height="11" rx="2" width="14" x="5" y="11"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></symbol></svg>
 <div class="top-strip"><div class="wrap strip-inner"><span><span class="mini-dot"></span> THE OFFICIAL HOME OF MY ANGEL EVENTS</span><a href="https://wa.me/27798682198" rel="noopener noreferrer" target="_blank">Need help booking? <strong>Chat with us</strong> <svg class="ico"><use href="#ic-arrow"></use></svg></a></div></div>
 <header class="site-header"><div class="wrap header-inner"><a aria-label="My Angel Events home" class="brand" href="#home"><img class="new-brand-logo" src="assets/myangel-logo.png" alt="My Angel Country Lodge Events & Ticketing"></a><nav aria-label="Main navigation" class="desktop-links"><a href="#home">Home</a><a href="#events">Explore events</a><a href="#about">The lodge</a><a href="#faq">Help &amp; FAQs</a></nav><div class="header-right"><a class="button button-dark desktop-cta" href="#events">Find an event <svg class="ico"><use href="#ic-arrow"></use></svg></a><button aria-controls="mobileLinks" aria-expanded="false" aria-label="Toggle menu" class="icon-button menu-button" id="menuToggle" type="button"><svg class="ico"><use href="#ic-menu"></use></svg></button></div></div><nav aria-label="Mobile menu" class="mobile-links" id="mobileLinks"><a href="#home">Home</a><a href="#events">Explore events</a><a href="#about">The lodge</a><a href="#faq">Help &amp; FAQs</a><a href="https://wa.me/27798682198" rel="noopener noreferrer" target="_blank">Contact the lodge</a></nav></header>
 <main>
 <section id="homeView">
 <section aria-labelledby="heroTitle" class="hero"><div class="wrap hero-layout"><div class="hero-copy"><div class="hero-caption"><span class="hero-caption-line"></span> REAL PEOPLE. REAL MOMENTS. REAL MEMORIES.</div><h1 id="heroTitle">Your next<br/><span class="hero-emphasis">great night</span><br/>starts here<span class="orange">.</span></h1><p>Discover the best of live entertainment at My Angel Country Lodge. Explore upcoming events, pick your favourites and secure your tickets directly with us.</p><div class="hero-actions"><a class="button button-primary" href="#events">Explore upcoming events <svg class="ico"><use href="#ic-arrow"></use></svg></a><a class="hero-text-link" href="#about">Discover the lodge <svg class="ico"><use href="#ic-arrow"></use></svg></a></div><div class="hero-notes"><span><svg class="ico"><use href="#ic-pin"></use></svg> Mjejane, Nkomazi</span><span class="note-divider"></span><span><svg class="ico"><use href="#ic-shield"></use></svg> Official lodge tickets</span></div></div><div class="hero-art"><div class="hero-frame"><div class="hero-art-heading"><span>THE STAGE IS SET</span><svg class="ico"><use href="#ic-spark"></use></svg></div><div class="hero-image-wrap"><img alt="My Angel Comedy Fest live event poster" class="hero-art-one" fetchpriority="high" src="assets/gogo-square.jpg"/><img alt="My Angel comedy lineup preview" class="hero-art-two" loading="lazy" src="assets/mdu-portrait.jpg"/></div><div class="hero-frame-bottom"><span>LAUGHTER. MUSIC. COMMUNITY.</span><span>EST. IN NKOMAZI <svg class="ico"><use href="#ic-arrow"></use></svg></span></div></div><div class="hero-corner-badge">YOUR SEAT<br/>IS WAITING <svg class="ico"><use href="#ic-arrow"></use></svg></div></div></div></section>
-<section class="assurance-band"><div class="wrap assurance-grid"><div class="assurance-item"><span class="assurance-icon"><svg class="ico"><use href="#ic-cal"></use></svg></span><span><strong>Discover what's on</strong><small>All upcoming lodge events in one place</small></span></div><div class="assurance-item"><span class="assurance-icon"><svg class="ico"><use href="#ic-lock"></use></svg></span><span><strong>Reserve directly with My Angel</strong><small>Staff-verified manual payments for testing</small></span></div><div class="assurance-item"><span class="assurance-icon"><svg class="ico"><use href="#ic-ticket"></use></svg></span><span><strong>Digital entry tickets</strong><small>Unique QR codes after confirmed payment</small></span></div></div></section>
+<section class="assurance-band"><div class="wrap assurance-grid"><div class="assurance-item"><span class="assurance-icon"><svg class="ico"><use href="#ic-cal"></use></svg></span><span><strong>Discover what's on</strong><small>All upcoming lodge events in one place</small></span></div><div class="assurance-item"><span class="assurance-icon"><svg class="ico"><use href="#ic-lock"></use></svg></span><span><strong>Book directly with My Angel</strong><small>Instant email confirmation in test mode</small></span></div><div class="assurance-item"><span class="assurance-icon"><svg class="ico"><use href="#ic-ticket"></use></svg></span><span><strong>Digital entry tickets</strong><small>Unique QR codes after confirmed payment</small></span></div></div></section>
 <section class="section events-section" id="events"><div class="wrap"><div class="section-head"><div><div class="eyebrow">DISCOVER WHAT'S NEXT</div><h2>Upcoming <em>experiences.</em></h2><p>Great nights, right here at My Angel. Find the one worth getting dressed up for.</p></div><div aria-live="polite" class="section-count" id="eventCount" role="status">Finding events...</div></div><div class="events-tools"><label class="event-search"><svg aria-hidden="true" class="ico"><use href="#ic-search"></use></svg><input aria-label="Search events" autocomplete="off" id="eventSearch" placeholder="Search for an event" type="search"/></label><span class="events-tools-note"><svg class="ico"><use href="#ic-pin"></use></svg> Hosted at My Angel Country Lodge</span></div><div class="notice error" hidden="" id="eventsError" role="alert"></div><div aria-live="polite" class="events-grid" id="eventsGrid"><div aria-label="Loading events" class="skeleton event-skeleton" role="status"></div></div><p class="no-search-results" hidden="" id="noSearchResults">No events matched your search. Try another keyword.</p></div></section>
 <section class="lodge-section" id="about"><div class="wrap lodge-grid"><div class="lodge-icon-panel"><div class="lodge-panel-top"><span>THE PLACE BEHIND THE MEMORIES</span><svg class="ico"><use href="#ic-spark"></use></svg></div><div class="lodge-big-type">A little<br/>more <i>magic.</i></div><div class="lodge-panel-bottom"><span><svg class="ico"><use href="#ic-pin"></use></svg> MJEJANE · NKOMAZI</span><span>MY ANGEL COUNTRY LODGE</span></div></div><div class="lodge-copy"><div class="eyebrow">BEYOND THE EVENT</div><h2>Not just a venue.<br/><em>A place to connect.</em></h2><p>My Angel Country Lodge brings people together through memorable live shows and special experiences in the heart of Mjejane, Nkomazi.</p><p>Come for the entertainment. Stay for the atmosphere and the moments you'll talk about long after the night is over.</p><a class="button button-outline" href="https://www.google.com/maps/search/?api=1&amp;query=My+Angel+Country+Lodge+Mjejane+Nkomazi" rel="noopener noreferrer" target="_blank">Get directions <svg class="ico"><use href="#ic-arrow"></use></svg></a></div></div></section>
-<section class="section faq-section" id="faq"><div class="wrap faq-layout"><div><div class="eyebrow">A LITTLE PEACE OF MIND</div><h2>Your questions,<br/><em>answered.</em></h2><p>Everything you need to know before the big night.</p><a class="help-link" href="https://wa.me/27798682198" rel="noopener noreferrer" target="_blank">Still need help? WhatsApp us <svg class="ico"><use href="#ic-arrow"></use></svg></a></div><div class="faq-stack"><details><summary>How do I buy tickets?</summary><p>Browse upcoming events, choose an event, select your ticket type and quantity, then enter your details. Your booking is reserved first. The My Angel team confirms payment manually, then sends your PDF ticket by email.</p></details><details><summary>How do payments work during testing?</summary><p>For this testing phase, online checkout is paused. Contact the lodge with your booking reference and only use official payment instructions. Do not send card details.</p></details><details><summary>When will I receive my QR ticket?</summary><p>After our staff confirms receipt, your individual QR entry tickets are emailed as a PDF attachment. You can also access them on the booking status page.</p></details><details><summary>Where is the lodge located?</summary><p>My Angel Country Lodge is in Mjejane, Nkomazi, Mpumalanga. Each event page displays the venue, time and a directions link.</p></details><details><summary>Who do I contact if there's a booking issue?</summary><p>Contact the My Angel ticket team on WhatsApp at +27 79 868 2198. Include your booking reference so we can help you.</p></details></div></div></section>
+<section class="section faq-section" id="faq"><div class="wrap faq-layout"><div><div class="eyebrow">A LITTLE PEACE OF MIND</div><h2>Your questions,<br/><em>answered.</em></h2><p>Everything you need to know before the big night.</p><a class="help-link" href="https://wa.me/27798682198" rel="noopener noreferrer" target="_blank">Still need help? WhatsApp us <svg class="ico"><use href="#ic-arrow"></use></svg></a></div><div class="faq-stack"><details><summary>What happens when I click Purchase ticket?</summary><p>Choose your event, ticket category and quantity, then enter your details. During testing, you receive a confirmation email and a sample PDF. No online payment is collected. Only staff can approve payment and issue valid entry tickets.</p></details><details><summary>How do payments work during testing?</summary><p>Yoco is temporarily disabled for this test. You will not be charged online. Your booking is saved, and My Angel staff will manage payment confirmation separately.</p></details><details><summary>When will I receive my QR ticket?</summary><p>After our staff confirms receipt, your individual QR entry tickets are emailed as a PDF attachment. You can also access them on the booking status page.</p></details><details><summary>Where is the lodge located?</summary><p>My Angel Country Lodge is in Mjejane, Nkomazi, Mpumalanga. Each event page displays the venue, time and a directions link.</p></details><details><summary>Who do I contact if there's a booking issue?</summary><p>Contact the My Angel ticket team on WhatsApp at +27 79 868 2198. Include your booking reference so we can help you.</p></details></div></div></section>
 </section>
-<section hidden="" id="detailView"><div class="wrap"><div class="breadcrumbs"><a href="#events">All events</a><svg class="ico"><use href="#ic-right"></use></svg><span id="crumbName">Event</span></div><div class="detail-hero"><div class="detail-image"><img alt="Event poster" id="detailCover" src="assets/gogo-square.jpg"/><span>EXCLUSIVELY AT MY ANGEL</span></div><div class="detail-main"><div class="eyebrow" id="detailCategory">LIVE AT MY ANGEL</div><h1 id="detailTitle">Event</h1><p id="detailSummary">Event details</p><div class="facts"><div><svg class="ico"><use href="#ic-cal"></use></svg><span><strong id="detailDate"></strong><small>Event date</small></span></div><div><svg class="ico"><use href="#ic-clock"></use></svg><span><strong id="detailTime"></strong><small>South Africa time</small></span></div><div><svg class="ico"><use href="#ic-pin"></use></svg><span><strong id="detailVenue"></strong><small id="detailArea"></small></span></div></div><div class="detail-actions"><button class="button button-primary" id="heroBook" type="button">Choose tickets <svg class="ico"><use href="#ic-arrow"></use></svg></button><div class="price-note">Tickets from <strong id="detailFrom">—</strong></div></div></div></div></div>
+<section hidden="" id="detailView"><div class="wrap"><div class="breadcrumbs"><a href="#events">All events</a><svg class="ico"><use href="#ic-right"></use></svg><span id="crumbName">Event</span></div><div class="detail-hero"><div class="detail-image"><img alt="Event poster" id="detailCover" src="assets/gogo-square.jpg"/><span>EXCLUSIVELY AT MY ANGEL</span></div><div class="detail-main"><div class="eyebrow" id="detailCategory">LIVE AT MY ANGEL</div><h1 id="detailTitle">Event</h1><p id="detailSummary">Event details</p><div class="facts"><div><svg class="ico"><use href="#ic-cal"></use></svg><span><strong id="detailDate"></strong><small>Event date</small></span></div><div><svg class="ico"><use href="#ic-clock"></use></svg><span><strong id="detailTime"></strong><small>South Africa time</small></span></div><div><svg class="ico"><use href="#ic-pin"></use></svg><span><strong id="detailVenue"></strong><small id="detailArea"></small></span></div></div><div class="detail-actions"><button class="button button-primary" id="heroBook" type="button">Purchase tickets <svg class="ico"><use href="#ic-arrow"></use></svg></button><div class="price-note">Tickets from <strong id="detailFrom">—</strong></div></div></div></div></div>
 <div class="detail-tabs"><div class="wrap"><a href="#gallery">Event posters</a><a href="#lineup">The lineup</a><a href="#pricing">Tickets &amp; pricing</a><a href="#venue">Location</a></div></div>
 <section class="section gallery-section" id="gallery"><div class="wrap"><div class="section-head"><div><div class="eyebrow">THE FULL EXPERIENCE</div><h2>Meet the lineup<span class="orange">.</span></h2><p>Swipe the original lineup posters. Tap the arrows or slide to explore.</p></div><div class="format-buttons"><button class="selected" data-format="portrait" type="button">Portrait</button><button data-format="square" type="button">Square</button></div></div><div class="gallery-card"><div aria-label="Swipeable poster gallery" class="gallery-stage" id="galleryStage" tabindex="0"><button aria-label="Previous poster" class="gallery-arrow previous" id="galleryPrev" type="button"><svg class="ico"><use href="#ic-left"></use></svg></button><img alt="Event lineup poster" id="galleryImage" src="assets/mdu-portrait.jpg"/><button aria-label="Next poster" class="gallery-arrow next" id="galleryNext" type="button"><svg class="ico"><use href="#ic-right"></use></svg></button></div><div class="gallery-bottom"><div><strong id="galleryArtist">Lineup</strong><small>Swipe to see the next poster</small></div><span id="galleryCounter">01 / 05</span></div><div class="gallery-dots" id="galleryDots"></div></div></div></section>
 <section class="section lineup-section" id="lineup"><div class="wrap"><div class="section-head"><div><div class="eyebrow">ON STAGE</div><h2>All your favourites<span class="orange">.</span></h2></div></div><div class="artist-grid" id="artistGrid"></div></div></section>
-<section class="section pricing-section" id="pricing"><div class="wrap pricing-grid"><div><div class="eyebrow">TICKETS, DIRECT FROM THE LODGE</div><h2>Your place<br/><em>is waiting.</em></h2><p>See every ticket category, its advertised price and the live booking period. Pricing and availability are validated by our booking system.</p><div class="benefits"><span><svg class="ico"><use href="#ic-check"></use></svg> No third-party ticket marketplace</span><span><svg class="ico"><use href="#ic-check"></use></svg> Official My Angel event information</span><span><svg class="ico"><use href="#ic-shield"></use></svg> Payment verified before ticket issue</span></div></div><div class="ticket-card"><h3>Ticket options</h3><div class="tier-list" id="tierList"></div><button class="button button-primary button-block" id="bottomBook" type="button">Get tickets <svg class="ico"><use href="#ic-arrow"></use></svg></button><p class="ticket-disclaimer">A ticket is valid only after payment is confirmed. Online payment is paused for testing. Tickets are sent after staff verifies payment.</p></div></div></section>
+<section class="section pricing-section" id="pricing"><div class="wrap pricing-grid"><div><div class="eyebrow">TICKETS, DIRECT FROM THE LODGE</div><h2>Your place<br/><em>is waiting.</em></h2><p>See every ticket category, its advertised price and the live booking period. Pricing and availability are validated by our booking system.</p><div class="benefits"><span><svg class="ico"><use href="#ic-check"></use></svg> No third-party ticket marketplace</span><span><svg class="ico"><use href="#ic-check"></use></svg> Official My Angel event information</span><span><svg class="ico"><use href="#ic-shield"></use></svg> Payment verified before ticket issue</span></div></div><div class="ticket-card"><h3>Ticket options</h3><div class="tier-list" id="tierList"></div><button class="button button-primary button-block" id="bottomBook" type="button">Purchase tickets <svg class="ico"><use href="#ic-arrow"></use></svg></button><p class="ticket-disclaimer">Testing mode: no payment is collected online. A sample PDF is sent by email when your reservation succeeds. Valid QR tickets are issued only after staff approval.</p></div></div></section>
 <section class="venue-section" id="venue"><div class="wrap venue-flex"><div><div class="eyebrow">SEE YOU THERE</div><h2 id="eventVenueName">My Angel Country Lodge</h2><p id="eventVenueArea">Mjejane, Nkomazi, Mpumalanga</p></div><a class="button button-outline" id="directionsLink" rel="noopener" target="_blank">Get directions <svg class="ico"><use href="#ic-arrow"></use></svg></a></div></section>
 </section>
 </main>
 <footer class="footer"><div class="wrap footer-top"><div><div class="footer-kicker">WE'LL SAVE YOU A SEAT.</div><h2>See you <em>at My Angel.</em></h2></div><a class="button button-footer" href="#events">Explore events <svg class="ico"><use href="#ic-arrow"></use></svg></a></div><div class="wrap footer-grid"><div><a class="brand footer-brand" href="#home"><img class="new-brand-logo" src="assets/myangel-logo.png" alt="My Angel Country Lodge Events & Ticketing"></a><p>Official events and ticketing for My Angel Country Lodge. Created for the memories you'll never forget.</p></div><div><strong>Explore</strong><a href="#events">All upcoming events</a><a href="#about">About the lodge</a><a href="#faq">Help &amp; FAQs</a></div><div><strong>Get in touch</strong><a href="https://wa.me/27798682198" rel="noopener noreferrer" target="_blank">WhatsApp support</a><a href="tel:+27798682198">+27 79 868 2198</a><a href="https://www.google.com/maps/search/?api=1&amp;query=My+Angel+Country+Lodge+Mjejane+Nkomazi" rel="noopener noreferrer" target="_blank">Find our location</a><a href="admin.html">Staff sign in</a></div></div><div class="wrap footer-bottom"><span>© <span id="copyrightYear">2026</span> My Angel Country Lodge. All rights reserved.</span><span>Website by <a href="https://cmtech.tech" rel="noopener noreferrer" target="_blank">CM Technologies</a></span></div></footer>
-<div class="sticky-purchase" hidden="" id="stickyBar"><div><small>Official My Angel tickets</small><strong id="stickyPrice">Tickets</strong></div><button class="button button-primary" id="stickyBook" type="button">Get tickets <svg class="ico"><use href="#ic-arrow"></use></svg></button></div>
-<div class="overlay" hidden="" id="bookingOverlay"><div aria-labelledby="bookingHeading" aria-modal="true" class="dialog" role="dialog"><button aria-label="Close booking" class="dialog-close" id="closeBooking" type="button"><svg class="ico"><use href="#ic-x"></use></svg></button><div id="bookingStep"><div class="eyebrow">DIRECT LODGE RESERVATION</div><h2 id="bookingHeading">Book your tickets.</h2><p>Choose your ticket, add your details and reserve directly with My Angel. We will email your professional QR ticket PDF only after a staff member confirms payment.</p><form id="bookingForm"><div class="field"><label for="bookingTier">Ticket category</label><select id="bookingTier" required=""></select></div><div class="two-col"><div class="field"><label for="bookingQty">Quantity</label><select id="bookingQty" required=""><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div><div class="total-box"><small>Booking total</small><strong id="bookingTotal">R0</strong></div></div><div class="field"><label for="bookingName">Full name</label><input autocomplete="name" id="bookingName" maxlength="100" minlength="2" placeholder="Your full name" required="" type="text"/></div><div class="two-col"><div class="field"><label for="bookingEmail">Email address</label><input autocomplete="email" id="bookingEmail" maxlength="254" placeholder="you@example.com" required="" type="email"/></div><div class="field"><label for="bookingPhone">WhatsApp number</label><input autocomplete="tel" id="bookingPhone" maxlength="25" minlength="9" placeholder="079 123 4567" required="" type="tel"/></div></div><div aria-hidden="true" class="trap-field"><label for="websiteField">Website</label><input autocomplete="off" id="websiteField" tabindex="-1"/></div><label class="terms"><input id="bookingAgree" required="" type="checkbox"/><span>I understand this is a reservation, not an entry ticket. My Angel staff must confirm payment before my PDF ticket is emailed.</span></label><div class="notice error" hidden="" id="bookingError"></div><button class="button button-primary button-block" id="submitBooking" type="submit">Reserve my tickets <svg class="ico"><use href="#ic-arrow"></use></svg></button><div class="privacy-note"><svg class="ico"><use href="#ic-shield"></use></svg> Your price is calculated securely by Supabase. No online payment or card details are collected during testing.</div></form></div><div hidden="" id="bookingSuccess"><div class="success-icon"><svg class="ico"><use href="#ic-check"></use></svg></div><div class="eyebrow">RESERVATION RECEIVED</div><h2>Your reservation is saved.</h2><p>Keep this reference and contact the lodge to arrange payment. Once payment is confirmed by staff, we will send your PDF tickets to the email you entered. This reservation is not yet an entry ticket.</p><div class="reference-box"><span>YOUR BOOKING REFERENCE</span><strong id="successReference"></strong><small id="successAmount"></small></div><p id="successExpiry"></p><div class="notice error" hidden="" id="successPaymentIssue"></div><a class="button button-primary button-block" href="#" id="reservationStatusLink">View reservation status <svg class="ico"><use href="#ic-arrow"></use></svg></a><a class="button button-outline button-block" id="successWhatsapp" rel="noopener" target="_blank">Contact lodge to arrange payment <svg class="ico"><use href="#ic-arrow"></use></svg></a><button class="button button-outline button-block" id="successClose" type="button">Done</button></div></div></div>
+<div class="sticky-purchase" hidden="" id="stickyBar"><div><small>Official My Angel tickets</small><strong id="stickyPrice">Tickets</strong></div><button class="button button-primary" id="stickyBook" type="button">Purchase tickets <svg class="ico"><use href="#ic-arrow"></use></svg></button></div>
+<div class="overlay" hidden id="bookingOverlay">
+  <div aria-labelledby="bookingHeading" aria-modal="true" class="dialog purchase-dialog" role="dialog" tabindex="-1">
+    <button aria-label="Close ticket checkout" class="dialog-close" id="closeBooking" type="button"><svg class="ico"><use href="#ic-x"></use></svg></button>
+
+    <div id="bookingStep">
+      <div class="checkout-kicker"><span class="checkout-kicker-dot"></span> MY ANGEL EVENTS · OFFICIAL RESERVATION</div>
+      <h2 id="bookingHeading">Get your <em>tickets.</em></h2>
+      <p class="checkout-intro">Choose your tickets and enter your details. We'll send you a beautiful confirmation email with a preview PDF.</p>
+      <div class="test-note"><svg class="ico" aria-hidden="true"><use href="#ic-shield"></use></svg><span><strong>Testing mode</strong> · Online payments are disabled. You will receive a sample PDF, not a valid admission ticket.</span></div>
+      <form id="bookingForm">
+        <div class="field"><label for="bookingTier">Ticket category</label><select id="bookingTier" required></select></div>
+        <div class="two-col">
+          <div class="field"><label for="bookingQty">Quantity</label><select id="bookingQty" required><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+          <div class="total-box"><small>Advertised ticket total</small><strong id="bookingTotal">R0</strong></div>
+        </div>
+        <div class="field"><label for="bookingName">Full name</label><input autocomplete="name" id="bookingName" maxlength="100" minlength="2" placeholder="Your full name" required type="text"></div>
+        <div class="two-col">
+          <div class="field"><label for="bookingEmail">Email address</label><input autocomplete="email" id="bookingEmail" maxlength="254" placeholder="you@example.com" required type="email"></div>
+          <div class="field"><label for="bookingPhone">WhatsApp number</label><input autocomplete="tel" id="bookingPhone" maxlength="25" minlength="9" placeholder="079 123 4567" required type="tel"></div>
+        </div>
+        <div aria-hidden="true" class="trap-field"><label for="websiteField">Website</label><input autocomplete="off" id="websiteField" tabindex="-1"></div>
+        <label class="terms"><input id="bookingAgree" required type="checkbox"><span>I understand that the emailed sample PDF is <strong>not valid for entry</strong>. The official QR ticket is issued only when My Angel staff confirms payment.</span></label>
+        <div class="notice error" hidden id="bookingError" role="alert"></div>
+        <button class="button button-primary button-block purchase-button" id="submitBooking" type="submit">Purchase ticket <svg class="ico"><use href="#ic-arrow"></use></svg></button>
+        <div class="privacy-note"><svg class="ico"><use href="#ic-shield"></use></svg> No money or card details will be collected during testing.</div>
+      </form>
+    </div>
+
+    <div id="bookingProcessing" hidden aria-live="polite" aria-busy="true">
+      <div class="send-animation" aria-hidden="true"><span class="send-orbit send-orbit-one"></span><span class="send-orbit send-orbit-two"></span><svg class="ico"><use href="#ic-mail"></use></svg></div>
+      <div class="checkout-kicker">JUST A MOMENT</div>
+      <h2 id="processingTitle">Preparing something special...</h2>
+      <p>We're saving your reservation and sending the ticket preview to your email. Please keep this window open.</p>
+      <div class="send-progress"><span></span></div>
+      <span class="process-footnote"><svg class="ico"><use href="#ic-shield"></use></svg> Connecting securely to My Angel Events</span>
+    </div>
+
+    <div id="bookingSuccess" hidden aria-live="polite" class="email-confirmation">
+      <div class="celebration-top"><div class="confetti" id="celebrateConfetti" aria-hidden="true"></div><div class="joy-icon" id="joyIcon"><svg class="ico" aria-hidden="true"><use href="#ic-check"></use></svg></div><div class="checkout-kicker" id="confirmationEyebrow">EMAIL CONFIRMATION</div>
+      <h2 id="confirmationTitle">Your ticket preview has been emailed!</h2>
+      <p id="confirmationText">Check your inbox for your reservation confirmation and sample PDF.</p>
+      <div class="delivered-email" id="deliveredEmail" hidden><svg class="ico" aria-hidden="true"><use href="#ic-mail"></use></svg><strong id="deliveredEmailAddress"></strong></div></div>
+      <div class="reference-box confirmed-reference"><span>YOUR BOOKING REFERENCE</span><strong id="successReference"></strong><small id="successAmount"></small></div>
+      <p class="expiry-detail" id="successExpiry"></p>
+      <div role="status" aria-live="polite" class="instant-email-status" id="successEmailStatus"></div>
+      <div class="sample-warning"><svg class="ico" aria-hidden="true"><use href="#ic-shield"></use></svg><span><strong>TEST MODE · SAMPLE PDF</strong> — This preview does not grant entry. A valid QR ticket is issued only after admin payment confirmation.</span></div>
+      <button class="button button-primary button-block" id="retryReservationEmail" type="button" hidden>Retry sending email <svg class="ico"><use href="#ic-arrow"></use></svg></button>
+      <div class="notice error" id="successPaymentIssue" hidden></div>
+      <div class="confirmation-actions"><a class="button button-outline button-block" href="#" id="reservationStatusLink">View booking status <svg class="ico"><use href="#ic-arrow"></use></svg></a><button class="button button-primary button-block" id="successClose" type="button">Lovely, thank you <svg class="ico"><use href="#ic-check"></use></svg></button></div>
+      <a class="support-minilink" id="successWhatsapp" rel="noopener" target="_blank">Need help with your reservation? Contact the lodge</a>
+    </div>
+  </div>
+</div>
+
 <div aria-live="polite" class="toast" hidden="" id="toast" role="status"></div>
 <script>
 (()=>{
