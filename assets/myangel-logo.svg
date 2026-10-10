@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="212" viewBox="0 0 940 212">
+<g transform="translate(8 12)">
+<rect x="0" y="0" rx="39" width="188" height="188" fill="#E76D22"/>
+<circle cx="94" cy="68" r="29" fill="#FBE5A3"/>
+<path d="M28 125 L93 73 L159 125" fill="none" stroke="white" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M46 123 V152 H140 V123" fill="none" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M76 151 V119 H110 V151" fill="none" stroke="#FBE5A3" stroke-width="10" stroke-linecap="round"/>
+<path d="M40 52 Q92 25 144 52" fill="none" stroke="#FBE5A3" stroke-width="5" stroke-linecap="round" opacity=".7"/>
+</g>
+<text x="230" y="92" font-size="74" font-family="DejaVu Sans,Arial,sans-serif" font-weight="800" letter-spacing="-4" fill="#272320">MY ANGEL</text>
+<text x="235" y="131" font-size="26" font-family="DejaVu Sans,Arial,sans-serif" font-weight="700" letter-spacing="8" fill="#B65A26">COUNTRY LODGE</text>
+<path d="M235 147 H862" stroke="#E4D4BC" stroke-width="2"/>
+<text x="235" y="179" font-size="22" font-family="DejaVu Sans,Arial,sans-serif" font-weight="700" letter-spacing="7" fill="#756456">EVENTS &amp; TICKETING</text>
+</svg>

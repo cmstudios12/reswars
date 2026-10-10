@@ -1,0 +1,4 @@
+# Manual payment mode: staff confirmation and authenticated PDF-email function.
+# User authentication and staff role are checked IN THE FUNCTION using auth.getUser.
+[functions.email-verified-tickets]
+verify_jwt = false
