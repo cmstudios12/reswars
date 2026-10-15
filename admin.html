@@ -402,7 +402,84 @@ body.admin-body {background:#f8f7f3;color:var(--ink);font-family:var(--body);fon
  .booking-new-alert button {width:100%}
  .booking-bookmark {gap:5px}
 }
-</style><meta content="My Angel Country Lodge private event management dashboard" name="description"/></head><body class="admin-body">
+
+#testScannedPhraseRow10[hidden]{display:none!important}
+</style><meta content="My Angel Country Lodge private event management dashboard" name="description"/><style>
+.delivery-top-notice{display:flex;gap:10px;align-items:flex-start;background:#fff5e8;border:1px solid #e6c29e;padding:15px;border-radius:12px;margin:18px 0;font-size:13px;line-height:1.6;color:#6a4832}
+.delivery-top-dot{width:9px;height:9px;background:#d26a2d;border-radius:50%;flex:none;margin-top:6px}
+.mail-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:14px 0}
+.mail-metrics>div{padding:17px 13px;background:#fff9f3;border:1px solid #efe2d5;border-radius:11px}
+.mail-metrics b{display:block;color:#853d24;font-size:25px}.mail-metrics span{font-size:12px;color:#695d53}
+.mail-issue{display:flex;gap:12px;justify-content:space-between;align-items:center;padding:12px 2px;border-bottom:1px solid #ede5db;flex-wrap:wrap}
+.mail-issue>div{min-width:0;flex:1}.mail-issue small{display:block;color:#6f655c;margin:4px 0;overflow-wrap:anywhere}
+.mail-error-tag{font-size:12px;color:#9e3f2b;font-weight:750;overflow-wrap:anywhere}
+.mail-issue-empty{font-size:13px;color:#65594f;padding:17px;background:#fffaf5;border-radius:10px}
+.guest-tools{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-top:7px}
+.guest-tools button{font:inherit;cursor:pointer;border-radius:7px;padding:7px 10px;font-weight:800;font-size:11px}
+.guest-fix{border:1px solid #deb18b;background:#fff3e6;color:#894721}
+.guest-remove{border:1px solid #d8b3b3;background:#fff4f4;color:#9d3333}
+.guest-mail-status{font-size:10px;color:#786f68;margin-left:3px}
+#archiveTestBooking[hidden],#recordRefundBooking[hidden],#correctGuestEmail[hidden]{display:none!important}
+.fix-email-dialog{border:0;border-radius:17px;width:min(95vw,520px);padding:28px;box-shadow:0 24px 90px #2c1d163e;color:#302923}
+.fix-email-dialog::backdrop{background:rgba(28,24,20,.65)}
+.fix-email-dialog .mini-eyebrow{letter-spacing:.14em;font-size:11px;font-weight:800;color:#b85d24}
+.fix-email-dialog h2{font-size:27px;letter-spacing:-.035em;margin:7px 0}.fix-email-dialog header p:last-child{margin:0 0 15px;color:#796d62}
+.fix-email-dialog label{font-weight:800;display:block;font-size:13px;margin:14px 0 6px}
+.fix-email-dialog input,.fix-email-dialog textarea{width:100%;box-sizing:border-box;background:#fff;border:1px solid #d6c8b8;border-radius:9px;padding:13px;font:inherit;color:#302923}
+.fix-email-warning{font-size:12px;line-height:1.6;padding:12px;background:#fff3e6;border-radius:9px;color:#78503d}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:17px}.scope-note{font-size:12px;line-height:1.65;color:#797069}
+@media(max-width:680px){.fix-email-dialog{padding:19px}.modal-actions button{width:100%}.mail-issue .button{width:100%}}
+</style><style id="admin-room-addon-css">
+.admin-room-box{border:1px solid #e9c8a9;border-radius:16px;background:#fff9f1;padding:21px;margin:21px 0}
+.admin-room-heading{display:flex;justify-content:space-between;gap:16px;align-items:center;color:#a64c25;font-weight:900;font-size:13px;letter-spacing:.055em}
+.admin-room-heading strong{color:#7e421f;background:#fbe9d4;border-radius:8px;padding:8px 12px;font-size:11px}
+.admin-room-box>p{font-size:13px;line-height:1.7;color:#594e45}
+.admin-room-controls label{display:block;font-size:12px;font-weight:800;margin-bottom:7px}
+.admin-room-controls input{width:100%;height:48px;border:1px solid #ddcbbb;border-radius:8px;padding:12px;background:white;color:#362c25}
+.admin-room-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:15px}
+.admin-room-note{font-size:12px;color:#8a5940}
+@media(max-width:600px){.admin-room-box{padding:15px}.admin-room-actions button{width:100%}}
+</style>
+<style>
+/* My Angel v09 - test data cleanup. Existing mobile design remains intact. */
+.test-real-metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:4px 0 17px}
+.test-real-metrics>div{border:1px solid #ece0d1;background:#fff;border-radius:12px;padding:13px 10px}
+.test-real-metrics strong{display:block;font-size:24px;color:#342c26;line-height:1.2}
+.test-real-metrics small{font-size:10px;color:#76675d;font-weight:720}
+@media(max-width:850px){.test-real-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.test-controls-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:13px;background:#fff7ed;border:1px solid #f4dfcb;border-radius:14px;padding:16px 17px;margin:15px 0 19px}
+.test-controls-bar strong{display:block;color:#3a2a23;font-weight:850;font-size:14px}.test-controls-bar p{font-size:12px;color:#79695d;margin:3px 0 0;line-height:1.5}
+.test-controls-bar button{border:1px solid #dcad86;color:#9d491c;background:white;border-radius:10px;padding:10px 15px;font-weight:800;min-height:44px;cursor:pointer}
+.test-controls-bar button.active{background:#392e27;color:#fff;border-color:#392e27}
+.test-delete-action{display:inline-flex;justify-content:center;align-items:center;gap:6px;border:1px solid #e8b5b3;border-radius:9px;background:#fff5f3;color:#9a3330;padding:8px 12px;font-size:12px;font-weight:800;cursor:pointer;min-height:38px}
+.test-delete-action:hover{background:#ffe8e3;border-color:#d88c87}
+.test-delete-action:focus-visible{outline:3px solid #e8a19e;outline-offset:2px}
+.test-removed-tag{display:inline-block;border-radius:9px;background:#f0eeec;color:#69605a;padding:6px 9px;font-size:11px;font-weight:700}
+.test-cleanup-inline{margin-top:18px;padding:18px;border:1px solid #f0d6cb;background:#fff7f3;border-radius:14px}
+.test-cleanup-inline p{font-size:12px;color:#795f55;margin:6px 0 12px;line-height:1.65}
+.test-cleanup-inline h3{margin:0;font-size:16px}
+#archiveTestBooking{display:none!important}
+.test-dialog{border:1px solid #e7dfd6;border-radius:19px;max-width:530px;width:min(94vw,530px);padding:0;color:#332d28;box-shadow:0 25px 90px #2d241f60}
+.test-dialog::backdrop{background:#241d18ae;backdrop-filter:blur(3px)}
+.test-dialog .test-dialog-top{padding:24px 25px 17px;background:#fff8f1;border-bottom:1px solid #f0e2d7}
+.test-dialog .test-dialog-tag{font-size:10px;color:#bf5d31;font-weight:900;letter-spacing:.12em}
+.test-dialog h2{font-size:23px;letter-spacing:-.035em;line-height:1.15;margin:7px 0}
+.test-dialog p{font-size:13px;color:#726962;line-height:1.7;margin:9px 0}
+.test-dialog .test-dialog-content{padding:22px 25px 25px;display:grid;gap:13px}
+.test-dialog .test-warning{background:#fff0e8;border-left:3px solid #cf632a;padding:12px 13px;border-radius:5px;font-size:12px;line-height:1.65;color:#68402b}
+.test-dialog label{font-size:12px;font-weight:850;color:#423934;display:grid;gap:6px}
+.test-dialog input[type=text],.test-dialog textarea{font:inherit;font-size:14px;min-height:44px;padding:11px;border-radius:9px;border:1px solid #d9cbc0;width:100%;background:#fff}
+.test-dialog textarea{resize:vertical;min-height:76px}
+.test-dialog .test-attest{display:flex;gap:10px;align-items:flex-start;line-height:1.5;font-weight:650;padding:12px;border:1px solid #efc9aa;border-radius:10px;background:#fff7ec}
+.test-dialog .test-attest input{margin-top:3px;width:18px;height:18px;flex:none}
+.test-dialog .test-form-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:3px}
+.test-dialog .test-form-actions button{border-radius:10px;border:1px solid #ded2c5;background:#fff;color:#514137;font-weight:850;padding:12px 16px;min-height:44px;cursor:pointer}
+.test-dialog .test-form-actions button.danger{border-color:#a73d36;background:#ad3f38;color:#fff}
+.test-dialog .test-form-actions button:disabled{opacity:.55;cursor:wait}
+#testCleanupAdminNotice{font-size:12px;color:#86674e;margin:8px 0 0}
+@media(max-width:600px){.test-dialog .test-dialog-top{padding:21px 19px 14px}.test-dialog .test-dialog-content{padding:17px 19px 22px}.test-dialog .test-form-actions button{flex:1}.test-delete-action{font-size:12px}.test-controls-bar{padding:13px}.guest-tools{flex-wrap:wrap}}
+</style>
+</head><body class="admin-body">
 <div class="admin-shell" id="loginView"><div class="auth-art">
 <div class="auth-art-inner"><a aria-label="My Angel home" class="auth-logo" href="index.html"><span class="brand-emblem"><img alt="" data-local-asset="assets/myangel-logo.png"/></span><span>MY ANGEL<small>COUNTRY LODGE · EVENT OPERATIONS</small></span></a>
 <span class="auth-art-label">YOUR PRIVATE WORKSPACE</span><h1>Everything behind<br/>an <em>unforgettable event.</em></h1>
@@ -422,7 +499,7 @@ body.admin-body {background:#f8f7f3;color:var(--ink);font-family:var(--body);fon
 <div class="sidebar-caption">WORKSPACE</div>
 <nav aria-label="Admin sections" id="adminNav">
 <button class="active" data-pane="overview" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="9" rx="1.5" width="7" x="3" y="3"></rect><rect height="5" rx="1.5" width="7" x="14" y="3"></rect><rect height="9" rx="1.5" width="7" x="14" y="12"></rect><rect height="5" rx="1.5" width="7" x="3" y="16"></rect></svg><span>Overview</span></button>
-<button data-pane="bookings" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="16" rx="2" width="14" x="5" y="5"></rect><rect height="4" rx="1" width="6" x="9" y="3"></rect><path d="M9 12h6M9 16h6"></path></svg><span>Bookings &amp; payments</span></button>
+<button data-pane="bookings" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="16" rx="2" width="14" x="5" y="5"></rect><rect height="4" rx="1" width="6" x="9" y="3"></rect><path d="M9 12h6M9 16h6"></path></svg><span>Guest list &amp; bookings</span></button>
 <button data-pane="events" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="16" rx="2" width="18" x="3" y="5"></rect><path d="M16 3v4M8 3v4M3 10h18"></path><path d="m8 16 2 2 4-4"></path></svg><span>Events</span></button>
 <button data-pane="tiers" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M4 6h16a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V8a2 2 0 0 1 2-2Z"></path><path d="M13 6v2m0 3v2m0 3v4"></path></svg><span>Ticket categories</span></button>
 <button data-pane="posters" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="16" rx="2" width="16" x="3" y="3"></rect><path d="m3 15 5-5 4 4 2-2 5 5"></path><circle cx="14" cy="8" r="1.5"></circle><path d="M7 22h13a2 2 0 0 0 2-2V7"></path></svg><span>Poster gallery</span></button>
@@ -437,7 +514,16 @@ body.admin-body {background:#f8f7f3;color:var(--ink);font-family:var(--body);fon
 <section hidden="" id="eventsPane"><div class="admin-panel"><div class="panel-head section-panel-head"><div><h2>Your events</h2><p>Publish a new lodge event or update an existing one.</p></div><button class="button button-primary tiny" id="newEvent" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M12 5v14M5 12h14"></path></svg>+ New event</button></div><div class="list-stack" id="adminEvents"></div></div><div class="admin-panel editor-panel" hidden="" id="eventEditor"><h2 id="eventFormTitle">Create event</h2><form id="eventForm"><input id="eventId" type="hidden"/><div class="form-grid"><div class="field"><label for="eventTitle">Event title *</label><input id="eventTitle" maxlength="150" placeholder="e.g. Summer Music Festival" required=""/></div><div class="field"><label for="eventSlug">URL slug *</label><input id="eventSlug" pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="summer-music-festival" required=""/></div><div class="field"><label for="eventCategory">Category</label><input id="eventCategory" placeholder="Music / Comedy / Live event"/></div><div class="field"><label for="eventStatus">Status</label><select id="eventStatus"><option value="draft">Draft — hidden from customers</option><option value="published">Published — visible to customers</option><option value="cancelled">Cancelled</option></select></div><div class="field"><label for="eventStart">Start date &amp; time (South Africa) *</label><input id="eventStart" required="" type="datetime-local"/></div><div class="field"><label for="eventEnd">End date &amp; time (South Africa)</label><input id="eventEnd" type="datetime-local"/></div><div class="field"><label for="eventVenue">Venue name *</label><input id="eventVenue" required=""/></div><div class="field"><label for="eventArea">Venue area *</label><input id="eventArea" required=""/></div><div class="field full"><label for="eventSubtitle">Short introduction</label><input id="eventSubtitle" maxlength="200"/></div><div class="field full"><label for="eventDescription">Full description</label><textarea id="eventDescription" rows="4"></textarea></div><div class="field full"><label for="eventCover">Cover image URL (or upload below)</label><input id="eventCover" placeholder="assets/gogo-square.jpg or https://..."/></div><div class="field full"><label for="eventCoverFile">Upload cover image (JPG, PNG, WebP — up to 10 MB)</label><input accept="image/jpeg,image/png,image/webp" id="eventCoverFile" type="file"/></div><div class="field full check-field"><label for="eventFeatured"><input id="eventFeatured" type="checkbox"/> Featured event</label></div></div><div class="form-actions"><button class="button button-primary" id="saveEvent" type="submit"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="m5 12 4 4L19 6"></path></svg>Save event</button><button class="button button-outline" id="cancelEventEdit" type="button">Cancel</button></div></form></div></section>
 <section hidden="" id="tiersPane"><div class="admin-panel"><div class="panel-head section-panel-head"><div><h2>Ticket pricing</h2><p>Set prices, capacity and when each category may be reserved.</p></div><button class="button button-primary tiny" id="newTier" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M12 5v14M5 12h14"></path></svg>+ Add ticket type</button></div><div class="field selection-field"><label for="tierEventFilter">Event</label><select id="tierEventFilter"></select></div><div class="list-stack" id="adminTiers"></div></div><div class="admin-panel editor-panel" hidden="" id="tierEditor"><h2 id="tierFormTitle">Ticket category</h2><form id="tierForm"><input id="tierId" type="hidden"/><div class="form-grid"><div class="field"><label for="tierEvent">Event</label><select id="tierEvent" required=""></select></div><div class="field"><label for="tierCode">Category code *</label><input id="tierCode" placeholder="early-bird" required=""/></div><div class="field"><label for="tierName">Display name *</label><input id="tierName" placeholder="Early Bird" required=""/></div><div class="field"><label for="tierPrice">Price (ZAR) *</label><input id="tierPrice" min="0" required="" step="0.01" type="number"/></div><div class="field"><label for="tierCapacity">Capacity (blank = unlimited)</label><input id="tierCapacity" min="0" type="number"/></div><div class="field"><label for="tierSort">Sort order</label><input id="tierSort" type="number" value="0"/></div><div class="field"><label for="tierFrom">Sales open (SAST) *</label><input id="tierFrom" required="" type="datetime-local"/></div><div class="field"><label for="tierUntil">Sales close (SAST) *</label><input id="tierUntil" required="" type="datetime-local"/></div><div class="field full"><label for="tierDescription">Description</label><input id="tierDescription"/></div><div class="field full check-field"><label for="tierActive"><input checked="" id="tierActive" type="checkbox"/> Active</label><label for="tierActive"><input checked="" id="tierOnline" type="checkbox"/> Available for website bookings</label></div></div><div class="form-actions"><button class="button button-primary" id="saveTier" type="submit"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="m5 12 4 4L19 6"></path></svg>Save ticket type</button><button class="button button-outline" id="cancelTierEdit" type="button">Cancel</button></div></form></div></section>
 <section hidden="" id="postersPane"><div class="admin-panel"><div class="panel-head section-panel-head"><div><h2>Event posters</h2><p>Upload artwork for each artist. Visitors swipe between these posters on the event page.</p></div><button class="button button-primary tiny" id="newPoster" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M12 5v14M5 12h14"></path></svg>+ Add poster</button></div><div class="field selection-field"><label for="posterEventFilter">Event</label><select id="posterEventFilter"></select></div><div class="poster-admin-grid" id="adminPosters"></div></div><div class="admin-panel editor-panel" hidden="" id="posterEditor"><h2 id="posterFormTitle">Add lineup poster</h2><form id="posterForm"><input id="posterId" type="hidden"/><div class="form-grid"><div class="field"><label for="posterEvent">Event</label><select id="posterEvent" required=""></select></div><div class="field"><label for="posterArtist">Artist / act name *</label><input id="posterArtist" required=""/></div><div class="field"><label for="posterSlug">Artist slug *</label><input id="posterSlug" placeholder="artist-name" required=""/></div><div class="field"><label for="posterSort">Display order</label><input id="posterSort" type="number" value="0"/></div><div class="field full"><label for="posterPortrait">Portrait poster URL</label><input id="posterPortrait" placeholder="assets/artist-portrait.jpg"/></div><div class="field full"><label for="portraitUpload">Upload portrait poster</label><input accept="image/jpeg,image/png,image/webp" id="portraitUpload" type="file"/></div><div class="field full"><label for="posterSquare">Square poster URL</label><input id="posterSquare" placeholder="assets/artist-square.jpg"/></div><div class="field full"><label for="squareUpload">Upload square poster</label><input accept="image/jpeg,image/png,image/webp" id="squareUpload" type="file"/></div></div><div class="form-actions"><button class="button button-primary" id="savePoster" type="submit"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="m5 12 4 4L19 6"></path></svg>Save poster</button><button class="button button-outline" id="cancelPosterEdit" type="button">Cancel</button></div></form></div></section>
-<section hidden="" id="bookingsPane"><div class="admin-panel"><div class="panel-head section-panel-head"><div><h2>Bookings &amp; payments</h2><p>All bookings are stored in Supabase. New reservations appear automatically, with secure payment approval and PDF ticket controls.</p></div><button class="button button-outline tiny" id="exportCSV" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M13 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10l-7-7Z"></path><path d="M13 3v7h7M12 13v5m-3-3 3 3 3-3"></path></svg>Export loaded bookings CSV</button></div><div class="demo-card"><div class="demo-card-intro"><div class="demo-badge"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="14" rx="2" width="18" x="3" y="5"></rect><path d="m3 7 9 6 9-6"></path></svg></div><div><strong>Test real email delivery</strong><p>Send a professional, watermarked sample PDF to your signed-in email. It will not be valid for entry.</p></div></div><button class="button button-outline" id="sendDemoTicketEmail" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="14" rx="2" width="18" x="3" y="5"></rect><path d="m3 7 9 6 9-6"></path></svg>Send demo PDF to my email</button><span aria-live="polite" class="demo-email-status" id="demoEmailStatus" role="status">Safe test: real email, invalid QR, no paid booking</span></div><div class="filter-bar"><input id="bookingSearch" placeholder="Search reference, name or email"/><select id="bookingFilter"><option value="all">All statuses</option><option value="pending">Pending</option><option value="paid">Paid</option><option value="cancelled">Cancelled</option><option value="expired">Expired</option></select></div><div class="booking-monitor" role="status" aria-live="polite"><div class="booking-monitor-status"><span class="booking-monitor-led" id="bookingsMonitorLed" aria-hidden="true"></span><div><strong>Automatic booking updates</strong><small id="bookingsMonitorTime">Loading latest reservations…</small></div></div><span class="booking-live-badge">Staff access only · Yoco disabled</span></div><div class="booking-new-alert" id="bookingsBookingAlert" hidden><div><strong id="bookingsBookingAlertTitle">New booking received</strong><small>New reservations are saved directly into Supabase, even before payment.</small></div><button type="button" id="reviewNewBookings">Open latest</button></div><div class="booking-bookmark" id="bookingSummary" aria-live="polite"><span>Loading booking activity…</span></div><div class="table-scroll" id="adminBookings"></div><div class="booking-page-state"><span id="bookingsLoadedStatus">Showing most recent reservations</span><button type="button" class="booking-older-button" id="loadOlderBookings">Load older bookings</button></div></div><div class="admin-panel editor-panel booking-detail-panel" hidden="" id="bookingDetail"><h2>Booking <span id="bookingRef"></span></h2><div class="booking-meta" id="bookingMeta"></div><div class="setup-warning" hidden="" id="yocoPaymentNotice">Yoco booking: payment can only be confirmed by a verified Yoco webhook. Do not manually mark this reservation as paid. Any expired or mismatched Yoco payment requires reconciliation in the Yoco dashboard.</div><div id="paymentActions"><div class="setup-warning">Only confirm a payment after checking the funds arrived in the lodge's actual payment account. An uploaded receipt alone is not proof.</div><div class="field"><label for="paymentRef">Verified payment/bank reference *</label><input id="paymentRef" placeholder="Verified transaction reference"/></div><div class="form-actions"><button class="button button-primary" id="confirmPayment" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path><path d="m9 12 2 2 4-4"></path></svg>Confirm payment, issue &amp; email PDF tickets</button><button class="button button-outline" id="cancelBooking" type="button">Cancel unpaid booking</button></div></div><div hidden="" id="issuedTickets"><h3>Issued guest tickets</h3><p>Each ticket has a unique code. Share links only with the customer once payment is verified.</p><div class="ticket-links" id="ticketLinks"></div><button class="button button-primary" id="sendTicketEmail" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="14" rx="2" width="18" x="3" y="5"></rect><path d="m3 7 9 6 9-6"></path></svg>Send / retry professional PDF ticket email</button><p aria-live="polite" class="setup-warning" id="ticketEmailStatus" role="status"></p><button class="button button-dark" id="shareTickets" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-2 2M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l2-2"></path></svg>Open WhatsApp to share ticket links</button></div></div></section>
+<section hidden="" id="bookingsPane"><div class="delivery-top-notice" role="status"><span class="delivery-top-dot"></span><span><strong>Guest list and email tracking</strong> · Select any booking to correct an email, resend tickets, or safely remove an unpaid tester. Paid/refunded transactions stay in the audit history.</span></div><div class="admin-panel" id="directorsGuestPanel" style="margin:20px 0;padding:22px;border-radius:18px;background:#fff;border:1px solid #eee4d9"><div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px"><div><span style="color:#ba581d;font-weight:800;font-size:12px;letter-spacing:.12em">DIRECTORS · LIVE OPERATIONS</span><h2 style="margin:6px 0;font-size:24px">Guest list &amp; admissions</h2><p style="margin:0;color:#69645e">Searchable, payment-aware guest register. Export to Excel.</p></div><button class="button button-primary" id="directorsExport" type="button">Export guest list (Excel CSV)</button></div><div id="directorsMetrics" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:18px 0"></div><div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px"><input id="directorsSearch" placeholder="Guest, email, phone or reference" style="flex:2;min-width:210px;padding:13px;border-radius:10px;border:1px solid #ddd"><select id="directorsStatus" style="padding:13px;border-radius:10px;border:1px solid #ddd"><option value="all">All statuses</option><option value="paid">Paid</option><option value="pending">Pending</option><option value="refunded">Refunded</option><option value="cancelled">Cancelled</option><option value="expired">Expired</option></select></div><div id="directorsGuestTable" style="overflow-x:auto"></div><p id="directorsScope" style="font-size:12px;color:#766b5d;margin-top:12px">Loading guest register…</p></div><div class="admin-panel" id="emailIssuesPanel" style="margin:18px 0"><div class="panel-head"><div><span class="eyebrow" style="color:#b45c2f;font-weight:800;letter-spacing:.1em">DELIVERY WATCH</span><h2>Email delivery & wrong addresses</h2><p>Shows bounces, rejected emails and delayed messages. Correct the guest address and resend without creating another booking.</p></div><button type="button" class="button" id="refreshDeliveryNow">Refresh statuses</button></div><div class="mail-metrics" id="deliveryMetrics"><span>Loading…</span></div><div id="deliveryIssueList" class="mail-issues"></div><p class="scope-note">An email marked <strong>sent</strong> is only accepted by Resend. <strong>Delivered</strong> means the receiving email server accepted it, not that the recipient opened the PDF. Webhook connection required.</p></div><div class="admin-panel"><div class="panel-head section-panel-head"><div><h2>Bookings &amp; payments</h2><p>All bookings are stored in Supabase. New reservations appear automatically, with secure payment approval and PDF ticket controls.</p></div><button class="button button-outline tiny" id="exportCSV" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M13 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10l-7-7Z"></path><path d="M13 3v7h7M12 13v5m-3-3 3 3 3-3"></path></svg>Export loaded bookings CSV</button></div><div class="demo-card"><div class="demo-card-intro"><div class="demo-badge"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="14" rx="2" width="18" x="3" y="5"></rect><path d="m3 7 9 6 9-6"></path></svg></div><div><strong>Test real email delivery</strong><p>Send a professional, watermarked sample PDF to your signed-in email. It will not be valid for entry.</p></div></div><button class="button button-outline" id="sendDemoTicketEmail" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="14" rx="2" width="18" x="3" y="5"></rect><path d="m3 7 9 6 9-6"></path></svg>Send demo PDF to my email</button><span aria-live="polite" class="demo-email-status" id="demoEmailStatus" role="status">Safe test: real email, invalid QR, no paid booking</span></div><div class="filter-bar"><input id="bookingSearch" placeholder="Search reference, name or email"/><select id="bookingFilter"><option value="all">All statuses</option><option value="pending">Pending</option><option value="paid">Paid</option><option value="cancelled">Cancelled</option><option value="expired">Expired</option></select></div><div class="booking-monitor" role="status" aria-live="polite"><div class="booking-monitor-status"><span class="booking-monitor-led" id="bookingsMonitorLed" aria-hidden="true"></span><div><strong>Automatic booking updates</strong><small id="bookingsMonitorTime">Loading latest reservations…</small></div></div><span class="booking-live-badge">Staff access only · Yoco disabled</span></div><div class="booking-new-alert" id="bookingsBookingAlert" hidden><div><strong id="bookingsBookingAlertTitle">New booking received</strong><small>New reservations are saved directly into Supabase, even before payment.</small></div><button type="button" id="reviewNewBookings">Open latest</button></div><div class="booking-bookmark" id="bookingSummary" aria-live="polite"><span>Loading booking activity…</span></div><div class="table-scroll" id="adminBookings"></div><div class="booking-page-state"><span id="bookingsLoadedStatus">Showing most recent reservations</span><button type="button" class="booking-older-button" id="loadOlderBookings">Load older bookings</button></div></div><div class="admin-panel editor-panel booking-detail-panel" hidden="" id="bookingDetail"><div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px"><button id="correctGuestEmail" type="button" class="button button-primary">Correct guest email &amp; resend</button><button id="archiveTestBooking" type="button" style="border:1px solid #e2b58d;background:#fff8ef;color:#8e421b;border-radius:10px;padding:10px">Remove unpaid test booking</button><button id="recordRefundBooking" type="button" style="border:1px solid #ceaaa4;background:#fff4f2;color:#9b3530;border-radius:10px;padding:10px">Record completed refund &amp; void codes</button></div><h2>Booking <span id="bookingRef"></span></h2><div class="booking-meta" id="bookingMeta"></div><div class="admin-room-box" id="adminRoomBox" hidden>
+  <div class="admin-room-heading"><span>ACCOMMODATION REQUEST</span><strong id="adminRoomStatus">Requested</strong></div>
+  <p id="adminRoomSummary">R900 for 1 room, including 1 complimentary Comedy Fest ticket. Check availability before confirming payment.</p>
+  <div class="admin-room-controls" id="adminRoomControls">
+    <label for="adminRoomIdentifier">Confirmed room number/name</label>
+    <input id="adminRoomIdentifier" maxlength="50" placeholder="e.g. Room 04" autocomplete="off"/>
+    <div class="admin-room-actions"><button id="confirmRoomRequest" class="button button-primary" type="button">Confirm room availability</button><button id="declineRoomRequest" class="button button-outline" type="button">Decline room request</button></div>
+  </div>
+  <p class="admin-room-note" id="adminRoomNote">Payment confirmation will be blocked until the room is confirmed or declined.</p>
+</div><div class="setup-warning" hidden="" id="yocoPaymentNotice">Yoco booking: payment can only be confirmed by a verified Yoco webhook. Do not manually mark this reservation as paid. Any expired or mismatched Yoco payment requires reconciliation in the Yoco dashboard.</div><div id="paymentActions"><div class="setup-warning">Only confirm a payment after checking the funds arrived in the lodge's actual payment account. An uploaded receipt alone is not proof.</div><div class="field"><label for="paymentRef">Verified payment/bank reference *</label><input id="paymentRef" placeholder="Verified transaction reference"/></div><div class="form-actions"><button class="button button-primary" id="confirmPayment" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path><path d="m9 12 2 2 4-4"></path></svg>Confirm payment, issue &amp; email PDF tickets</button><button class="button button-outline" id="cancelBooking" type="button">Cancel unpaid booking</button></div></div><div hidden="" id="issuedTickets"><h3>Issued guest tickets</h3><p>Each ticket has a unique code. Share links only with the customer once payment is verified.</p><div class="ticket-links" id="ticketLinks"></div><button class="button button-primary" id="sendTicketEmail" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="14" rx="2" width="18" x="3" y="5"></rect><path d="m3 7 9 6 9-6"></path></svg>Send / retry professional PDF ticket email</button><p aria-live="polite" class="setup-warning" id="ticketEmailStatus" role="status"></p><button class="button button-dark" id="shareTickets" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-2 2M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l2-2"></path></svg>Open WhatsApp to share ticket links</button></div></div></section>
 <section hidden="" id="scannerPane"><div class="admin-panel scanner-panel"><h2>Gate check-in</h2><p>Scan a guest's QR code or paste its link/code. Once accepted, the same ticket cannot be used again.</p><div class="scanner-area scanner-viewport"><video autoplay="" hidden="" id="scanVideo" muted="" playsinline=""></video><div id="scannerPlaceholder"><div class="scan-intro-icon"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4M4 12h16"></path></svg></div><strong>Ready to scan a ticket</strong><p>Position a guest QR code in the camera frame.</p></div></div><div class="form-actions"><button class="button button-dark" id="cameraStart" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M4 7h3l2-3h6l2 3h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"></path><circle cx="12" cy="13" r="4"></circle></svg>Start camera scanner</button><button class="button button-outline" hidden="" id="cameraStop" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M18 6 6 18M6 6l12 12"></path></svg>Stop camera</button></div><form id="scanForm"><div class="field"><label for="scanCode">Ticket code or link</label><input autocomplete="off" id="scanCode" placeholder="Paste ticket UUID or link" required=""/></div><button class="button button-primary" type="submit">Validate &amp; check in</button></form><div class="scan-result" hidden="" id="scanResult" role="status"></div></div><div class="scanner-guidance"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path><path d="m9 12 2 2 4-4"></path></svg> <span>Every accepted code is checked against Supabase and marked used. Test with invalid demo tickets only.</span></div></section>
 </main></div><nav aria-label="Quick navigation" class="mobile-bottom-nav" id="mobileBottomNav"><button class="active" data-pane="overview" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="9" rx="1.5" width="7" x="3" y="3"></rect><rect height="5" rx="1.5" width="7" x="14" y="3"></rect><rect height="9" rx="1.5" width="7" x="14" y="12"></rect><rect height="5" rx="1.5" width="7" x="3" y="16"></rect></svg><span>Home</span></button><button data-pane="bookings" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="16" rx="2" width="14" x="5" y="5"></rect><rect height="4" rx="1" width="6" x="9" y="3"></rect><path d="M9 12h6M9 16h6"></path></svg><span>Bookings</span></button><button data-pane="events" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><rect height="16" rx="2" width="18" x="3" y="5"></rect><path d="M16 3v4M8 3v4M3 10h18"></path><path d="m8 16 2 2 4-4"></path></svg><span>Events</span></button><button data-pane="scanner" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4M4 12h16"></path></svg><span>Scan</span></button><button id="mobileMoreButton" type="button"><svg aria-hidden="true" class="icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><line x1="4" x2="20" y1="7" y2="7"></line><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="17" y2="17"></line></svg><span>More</span></button></nav></div><div class="toast" hidden="" id="adminToast" role="status"></div><!-- My Angel configuration: safe publishable key only; no service-role keys or email secrets. -->
 <script>
@@ -473,7 +559,7 @@ const utc=v=>v?new Date(v+':00+02:00').toISOString():null;
 const img=v=>/^assets\/[\w./-]+$/.test(v||'')||/^https:\/\/[\w.-]+(?:[:0-9]+)?\/[\w%!?#=&+.,/@~-]*$/.test(v||'')?v:'assets/gogo-square.jpg';
 const originalValidatedImage = img;
 const localOrRemoteImage = (value) => {const validated = originalValidatedImage(value);return window.MYANGEL_INLINE_ASSETS?.[validated] || validated;};
-let user=null,staff=null,events=[],tiers=[],posters=[],bookings=[],tickets=[],selectedBooking=null,authMode='signin',activePane='overview',cameraStream=null,scanFrame=null,detector=null,scanning=false;
+let user=null,staff=null,events=[],tiers=[],posters=[],bookings=[],tickets=[],selectedBooking=null,authMode='signin',activePane='bookings',cameraStream=null,scanFrame=null,detector=null,scanning=false;
 const eventName=id=>events.find(e=>e.id===id)?.title||'Unknown event';
 const statusFor=b=>b.status==='pending'&&new Date(b.hold_expires_at)<new Date()?'expired':b.status;
 function notice(msg,error=false){$('adminToast').textContent=msg;$('adminToast').hidden=false;$('adminToast').style.background=error?'#9e3f30':'';clearTimeout(notice.timer);notice.timer=setTimeout(()=>$('adminToast').hidden=true,4400);}
@@ -496,7 +582,7 @@ $('authForm').addEventListener('submit',async ev=>{ev.preventDefault();const btn
 function setAuthMode(){$('authTitle').textContent=authMode==='signin'?'Welcome back.':'Create your login.';$('authSubmit').textContent=authMode==='signin'?'Sign in securely':'Create account';$('toggleSignup').textContent=authMode==='signin'?'Need to create your staff login?':'Already have an account? Sign in';}
 $('toggleSignup').addEventListener('click',()=>{authMode=authMode==='signin'?'signup':'signin';$('authError').hidden=true;setAuthMode();});
 async function signout(){await db.auth.signOut();user=null;staff=null;bookings=[];knownBookingIds.clear();bookingMonitorStarted=false;unseenNewBookingCount=0;lastNewBookingId=null;showLogin();} $('signout').addEventListener('click',signout);$('noAccessSignout').addEventListener('click',signout);
-function showPane(name){activePane=name;document.querySelectorAll('[data-pane]').forEach(b=>{b.classList.toggle('active',b.dataset.pane===name);if(b.closest('#adminNav'))b.setAttribute('aria-current',b.dataset.pane===name?'page':'false');});for(const key of ['overview','events','tiers','posters','bookings','scanner'])$(key+'Pane').hidden=key!==name;$('paneTitle').textContent={overview:'Overview',events:'Events',tiers:'Ticket types',posters:'Poster gallery',bookings:'Bookings & payments',scanner:'Ticket scanner'}[name];if(name!=='scanner')stopCamera();closeMobileAdminMenu();if(window.innerWidth<800)window.scrollTo({top:0,behavior:'smooth'});}
+function showPane(name){activePane=name;document.querySelectorAll('[data-pane]').forEach(b=>{b.classList.toggle('active',b.dataset.pane===name);if(b.closest('#adminNav'))b.setAttribute('aria-current',b.dataset.pane===name?'page':'false');});for(const key of ['overview','events','tiers','posters','bookings','scanner'])$(key+'Pane').hidden=key!==name;$('paneTitle').textContent={overview:'Overview',events:'Events',tiers:'Ticket types',posters:'Poster gallery',bookings:'Guest list & email delivery',scanner:'Ticket scanner'}[name];if(name!=='scanner')stopCamera();closeMobileAdminMenu();if(window.innerWidth<800)window.scrollTo({top:0,behavior:'smooth'});}
 document.querySelectorAll('[data-pane]').forEach(b=>b.addEventListener('click',()=>showPane(b.dataset.pane)));document.querySelectorAll('[data-nav-button]').forEach(b=>b.addEventListener('click',()=>showPane(b.dataset.navButton)));
 async function load(query){const {data,error}=await query;if(error)throw error;return data||[];}
 // Live reservations: secure staff-only SELECT (RLS), no public booking data exposure.
@@ -638,6 +724,41 @@ $('newPoster').addEventListener('click',()=>editPoster());$('cancelPosterEdit').
 function editPoster(id){const p=posters.find(x=>x.id===id);resetForm('posterForm');$('posterFormTitle').textContent=p?'Edit lineup poster':'Add lineup poster';$('posterId').value=p?.id||'';$('posterEvent').value=p?.event_id||$('posterEventFilter').value;$('posterArtist').value=p?.artist_name||'';$('posterSlug').value=p?.artist_slug||'';$('posterSort').value=p?.sort_order??0;$('posterPortrait').value=p?.portrait_url||'';$('posterSquare').value=p?.square_url||'';scrollEdit('posterEditor');}
 $('posterArtist').addEventListener('blur',()=>{if(!$('posterSlug').value)$('posterSlug').value=$('posterArtist').value.toLowerCase().normalize('NFKD').replace(/[^a-z0-9 -]/g,'').trim().replace(/\s+/g,'-');});
 $('posterForm').addEventListener('submit',async ev=>{ev.preventDefault();const btn=$('savePoster');setLoading(btn,true,'Save poster');try{const portrait=await uploadImage($('portraitUpload').files[0])||$('posterPortrait').value.trim();const square=await uploadImage($('squareUpload').files[0])||$('posterSquare').value.trim();if(!portrait||!square)throw new Error('Portrait and square artwork are both required');const payload={event_id:$('posterEvent').value,artist_name:$('posterArtist').value.trim(),artist_slug:$('posterSlug').value.trim(),portrait_url:portrait,square_url:square,sort_order:Number($('posterSort').value||0)};const id=$('posterId').value;const {error}=id?await db.from('event_posters').update(payload).eq('id',id):await db.from('event_posters').insert(payload);if(error)throw error;notice('Event artwork saved');$('posterEditor').hidden=true;await refreshAll();}catch(ex){errorOut(ex);}finally{setLoading(btn,false,'Save poster');}});
+async function loadRoomForBooking(bookingId){
+  const box=$('adminRoomBox');box.hidden=true;
+  const {data:r,error}=await db.from('myangel_room_requests')
+   .select('status,room_price_cents,room_identifier,checked_in_at,voucher_code')
+   .eq('booking_id',bookingId).maybeSingle();
+  if(selectedBooking?.id!==bookingId)return;
+  if(error){console.error('Room details',error);return;}
+  if(!r)return;
+  box.hidden=false;
+  $('adminRoomStatus').textContent=r.status.toUpperCase();
+  $('adminRoomSummary').textContent=`R900 · 1 room, 1 complimentary event QR admission, plus a separate room voucher. ${r.room_identifier?'Room: '+r.room_identifier+'. ':''}${r.checked_in_at?'Checked in: '+when(r.checked_in_at):''}`;
+  $('adminRoomControls').hidden=r.status!=='requested';
+  $('adminRoomNote').textContent=r.status==='requested'?'IMPORTANT: confirm the physical room is available before approving a payment.':r.status==='confirmed'?'Room allocated. Now independently verify bank payment before issuing QR tickets.':r.status==='declined'?'Room declined: the R900 charge was removed from this booking. Event tickets can still be confirmed separately.':'Room booking inactive.';
+  $('adminRoomIdentifier').value=r.room_identifier||'';
+}
+$('confirmRoomRequest').addEventListener('click',async()=>{
+ if(!selectedBooking)return;
+ const room=$('adminRoomIdentifier').value.trim();
+ if(room.length<2){notice('Enter an available room number/name',true);return;}
+ if(!confirm(`Confirm ${room} is AVAILABLE and has been assigned to ${selectedBooking.buyer_name}?`))return;
+ const id=selectedBooking.id;
+ try{const {error}=await db.rpc('myangel_confirm_room_request',{p_booking_id:id,p_room_identifier:room});if(error)throw error;
+  notice('Room availability confirmed. Verify the actual bank payment before issuing tickets.');await refreshAll();await viewBooking(id);
+ }catch(err){errorOut(err);}
+});
+$('declineRoomRequest').addEventListener('click',async()=>{
+ if(!selectedBooking)return;
+ const reason=prompt('Why is accommodation unavailable? This removes the R900 room portion, but keeps the event ticket reservation.');
+ if(!reason)return;
+ if(!confirm('Decline accommodation for this guest and remove R900 from the total?'))return;
+ const id=selectedBooking.id;
+ try{const {error}=await db.rpc('myangel_decline_room_request',{p_booking_id:id,p_reason:reason});if(error)throw error;
+  notice('Room declined; event-only booking remains pending. Contact guest with revised amount.');await refreshAll();await viewBooking(id);
+ }catch(err){errorOut(err);}
+});
 async function viewBooking(id){selectedBooking=bookings.find(b=>b.id===id);if(!selectedBooking){notice('Booking not found',true);return;}const b=selectedBooking;$('bookingRef').textContent=b.reference;$('bookingMeta').innerHTML=[['Event',eventName(b.event_id)],['Customer',b.buyer_name],['Email',b.buyer_email],['WhatsApp',b.buyer_phone],['Ticket type',tiers.find(t=>t.id===b.ticket_type_id)?.name||'Ticket'],['Quantity',b.quantity],['Total',money(b.total_cents)],['Status',statusFor(b)],['Created',when(b.created_at)],['Reservation expires',when(b.hold_expires_at)],['Payment method',b.payment_method==='gateway'?'Yoco secure checkout':'Manual'],['Payment reference',b.payment_reference||'—'],['Paid on',when(b.paid_at)]].map(([label,value])=>`<div><small>${esc(label)}</small><strong>${esc(value)}</strong></div>`).join('');$('paymentActions').hidden=statusFor(b)!=='pending'||b.payment_method==='gateway';$('yocoPaymentNotice').hidden=b.payment_method!=='gateway';
 if(b.payment_method==='gateway'){
  $('yocoPaymentNotice').textContent='Yoco payment — checking payment gateway status…';
@@ -651,7 +772,7 @@ if(b.payment_method==='gateway'){
    :`Yoco checkout: ${y?.checkout_state||'awaiting start'}. Payment confirmation is automatic and only a verified Yoco webhook can issue tickets.`;
  }
 }
-$('issuedTickets').hidden=true;$('sendTicketEmail').hidden=b.payment_method!=='manual';$('ticketEmailStatus').textContent='';$('bookingDetail').hidden=false;$('paymentRef').value='';if(b.status==='paid')await loadBookingTickets(id);$('bookingDetail').scrollIntoView({behavior:'smooth'});}
+$('issuedTickets').hidden=true;$('sendTicketEmail').hidden=b.payment_method!=='manual';$('ticketEmailStatus').textContent='';$('bookingDetail').hidden=false;$('paymentRef').value='';if(b.status==='paid')await loadBookingTickets(id);await loadRoomForBooking(id);$('bookingDetail').scrollIntoView({behavior:'smooth'});}
 $('confirmPayment').addEventListener('click',async()=>{if(!selectedBooking)return;const ref=$('paymentRef').value.trim();if(ref.length<3){notice('Enter the verified transaction reference',true);return;}if(!confirm('You have independently VERIFIED this payment in the lodge’s bank/payment account, and want to issue entry tickets?'))return;const btn=$('confirmPayment');setLoading(btn,true,'Confirm received payment & issue tickets');try{const {error}=await db.rpc('confirm_myangel_payment',{p_booking_id:selectedBooking.id,p_payment_reference:ref});if(error)throw error;const bookingId=selectedBooking.id;notice('Payment confirmed. Tickets issued. Sending PDF email…');await refreshAll();await viewBooking(bookingId);await sendTicketEmail(bookingId);}catch(ex){errorOut(ex);}finally{setLoading(btn,false,'Confirm payment, issue & email PDF tickets');}});
 $('cancelBooking').addEventListener('click',async()=>{if(!selectedBooking||!confirm('Cancel this unpaid booking?'))return;try{const {error}=await db.rpc('cancel_myangel_booking',{p_booking_id:selectedBooking.id});if(error)throw error;notice('Booking cancelled');await refreshAll();await viewBooking(selectedBooking.id);}catch(ex){errorOut(ex);}});
 async function loadBookingTickets(id){try{tickets=await load(db.from('tickets').select('*').eq('booking_id',id).order('issued_at'));const origin=new URL('ticket.html',location.href);$('ticketLinks').innerHTML=tickets.map(t=>`<div class="ticket-link"><span>${esc(t.serial)} · ${esc(t.status)}</span><button type="button" data-copy-ticket="${t.scan_code}">Copy ticket link</button></div>`).join('');$('issuedTickets').hidden=!tickets.length;await showEmailStatus(id);}catch(ex){errorOut(ex);}}
@@ -690,7 +811,17 @@ $('sendDemoTicketEmail').addEventListener('click',async()=>{
 $('shareTickets').addEventListener('click',()=>{if(!tickets.length||!selectedBooking)return;const urls=tickets.map((t,i)=>`Ticket ${i+1}: ${ticketURL(t.scan_code)}`).join('\n');const msg=`Hello ${selectedBooking.buyer_name}, your payment for booking ${selectedBooking.reference} has been verified by My Angel Country Lodge. Your ${tickets.length} individual ticket links:\n${urls}\nPlease keep each code private and show them at the gate.`;window.open(`https://wa.me/${selectedBooking.buyer_phone.replace(/\D/g,'').replace(/^0/,'27')}?text=${encodeURIComponent(msg)}`,'_blank','noopener');});
 $('exportCSV').addEventListener('click',()=>{const columns=['reference','buyer_name','buyer_email','buyer_phone','quantity','total_cents','status','payment_reference','created_at'];const csv=[columns.join(','),...bookings.map(row=>columns.map(k=>'"'+String(row[k]??'').replaceAll('"','""')+'"').join(','))].join('\r\n');const href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=href;a.download='myangel-bookings-'+new Date().toISOString().slice(0,10)+'.csv';a.click();URL.revokeObjectURL(href);});
 function parseCode(value){let s=value.trim();try{s=new URL(s).searchParams.get('code')||s;}catch{}const m=s.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i);return m?.[0]||null;}
-async function scanTicket(raw){const code=parseCode(raw);if(!code){showScanResult('Invalid QR code or ticket URL','denied');return;}try{const {data,error}=await db.rpc('scan_myangel_ticket',{p_scan_code:code});if(error)throw error;const item=data?.[0];if(!item)throw new Error('No scan result');const messages={accepted:`ENTRY APPROVED — ${item.ticket_serial} · ${item.event_title}`,used:`ALREADY USED — ${item.ticket_serial}`,void:`INVALID / VOID — ${item.ticket_serial}`,not_found:'TICKET NOT FOUND'};showScanResult(messages[item.result]||item.result,item.result==='accepted'?'accepted':'denied');}catch(ex){showScanResult(ex.message||'Scan failed','denied');}}
+async function scanTicket(raw){
+ if(String(raw).trim().toUpperCase().startsWith('MYANGEL-ROOM:')){
+  const code=parseCode(raw);
+  if(!code){showScanResult('Invalid room voucher','denied');return;}
+  try{const {data,error}=await db.rpc('myangel_checkin_room_voucher',{p_voucher_code:code});if(error)throw error;
+   const labels={accepted:'ROOM CHECK-IN APPROVED — Voucher marked used at reception',already_checked_in:'ROOM ALREADY CHECKED IN',not_valid:'ROOM VOUCHER NOT VALID — Payment/room not confirmed',not_found:'ROOM VOUCHER NOT FOUND'};
+   showScanResult(labels[data]||String(data),data==='accepted'?'accepted':'denied');
+  }catch(ex){showScanResult('Room scan failed: '+ex.message,'denied');}
+  return;
+ }
+ const code=parseCode(raw);if(!code){showScanResult('Invalid QR code or ticket URL','denied');return;}try{const {data,error}=await db.rpc('scan_myangel_ticket',{p_scan_code:code});if(error)throw error;const item=data?.[0];if(!item)throw new Error('No scan result');const messages={accepted:`ENTRY APPROVED — ${item.ticket_serial} · ${item.event_title}`,used:`ALREADY USED — ${item.ticket_serial}`,void:`INVALID / VOID — ${item.ticket_serial}`,not_found:'TICKET NOT FOUND'};showScanResult(messages[item.result]||item.result,item.result==='accepted'?'accepted':'denied');}catch(ex){showScanResult(ex.message||'Scan failed','denied');}}
 function showScanResult(text,status){$('scanResult').textContent=text;$('scanResult').className='scan-result '+status;$('scanResult').hidden=false;}
 $('scanForm').addEventListener('submit',async ev=>{ev.preventDefault();await scanTicket($('scanCode').value);$('scanCode').value='';});
 async function stopCamera(){scanning=false;if(scanFrame)cancelAnimationFrame(scanFrame);scanFrame=null;if(cameraStream){cameraStream.getTracks().forEach(track=>track.stop());cameraStream=null;}$('scanVideo').srcObject=null;$('scanVideo').hidden=true;$('scannerPlaceholder').hidden=false;$('cameraStop').hidden=true;$('cameraStart').hidden=false;}
@@ -821,5 +952,404 @@ document.querySelectorAll('[data-new-event]').forEach(b=>b.addEventListener('cli
 document.querySelectorAll('[data-send-demo]').forEach(b=>b.addEventListener('click',()=>{showPane('bookings');$('sendDemoTicketEmail').scrollIntoView({behavior:'smooth',block:'center'});$('sendDemoTicketEmail').focus({preventScroll:true});}));
 window.addEventListener('resize',()=>{if(window.innerWidth>=800)closeMobileAdminMenu();});
 
+
+// Directors release: register, totals, Excel export and audited administration.
+function guestRows(){const q=document.getElementById('directorsSearch').value.toLowerCase(),st=document.getElementById('directorsStatus').value;return bookings.filter(b=>!b.hidden_from_guest_list&&(st==='all'||statusFor(b)===st)&&[b.reference,b.buyer_name,b.buyer_email,b.buyer_phone].some(x=>String(x||'').toLowerCase().includes(q)));}
+function guestCell(label,value){return '<div style="padding:14px;border:1px solid #efe5db;border-radius:12px;background:#fffaf5"><small style="display:block;color:#776c62">'+label+'</small><strong style="font-size:21px">'+value+'</strong></div>';}
+function guestView(){if(!staff)return;const rows=guestRows(),byEvent=tiers.map(t=>{const active=bookings.filter(b=>b.ticket_type_id===t.id&&!b.hidden_from_guest_list&&(b.status==='paid'||(b.status==='pending'&&new Date(b.hold_expires_at)>new Date()))).reduce((n,b)=>n+b.quantity,0);return {t,remaining:t.capacity===null?null:Math.max(0,t.capacity-active)};});const paid=bookings.filter(b=>b.status==='paid'&&!b.hidden_from_guest_list);const refunded=bookings.filter(b=>b.status==='refunded');document.getElementById('directorsMetrics').innerHTML=guestCell('Paid admissions (loaded)',paid.reduce((n,b)=>n+b.quantity,0))+guestCell('Revenue (loaded)',money(paid.reduce((n,b)=>n+b.total_cents,0)))+guestCell('Pending (loaded)',bookings.filter(b=>statusFor(b)==='pending'&&!b.hidden_from_guest_list).reduce((n,b)=>n+b.quantity,0))+guestCell('Refunded (loaded)',money(refunded.reduce((n,b)=>n+b.total_cents,0)))+guestCell('Ticket inventory (loaded)',byEvent.map(x=>esc(x.t.name)+': '+(x.remaining===null?'Unlimited':x.remaining)).join('<br>'));document.getElementById('directorsGuestTable').innerHTML='<table class="admin-table"><thead><tr><th>Reference</th><th>Guest</th><th>Email</th><th>Phone</th><th>Category</th><th>Qty</th><th>Amount</th><th>Status</th></tr></thead><tbody>'+rows.map(b=>'<tr><td><button class="ref-button" data-guest-id="'+b.id+'">'+esc(b.reference)+'</button></td><td>'+esc(b.buyer_name)+'</td><td>'+esc(b.buyer_email)+'</td><td>'+esc(b.buyer_phone)+'</td><td>'+esc(tiers.find(t=>t.id===b.ticket_type_id)?.name||'Ticket')+'</td><td>'+b.quantity+'</td><td>'+money(b.total_cents)+'</td><td>'+esc(statusFor(b))+'</td></tr>').join('')+'</tbody></table>';document.getElementById('directorsScope').textContent=rows.length+' matching bookings currently loaded. Export covers only loaded records. Click Load older bookings until all have loaded before finalising your guest register.';}
+// Extend standard rendering without replacing existing operational logic.
+const originalDirectorRender=renderAdmin;renderAdmin=function(){originalDirectorRender();guestView();};
+document.getElementById('directorsSearch').addEventListener('input',guestView);document.getElementById('directorsStatus').addEventListener('change',guestView);
+document.getElementById('directorsGuestTable').addEventListener('click',e=>{const x=e.target.closest('[data-guest-id]');if(x)viewBooking(x.dataset.guestId);});
+function safeXlsxValue(s){s=String(s??'');return /^[=+@\-\t\r]/.test(s)?"'"+s:s;}
+function excelDownload(){const rows=guestRows();const head=['Booking reference','Guest name','Email','Phone','Event','Category','Tickets','Unit price ZAR','Total ZAR','Booking status','Payment reference','Paid at','Created at','Refund reference'];const fields=b=>[b.reference,b.buyer_name,b.buyer_email,b.buyer_phone,eventName(b.event_id),tiers.find(t=>t.id===b.ticket_type_id)?.name,b.quantity,(b.unit_price_cents/100).toFixed(2),(b.total_cents/100).toFixed(2),statusFor(b),b.payment_reference,b.paid_at,b.created_at,b.refund_reference];const csv=[head,...rows.map(fields)].map(r=>r.map(v=>'"'+safeXlsxValue(v).replaceAll('"','""')+'"').join(',')).join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='MyAngel_Guest_List_'+new Date().toISOString().slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000);notice('Excel-compatible CSV downloaded. Check the loaded record count.');}
+document.getElementById('directorsExport').addEventListener('click',excelDownload);
+document.getElementById('archiveTestBooking').addEventListener('click',async()=>{const b=selectedBooking;if(!b)return;const reason=prompt('Archive this UNPAID TEST booking. Enter an audit reason (at least 5 characters):');if(reason===null)return;if(!confirm('Remove this unpaid booking from the active guest list? Its audit record will remain.'))return;const {error}=await db.rpc('myangel_archive_test_booking',{p_booking_id:b.id,p_reason:reason});if(error){errorOut(error);return;}notice('Test booking archived. Audit retained.');$('bookingDetail').hidden=true;await refreshAll();});
+document.getElementById('recordRefundBooking').addEventListener('click',async()=>{const b=selectedBooking;if(!b)return;alert('First return the money in your bank or Yoco. This records a completed refund; it does not transfer money.');const reference=prompt('Enter the completed bank/Yoco refund reference:');if(reference===null)return;const reason=prompt('Enter the reason for the refund (at least 5 characters):');if(reason===null)return;if(!confirm('Confirm the money was actually refunded? This will VOID any unused QR tickets and retain the financial audit trail.'))return;const {error}=await db.rpc('myangel_record_refund',{p_booking_id:b.id,p_refund_reference:reference,p_reason:reason});if(error){errorOut(error);return;}notice('Refund recorded. Unused QR tickets voided.');await refreshAll();await viewBooking(b.id);});
+
+// My Angel 07 — delivery tracking & prominently visible guest tools.
+const deliveryByBooking = new Map();
+const alertedDeliveryFailures = new Set();
+let emailDialogBooking = null;
+const deliveryFailures = new Set(['bounced','failed','suppressed','complained']);
+const showDelivery = (record) => {
+  if(!record)return {status:'not sent',channel:'none'};
+  const status=record.delivery_status || (record.state==='sent'?'sent':record.state||'pending');
+  return {status,channel:record.channel};
+};
+async function fetchDeliveryTracking(){
+ if(!staff)return;
+ const ids=bookings.map(b=>b.id);
+ deliveryByBooking.clear();
+ for(let i=0;i<ids.length;i+=80){
+   const group=ids.slice(i,i+80);
+   const [official,reservations]=await Promise.all([
+     db.from('myangel_ticket_email_deliveries').select('booking_id,state,delivery_status,delivery_detail,provider_email_id,delivery_event_at').in('booking_id',group),
+     db.from('myangel_reservation_email_deliveries').select('booking_id,state,delivery_status,delivery_detail,provider_email_id,delivery_event_at').in('booking_id',group)
+   ]);
+   if(official.error||reservations.error){console.warn('Email tracking needs migration 07',official.error||reservations.error);$('deliveryIssueList').textContent='Email delivery records cannot be loaded. Apply migration 07 and refresh.';return;}
+   for(const record of reservations.data||[])deliveryByBooking.set(record.booking_id,{...record,channel:'reservation'});
+   for(const record of official.data||[])deliveryByBooking.set(record.booking_id,{...record,channel:'ticket'});
+ }
+ renderDeliveryTracking();
+}
+function enhanceGuestRows(){
+ for(const button of document.querySelectorAll('#directorsGuestTable [data-guest-id]')){
+  const b=bookings.find(row=>row.id===button.dataset.guestId);
+  if(!b)continue;
+  const cell=button.closest('td');
+  if(!cell||cell.querySelector('.guest-tools'))continue;
+  const tools=document.createElement('div');tools.className='guest-tools';
+  const fix=document.createElement('button');fix.type='button';fix.className='guest-fix';fix.dataset.fixGuestEmail=b.id;fix.textContent='Fix email';tools.append(fix);
+  if(['pending','expired','cancelled'].includes(statusFor(b))){
+    const remove=document.createElement('button');remove.type='button';remove.className='guest-remove';remove.dataset.removeTestBooking=b.id;remove.textContent='Remove test';tools.append(remove);
+  }
+  const state=deliveryByBooking.get(b.id);
+  if(state){const note=document.createElement('small');note.className='guest-mail-status';note.textContent='Email: '+showDelivery(state).status;tools.append(note);}
+  cell.append(tools);
+ }
+}
+function renderDeliveryTracking(){
+ const entries=bookings.filter(b=>!b.hidden_from_guest_list).map(b=>({b,email:deliveryByBooking.get(b.id)}));
+ const bad=entries.filter(x=>x.email&&deliveryFailures.has(showDelivery(x.email).status));
+ const delayed=entries.filter(x=>showDelivery(x.email).status==='delayed');
+ const delivered=entries.filter(x=>showDelivery(x.email).status==='delivered');
+ for(const {b,email} of bad){if(!alertedDeliveryFailures.has(b.id+'-'+email.provider_email_id)){alertedDeliveryFailures.add(b.id+'-'+email.provider_email_id);notice('Email problem: '+b.reference+' · '+email.delivery_status+'. Fix the guest email.',true);}}
+ const sent=entries.filter(x=>showDelivery(x.email).status==='sent');
+ $('deliveryMetrics').innerHTML=`<div><b>${bad.length}</b><span>Needs correction</span></div><div><b>${delayed.length}</b><span>Delivery delayed</span></div><div><b>${delivered.length}</b><span>Delivered to server</span></div><div><b>${sent.length}</b><span>Accepted / awaiting delivery</span></div>`;
+ $('deliveryIssueList').innerHTML=bad.concat(delayed).map(({b,email})=>`<div class="mail-issue"><div><strong>${esc(b.buyer_name)}</strong><small>${esc(b.buyer_email)} · ${esc(b.reference)}</small><span class="mail-error-tag">${esc(email.delivery_status)} — ${esc(email.delivery_detail||'Check Resend logs')}</span></div><button type="button" data-fix-guest-email="${b.id}" class="button button-primary">Fix email</button></div>`).join('')||'<div class="mail-issue-empty">No bounced or delayed emails detected among loaded bookings. A functioning Resend webhook is required for reliable monitoring.</div>';
+ enhanceGuestRows();
+ if(selectedBooking){
+   const em=deliveryByBooking.get(selectedBooking.id);const holder=$('ticketEmailStatus');
+   if(em&&holder)holder.textContent=`Email: ${showDelivery(em).status} (${em.channel})${em.delivery_detail?' · '+em.delivery_detail:''}`;
+ }
+}
+const originalAdminRender07=renderAdmin;
+renderAdmin=function(){originalAdminRender07();enhanceGuestRows();renderDeliveryTracking();};
+const originalRefresh07=refreshAll;
+refreshAll=async function(){await originalRefresh07();await fetchDeliveryTracking();};
+const originalPolling07=refreshBookingsLive;
+refreshBookingsLive=async function(){await originalPolling07();if(staff&&user&&!document.hidden)await fetchDeliveryTracking();};
+const originalViewBooking07=viewBooking;
+viewBooking=async function(...args){
+ await originalViewBooking07(...args);
+ if(!selectedBooking)return;
+ const b=selectedBooking;
+ $('archiveTestBooking').hidden=!['pending','expired','cancelled'].includes(statusFor(b));
+ $('recordRefundBooking').hidden=b.status!=='paid';
+ $('correctGuestEmail').hidden=!['pending','paid'].includes(b.status);
+ const email=deliveryByBooking.get(b.id);
+ if(email){const item=document.createElement('div');item.className='email-booking-state';item.innerHTML='<small>Email delivery</small><strong>'+esc(showDelivery(email).status)+'</strong>'; $('bookingMeta').append(item);}
+};
+function openEmailCorrection(id){
+ const booking=bookings.find(x=>x.id===id);
+ if(!booking)return notice('Booking not found',true);
+ if(!['pending','paid'].includes(booking.status))return notice('This booking cannot be corrected automatically',true);
+ emailDialogBooking=booking;
+ $('correctionBookingRef').textContent=`${booking.reference} · ${booking.buyer_name}`;
+ $('correctEmailInput').value=booking.buyer_email;
+ $('correctEmailReason').value='';
+ $('correctEmailDialog').showModal();
+ $('correctEmailInput').focus();
+}
+async function removeTestBooking(id){
+ const b=bookings.find(x=>x.id===id);if(!b)return;
+ if(!['pending','expired','cancelled'].includes(statusFor(b)))return notice('Paid bookings must be refunded, not deleted',true);
+ const reason=prompt(`REMOVE UNPAID TEST BOOKING ${b.reference}\nEnter the reason (at least 5 characters):`);
+ if(reason===null)return;
+ if(reason.trim().length<5)return notice('Reason must be at least 5 characters',true);
+ if(!confirm(`Remove ${b.buyer_name} (${b.reference}) from the active guest list? The audit record remains.`))return;
+ const {error}=await db.rpc('myangel_archive_test_booking',{p_booking_id:id,p_reason:reason.trim()});
+ if(error)return errorOut(error);
+ $('bookingDetail').hidden=true;
+ notice('Test booking removed from active list; audit retained.');
+ await refreshAll();
+}
+$('correctGuestEmail').addEventListener('click',()=>{if(selectedBooking)openEmailCorrection(selectedBooking.id);});
+$('closeEmailDialog').addEventListener('click',()=>$('correctEmailDialog').close());
+$('correctEmailForm').addEventListener('submit',async(event)=>{
+ event.preventDefault();if(!emailDialogBooking)return;
+ const b=emailDialogBooking,email=$('correctEmailInput').value.trim().toLowerCase(),reason=$('correctEmailReason').value.trim();
+ if(!email||reason.length<5)return notice('Enter a valid email and an audit reason',true);
+ if(email.toLowerCase()===b.buyer_email.toLowerCase())return notice('Enter the corrected address first',true);
+ if(!confirm(`CHANGE ${b.reference} to ${email}? For paid bookings, unused ticket codes will be rotated and a replacement email sent.`))return;
+ const btn=$('saveCorrectedEmail');btn.disabled=true;btn.textContent='Updating & sending…';
+ try{
+  const {error}=await db.rpc('myangel_correct_booking_email',{p_booking_id:b.id,p_new_email:email,p_reason:reason});
+  if(error)throw error;
+  $('correctEmailDialog').close();emailDialogBooking=null;
+  await refreshAll();
+  if(b.status==='paid'){
+   const {data,error}=await db.functions.invoke('email-verified-tickets',{body:{booking_id:b.id}});
+   if(error||data?.error)throw new Error(data?.error||error.message);
+   notice('Guest address updated; replacement ticket email accepted by Resend.');
+  }else{
+   const {data,error}=await db.functions.invoke('send-reservation-email',{body:{booking_id:b.id,booking_reference:b.reference}});
+   if(error||data?.error)throw new Error(data?.error||error.message);
+   notice('Guest address updated; reservation email accepted by Resend.');
+  }
+  await fetchDeliveryTracking();
+ }catch(err){errorOut(err);notice('If the email did not send, the new address is saved. Use Resend logs and retry before creating another booking.',true);}
+ finally{btn.disabled=false;btn.textContent='Save and resend email';}
+});
+$('directorsGuestTable').addEventListener('click',event=>{
+ const fix=event.target.closest('[data-fix-guest-email]');if(fix){event.preventDefault();openEmailCorrection(fix.dataset.fixGuestEmail);return;}
+ const rem=event.target.closest('[data-remove-test-booking]');if(rem){event.preventDefault();void removeTestBooking(rem.dataset.removeTestBooking);}
+});
+$('deliveryIssueList').addEventListener('click',event=>{
+ const fix=event.target.closest('[data-fix-guest-email]');if(fix)openEmailCorrection(fix.dataset.fixGuestEmail);
+});
+$('refreshDeliveryNow').addEventListener('click',()=>{void fetchDeliveryTracking();});
+
+
+
+// MY ANGEL v09.1 — FIX: consistent data-test-remove-09 attribute and listener.
+// MY ANGEL v09 — Remove test records without destroying audit trails.
+// Added to the existing module; shares the same signed-in Supabase client and UI state.
+const isRemovedTest09=b=>Boolean(b?.hidden_from_guest_list || b?.is_test_booking);
+const activeBookings09=()=>bookings.filter(b=>!isRemovedTest09(b));
+let showRemovedTests09=false;
+let testDeleteTarget09=null;
+
+// Make both the regular Bookings table and Recent Bookings ignore test removals.
+const priorRenderBookingsTable09=renderBookingsTable;
+renderBookingsTable=function(items,small=false){return priorRenderBookingsTable09(items.filter(b=>!isRemovedTest09(b)),small);};
+const priorUpdateBookingSummary09=updateBookingSummary;
+updateBookingSummary=function(){
+ const rows=activeBookings09();
+ const pending=rows.filter(b=>statusFor(b)==='pending').length;
+ const paid=rows.filter(b=>b.status==='paid').length;
+ const expired=rows.filter(b=>statusFor(b)==='expired').length;
+ const cancelled=rows.filter(b=>statusFor(b)==='cancelled').length;
+ $('bookingSummary').innerHTML=`<span class="booking-legend"><strong>${rows.length}</strong> live records loaded</span><span class="booking-legend pending"><strong>${pending}</strong> pending</span><span class="booking-legend paid"><strong>${paid}</strong> paid</span><span class="booking-legend expired"><strong>${expired}</strong> expired</span><span class="booking-legend"><strong>${cancelled}</strong> cancelled</span>`;
+ $('bookingsLoadedStatus').textContent=`${rows.length.toLocaleString('en-ZA')} active reservations loaded; ${bookings.length-rows.length} removed test records retained in audit. Full overview metrics use the database totals after SQL 09.`;
+ $('loadOlderBookings').hidden=reachedEndOfBookings;
+};
+
+function installTestControls09(){
+ const panel=$('directorsGuestPanel');
+ if(!panel||$('testScopeBar09'))return;
+ const bar=document.createElement('div');
+ bar.id='testScopeBar09';bar.className='test-controls-bar';
+ bar.innerHTML=`<div><strong id="testScopeTitle09">Real guest list</strong><p>Test records you remove are excluded from admissions, ticket counts and revenue. They stay in the audit history.</p></div><button id="toggleRemovedTests09" type="button">View removed tests</button>`;
+ const metrics=$('directorsMetrics');
+ panel.insertBefore(bar,metrics);
+ const live=document.createElement('div');live.className='test-real-metrics';live.id='testRealMetrics09';live.innerHTML='<div style=\"grid-column:1/-1\">Loading verified counts from Supabase…</div>';panel.insertBefore(live,metrics);
+ $('toggleRemovedTests09').addEventListener('click',()=>{
+  showRemovedTests09=!showRemovedTests09;
+  $('directorsSearch').value='';$('directorsStatus').value='all';
+  $('directorsExport').disabled=showRemovedTests09;
+  guestView();enhanceGuestRows();
+ });
+ const detail=$('bookingDetail');
+ const section=document.createElement('div');section.className='test-cleanup-inline';section.id='testCleanupSelected09';section.hidden=true;
+ section.innerHTML='<h3>Test data cleanup</h3><p>Remove rehearsals from the real attendance and sales figures. Valid, unused QR codes are voided. Original records are kept securely for accountability.</p><button id="deleteTestSelected09" class="test-delete-action" type="button">Delete TEST booking from live records</button>';
+ detail.append(section);
+ $('deleteTestSelected09').addEventListener('click',()=>{if(selectedBooking)openTestRemoval09(selectedBooking.id);});
+ $('cancelTestRemove09').addEventListener('click',()=>$('removeTestDialog09').close());
+ $('removeTestForm09').addEventListener('submit',submitTestRemoval09);
+ // Scanner rehearsals are archived through a DIFFERENT, tightly restricted RPC.
+ $('testScanned10').addEventListener('change',()=>{
+   const scanned=$('testScanned10').checked;
+   $('testScannedPhraseRow10').hidden=!scanned;
+   $('testScannedPhrase10').required=scanned;
+   $('testNoMoneyRow09').hidden=!(testDeleteTarget09?.status==='paid'||scanned);
+   $('submitTestRemove09').textContent=scanned?'Archive scanned TEST':'Remove TEST booking';
+   $('removeTestWarning09').textContent=scanned
+     ?'SCANNER REHEARSAL ONLY: used QR scan history will remain in the audit trail, but this test will no longer count as a real guest or sale. Unused codes will be voided. Do not use for real paying guests.'
+     :(testDeleteTarget09?.status==='paid'
+       ?'CAUTION: Marked PAID. Continue only if the lodge verified NO real money was received. Unused QR codes will be voided. Previously sent emails cannot be recalled.'
+       :'Only internal tests may be removed. No genuine guest should be deleted.');
+ });
+ // Delegated controls work with live refresh and mobile booking cards.
+ for(const id of ['directorsGuestTable','adminBookings','recentBookings']){
+  $(id).addEventListener('click',event=>{
+   const btn=event.target.closest('[data-test-remove-09]');
+   if(btn){event.preventDefault();event.stopPropagation();openTestRemoval09(btn.getAttribute('data-test-remove-09'));}
+  });
+ }
+}
+
+const priorGuestRows09=guestRows;
+guestRows=function(){
+ if(!showRemovedTests09)return priorGuestRows09().filter(b=>!isRemovedTest09(b));
+ const q=$('directorsSearch').value.toLowerCase().trim();
+ return bookings.filter(b=>isRemovedTest09(b)&&[b.reference,b.buyer_name,b.buyer_email,b.buyer_phone].some(v=>String(v||'').toLowerCase().includes(q)));
+};
+const priorGuestView09=guestView;
+guestView=function(){
+ priorGuestView09();
+ if(!$('testScopeBar09'))return;
+ $('testScopeTitle09').textContent=showRemovedTests09?'Removed test bookings · audit view':'Real guest list';
+ $('toggleRemovedTests09').textContent=showRemovedTests09?'Back to real guest list':'View removed tests ('+bookings.filter(isRemovedTest09).length+')';
+ $('toggleRemovedTests09').classList.toggle('active',showRemovedTests09);
+ $('directorsExport').disabled=showRemovedTests09;
+ if(showRemovedTests09){
+  $('directorsScope').textContent=guestRows().length+' removed test records currently loaded. These are NOT active tickets or sales. They are retained for audit.';
+  if(!guestRows().length)$('directorsGuestTable').innerHTML='<p style="padding:22px">No removed test bookings in the loaded history.</p>';
+ }
+ enhanceGuestRows();
+};
+
+// Prominent Delete TEST button on the guest list for pending AND paid-labelled tests.
+const priorEnhanceGuestRows09=enhanceGuestRows;
+enhanceGuestRows=function(){
+ priorEnhanceGuestRows09();
+ for(const node of document.querySelectorAll('#directorsGuestTable [data-guest-id]')){
+  const row=bookings.find(b=>b.id===node.dataset.guestId);
+  if(!row)continue;
+  const cell=node.closest('td');if(!cell)continue;
+  cell.querySelectorAll('.guest-remove').forEach(btn=>btn.remove()); // hide obsolete pending-only action
+  const tools=cell.querySelector('.guest-tools')||cell.appendChild(document.createElement('div'));
+  if(!tools.classList.contains('guest-tools'))tools.classList.add('guest-tools');
+  if(isRemovedTest09(row)){
+   if(!tools.querySelector('.test-removed-tag')){
+    const tag=document.createElement('small');tag.className='test-removed-tag';tag.textContent='Removed test · QR revoked';tools.append(tag);
+   }
+  }else if(staff?.role==='admin'&&row.payment_method==='manual'&&row.status!=='refunded'&&!tools.querySelector('[data-test-remove-09]')){
+   const btn=document.createElement('button');btn.type='button';btn.className='test-delete-action';btn.setAttribute('data-test-remove-09',row.id);btn.textContent='Delete TEST';tools.append(btn);
+  }
+ }
+};
+
+const priorRenderBookingTable09=renderBookingTable;
+renderBookingTable=function(){
+ priorRenderBookingTable09();
+ if(staff?.role!=='admin')return;
+ for(const button of $('adminBookings').querySelectorAll('[data-booking]')){
+  const row=bookings.find(b=>b.id===button.dataset.booking);
+  if(!row||isRemovedTest09(row)||row.payment_method!=='manual'||row.status==='refunded')continue;
+  const cell=button.closest('td');if(!cell||cell.querySelector('[data-test-remove-09]'))continue;
+  const btn=document.createElement('button');btn.type='button';btn.className='test-delete-action';btn.setAttribute('data-test-remove-09',row.id);btn.textContent='Delete TEST';btn.style.marginTop='5px';btn.style.display='flex';cell.append(btn);
+ }
+};
+const priorRenderAdmin09=renderAdmin;
+renderAdmin=function(){
+ priorRenderAdmin09();
+ installTestControls09();
+ renderBookingTable();guestView();
+ // Correct counts immediately on initial render; server RPC provides authoritative totals.
+ const rows=activeBookings09();
+ $('metricBookings').textContent=rows.length;
+ $('metricPending').textContent=rows.filter(b=>statusFor(b)==='pending').length;
+ $('metricRevenue').textContent=money(rows.filter(b=>b.status==='paid').reduce((n,b)=>n+b.total_cents,0));
+ $('recentBookings').innerHTML=renderBookingsTable(rows.slice(0,7),true);
+ updateBookingSummary();
+};
+const priorLiveComponents09=renderLiveBookingComponents;
+renderLiveBookingComponents=function(){
+ priorLiveComponents09();
+ $('recentBookings').innerHTML=renderBookingsTable(activeBookings09().slice(0,7),true);
+ renderBookingTable();guestView();updateBookingSummary();
+};
+const priorViewBooking09=viewBooking;
+viewBooking=async function(id){
+ await priorViewBooking09(id);
+ const row=selectedBooking;
+ if(!$('testCleanupSelected09'))return;
+ $('testCleanupSelected09').hidden=!(row&&!isRemovedTest09(row)&&staff?.role==='admin'&&row.payment_method==='manual'&&row.status!=='refunded');
+};
+
+function openTestRemoval09(id){
+ if(staff?.role!=='admin')return notice('Only a My Angel administrator can remove tests.',true);
+ const b=bookings.find(x=>x.id===id);
+ if(!b)return notice('Booking not loaded. Refresh the list.',true);
+ if(isRemovedTest09(b))return notice('Already removed from the real guest list.',true);
+ if(b.payment_method!=='manual'||b.status==='refunded')return notice('Use the financial reconciliation workflow for gateway payments and refunds.',true);
+ testDeleteTarget09=b;
+ $('removeTestDescription09').textContent=`${b.buyer_name} · ${b.reference} · ${b.quantity} ticket(s) · ${money(b.total_cents)} · ${b.status.toUpperCase()}`;
+ $('removeTestWarning09').textContent=b.status==='paid'
+ ?'CAUTION: This booking was marked PAID. Continue ONLY if lodge management checked that NO REAL MONEY was received. Unused QR codes and the room voucher will be invalidated. Past emails cannot be recalled.'
+ :'Only an internal test should be removed. The reservation will be cancelled; no genuine guest should be deleted.';
+ $('testNoMoneyRow09').hidden=b.status!=='paid';
+ $('testScanned10').checked=false;
+ $('testScannedPhrase10').value='';
+ $('testScannedPhrase10').required=false;
+ $('testScannedPhraseRow10').hidden=true;
+ $('submitTestRemove09').textContent='Remove TEST booking';
+ $('testNoMoney09').checked=false;
+ $('removeTestReason09').value='';$('removeTestReference09').value='';
+ $('removeTestReference09').placeholder=b.reference;
+ $('removeTestDialog09').showModal();
+ $('removeTestReason09').focus();
+}
+async function submitTestRemoval09(event){
+ event.preventDefault();
+ const b=testDeleteTarget09,reason=$('removeTestReason09').value.trim(),reference=$('removeTestReference09').value.trim();
+ if(!b)return;
+ const scanned=$('testScanned10').checked;
+ if(reason.length<(scanned?15:10))return notice('Explain the internal test clearly (at least '+(scanned?15:10)+' characters).',true);
+ if(reference!==b.reference)return notice('Type the exact booking reference to continue.',true);
+ if((scanned||b.status==='paid')&&!$('testNoMoney09').checked)return notice('You must independently verify NO real funds were received.',true);
+ if(scanned&&$('testScannedPhrase10').value.trim()!=='SCANNED TEST')return notice('Type SCANNED TEST exactly to acknowledge the scanned QR history.',true);
+ const caution=scanned
+   ?`FINAL SCANNER TEST ARCHIVE\n\nBooking ${b.reference}\nScanned QR history will REMAIN recorded as USED.\nUnused QR passes will be voided.\nBooking will be removed from real guest and revenue totals.\n\nONLY do this if no genuine customer paid or attended.`
+   :`FINAL CONFIRMATION\n\nRemove TEST ${b.reference} from REAL guest and sales reports?\nRevoke unused QR passes?\nRetain the audit record?\n\nDo not continue if a genuine customer paid.`;
+ if(!window.confirm(caution))return;
+ const btn=$('submitTestRemove09');btn.disabled=true;btn.textContent=scanned?'Archiving scanner test…':'Removing safely…';
+ try{
+  const rpc=scanned?'myangel_archive_scanned_test_booking':'myangel_remove_test_booking';
+  const params=scanned?{
+   p_booking_id:b.id,
+   p_reason:reason,
+   p_reference_confirmation:reference,
+   p_no_real_payment:true,
+   p_scanned_confirmation:'SCANNED TEST'
+  }:{
+   p_booking_id:b.id,
+   p_reason:reason,
+   p_reference_confirmation:reference,
+   p_no_real_payment:b.status==='paid'?$('testNoMoney09').checked:false
+  };
+  const {data,error}=await db.rpc(rpc,params);
+  if(error)throw error;
+  $('removeTestDialog09').close();testDeleteTarget09=null;
+  $('bookingDetail').hidden=true;
+  await refreshAll();
+  await refreshBookingsLive();
+  notice(data || (scanned?'Scanned internal TEST archived. Audit scans retained.':'TEST booking removed from active records.'));
+ }catch(err){
+   errorOut(err);
+   notice('Cleanup was blocked by Supabase. Review the exact error, and do not delete ticket rows manually.',true);
+ }finally{btn.disabled=false;btn.textContent='Remove TEST booking';}
+}
+async function loadRealAdmissionMetrics09(){
+ if(!staff||!$('testRealMetrics09'))return;
+ const {data,error}=await db.rpc('myangel_real_admission_metrics');
+ if(error){$('testRealMetrics09').textContent='Official admission counts unavailable. Install SQL 09 before relying on guest totals.';console.warn(error);return;}
+ const m=data?.[0];if(!m)return;
+ const items=[
+  ['Official event QR passes',m.paid_admissions],
+  ['Complimentary QR included',m.complimentary_admissions],
+  ['Gate check-ins',m.checked_in_admissions],
+  ['Pending reservations',m.pending_reservations],
+  ['Removed test records',m.removed_test_bookings]
+ ];
+ $('testRealMetrics09').innerHTML=items.map(([label,value])=>`<div><strong>${Number(value||0).toLocaleString('en-ZA')}</strong><small>${label}</small></div>`).join('');
+}
+const beforeRefresh09=refreshAll;
+refreshAll=async function(){await beforeRefresh09();await loadRealAdmissionMetrics09();};
+const beforeLiveRefresh09=refreshBookingsLive;
+refreshBookingsLive=async function(){await beforeLiveRefresh09();await loadRealAdmissionMetrics09();};
+
+// Initialize after DOM; module execution occurs after page parsing.
+installTestControls09();
+
 </script>
+<dialog id="correctEmailDialog" class="fix-email-dialog"><form id="correctEmailForm"><header><p class="mini-eyebrow">GUEST SUPPORT</p><h2>Correct email address</h2><p id="correctionBookingRef"></p></header><label for="correctEmailInput">Correct email address</label><input id="correctEmailInput" type="email" inputmode="email" autocomplete="off" required maxlength="254" placeholder="guest@example.com"><label for="correctEmailReason">Reason for correction</label><textarea id="correctEmailReason" rows="3" required minlength="5" maxlength="400" placeholder="Guest gave an incorrect email address"></textarea><p class="fix-email-warning">For a paid booking, unused QR codes are regenerated so the previous email's ticket links stop working. Already-used tickets cannot be changed automatically.</p><div class="modal-actions"><button type="button" id="closeEmailDialog" class="button">Cancel</button><button type="submit" id="saveCorrectedEmail" class="button button-primary">Save and resend email</button></div></form></dialog>
+
+<dialog id="removeTestDialog09" class="test-dialog" aria-labelledby="removeTestTitle09">
+ <div class="test-dialog-top"><span class="test-dialog-tag">ADMIN ONLY · TEST DATA CLEANUP</span><h2 id="removeTestTitle09">Remove test booking</h2><p id="removeTestDescription09">Review the booking before removing it from live totals.</p></div>
+ <form id="removeTestForm09" class="test-dialog-content">
+  <div class="test-warning" id="removeTestWarning09">This retains the audit record. Any unused QR tickets will be voided, and room holds will be released.</div>
+  <label>Reason this is a test (minimum 10 characters)<textarea id="removeTestReason09" maxlength="1000" placeholder="e.g. Internal rehearsal booking for ticket scanner" required minlength="10"></textarea></label>
+  <label>Type this booking reference exactly to confirm<input id="removeTestReference09" type="text" required autocomplete="off" spellcheck="false"></label>
+  <label class="test-attest" id="testScannedRow10"><input type="checkbox" id="testScanned10"><span><strong>Scanned tickets during our internal rehearsal?</strong> Tick only if this booking was used for scanner testing, not actual attendance. The original USED scan records will remain for audit.</span></label>
+  <label id="testScannedPhraseRow10" hidden>Type <strong>SCANNED TEST</strong> to confirm this was a rehearsal<input id="testScannedPhrase10" type="text" autocomplete="off" spellcheck="false" placeholder="SCANNED TEST" maxlength="40"></label>
+  <label class="test-attest" id="testNoMoneyRow09"><input type="checkbox" id="testNoMoney09"><span>I verified with the lodge that <strong>NO real money was received</strong> for this internal test. This is not a customer refund.</span></label>
+  <div class="test-form-actions"><button id="cancelTestRemove09" type="button">Cancel</button><button id="submitTestRemove09" class="danger" type="submit">Remove TEST booking</button></div>
+  <p id="testCleanupAdminNotice">Never use this action for genuine guests or funds received. Use the refund process instead.</p>
+ </form>
+</dialog>
+
 </body></html>
