@@ -479,6 +479,19 @@ body.admin-body {background:#f8f7f3;color:var(--ink);font-family:var(--body);fon
 #testCleanupAdminNotice{font-size:12px;color:#86674e;margin:8px 0 0}
 @media(max-width:600px){.test-dialog .test-dialog-top{padding:21px 19px 14px}.test-dialog .test-dialog-content{padding:17px 19px 22px}.test-dialog .test-form-actions button{flex:1}.test-delete-action{font-size:12px}.test-controls-bar{padding:13px}.guest-tools{flex-wrap:wrap}}
 </style>
+<style id="myangel-staff-access-styles">
+/* Visible interface restriction. The SQL migration enforces the same rule. */
+body[data-myangel-access="staff"] .test-delete-action,
+body[data-myangel-access="staff"] .guest-remove,
+body[data-myangel-access="staff"] [data-test-remove-09],
+body[data-myangel-access="staff"] [data-remove-test-booking],
+body[data-myangel-access="staff"] #testCleanupSelected09,
+body[data-myangel-access="staff"] #deleteTestSelected09,
+body[data-myangel-access="staff"] #removeTestDialog09,
+body[data-myangel-access="staff"] #archiveTestBooking { display:none!important; }
+/* Superseded v06 archive path should not be used by anyone. Use audited v09/v10 instead. */
+#archiveTestBooking, .guest-remove {display:none!important;}
+</style>
 </head><body class="admin-body">
 <div class="admin-shell" id="loginView"><div class="auth-art">
 <div class="auth-art-inner"><a aria-label="My Angel home" class="auth-logo" href="index.html"><span class="brand-emblem"><img alt="" data-local-asset="assets/myangel-logo.png"/></span><span>MY ANGEL<small>COUNTRY LODGE · EVENT OPERATIONS</small></span></a>
@@ -567,7 +580,7 @@ function errorOut(ex){console.error(ex);$('dashError').textContent=ex.message||S
 function setLoading(button,busy,label){button.disabled=busy;button.textContent=busy?'Working…':label;}
 function showLogin(){$('loginView').hidden=false;$('unauthorizedView').hidden=true;$('dashboardView').hidden=true;stopCamera();}
 function showUnauthorized(){$('loginView').hidden=true;$('unauthorizedView').hidden=false;$('dashboardView').hidden=true;stopCamera();}
-function showDashboard(){$('loginView').hidden=true;$('unauthorizedView').hidden=true;$('dashboardView').hidden=false;$('staffEmail').textContent=user.email||'Team member';$('staffRole').textContent=staff.role==='admin'?'Administrator':'Event staff';}
+function showDashboard(){$('loginView').hidden=true;$('unauthorizedView').hidden=true;$('dashboardView').hidden=false;$('staffEmail').textContent=user.email||'Team member';$('staffRole').textContent=staff.role==='admin'?'Administrator':'Operations staff · No deletion access';document.body.setAttribute('data-myangel-access',staff.role==='admin'?'admin':'staff');}
 async function verifyAccess(){
  const {data:{user:found},error}=await db.auth.getUser();if(error||!found){user=null;showLogin();return;}user=found;
  const {data:role,error:roleError}=await db.from('staff_users').select('role').eq('user_id',user.id).maybeSingle();if(roleError)console.error(roleError);
