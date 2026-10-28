@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101b18">
+  <title>My Angel | Gate Scanner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      font-family: 'DM Sans', sans-serif;
+      color: #f5f8f4;
+      background: #0b1412
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      background: radial-gradient(ellipse at 50% -15%, #28463b 0%, #101e19 46%, #0b1412 85%)
+    }
+
+    button,
+    input {
+      font: inherit
+    }
+
+    button {
+      cursor: pointer
+    }
+
+    button:disabled {
+      opacity: .5;
+      cursor: wait
+    }
+
+    [hidden] {
+      display: none !important
+    }
+
+    .shell {
+      max-width: 510px;
+      margin: auto;
+      padding: 22px 20px calc(35px + env(safe-area-inset-bottom))
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px
+    }
+
+    .mark {
+      height: 43px;
+      width: 43px;
+      border-radius: 14px;
+      background: #e9bf7c;
+      color: #19231d;
+      display: grid;
+      place-items: center;
+      font: 900 23px 'Outfit'
+    }
+
+    .brand strong {
+      font: 800 19px 'Outfit';
+      letter-spacing: -.7px;
+      display: block
+    }
+
+    .brand small {
+      color: #a3b7aa;
+      font-size: 9px;
+      letter-spacing: 2px;
+      font-weight: 800
+    }
+
+    .round {
+      border: 1px solid #496155;
+      background: #1b2d26;
+      color: #f0e9d8;
+      width: 43px;
+      height: 43px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center
+    }
+
+    .round svg,
+    .btn svg {
+      width: 19px;
+      height: 19px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    .intro {
+      margin: 35px 0 21px
+    }
+
+    .eyebrow {
+      color: #e7bc7a;
+      font-size: 10px;
+      letter-spacing: 2.7px;
+      font-weight: 800
+    }
+
+    .intro h1 {
+      font: 800 clamp(38px, 9vw, 54px)/1.04 'Outfit';
+      letter-spacing: -2.3px;
+      margin: 10px 0
+    }
+
+    .intro h1 em {
+      color: #e8bf7f;
+      font-style: normal
+    }
+
+    .intro p {
+      font-size: 13px;
+      color: #a7b9af;
+      line-height: 1.7;
+      margin: 9px 0
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid #3c5948;
+      background: #20392c;
+      color: #a5e8bc;
+      border-radius: 50px;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 800
+    }
+
+    .dot {
+      height: 7px;
+      width: 7px;
+      border-radius: 50%;
+      background: #6ce59d;
+      box-shadow: 0 0 0 4px #6ce59d20
+    }
+
+    .camera {
+      position: relative;
+      height: min(105vw, 455px);
+      min-height: 305px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid #506252;
+      background: #16221d;
+      box-shadow: 0 22px 60px #0005;
+      margin-top: 18px
+    }
+
+    .camera video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .camera:after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #09110e99, transparent 28%, transparent 70%, #09110eb5);
+      pointer-events: none
+    }
+
+    .camera-top {
+      position: absolute;
+      z-index: 3;
+      top: 18px;
+      left: 18px;
+      right: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .camera-tag {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+      background: #0e1b17b8;
+      border: 1px solid #ffffff30;
+      padding: 9px 11px;
+      border-radius: 10px
+    }
+
+    .camera-center {
+      position: absolute;
+      inset: 19% 12%;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      pointer-events: none
+    }
+
+    .corners {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(#edc78b, #edc78b) left top/45px 4px no-repeat, linear-gradient(#edc78b, #edc78b) left top/4px 45px no-repeat, linear-gradient(#edc78b, #edc78b) right top/45px 4px no-repeat, linear-gradient(#edc78b, #edc78b) right top/4px 45px no-repeat, linear-gradient(#edc78b, #edc78b) left bottom/45px 4px no-repeat, linear-gradient(#edc78b, #edc78b) left bottom/4px 45px no-repeat, linear-gradient(#edc78b, #edc78b) right bottom/45px 4px no-repeat, linear-gradient(#edc78b, #edc78b) right bottom/4px 45px no-repeat;
+      border-radius: 6px;
+      filter: drop-shadow(0 0 8px #e9bf7c55)
+    }
+
+    .laser {
+      width: 90%;
+      height: 2px;
+      background: #eac084;
+      box-shadow: 0 0 18px 4px #eac08465;
+      animation: sweep 2.5s ease-in-out infinite alternate;
+      opacity: 0
+    }
+
+    .camera.active .laser {
+      opacity: 1
+    }
+
+    @keyframes sweep {
+      from {
+        transform: translateY(-105px)
+      }
+
+      to {
+        transform: translateY(105px)
+      }
+    }
+
+    .placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-content: center;
+      justify-items: center;
+      text-align: center;
+      gap: 12px;
+      padding: 35px;
+      background: radial-gradient(circle at center, #2e4837, #15231e 70%)
+    }
+
+    .placeholder svg {
+      width: 65px;
+      height: 65px;
+      stroke: #eac68c;
+      fill: none;
+      stroke-width: 1.1
+    }
+
+    .placeholder strong {
+      font: 800 19px 'Outfit'
+    }
+
+    .placeholder span {
+      font-size: 12px;
+      color: #a8b6ac
+    }
+
+    .camera-bottom {
+      position: absolute;
+      z-index: 3;
+      bottom: 18px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #e5e9e2;
+      font-size: 11px;
+      font-weight: 700
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 55px;
+      gap: 10px;
+      margin: 16px 0
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 14px;
+      min-height: 56px;
+      padding: 13px 16px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px
+    }
+
+    .primary {
+      background: #e8bd7b;
+      color: #1d281f
+    }
+
+    .secondary {
+      background: #263b30;
+      border: 1px solid #496052;
+      color: #f5f4ed
+    }
+
+    .panel {
+      background: #192922;
+      border: 1px solid #354b3d;
+      border-radius: 19px;
+      padding: 19px;
+      margin-top: 15px
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .panel h2 {
+      font: 800 18px 'Outfit';
+      margin: 0 0 8px
+    }
+
+    .muted {
+      color: #9bafa2;
+      font-size: 12px;
+      line-height: 1.6
+    }
+
+    .manual {
+      display: flex;
+      gap: 8px;
+      margin-top: 13px
+    }
+
+    .manual input,
+    .auth input {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid #536357;
+      background: #101d17;
+      color: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      outline: none;
+      font-size: 13px
+    }
+
+    .manual input:focus,
+    .auth input:focus {
+      border-color: #eac68c
+    }
+
+    .manual .btn {
+      min-height: 50px
+    }
+
+    .result {
+      border-radius: 18px;
+      padding: 20px;
+      margin-top: 16px;
+      border: 1px solid #486152;
+      background: #1b2b24
+    }
+
+    .result.accepted {
+      background: #173c2c;
+      border-color: #55c987
+    }
+
+    .result.denied {
+      background: #422524;
+      border-color: #ef8178
+    }
+
+    .result strong {
+      display: block;
+      font: 800 24px 'Outfit';
+      margin: 8px 0
+    }
+
+    .result small {
+      display: block;
+      font-size: 12px;
+      line-height: 1.7;
+      color: #d5e0d7;
+      overflow-wrap: anywhere
+    }
+
+    .result .symbol {
+      font-size: 30px;
+      font-weight: 900
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 16px
+    }
+
+    .stat {
+      background: #172820;
+      border: 1px solid #33483b;
+      border-radius: 15px;
+      padding: 15px 10px;
+      text-align: center
+    }
+
+    .stat strong {
+      display: block;
+      font: 800 26px 'Outfit';
+      color: #f0c58a
+    }
+
+    .stat small {
+      font-size: 10px;
+      color: #a8b6ab
+    }
+
+    .history {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px;
+      border-radius: 11px;
+      background: #122019;
+      font-size: 11px
+    }
+
+    .history-item span {
+      color: #9aaca1
+    }
+
+    .auth {
+      max-width: 430px;
+      margin: 13vh auto 0;
+      background: #1a2b22;
+      border: 1px solid #3b5344;
+      border-radius: 23px;
+      padding: 25px
+    }
+
+    .auth h1 {
+      font: 800 35px 'Outfit';
+      margin: 12px 0
+    }
+
+    .auth label {
+      font-size: 12px;
+      display: block;
+      margin: 16px 0 7px;
+      color: #b8c9bb
+    }
+
+    .auth .btn {
+      width: 100%;
+      margin-top: 20px
+    }
+
+    .error {
+      color: #ffaca3;
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: 12px
+    }
+
+    .footer {
+      color: #6f8a7a;
+      text-align: center;
+      font-size: 10px;
+      padding: 26px 0
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #ffffff55;
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .8s linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      .laser {
+        animation: none;
+        transform: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="shell">
+    <section id="login" class="auth" hidden>
+      <div class="mark">M</div>
+      <div class="eyebrow" style="margin-top:25px">SECURE STAFF ACCESS</div>
+      <h1>Gate access.</h1>
+      <p class="muted">Sign in with your existing My Angel Events staff account. Only authorised staff can validate
+        tickets.</p>
+      <form id="loginForm"><label for="email">Staff email</label><input id="email" type="email" autocomplete="username"
+          required><label for="password">Password</label><input id="password" type="password"
+          autocomplete="current-password" required><button class="btn primary" id="loginBtn">Sign in securely</button>
+        <p id="loginError" class="error" role="alert" hidden></p>
+      </form>
+    </section>
+    <section id="app" hidden>
+      <header class="top">
+        <div class="brand">
+          <div class="mark">M</div>
+          <div><strong>My Angel</strong><small>EVENTS · GATE CONTROL</small></div>
+        </div><button class="round" id="logout" title="Sign out" aria-label="Sign out"><svg viewBox="0 0 24 24">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />
+          </svg></button>
+      </header>
+      <div class="intro"><span class="eyebrow">STAFF OPERATIONS / ADMISSIONS</span>
+        <h1>Scan. Verify.<br><em>Welcome in.</em></h1>
+        <p>Fast, secure check-ins for every My Angel experience.</p>
+        <div class="pill"><span class="dot"></span><span id="status">Connected to gate verification</span></div>
+      </div>
+      <div class="camera" id="camera"><video id="video" autoplay muted playsinline hidden></video>
+        <div class="placeholder" id="placeholder"><svg viewBox="0 0 64 64">
+            <path d="M8 25V10h15M41 10h15v15M56 41v13H41M23 54H8V41M15 32h34M20 20h8v8h-8zM36 36h8v8h-8z" />
+          </svg><strong>Camera ready</strong><span>Tap Start Scanner to scan a guest QR ticket.</span></div>
+        <div class="camera-top"><span class="camera-tag" id="cameraLabel">GATE SCANNER · STANDBY</span><span
+            class="camera-tag">LIVE VALIDATION</span></div>
+        <div class="camera-center">
+          <div class="corners"></div>
+          <div class="laser"></div>
+        </div>
+        <div class="camera-bottom" id="cameraHint">Align QR code inside the frame</div>
+      </div>
+      <div class="controls"><button class="btn primary" id="toggle"><svg viewBox="0 0 24 24">
+            <path d="M4 7h3l2-3h6l2 3h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z" />
+            <circle cx="12" cy="13" r="4" />
+          </svg><span id="toggleText">Start Scanner</span></button><button class="btn secondary" id="torch" disabled
+          title="Toggle flashlight" aria-label="Toggle flashlight"><svg viewBox="0 0 24 24">
+            <path d="M7 2h10v7l-3 4v9h-4v-9L7 9zM7 7h10" />
+          </svg></button></div>
+      <section class="result" id="result" hidden aria-live="assertive">
+        <div class="symbol" id="resultSymbol"></div><strong id="resultTitle"></strong><small
+          id="resultText"></small><button class="btn secondary" id="again" style="width:100%;margin-top:15px">Scan next
+          guest</button>
+      </section>
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Manual verification</h2><span class="eyebrow">BACKUP</span>
+        </div>
+        <p class="muted">Enter a ticket UUID or paste its ticket URL. Room voucher QR codes are also supported.</p>
+        <form id="manualForm" class="manual"><input id="code" required autocomplete="off"
+            placeholder="Ticket code or QR link" aria-label="Ticket code or QR link"><button class="btn primary"
+            id="verify">Verify</button></form>
+      </section>
+      <div class="stats">
+        <div class="stat"><strong id="accepted">0</strong><small>Accepted here</small></div>
+        <div class="stat"><strong id="rejected">0</strong><small>Rejected here</small></div>
+        <div class="stat"><strong id="total">0</strong><small>Scans this session</small></div>
+      </div>
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Recent scans</h2><span class="eyebrow">THIS SESSION</span>
+        </div>
+        <p class="muted" id="empty">No scans yet. Ready for your first guest.</p>
+        <div class="history" id="history"></div>
+      </section>
+      <div class="footer">MY ANGEL EVENTS · STAFF ONLY · ONLINE VERIFICATION REQUIRED</div>
+    </section>
+  </main>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/+esm';
+    const db = createClient('https://bhzemfnslqjjtasajawb.supabase.co', 'sb_publishable_oH4LcehXXFjNUSSqCQmqFA_7Usq6NqZ', { auth: { persistSession: true } }); const $ = id => document.getElementById(id); let stream = null, detector = null, decoder = null, frame = 0, scanning = false, busy = false, torchOn = false, session = { accepted: 0, rejected: 0, total: 0 }, lastCode = '', lastAt = 0; const canvas = document.createElement('canvas'), ctx = canvas.getContext('2d', { willReadFrequently: true });
+    function show(id) { $('login').hidden = id !== 'login'; $('app').hidden = id !== 'app' } async function auth() { const { data: { user }, error } = await db.auth.getUser(); if (error || !user) { show('login'); return } const { data: staff, error: e } = await db.from('staff_users').select('role').eq('user_id', user.id).maybeSingle(); if (e || !staff) { show('login'); $('loginError').textContent = 'This account has no staff access. Ask the administrator to authorise it.'; $('loginError').hidden = false; return } show('app') }
+    $('loginForm').onsubmit = async e => { e.preventDefault(); $('loginBtn').disabled = true; $('loginError').hidden = true; const { error } = await db.auth.signInWithPassword({ email: $('email').value.trim(), password: $('password').value }); $('loginBtn').disabled = false; if (error) { $('loginError').textContent = error.message; $('loginError').hidden = false; return } await auth() }; $('logout').onclick = async () => { await stop(); await db.auth.signOut(); show('login') };
+    function parseCode(v) { let s = String(v || '').trim(); try { s = new URL(s).searchParams.get('code') || s } catch { } return s.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i)?.[0] || null }
+    function outcome(ok, title, detail) { $('result').hidden = false; $('result').className = 'result ' + (ok ? 'accepted' : 'denied'); $('resultSymbol').textContent = ok ? '✓' : '×'; $('resultTitle').textContent = title; $('resultText').textContent = detail; session.total++; session[ok ? 'accepted' : 'rejected']++; for (const k of ['total', 'accepted', 'rejected']) $(k).textContent = session[k]; $('empty').hidden = true; const line = document.createElement('div'); line.className = 'history-item'; const a = document.createElement('b'); a.textContent = (ok ? '✓ ' : '× ') + title; const b = document.createElement('span'); b.textContent = new Date().toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' }); line.append(a, b); $('history').prepend(line); while ($('history').children.length > 6) $('history').lastChild.remove(); if (navigator.vibrate) navigator.vibrate(ok ? [90] : [120, 80, 120]); $('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' }) }
+    async function validate(raw) { if (busy) return; busy = true; $('verify').disabled = true; $('status').textContent = 'Verifying with Supabase…'; try { if (!navigator.onLine) throw Error('Internet connection unavailable. No entry can be approved offline.'); const code = parseCode(raw); if (!code) { outcome(false, 'Invalid QR code', 'This is not a recognised My Angel ticket or voucher code.'); return } if (String(raw).trim().toUpperCase().startsWith('MYANGEL-ROOM:')) { const { data, error } = await db.rpc('myangel_checkin_room_voucher', { p_voucher_code: code }); if (error) throw error; const labels = { accepted: 'Room check-in approved', already_checked_in: 'Room already checked in', not_valid: 'Room voucher not valid', not_found: 'Room voucher not found' }; outcome(data === 'accepted', labels[data] || 'Voucher not approved', data === 'accepted' ? 'Reception voucher marked as used.' : 'Entry denied. Check the voucher status with reception.') } else { const { data, error } = await db.rpc('scan_myangel_ticket', { p_scan_code: code }); if (error) throw error; const item = data?.[0]; if (!item) throw Error('No validation result returned'); const labels = { accepted: 'Entry approved', used: 'Ticket already used', void: 'Ticket void / invalid', not_found: 'Ticket not found' }; outcome(item.result === 'accepted', labels[item.result] || 'Entry denied', [item.ticket_serial, item.event_title].filter(Boolean).join(' · ') || 'This ticket cannot be admitted.') } } catch (err) { outcome(false, 'Verification failed', (err.message || 'Unable to verify ticket') + ' — do not admit until verified.') } finally { busy = false; $('verify').disabled = false; $('status').textContent = 'Connected to gate verification' } }
+    $('manualForm').onsubmit = async e => { e.preventDefault(); await stop(); await validate($('code').value); $('code').value = '' };
+    async function getDecoder() { if ('BarcodeDetector' in window) { try { const formats = await BarcodeDetector.getSupportedFormats(); if (formats.includes('qr_code')) { detector = new BarcodeDetector({ formats: ['qr_code'] }); return 'native' } } catch { } } if (window.jsQR) return 'jsqr'; await new Promise((resolve, reject) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js'; s.onload = resolve; s.onerror = () => reject(Error('QR library could not load. Check internet access.')); document.head.append(s) }); if (!window.jsQR) throw Error('QR decoder unavailable'); return 'jsqr' }
+    async function stop() { scanning = false; cancelAnimationFrame(frame); frame = 0; if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null } $('video').srcObject = null; $('video').hidden = true; $('placeholder').hidden = false; $('camera').classList.remove('active'); $('toggleText').textContent = 'Start Scanner'; $('cameraLabel').textContent = 'GATE SCANNER · STANDBY'; $('torch').disabled = true; torchOn = false }
+    async function start() { try { if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) throw Error('Camera access requires HTTPS and browser permission.'); const mode = await getDecoder(); stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 } }, audio: false }); $('video').srcObject = stream; await $('video').play(); $('video').hidden = false; $('placeholder').hidden = true; $('camera').classList.add('active'); $('toggleText').textContent = 'Stop Scanner'; $('cameraLabel').textContent = 'GATE SCANNER · LIVE'; $('result').hidden = true; const track = stream.getVideoTracks()[0]; $('torch').disabled = !track.getCapabilities?.().torch; scanning = true; let previous = 0; async function loop(now) { if (!scanning) return; if (!busy && now - previous > 160 && $('video').readyState >= 2) { previous = now; try { let raw = null; if (mode === 'native') raw = (await detector.detect($('video')))[0]?.rawValue; else { const v = $('video'), scale = Math.min(1, 850 / Math.max(v.videoWidth, v.videoHeight)); canvas.width = Math.round(v.videoWidth * scale); canvas.height = Math.round(v.videoHeight * scale); ctx.drawImage(v, 0, 0, canvas.width, canvas.height); const img = ctx.getImageData(0, 0, canvas.width, canvas.height); raw = window.jsQR(img.data, img.width, img.height)?.data } if (raw) { const nowTime = Date.now(); if (raw !== lastCode || nowTime - lastAt > 3000) { lastCode = raw; lastAt = nowTime; await stop(); await validate(raw); return } } } catch (err) { console.warn('Frame decode:', err) } } if (scanning) frame = requestAnimationFrame(loop) } frame = requestAnimationFrame(loop) } catch (err) { await stop(); outcome(false, 'Camera unavailable', err.message || 'Try manual verification or allow camera access.') } }
+    $('toggle').onclick = () => scanning ? stop() : start(); $('again').onclick = () => start(); $('torch').onclick = async () => { const track = stream?.getVideoTracks()[0]; if (!track) return; try { torchOn = !torchOn; await track.applyConstraints({ advanced: [{ torch: torchOn }] }); $('torch').style.background = torchOn ? '#8b6b39' : '' } catch { torchOn = false; $('torch').disabled = true } }; window.addEventListener('pagehide', () => { if (stream) stream.getTracks().forEach(t => t.stop()) }); document.addEventListener('visibilitychange', () => { if (document.hidden && scanning) stop() }); auth();
+  </script>
+</body>
+
+</html>
