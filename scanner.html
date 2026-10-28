@@ -227,16 +227,52 @@
     }
 
     .laser {
-      width: 90%;
-      height: 2px;
-      background: #eac084;
-      box-shadow: 0 0 18px 4px #eac08465;
-      animation: sweep 2.5s ease-in-out infinite alternate;
+      width: 94%;
+      height: 4px;
+      border-radius: 8px;
+      background: #48ff98;
+      box-shadow: 0 0 12px 3px #48ff98aa, 0 0 32px 8px #31ef7a50;
+      animation: sweep 2s ease-in-out infinite alternate;
       opacity: 0
     }
 
     .camera.active .laser {
       opacity: 1
+    }
+
+    .camera.processing .laser {
+      animation-duration: .7s
+    }
+
+    .scan-progress {
+      position: absolute;
+      z-index: 4;
+      left: 12%;
+      right: 12%;
+      bottom: 65px;
+      height: 6px;
+      background: #ffffff40;
+      border-radius: 20px;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity .2s
+    }
+
+    .camera.processing .scan-progress {
+      opacity: 1
+    }
+
+    .scan-progress-bar {
+      height: 100%;
+      width: 0;
+      background: #48ff98;
+      box-shadow: 0 0 14px #48ff98;
+      transition: width .09s linear
+    }
+
+    .camera.processing .corners {
+      filter: drop-shadow(0 0 14px #48ff98);
+      background: linear-gradient(#48ff98, #48ff98) left top/45px 4px no-repeat, linear-gradient(#48ff98, #48ff98) left top/4px 45px no-repeat, linear-gradient(#48ff98, #48ff98) right top/45px 4px no-repeat, linear-gradient(#48ff98, #48ff98) right top/4px 45px no-repeat, linear-gradient(#48ff98, #48ff98) left bottom/45px 4px no-repeat, linear-gradient(#48ff98, #48ff98) left bottom/4px 45px no-repeat, linear-gradient(#48ff98, #48ff98) right bottom/45px 4px no-repeat, linear-gradient(#48ff98, #48ff98) right bottom/4px 45px no-repeat
     }
 
     @keyframes sweep {
@@ -559,6 +595,9 @@
           <div class="corners"></div>
           <div class="laser"></div>
         </div>
+        <div class="scan-progress">
+          <div class="scan-progress-bar" id="scanProgress"></div>
+        </div>
         <div class="camera-bottom" id="cameraHint">Align QR code inside the frame</div>
       </div>
       <div class="controls"><button class="btn primary" id="toggle"><svg viewBox="0 0 24 24">
@@ -599,17 +638,21 @@
   </main>
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/+esm';
-    const db = createClient('https://bhzemfnslqjjtasajawb.supabase.co', 'sb_publishable_oH4LcehXXFjNUSSqCQmqFA_7Usq6NqZ', { auth: { persistSession: true } }); const $ = id => document.getElementById(id); let stream = null, detector = null, decoder = null, frame = 0, scanning = false, busy = false, torchOn = false, session = { accepted: 0, rejected: 0, total: 0 }, lastCode = '', lastAt = 0; const canvas = document.createElement('canvas'), ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const db = createClient('https://bhzemfnslqjjtasajawb.supabase.co', 'sb_publishable_oH4LcehXXFjNUSSqCQmqFA_7Usq6NqZ', { auth: { persistSession: true } }); const $ = id => document.getElementById(id); let stream = null, detector = null, decoder = null, frame = 0, scanning = false, busy = false, torchOn = false, session = { accepted: 0, rejected: 0, total: 0 }, lastCode = '', lastAt = 0, processing = false, scanToken = 0, audioContext = null; const canvas = document.createElement('canvas'), ctx = canvas.getContext('2d', { willReadFrequently: true });
     function show(id) { $('login').hidden = id !== 'login'; $('app').hidden = id !== 'app' } async function auth() { const { data: { user }, error } = await db.auth.getUser(); if (error || !user) { show('login'); return } const { data: staff, error: e } = await db.from('staff_users').select('role').eq('user_id', user.id).maybeSingle(); if (e || !staff) { show('login'); $('loginError').textContent = 'This account has no staff access. Ask the administrator to authorise it.'; $('loginError').hidden = false; return } show('app') }
-    $('loginForm').onsubmit = async e => { e.preventDefault(); $('loginBtn').disabled = true; $('loginError').hidden = true; const { error } = await db.auth.signInWithPassword({ email: $('email').value.trim(), password: $('password').value }); $('loginBtn').disabled = false; if (error) { $('loginError').textContent = error.message; $('loginError').hidden = false; return } await auth() }; $('logout').onclick = async () => { await stop(); await db.auth.signOut(); show('login') };
+    $('loginForm').onsubmit = async e => { unlockAudio(); e.preventDefault(); $('loginBtn').disabled = true; $('loginError').hidden = true; const { error } = await db.auth.signInWithPassword({ email: $('email').value.trim(), password: $('password').value }); $('loginBtn').disabled = false; if (error) { $('loginError').textContent = error.message; $('loginError').hidden = false; return } await auth() }; $('logout').onclick = async () => { await stop(); await db.auth.signOut(); show('login') };
     function parseCode(v) { let s = String(v || '').trim(); try { s = new URL(s).searchParams.get('code') || s } catch { } return s.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i)?.[0] || null }
-    function outcome(ok, title, detail) { $('result').hidden = false; $('result').className = 'result ' + (ok ? 'accepted' : 'denied'); $('resultSymbol').textContent = ok ? '✓' : '×'; $('resultTitle').textContent = title; $('resultText').textContent = detail; session.total++; session[ok ? 'accepted' : 'rejected']++; for (const k of ['total', 'accepted', 'rejected']) $(k).textContent = session[k]; $('empty').hidden = true; const line = document.createElement('div'); line.className = 'history-item'; const a = document.createElement('b'); a.textContent = (ok ? '✓ ' : '× ') + title; const b = document.createElement('span'); b.textContent = new Date().toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' }); line.append(a, b); $('history').prepend(line); while ($('history').children.length > 6) $('history').lastChild.remove(); if (navigator.vibrate) navigator.vibrate(ok ? [90] : [120, 80, 120]); $('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' }) }
+    function unlockAudio() { try { audioContext ||= new (window.AudioContext || window.webkitAudioContext)(); if (audioContext.state === 'suspended') audioContext.resume().catch(() => { }); } catch { } }
+    function tone(freq, at, duration, volume = .14, type = 'sine') { if (!audioContext || audioContext.state !== 'running') return; const osc = audioContext.createOscillator(), gain = audioContext.createGain(), t = audioContext.currentTime + at; osc.type = type; osc.frequency.setValueAtTime(freq, t); gain.gain.setValueAtTime(.0001, t); gain.gain.exponentialRampToValueAtTime(volume, t + .015); gain.gain.exponentialRampToValueAtTime(.0001, t + duration); osc.connect(gain).connect(audioContext.destination); osc.start(t); osc.stop(t + duration + .02) }
+    function resultSound(ok) { unlockAudio(); if (ok) { tone(660, 0, .15); tone(880, .17, .2); tone(1175, .39, .29) } else { tone(320, 0, .23, .17, 'triangle'); tone(210, .27, .36, .18, 'triangle') } }
+    async function holdScan(raw) { if (processing || busy) return; processing = true; const token = ++scanToken; const started = performance.now(); $('camera').classList.add('processing'); $('cameraLabel').textContent = 'QR DETECTED · ANALYSING'; $('cameraHint').textContent = 'Hold steady · Checking ticket in 2 seconds'; $('scanProgress').style.width = '0%'; while (scanning && token === scanToken) { const elapsed = performance.now() - started; $('scanProgress').style.width = Math.min(100, elapsed / 2000 * 100) + '%'; if (elapsed >= 2000) break; await new Promise(r => setTimeout(r, 50)) } if (!scanning || token !== scanToken) { processing = false; return } lastCode = raw; lastAt = Date.now(); await stop(); processing = false; await validate(raw) }
+    function outcome(ok, title, detail) { resultSound(ok); $('result').hidden = false; $('result').className = 'result ' + (ok ? 'accepted' : 'denied'); $('resultSymbol').textContent = ok ? '✓' : '×'; $('resultTitle').textContent = title; $('resultText').textContent = detail; session.total++; session[ok ? 'accepted' : 'rejected']++; for (const k of ['total', 'accepted', 'rejected']) $(k).textContent = session[k]; $('empty').hidden = true; const line = document.createElement('div'); line.className = 'history-item'; const a = document.createElement('b'); a.textContent = (ok ? '✓ ' : '× ') + title; const b = document.createElement('span'); b.textContent = new Date().toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' }); line.append(a, b); $('history').prepend(line); while ($('history').children.length > 6) $('history').lastChild.remove(); if (navigator.vibrate) navigator.vibrate(ok ? [90] : [120, 80, 120]); $('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' }) }
     async function validate(raw) { if (busy) return; busy = true; $('verify').disabled = true; $('status').textContent = 'Verifying with Supabase…'; try { if (!navigator.onLine) throw Error('Internet connection unavailable. No entry can be approved offline.'); const code = parseCode(raw); if (!code) { outcome(false, 'Invalid QR code', 'This is not a recognised My Angel ticket or voucher code.'); return } if (String(raw).trim().toUpperCase().startsWith('MYANGEL-ROOM:')) { const { data, error } = await db.rpc('myangel_checkin_room_voucher', { p_voucher_code: code }); if (error) throw error; const labels = { accepted: 'Room check-in approved', already_checked_in: 'Room already checked in', not_valid: 'Room voucher not valid', not_found: 'Room voucher not found' }; outcome(data === 'accepted', labels[data] || 'Voucher not approved', data === 'accepted' ? 'Reception voucher marked as used.' : 'Entry denied. Check the voucher status with reception.') } else { const { data, error } = await db.rpc('scan_myangel_ticket', { p_scan_code: code }); if (error) throw error; const item = data?.[0]; if (!item) throw Error('No validation result returned'); const labels = { accepted: 'Entry approved', used: 'Ticket already used', void: 'Ticket void / invalid', not_found: 'Ticket not found' }; outcome(item.result === 'accepted', labels[item.result] || 'Entry denied', [item.ticket_serial, item.event_title].filter(Boolean).join(' · ') || 'This ticket cannot be admitted.') } } catch (err) { outcome(false, 'Verification failed', (err.message || 'Unable to verify ticket') + ' — do not admit until verified.') } finally { busy = false; $('verify').disabled = false; $('status').textContent = 'Connected to gate verification' } }
     $('manualForm').onsubmit = async e => { e.preventDefault(); await stop(); await validate($('code').value); $('code').value = '' };
     async function getDecoder() { if ('BarcodeDetector' in window) { try { const formats = await BarcodeDetector.getSupportedFormats(); if (formats.includes('qr_code')) { detector = new BarcodeDetector({ formats: ['qr_code'] }); return 'native' } } catch { } } if (window.jsQR) return 'jsqr'; await new Promise((resolve, reject) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js'; s.onload = resolve; s.onerror = () => reject(Error('QR library could not load. Check internet access.')); document.head.append(s) }); if (!window.jsQR) throw Error('QR decoder unavailable'); return 'jsqr' }
-    async function stop() { scanning = false; cancelAnimationFrame(frame); frame = 0; if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null } $('video').srcObject = null; $('video').hidden = true; $('placeholder').hidden = false; $('camera').classList.remove('active'); $('toggleText').textContent = 'Start Scanner'; $('cameraLabel').textContent = 'GATE SCANNER · STANDBY'; $('torch').disabled = true; torchOn = false }
-    async function start() { try { if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) throw Error('Camera access requires HTTPS and browser permission.'); const mode = await getDecoder(); stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 } }, audio: false }); $('video').srcObject = stream; await $('video').play(); $('video').hidden = false; $('placeholder').hidden = true; $('camera').classList.add('active'); $('toggleText').textContent = 'Stop Scanner'; $('cameraLabel').textContent = 'GATE SCANNER · LIVE'; $('result').hidden = true; const track = stream.getVideoTracks()[0]; $('torch').disabled = !track.getCapabilities?.().torch; scanning = true; let previous = 0; async function loop(now) { if (!scanning) return; if (!busy && now - previous > 160 && $('video').readyState >= 2) { previous = now; try { let raw = null; if (mode === 'native') raw = (await detector.detect($('video')))[0]?.rawValue; else { const v = $('video'), scale = Math.min(1, 850 / Math.max(v.videoWidth, v.videoHeight)); canvas.width = Math.round(v.videoWidth * scale); canvas.height = Math.round(v.videoHeight * scale); ctx.drawImage(v, 0, 0, canvas.width, canvas.height); const img = ctx.getImageData(0, 0, canvas.width, canvas.height); raw = window.jsQR(img.data, img.width, img.height)?.data } if (raw) { const nowTime = Date.now(); if (raw !== lastCode || nowTime - lastAt > 3000) { lastCode = raw; lastAt = nowTime; await stop(); await validate(raw); return } } } catch (err) { console.warn('Frame decode:', err) } } if (scanning) frame = requestAnimationFrame(loop) } frame = requestAnimationFrame(loop) } catch (err) { await stop(); outcome(false, 'Camera unavailable', err.message || 'Try manual verification or allow camera access.') } }
-    $('toggle').onclick = () => scanning ? stop() : start(); $('again').onclick = () => start(); $('torch').onclick = async () => { const track = stream?.getVideoTracks()[0]; if (!track) return; try { torchOn = !torchOn; await track.applyConstraints({ advanced: [{ torch: torchOn }] }); $('torch').style.background = torchOn ? '#8b6b39' : '' } catch { torchOn = false; $('torch').disabled = true } }; window.addEventListener('pagehide', () => { if (stream) stream.getTracks().forEach(t => t.stop()) }); document.addEventListener('visibilitychange', () => { if (document.hidden && scanning) stop() }); auth();
+    async function stop() { scanToken++; processing = false; $('camera').classList.remove('processing'); $('scanProgress').style.width = '0%'; $('cameraHint').textContent = 'Align QR code inside the frame'; scanning = false; cancelAnimationFrame(frame); frame = 0; if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null } $('video').srcObject = null; $('video').hidden = true; $('placeholder').hidden = false; $('camera').classList.remove('active'); $('toggleText').textContent = 'Start Scanner'; $('cameraLabel').textContent = 'GATE SCANNER · STANDBY'; $('torch').disabled = true; torchOn = false }
+    async function start() { try { if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) throw Error('Camera access requires HTTPS and browser permission.'); const mode = await getDecoder(); stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 } }, audio: false }); $('video').srcObject = stream; await $('video').play(); $('video').hidden = false; $('placeholder').hidden = true; $('camera').classList.add('active'); $('toggleText').textContent = 'Stop Scanner'; $('cameraLabel').textContent = 'GATE SCANNER · LIVE'; $('cameraHint').textContent = 'Align QR code · 2-second visual scan'; $('result').hidden = true; const track = stream.getVideoTracks()[0]; $('torch').disabled = !track.getCapabilities?.().torch; scanning = true; let previous = 0; async function loop(now) { if (!scanning) return; if (!busy && now - previous > 160 && $('video').readyState >= 2) { previous = now; try { let raw = null; if (mode === 'native') raw = (await detector.detect($('video')))[0]?.rawValue; else { const v = $('video'), scale = Math.min(1, 850 / Math.max(v.videoWidth, v.videoHeight)); canvas.width = Math.round(v.videoWidth * scale); canvas.height = Math.round(v.videoHeight * scale); ctx.drawImage(v, 0, 0, canvas.width, canvas.height); const img = ctx.getImageData(0, 0, canvas.width, canvas.height); raw = window.jsQR(img.data, img.width, img.height)?.data } if (raw) { const nowTime = Date.now(); if (raw !== lastCode || nowTime - lastAt > 3000) { lastCode = raw; lastAt = nowTime; await holdScan(raw); return } } } catch (err) { console.warn('Frame decode:', err) } } if (scanning) frame = requestAnimationFrame(loop) } frame = requestAnimationFrame(loop) } catch (err) { await stop(); outcome(false, 'Camera unavailable', err.message || 'Try manual verification or allow camera access.') } }
+    $('toggle').onclick = () => { unlockAudio(); return scanning ? stop() : start() }; $('again').onclick = () => { unlockAudio(); return start() }; $('manualForm').addEventListener('submit', unlockAudio); $('torch').onclick = async () => { const track = stream?.getVideoTracks()[0]; if (!track) return; try { torchOn = !torchOn; await track.applyConstraints({ advanced: [{ torch: torchOn }] }); $('torch').style.background = torchOn ? '#8b6b39' : '' } catch { torchOn = false; $('torch').disabled = true } }; window.addEventListener('pagehide', () => { if (stream) stream.getTracks().forEach(t => t.stop()) }); document.addEventListener('visibilitychange', () => { if (document.hidden && scanning) stop() }); auth();
   </script>
 </body>
 
